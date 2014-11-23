@@ -3,11 +3,9 @@ AnkoaScreen:
 	name: 'Encode'
 	fullscreen: True
 
-
 	# ---------- HEADER PANEL ----------
 	TabbedPanel:
         do_default_tab: False
-
 
         # ---------- SOURCE ----------
         TabbedPanelItem:
@@ -16,14 +14,12 @@ AnkoaScreen:
                 Layout_source:
                     id: source
 
-
 		# ---------- PICTURE ----------
 		TabbedPanelItem:
 			text: 'Picture'
 			FloatLayout:
 				Layout_picture:
 					id: picture
-
 
 		# ---------- VIDEO ----------
 		TabbedPanelItem:
@@ -32,14 +28,12 @@ AnkoaScreen:
 				Layout_video:
 					id: video
 
-
 		# ---------- AUDIO ----------
 		TabbedPanelItem:
 			text: 'Audio'
 			FloatLayout:
 				Layout_audio:
 					id: audio
-
 
 		# ---------- SUBTITLES ----------
 		TabbedPanelItem:
@@ -48,14 +42,12 @@ AnkoaScreen:
 				Layout_subtitles:
 					id: subtitles
 
-
 		# ---------- ADVANCED ----------
 		TabbedPanelItem:
 			text: 'Advanced'
 			FloatLayout:
 				Layout_advanced:
 					id: advanced
-
 
 # ---------- MANAGE PANEL SCREENS ----------
 <Layout_source@GridLayout+source>

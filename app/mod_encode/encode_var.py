@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
+# MODE ENCODE VARIABLES
 ar_sd = ['720x540', '720x432', '720x404',
          '720x390', '720x306', '720x300']
 

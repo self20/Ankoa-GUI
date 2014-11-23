@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# MODE ENCODE VARIABLES
+# ENCODE MODE VARIABLES
+fixed_size = ['350MiB', '550MiB', '700MiB', '1.37GiB',
+              '2.05GiB', '2.74GiB', '4.37GiB', '6.56GiB']
+audio_bitrate = ['96Kbps', '128Kbps', '192Kpbs', '256Kbps',
+                 '320Kbps', '384Kbps', '448Kbps', '640Kbps']
 ar_sd = ['720x540', '720x432', '720x404',
          '720x390', '720x306', '720x300']
 

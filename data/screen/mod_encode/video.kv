@@ -1,10 +1,11 @@
+#:import fixed_size app.mod_encode.encode_var.fixed_size
+#:import audio_bitrate app.mod_encode.encode_var.audio_bitrate
 #:import x264_preset app.mod_encode.encode_var.preset
 #:import x264_tune app.mod_encode.encode_var.tune
 #:import x264_profile app.mod_encode.encode_var.profile
 #:import x264_level app.mod_encode.encode_var.level
 #:import x264_framerate app.mod_encode.encode_var.framerate
 
-# ---------- CONTAINER ----------
 <video@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -77,8 +78,69 @@
             TextInput:
                 multiline: False
             Label:
-            Button:
+            ToggleButton:
                 text: 'Bitrate Calculator'
+                on_press: app.toggle_bitrate(self.state)
+
+    # ---------- BITRATE CALCULATOR ----------
+    ScrollView:
+        id: bitrate_view
+        size_hint_y: None
+        height: 0
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            BoxLayout:
+                TextInput:
+                    hint_text: 'HH'
+                    size_hint: .6, 1
+                    multiline: False
+                TextInput:
+                    hint_text: 'MM'
+                    size_hint: .6, 1
+                    multiline: False
+                TextInput:
+                    hint_text: 'SS'
+                    size_hint: .6, 1
+                    multiline: False
+                Label:
+                Label:
+                    text: 'Audio'
+                Slider:
+                    size_hint: 3, 1
+                    id: calcul_audio
+                    min: 0
+                    max: 7
+                    step: 1
+                    value: 6
+                Label:
+                    text:
+                        audio_bitrate[int('{}'.format(calcul_audio.value)
+                        .split('.')[0])]
+                    bold: True
+                Label:
+                Label:
+                    text: 'Size'
+                Slider:
+                    size_hint: 3, 1
+                    id: calcul_size
+                    min: 0
+                    max: 7
+                    step: 1
+                    value: 3
+                Label:
+                    text:
+                        fixed_size[int('{}'.format(calcul_size.value)
+                        .split('.')[0])]
+                    bold: True
+                Label:
+                Button:
+                    text: 'RUN'
 
     # ---------- CRF MODE ----------
     BoxLayout:

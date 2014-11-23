@@ -4,9 +4,9 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.config import Config
 from os.path import dirname, join
+from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty, StringProperty,
-                             BooleanProperty, ListProperty)
+from kivy.properties import (NumericProperty, StringProperty, ListProperty)
 from app.popup.main_popup import *
 
 # INTERFACE SIZE
@@ -14,12 +14,12 @@ Config.set('graphics', 'width', '1024')
 Config.set('graphics', 'height', '768')
 
 
-# GLOBAL SCREEN
+# MAIN INTERFACE
 class AnkoaScreen(Screen):
-    fullscreen = BooleanProperty(False)
+    pass
 
 
-# ANKOA MAIN
+# MAIN APP
 class AnkoaApp(App):
 
     # INTERACTIVE CONTENT
@@ -32,7 +32,7 @@ class AnkoaApp(App):
         self.title = 'AnkoA v1.0.1'
         curdir = dirname(__file__)
 
-        # BUILD GLOBAL SCREENS
+        # BUILD MAIN SCREENS
         self.screens = {}
         self.menu_screens = sorted([
             'Encode', 'Remux', 'Extract', 'NFOgen',
@@ -43,7 +43,7 @@ class AnkoaApp(App):
                  'mod_{}.kv'.format(fn)) for fn in self.menu_screens]
         self.go_next_screen()
 
-    # MANAGE GLOBAL SCREENS
+    # MANAGE MAIN SCREENS
     def go_previous_screen(self):
         self.index = (self.index - 1) % len(self.menu_screens)
         screen = self.load_screen(self.index)
@@ -72,7 +72,7 @@ class AnkoaApp(App):
         self.screens[index] = screen
         return screen
 
-    # MOD_ENCODE SCREENS
+    # ENCODE MODE SCREENS
     for mod_encod_kvs in os.listdir('data/screen/mod_encode/'):
         Builder.load_file('data/screen/mod_encode/{}'.format(mod_encod_kvs))
 
@@ -82,6 +82,17 @@ class AnkoaApp(App):
     def main_popup(self, popup_id):
         popup = '{}'.format(popup_id)
         eval(popup).open()
+
+    # BITRATE CALCULATOR ANIMATION
+    def toggle_bitrate(self, state):
+        if state == 'down':
+            Animation(height=50, d=.3, t='out_quart').start(
+                self.root.ids.header_screens.current_screen
+                .ids.video.ids.bitrate_view)
+        else:
+            Animation(height=0, d=.3, t='out_quart').start(
+                self.root.ids.header_screens.current_screen
+                .ids.video.ids.bitrate_view)
 
 if __name__ == '__main__':
     AnkoaApp().run()

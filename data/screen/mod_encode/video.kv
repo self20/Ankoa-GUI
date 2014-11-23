@@ -1,0 +1,259 @@
+#:import x264_preset app.mod_encode.encode_var.preset
+#:import x264_tune app.mod_encode.encode_var.tune
+#:import x264_profile app.mod_encode.encode_var.profile
+#:import x264_level app.mod_encode.encode_var.level
+#:import x264_framerate app.mod_encode.encode_var.framerate
+
+# ---------- CONTAINER ----------
+<video@Widget>:
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    size_hint: .96, .96
+    cols: 1
+
+    # ---------- SOURCE INFOS ----------
+    BoxLayout:
+        size_hint: 1, .4
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: 'Source Infos Area'
+
+    # ---------- VIDEO CODEC / CONTAINER ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Container'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            ToggleButton:
+                text: 'MATROSKA  (mkv)'
+                group: 'v_container'
+            ToggleButton:
+                text: 'MPEG-4  (mp4)'
+                group: 'v_container'
+            ToggleButton:
+                text: 'x264'
+                group: 'v_codec'
+            ToggleButton:
+                text: 'x265'
+                group: 'v_codec'
+
+    # ---------- 2PASS MODE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+            active: True
+        Label:
+            text: '2PASS Mode'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Label:
+                text: 'Video Kbps'
+            TextInput:
+                multiline: False
+            Label:
+            Button:
+                text: 'Bitrate Calculator'
+
+    # ---------- CRF MODE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'CRF Level'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: crf
+                min: 0
+                max: 51
+                step: 1
+                value: 18
+            Label:
+                text: '{}'.format(crf.value).split('.')[0]
+                bold: True
+
+    # ---------- FRAMERATE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Framerate'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: frame
+                min: 0
+                max: 11
+                step: 1
+                value: 4
+            Label:
+                text:
+                    x264_framerate[int('{}'.format(frame.value)
+                    .split('.')[0])]
+                bold: True
+
+    # ---------- PRESET ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Preset'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: preset
+                min: 0
+                max: 9
+                step: 1
+                value: 6
+            Label:
+                text:
+                    x264_preset[int('{}'.format(preset.value)
+                    .split('.')[0])]
+                bold: True
+
+    # ---------- TUNE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Tune'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: tune
+                min: 0
+                max: 7
+                step: 1
+                value: 0
+            Label:
+                text:
+                    x264_tune[int('{}'.format(tune.value)
+                    .split('.')[0])]
+                bold: True
+
+    # ---------- PROFILE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Profile'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: profile
+                min: 0
+                max: 3
+                step: 1
+                value: 0
+            Label:
+                text:
+                    x264_profile[int('{}'.format(profile.value)
+                    .split('.')[0])]
+                bold: True
+
+    # ---------- LEVEL ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Level'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: level
+                min: 0
+                max: 15
+                step: 1
+                value: 8
+            Label:
+                text:
+                    x264_level[int('{}'.format(level.value)
+                    .split('.')[0])]
+                bold: True

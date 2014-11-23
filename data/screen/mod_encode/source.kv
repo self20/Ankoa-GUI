@@ -1,0 +1,63 @@
+# ---------- CONTAINER ----------
+<source@Widget>:
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    size_hint: .96, .96
+    cols: 1
+    canvas:
+        Color:
+            rgba: .2, .3, .4, .5
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    # ---------- FILEMANAGER ----------
+    BoxLayout:
+        TabbedPanel:
+            tab_pos: "top_right"
+            default_tab_text: "List View"
+            default_tab_content: list_view_tab
+
+            TabbedPanelHeader:
+                text: 'Icon View'
+                content: icon_view_tab
+
+            FileChooserListView:
+                id: list_view_tab
+
+            FileChooserIconView:
+                id: icon_view_tab
+                show_hidden: True
+
+    # ---------- RELEASE SOURCE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .14
+        Label:
+            text: 'Video Source'
+            size_hint_x: .28
+            bold: True
+        TextInput:
+            multiline: False
+
+    # ---------- RELEASE TITLE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        Switch:
+            size_hint_x: .14
+        Label:
+            text: 'Release Title'
+            size_hint_x: .28
+            bold: True
+        TextInput:
+            multiline: False

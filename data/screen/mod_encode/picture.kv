@@ -1,0 +1,316 @@
+#:import aspect_ratio app.mod_encode.encode_var.aspect_ratio
+#:import deteline app.mod_encode.encode_var.deteline
+#:import decomb app.mod_encode.encode_var.decomb
+#:import deinterlace app.mod_encode.encode_var.deinterlace
+#:import denoise app.mod_encode.encode_var.denoise
+#:import ar_sd app.mod_encode.encode_var.ar_sd
+#:import ar_720p app.mod_encode.encode_var.ar_720p
+#:import ar_1080p app.mod_encode.encode_var.ar_1080p
+
+# ---------- CONTAINER ----------
+<picture@Widget>:
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    size_hint: .96, .96
+    cols: 1
+
+    # ---------- SOURCE INFOS ----------
+    BoxLayout:
+        size_hint: 1, .4
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: 'Source Infos Area'
+
+    # ---------- AUTO RESIZE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Auto Resize'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            ToggleButton:
+                id: auto_sd
+                text: 'Auto SD'
+                group: 'auto_resize'
+                ar_var: 'ar_sd'
+            ToggleButton:
+                id: auto_720p
+                text: 'Auto 720p'
+                group: 'auto_resize'
+                ar_var: 'ar_720p'
+            ToggleButton:
+                id: auto_1080p
+                text: 'Auto 1080p'
+                group: 'auto_resize'
+                ar_var: 'ar_1080p'
+
+    # ---------- SAMPLE ASPECT RATIO ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Auto SAR'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            ToggleButton:
+                text: 'PAL 4:3'
+                group: 'auto_resize'
+            ToggleButton:
+                text: 'PAL 16:9'
+                group: 'auto_resize'
+            ToggleButton:
+                text: 'NTSC 4:3'
+                group: 'auto_resize'
+            ToggleButton:
+                text: 'NTSC 16:9'
+                group: 'auto_resize'
+
+    # ---------- RESOLUTION ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Resolution'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: aspect
+                min: 0
+                max: 5
+                step: 1
+                value: 3
+            Label:
+                text:
+                    aspect_ratio[int('{}'.format(aspect.value)
+                    .split('.')[0])]
+            Label:
+                text: 'Width'
+            TextInput:
+                multiline: False
+                text:
+                    eval(auto_sd.ar_var)[int('{}'.format(aspect.value)
+                    .split('.')[0])].split('x')[0]\
+                    if auto_sd.state == 'down' else\
+                    eval(auto_720p.ar_var)[int('{}'.format(aspect.value)
+                    .split('.')[0])].split('x')[0]\
+                    if auto_720p.state == 'down' else\
+                    eval(auto_1080p.ar_var)[int('{}'.format(aspect.value)
+                    .split('.')[0])].split('x')[0]\
+                    if auto_1080p.state == 'down' else ''
+            Label:
+                text: 'Height'
+            TextInput:
+                multiline: False
+                text:
+                    eval(auto_sd.ar_var)[int('{}'.format(aspect.value)
+                    .split('.')[0])].split('x')[1]\
+                    if auto_sd.state == 'down' else\
+                    eval(auto_720p.ar_var)[int('{}'.format(aspect.value)
+                    .split('.')[0])].split('x')[1]\
+                    if auto_720p.state == 'down' else\
+                    eval(auto_1080p.ar_var)[int('{}'.format(aspect.value)
+                    .split('.')[0])].split('x')[1]\
+                    if auto_1080p.state == 'down' else ''
+
+    # ---------- CUSTOM CROP ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Custom Crop'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Label:
+                text: 'W'
+            TextInput:
+                multiline: False
+            Label:
+                text: 'H'
+            TextInput:
+                multiline: False
+            Label:
+            Label:
+                text: 'T'
+            TextInput:
+                multiline: False
+            Label:
+                text: 'B'
+            TextInput:
+                multiline: False
+            Label:
+                text: 'R'
+            TextInput:
+                multiline: False
+            Label:
+                text: 'L'
+            TextInput:
+                multiline: False
+
+    # ---------- DETELINE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Deteline Filter'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: dtline
+                min: 0
+                max: 2
+                step: 1
+                value: 0
+            Label:
+                text:
+                    deteline[int('{}'.format(dtline.value)
+                    .split('.')[0])]
+                bold: True
+            TextInput:
+
+    # ---------- DECOMB ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Decomb Filter'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: dcomb
+                min: 0
+                max: 4
+                step: 1
+                value: 0
+            Label:
+                text:
+                    decomb[int('{}'.format(dcomb.value)
+                    .split('.')[0])]
+                bold: True
+            TextInput:
+
+    # ---------- DEINTERLACE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Deinterlace Filter'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: dint
+                min: 0
+                max: 5
+                step: 1
+                value: 0
+            Label:
+                text:
+                    deinterlace[int('{}'.format(dint.value)
+                    .split('.')[0])]
+                bold: True
+            TextInput:
+
+    # ---------- DENOISE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Switch:
+            size_hint_x: .20
+        Label:
+            text: 'Denoise Filter'
+            bold: True
+            size_hint_x: .40
+        BoxLayout:
+            Slider:
+                id: dnoise
+                min: 0
+                max: 4
+                step: 1
+                value: 0
+            Label:
+                text:
+                    denoise[int('{}'.format(dnoise.value)
+                    .split('.')[0])]
+                bold: True
+            TextInput:

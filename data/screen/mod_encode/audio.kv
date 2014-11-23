@@ -1,0 +1,36 @@
+# ---------- CONTAINER ----------
+<audio@Widget>:
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    size_hint: .96, .96
+    cols: 1
+
+    # ---------- SOURCE INFOS ----------
+    BoxLayout:
+        size_hint: 1, .4
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: 'Source Infos Area'
+
+    # ---------- MANAGE AUDIO TRACK ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Button:
+            text: 'Add Audio Track'
+            #on_press: app.add_audioTrack()
+        Button:
+            text: 'Clear All Tracks'
+
+    BoxLayout:

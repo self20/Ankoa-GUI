@@ -1,0 +1,117 @@
+#:import Factory kivy.factory.Factory
+
+
+# ---------- SPINNER MENU ----------
+<ActionSpinnerOptions@SpinnerOption>
+    background_color: .4, .4, .4, 1
+
+<ActionSpinner@Spinner+ActionItem>
+    canvas.before:
+        Color:
+            rgba: 0.128, 0.128, 0.128, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    border: 27, 20, 12, 12
+    background_normal: 'atlas://data/images/defaulttheme/action_group'
+    option_cls: Factory.ActionSpinnerOptions
+
+
+# ---------- CONTAINER ----------
+BoxLayout:
+    orientation: 'vertical'
+    canvas:
+        Color:
+            rgb: .6, .6, .6
+        Rectangle:
+            size: self.size
+            source: 'data/img/background.png'
+
+
+    # ---------- HEADER ----------
+    ActionBar:
+        ActionView:
+
+            ActionPrevious:
+                title:
+                    'ANKOA  [' + ('' if not app.current_title else ' {} '
+                    .format(app.current_title)) + ' Mode ]'
+                app_icon: 'data/icon/logo.png'
+                with_previous: False
+
+            ActionSeparator:
+            ActionButton:
+                text: 'Previous Mode'
+                icon: 'data/icon/prev.png'
+                on_release: app.go_previous_screen()
+
+            ActionButton:
+                text: 'Next Mode'
+                icon: 'data/icon/next.png'
+                on_release: app.go_next_screen()
+                important: True
+
+            ActionSeparator:
+            ActionSpinner:
+                id: header_menu
+                important: True
+                text: 'Select Mode'
+                values: app.screen_names
+                on_text:
+                    if header_screens.current != args[1]:\
+                    current_screen = app.screen_names.index(args[1]);\
+                    app.go_screen(current_screen)
+
+            ActionSeparator:
+            ActionButton:
+                text: 'Settings'
+                icon: 'data/icon/settings.png'
+                value: 'SettingsPopup()'
+                on_release:
+                    popup_id = self.value; app.main_popup(popup_id)
+
+            ActionButton:
+                text: 'Exit'
+                icon: 'data/icon/exit.png'
+                value: 'ExitPopup()'
+                on_release:
+                    popup_id = self.value; app.main_popup(popup_id)
+
+
+    # ---------- GLOBAL SCREENS MANAGER ----------
+    ScreenManager:
+        id: header_screens
+        on_current_screen:
+            header_menu.text = args[1].name
+            current_screen = app.screen_names.index(args[1].name)
+
+
+    # ---------- FOOTER ----------
+    GridLayout:
+        size_hint: 1, .1
+        cols: 5
+
+        Button:
+            text: 'Queue Process'
+            value: 'QueuePopup()'
+            on_press: popup_id = self.value; app.main_popup(popup_id)
+
+        Button:
+            text: 'File Manager'
+            value: 'FilePopup()'
+            on_press: popup_id = self.value; app.main_popup(popup_id)
+
+        Button:
+            text: 'Help'
+            value: 'HelpPopup()'
+            on_press: popup_id = self.value; app.main_popup(popup_id)
+
+        Button:
+            text: 'GitHub'
+            value: 'GithubPopup()'
+            on_press: popup_id = self.value; app.main_popup(popup_id)
+
+        Button:
+            text: 'About'
+            value: 'AboutPopup()'
+            on_press: popup_id = self.value; app.main_popup(popup_id)

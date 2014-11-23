@@ -1,0 +1,67 @@
+# ---------- CONTAINER ----------
+AnkoaScreen:
+	name: 'Encode'
+	fullscreen: True
+
+
+	# ---------- HEADER PANEL ----------
+	TabbedPanel:
+        do_default_tab: False
+
+
+        # ---------- SOURCE ----------
+        TabbedPanelItem:
+            text: 'Source'
+            FloatLayout:
+                Layout_source:
+                    id: source
+
+
+		# ---------- PICTURE ----------
+		TabbedPanelItem:
+			text: 'Picture'
+			FloatLayout:
+				Layout_picture:
+					id: picture
+
+
+		# ---------- VIDEO ----------
+		TabbedPanelItem:
+			text: 'Video'
+			FloatLayout:
+				Layout_video:
+					id: video
+
+
+		# ---------- AUDIO ----------
+		TabbedPanelItem:
+			text: 'Audio'
+			FloatLayout:
+				Layout_audio:
+					id: audio
+
+
+		# ---------- SUBTITLES ----------
+		TabbedPanelItem:
+			text: 'Subtitles'
+			FloatLayout:
+				Layout_subtitles:
+					id: subtitles
+
+
+		# ---------- ADVANCED ----------
+		TabbedPanelItem:
+			text: 'Advanced'
+			FloatLayout:
+				Layout_advanced:
+					id: advanced
+
+
+# ---------- MANAGE PANEL SCREENS ----------
+<Layout_source@GridLayout+source>
+<Layout_picture@GridLayout+picture>
+<Layout_filters@GridLayout+filters>
+<Layout_video@GridLayout+video>
+<Layout_audio@GridLayout+audio>
+<Layout_subtitles@GridLayout+subtitles>
+<Layout_advanced@GridLayout+advanced>

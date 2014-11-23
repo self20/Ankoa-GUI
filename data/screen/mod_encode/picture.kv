@@ -7,7 +7,6 @@
 #:import ar_720p app.mod_encode.encode_var.ar_720p
 #:import ar_1080p app.mod_encode.encode_var.ar_1080p
 
-# ---------- CONTAINER ----------
 <picture@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -165,30 +164,24 @@
             bold: True
             size_hint_x: .40
         BoxLayout:
-            Label:
-                text: 'W'
             TextInput:
+                hint_text: 'Width'
+                multiline: False
+            TextInput:
+                hint_text: 'Height'
                 multiline: False
             Label:
-                text: 'H'
             TextInput:
+                hint_text: 'Top'
                 multiline: False
-            Label:
-            Label:
-                text: 'T'
             TextInput:
+                hint_text: 'Bottom'
                 multiline: False
-            Label:
-                text: 'B'
             TextInput:
+                hint_text: 'Right'
                 multiline: False
-            Label:
-                text: 'R'
             TextInput:
-                multiline: False
-            Label:
-                text: 'L'
-            TextInput:
+                hint_text: 'Left'
                 multiline: False
 
     # ---------- DETELINE ----------

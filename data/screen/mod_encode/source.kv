@@ -1,4 +1,3 @@
-# ---------- CONTAINER ----------
 <source@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -47,6 +46,9 @@
             bold: True
         TextInput:
             multiline: False
+            readonly: True
+            text:
+                list_view_tab.selection and list_view_tab.selection[0] or ''
 
     # ---------- RELEASE TITLE ----------
     BoxLayout:
@@ -61,3 +63,6 @@
             bold: True
         TextInput:
             multiline: False
+            text:
+                list_view_tab.selection and list_view_tab.selection[0]\
+                .split('/')[-1] or ''

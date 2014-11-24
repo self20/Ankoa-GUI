@@ -49,15 +49,12 @@
 <ExitPopup>:
     size_hint: .3, .3
     auto_dismiss: False
-    title: 'Close AnkoA'
+    title: 'Exit'
 
     GridLayout:
         size_hint: 1, 1
         orientation: 'vertical'
         cols: 1
-        rows: 3
-        Label:
-            text: 'Are you sure ?'
         Button:
             text: 'Confirm'
             on_press: exit()

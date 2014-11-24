@@ -31,9 +31,9 @@
             text: 'Add Audio Track'
             on_press: app.audioTrack(self.request)
         Button:
-            request: 'clear_tracks'
-            text: 'Clear All Tracks'
-            #on_press: app.audioTrack(self.request)
+            request: 'del_track'
+            text: 'Remove Last Track'
+            on_press: app.audioTrack(self.request)
 
     # ---------- AUDIO TRACK LAYOUT ----------
     GridLayout:

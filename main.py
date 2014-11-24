@@ -5,7 +5,6 @@ from kivy.lang import Builder
 from kivy.config import Config
 from os.path import dirname, join
 from kivy.animation import Animation
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, StringProperty, ListProperty)
 from app.popup.main_popup import *
@@ -107,11 +106,13 @@ class AnkoaApp(App):
             count += 1
             track_layout.add_widget(audio_track)
         elif request == 'del_track':
-            track_layout.remove_widget(audio_track)
-            count -= 1
-        elif request == 'clear_tracks':
-            track_layout.clear_widgets(audio_track)
-            count = 0
+            for track in track_layout.children:
+                track_layout.remove_widget(track)
+                break
+            if count > 0:
+                count += -1
+        else:
+            pass
 
 if __name__ == '__main__':
     AnkoaApp().run()

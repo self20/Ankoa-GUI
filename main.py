@@ -5,13 +5,15 @@ from kivy.lang import Builder
 from kivy.config import Config
 from os.path import dirname, join
 from kivy.animation import Animation
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, StringProperty, ListProperty)
 from app.popup.main_popup import *
 
-# INTERFACE SIZE
+# INTERFACE SETTINGS
 Config.set('graphics', 'width', '1024')
 Config.set('graphics', 'height', '768')
+count = 0
 
 
 # MAIN INTERFACE
@@ -74,25 +76,42 @@ class AnkoaApp(App):
 
     # ENCODE MODE SCREENS
     for mod_encod_kvs in os.listdir('data/screen/mod_encode/'):
-        Builder.load_file('data/screen/mod_encode/{}'.format(mod_encod_kvs))
+        if mod_encod_kvs.endswith('.kv'):
+            Builder.load_file(
+                'data/screen/mod_encode/{}'.format(mod_encod_kvs))
 
-    # MAIN POPUPS
+    # MANAGE POPUPS
     Builder.load_file('data/popup/main_popup.kv')
-
     def main_popup(self, popup_id):
         popup = '{}'.format(popup_id)
         eval(popup).open()
 
-    # BITRATE CALCULATOR ANIMATION
+    # MANAGE VIDEO TRACKS
     def toggle_bitrate(self, state):
         if state == 'down':
-            Animation(height=50, d=.3, t='out_quart').start(
-                self.root.ids.header_screens.current_screen
-                .ids.video.ids.bitrate_view)
+            height = 50
         else:
-            Animation(height=0, d=.3, t='out_quart').start(
-                self.root.ids.header_screens.current_screen
-                .ids.video.ids.bitrate_view)
+            height = 0
+        Animation(height=height, d=.3, t='out_quart').start(
+            self.root.ids.header_screens.current_screen
+            .ids.video.ids.bitrate_view)
+
+    # MANAGE AUDIO TRACKS
+    def audioTrack(self, request):
+        global count
+        audio_track = Builder.load_file(
+            'data/screen/mod_encode/widget/audio_track.kv')
+        track_layout = self.root.ids.header_screens\
+            .current_screen.ids.audio.ids.audio_track_layout
+        if request == 'add_track' and count < 5:
+            count += 1
+            track_layout.add_widget(audio_track)
+        elif request == 'del_track':
+            track_layout.remove_widget(audio_track)
+            count -= 1
+        elif request == 'clear_tracks':
+            track_layout.clear_widgets(audio_track)
+            count = 0
 
 if __name__ == '__main__':
     AnkoaApp().run()

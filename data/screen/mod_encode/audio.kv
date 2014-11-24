@@ -15,7 +15,7 @@
         Label:
             text: 'Source Infos Area'
 
-    # ---------- MANAGE AUDIO TRACK ----------
+    # ---------- AUDIO TRACK MENU ----------
     BoxLayout:
         padding: '8sp'
         orientation: 'horizontal'
@@ -27,9 +27,18 @@
                 size: self.size
                 pos: self.pos
         Button:
+            request: 'add_track'
             text: 'Add Audio Track'
-            #on_press: app.add_audioTrack()
+            on_press: app.audioTrack(self.request)
         Button:
+            request: 'clear_tracks'
             text: 'Clear All Tracks'
+            #on_press: app.audioTrack(self.request)
 
-    BoxLayout:
+    # ---------- AUDIO TRACK LAYOUT ----------
+    GridLayout:
+        cols: 1
+        spacing: 5
+        row_force_default: True
+        row_default_height: 76
+        id: audio_track_layout

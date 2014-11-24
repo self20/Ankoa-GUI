@@ -1,0 +1,104 @@
+#:import audio_bitrate app.mod_encode.encode_var.audio_bitrate
+#:import sample_rate app.mod_encode.encode_var.sample_rate
+#:import audio_gain app.mod_encode.encode_var.audio_gain
+
+BoxLayout:
+    padding: '4sp'
+    canvas:
+        Color:
+            rgba: 5, .4, .5, .5
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    GridLayout:
+        cols: 2
+        rows: 2
+
+        # ---------- AUDIO TRACK ID & TITLE ----------
+        BoxLayout:
+            padding: '3sp'
+            size_hint: .6, 1
+            Switch:
+                active: True
+                size_hint_x: .2
+            TextInput:
+                hint_text: 'Track N°'
+                multiline: False
+                size_hint_x: .2
+            TextInput:
+                hint_text: 'Track Title'
+                multiline: False
+
+        # ---------- AUDIO TRACK CODEC ----------
+        BoxLayout:
+            padding: '2sp'
+            size_hint: .4, 1
+            ToggleButton:
+                id: mp3
+                text: 'MP3'
+                group: 'audio_codec'
+            ToggleButton:
+                id: aac
+                text: 'AAC'
+                group: 'audio_codec'
+            ToggleButton:
+                id: ac3
+                text: 'AC3'
+                group: 'audio_codec'
+            ToggleButton:
+                id: dts
+                text: 'DTS'
+                group: 'audio_codec'
+
+        # ---------- AUDIO TRACK INFOS ----------
+        BoxLayout:
+            padding: '2sp'
+            size_hint: .9, 1
+            Label:
+                text: 'Bitrate'
+                bold: True
+            Slider:
+                id: audiobit
+                min: 0
+                max: 7
+                step: 1
+                value: 6
+            Label:
+                text:
+                    audio_bitrate[int('{}'.format(audiobit.value)
+                    .split('.')[0])]
+                bold: True
+            Label:
+            Label:
+                text: 'Samplerate'
+                bold: True
+            Slider:
+                id: samplerate
+                min: 0
+                max: 4
+                step: 1
+                value: 3
+            Label:
+                text:
+                    sample_rate[int('{}'.format(samplerate.value)
+                    .split('.')[0])]
+                bold: True
+
+        BoxLayout:
+            padding: '2sp'
+            size_hint: .1, 1
+            Label:
+            Label:
+                text: 'Gain'
+                bold: True
+            Slider:
+                id: audiogain
+                min: 0
+                max: 40
+                step: 1
+                value: 20
+            Label:
+                text:
+                    audio_gain[int('{}'.format(audiogain.value)
+                    .split('.')[0])]
+                bold: True

@@ -76,7 +76,10 @@
             Label:
                 text: 'Video Kbps'
             TextInput:
+                id: video_bitrate
                 multiline: False
+                #input_filter: 'int'
+                text: app.current_bitrate
             Label:
             ToggleButton:
                 text: 'Bitrate Calculator'
@@ -96,30 +99,36 @@
                     size: self.size
                     pos: self.pos
             TextInput:
+                id: HH
                 hint_text: 'HH'
                 size_hint: .6, 1
                 multiline: False
+                input_filter: 'int'
             TextInput:
+                id: MM
                 hint_text: 'MM'
                 size_hint: .6, 1
                 multiline: False
+                input_filter: 'int'
             TextInput:
+                id: SS
                 hint_text: 'SS'
                 size_hint: .6, 1
                 multiline: False
+                input_filter: 'int'
             Label:
             Label:
                 text: 'Audio'
             Slider:
                 size_hint: 3, 1
-                id: calcul_audio
+                id: audio_bit
                 min: 0
-                max: 7
+                max: 9
                 step: 1
                 value: 6
             Label:
                 text:
-                    audio_bitrate[int('{}'.format(calcul_audio.value)
+                    audio_bitrate[int('{}'.format(audio_bit.value)
                     .split('.')[0])]
                 bold: True
             Label:
@@ -127,19 +136,26 @@
                 text: 'Size'
             Slider:
                 size_hint: 3, 1
-                id: calcul_size
+                id: desired_size
                 min: 0
                 max: 7
                 step: 1
                 value: 3
             Label:
                 text:
-                    fixed_size[int('{}'.format(calcul_size.value)
+                    fixed_size[int('{}'.format(desired_size.value)
                     .split('.')[0])]
                 bold: True
             Label:
             Button:
                 text: 'RUN'
+                on_press:
+                    app.bit_calculator(
+                    root.ids.HH.text, root.ids.MM.text,
+                    root.ids.SS.text, root.ids.audio_bit.value,
+                    root.ids.desired_size.value)\
+                    if root.ids.HH.text and root.ids.MM.text\
+                    and root.ids.SS.text else ''
 
     # ---------- CRF MODE ----------
     BoxLayout:

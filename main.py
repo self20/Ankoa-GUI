@@ -6,8 +6,11 @@ from kivy.config import Config
 from os.path import dirname, join
 from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty, StringProperty, ListProperty)
+from kivy.properties import (NumericProperty,
+                             StringProperty,
+                             ListProperty)
 from app.popup.main_popup import *
+from app.mod_encode.bitrate_cal import calculator
 
 # INTERFACE SETTINGS
 Config.set('graphics', 'width', '1024')
@@ -27,6 +30,7 @@ class AnkoaApp(App):
     index = NumericProperty(-1)
     current_title = StringProperty()
     screen_names = ListProperty([])
+    current_bitrate = StringProperty()
 
     # BUILDER
     def build(self):
@@ -113,6 +117,12 @@ class AnkoaApp(App):
                 count += -1
         else:
             pass
+
+    # CALL BITRATE CALCULATOR
+    def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
+        current_bitrate = calculator(HH, MM, SS, audio_bit, desired_size)
+        self.current_bitrate = str(current_bitrate)
+        return self.current_bitrate
 
 if __name__ == '__main__':
     AnkoaApp().run()

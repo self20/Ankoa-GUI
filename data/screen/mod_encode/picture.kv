@@ -36,7 +36,13 @@
                 size: self.size
                 pos: self.pos
         Switch:
+            id: auto_resize
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.auto_sd.state == 'down' or\
+                root.ids.auto_720p.state == 'down' or\
+                root.ids.auto_1080p.state == 'down' else False
         Label:
             text: 'Auto Resize'
             bold: True
@@ -70,22 +76,33 @@
                 size: self.size
                 pos: self.pos
         Switch:
+            id: sar
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.pal43.state == 'down' or\
+                root.ids.pal169.state == 'down' or\
+                root.ids.ntsc43.state == 'down' or\
+                root.ids.ntsc169.state == 'down' else False
         Label:
             text: 'Auto SAR'
             bold: True
             size_hint_x: .40
         BoxLayout:
             ToggleButton:
+                id: pal43
                 text: 'PAL 4:3'
                 group: 'auto_resize'
             ToggleButton:
+                id: pal169
                 text: 'PAL 16:9'
                 group: 'auto_resize'
             ToggleButton:
+                id: ntsc43
                 text: 'NTSC 4:3'
                 group: 'auto_resize'
             ToggleButton:
+                id: ntsc169
                 text: 'NTSC 16:9'
                 group: 'auto_resize'
 
@@ -101,7 +118,13 @@
                 size: self.size
                 pos: self.pos
         Switch:
+            id: reso
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.sar.active == False and\
+                root.ids.video_W.text != '' and\
+                root.ids.video_H.text != '' else False
         Label:
             text: 'Resolution'
             bold: True
@@ -115,12 +138,15 @@
                 value: 3
             Label:
                 text:
+                    'Custom' if root.ids.sar.active == True else\
                     aspect_ratio[int('{}'.format(aspect.value)
                     .split('.')[0])]
             Label:
                 text: 'Width'
             TextInput:
+                id: video_W
                 multiline: False
+                input_filter: 'int'
                 text:
                     eval(auto_sd.ar_var)[int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[0]\
@@ -134,7 +160,9 @@
             Label:
                 text: 'Height'
             TextInput:
+                id: video_H
                 multiline: False
+                input_filter: 'int'
                 text:
                     eval(auto_sd.ar_var)[int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[1]\
@@ -158,31 +186,52 @@
                 size: self.size
                 pos: self.pos
         Switch:
+            id: custom_crop
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.crop_W.text != '' and\
+                root.ids.crop_H.text != '' and\
+                root.ids.crop_T.text != '' and\
+                root.ids.crop_B.text != '' and\
+                root.ids.crop_R.text != '' and\
+                root.ids.crop_L.text != '' else False
         Label:
             text: 'Custom Crop'
             bold: True
             size_hint_x: .40
         BoxLayout:
             TextInput:
+                id: crop_W
                 hint_text: 'Width'
                 multiline: False
+                input_filter: 'int'
             TextInput:
+                id: crop_H
                 hint_text: 'Height'
                 multiline: False
+                input_filter: 'int'
             Label:
             TextInput:
+                id: crop_T
                 hint_text: 'Top'
                 multiline: False
+                input_filter: 'int'
             TextInput:
+                id: crop_B
                 hint_text: 'Bottom'
                 multiline: False
+                input_filter: 'int'
             TextInput:
+                id: crop_R
                 hint_text: 'Right'
                 multiline: False
+                input_filter: 'int'
             TextInput:
+                id: crop_L
                 hint_text: 'Left'
                 multiline: False
+                input_filter: 'int'
 
     # ---------- DETELINE ----------
     BoxLayout:
@@ -196,7 +245,11 @@
                 size: self.size
                 pos: self.pos
         Switch:
+            id: deteline_on
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.dtline.value != 0 else False
         Label:
             text: 'Deteline Filter'
             bold: True
@@ -228,6 +281,9 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.dcomb.value != 0 else False
         Label:
             text: 'Decomb Filter'
             bold: True
@@ -259,6 +315,9 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.dint.value != 0 else False
         Label:
             text: 'Deinterlace Filter'
             bold: True
@@ -290,6 +349,9 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.dnoise.value != 0 else False
         Label:
             text: 'Denoise Filter'
             bold: True

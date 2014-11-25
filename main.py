@@ -9,13 +9,13 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty,
                              StringProperty,
                              ListProperty)
+from app.mod_encode.bitrate_cal import *
 from app.popup.main_popup import *
-from app.mod_encode.bitrate_cal import calculator
 
 # INTERFACE SETTINGS
 Config.set('graphics', 'width', '1024')
 Config.set('graphics', 'height', '768')
-count = 0
+[count_audiotk, count_subtk] = [0, ] * 2
 
 
 # MAIN INTERFACE
@@ -101,20 +101,44 @@ class AnkoaApp(App):
 
     # MANAGE AUDIO TRACKS
     def audioTrack(self, request):
-        global count
+        global count_audiotk
         audio_track = Builder.load_file(
             'data/screen/mod_encode/widget/audio_track.kv')
         track_layout = self.root.ids.header_screens\
             .current_screen.ids.audio.ids.audio_track_layout
-        if request == 'add_track' and count < 5:
-            count += 1
+        if request == 'add_track' and count_audiotk < 5:
+            count_audiotk += 1
             track_layout.add_widget(audio_track)
         elif request == 'del_track':
             for track in track_layout.children:
                 track_layout.remove_widget(track)
                 break
-            if count > 0:
-                count += -1
+            if count_audiotk > 0:
+                count_audiotk += -1
+        else:
+            pass
+
+    # MANAGE SUBTITLES TRACKS
+    def subtitlesTrack(self, request):
+        global count_subtk
+        sub_track = Builder.load_file(
+            'data/screen/mod_encode/widget/sub_track.kv')
+        sub_file = Builder.load_file(
+            'data/screen/mod_encode/widget/sub_file.kv')
+        track_layout = self.root.ids.header_screens\
+            .current_screen.ids.subtitles.ids.sub_track_layout
+        if request == 'add_track' and count_subtk < 7:
+            count_subtk += 1
+            track_layout.add_widget(sub_track)
+        elif request == 'add_file_track' and count_subtk < 7:
+            count_subtk += 1
+            track_layout.add_widget(sub_file)
+        elif request == 'del_track':
+            for track in track_layout.children:
+                track_layout.remove_widget(track)
+                break
+            if count_subtk > 0:
+                count_subtk += -1
         else:
             pass
 

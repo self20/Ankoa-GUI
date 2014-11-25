@@ -1,0 +1,47 @@
+BoxLayout:
+    padding: '4sp'
+    canvas:
+        Color:
+            rgba: 128, 128, 1, .5
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    GridLayout:
+        cols: 2
+        rows: 1
+
+        # ---------- SUBS TRACK SOURCE & TITLE ----------
+        BoxLayout:
+            padding: '3sp'
+            size_hint: .6, 1
+            Switch:
+                active: True
+                size_hint_x: .2
+            BoxLayout:
+                padding: '2sp'
+                Button:
+                    text: 'SOURCE'
+                    size_hint_x: .2
+                TextInput:
+                    hint_text: 'Track Title'
+                    multiline: False
+
+        # ---------- SUB TRACK INFOS ----------
+        BoxLayout:
+            padding: '2sp'
+            size_hint: .4, 1
+            ToggleButton:
+                id: sub_forced
+                text: 'Forced'
+            ToggleButton:
+                id: sub_burned
+                text: 'Burn in'
+            ToggleButton:
+                id: sub_default
+                text: 'Default'
+            TextInput:
+                hint_text: 'Chars'
+                multiline: False
+            TextInput:
+                hint_text: 'Delay'
+                multiline: False

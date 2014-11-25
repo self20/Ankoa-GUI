@@ -1,5 +1,49 @@
 # ---------- CONTAINER ----------
 <subtitles@Widget>:
-    rows: 1
-    Label:
-        text: 'Subtitles Screen'
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    size_hint: .96, .96
+    cols: 1
+
+    # ---------- SOURCE INFOS ----------
+    BoxLayout:
+        size_hint: 1, .4
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: 'Source Infos Area'
+
+    # ---------- SUB TRACK MENU ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Button:
+            request: 'add_track'
+            text: 'Add Subtitles Track'
+            on_press: app.subtitlesTrack(self.request)
+        Button:
+            request: 'add_file_track'
+            text: 'Import Subtitles File'
+            on_press: app.subtitlesTrack(self.request)
+        Button:
+            request: 'del_track'
+            text: 'Remove Last Track'
+            on_press: app.subtitlesTrack(self.request)
+
+    # ---------- SUBTITLES TRACK LAYOUT ----------
+    GridLayout:
+        cols: 1
+        spacing: 5
+        row_force_default: True
+        row_default_height: 53
+        id: sub_track_layout

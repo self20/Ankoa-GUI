@@ -15,8 +15,13 @@ BoxLayout:
             padding: '3sp'
             size_hint: .6, 1
             Switch:
-                active: True
                 size_hint_x: .2
+                touch_control: False
+            Button:
+                text: 'DEL'
+                size_hint_x: .1
+                request: 'del_track'
+                on_press: app.subtitlesTrack(self.request)
             BoxLayout:
                 padding: '2sp'
                 TextInput:

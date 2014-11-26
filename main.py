@@ -107,12 +107,13 @@ class AnkoaApp(App):
         track_layout = self.root.ids.header_screens\
             .current_screen.ids.audio.ids.audio_track_layout
         if request == 'add_track' and count_audiotk < 5:
-            count_audiotk += 1
             track_layout.add_widget(audio_track)
+            count_audiotk += 1
+        elif request == 'clear_tracks':
+            track_layout.clear_widgets()
+            count_audiotk = 0
         elif request == 'del_track':
-            for track in track_layout.children:
-                track_layout.remove_widget(track)
-                break
+            track_layout.remove_widget(track_layout.children[-1])
             if count_audiotk > 0:
                 count_audiotk += -1
         else:
@@ -133,10 +134,11 @@ class AnkoaApp(App):
         elif request == 'add_file_track' and count_subtk < 7:
             count_subtk += 1
             track_layout.add_widget(sub_file)
+        elif request == 'clear_tracks':
+            track_layout.clear_widgets()
+            count_subtk = 0
         elif request == 'del_track':
-            for track in track_layout.children:
-                track_layout.remove_widget(track)
-                break
+            track_layout.remove_widget(track_layout.children[-1])
             if count_subtk > 0:
                 count_subtk += -1
         else:

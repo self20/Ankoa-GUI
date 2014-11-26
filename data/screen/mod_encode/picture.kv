@@ -138,7 +138,8 @@
                 value: 3
             Label:
                 text:
-                    'Custom' if root.ids.sar.active == True else\
+                    'Custom' if root.ids.sar.active == True or\
+                    root.ids.auto_resize.active == False else\
                     aspect_ratio[int('{}'.format(aspect.value)
                     .split('.')[0])]
             Label:
@@ -147,7 +148,11 @@
                 id: video_W
                 multiline: False
                 input_filter: 'int'
+                readonly:
+                    True if root.ids.auto_resize.active == True or\
+                    root.ids.sar.active == True else False
                 text:
+                    'auto' if root.ids.sar.active == True else\
                     eval(auto_sd.ar_var)[int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[0]\
                     if auto_sd.state == 'down' else\
@@ -163,7 +168,11 @@
                 id: video_H
                 multiline: False
                 input_filter: 'int'
+                readonly:
+                    True if root.ids.auto_resize.active == True or\
+                    root.ids.sar.active == True else False
                 text:
+                    'auto' if root.ids.sar.active == True else\
                     eval(auto_sd.ar_var)[int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[1]\
                     if auto_sd.state == 'down' else\
@@ -267,6 +276,8 @@
                     .split('.')[0])]
                 bold: True
             TextInput:
+                readonly:
+                    True if root.ids.dtline.value != 2 else False
 
     # ---------- DECOMB ----------
     BoxLayout:
@@ -301,6 +312,8 @@
                     .split('.')[0])]
                 bold: True
             TextInput:
+                readonly:
+                    True if root.ids.dcomb.value != 4 else False
 
     # ---------- DEINTERLACE ----------
     BoxLayout:
@@ -335,6 +348,8 @@
                     .split('.')[0])]
                 bold: True
             TextInput:
+                readonly:
+                    True if root.ids.dint.value != 5 else False
 
     # ---------- DENOISE ----------
     BoxLayout:
@@ -369,3 +384,5 @@
                     .split('.')[0])]
                 bold: True
             TextInput:
+                readonly:
+                    True if root.ids.dnoise.value != 4 else False

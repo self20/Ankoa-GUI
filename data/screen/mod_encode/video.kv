@@ -36,21 +36,31 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if (root.ids.matroska.state == 'down' or
+                root.ids.mp4.state == 'down') and\
+                (root.ids.x264.state == 'down' or
+                root.ids.x265.state == 'down') else False
         Label:
             text: 'Container'
             bold: True
             size_hint_x: .40
         BoxLayout:
             ToggleButton:
+                id: matroska
                 text: 'MATROSKA'
                 group: 'v_container'
             ToggleButton:
+                id: mp4
                 text: 'MPEG-4'
                 group: 'v_container'
             ToggleButton:
+                id: x264
                 text: 'x264'
                 group: 'v_codec'
             ToggleButton:
+                id: x265
                 text: 'x265'
                 group: 'v_codec'
 
@@ -67,7 +77,9 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
-            active: True
+            touch_control: False
+            active:
+                False if root.ids.video_bitrate.text == '' else True
         Label:
             text: '2PASS Mode'
             bold: True
@@ -78,7 +90,7 @@
             TextInput:
                 id: video_bitrate
                 multiline: False
-                #input_filter: 'int'
+                input_filter: 'int'
                 text: app.current_bitrate
             Label:
             ToggleButton:
@@ -170,6 +182,9 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.video_bitrate.text == '' else False
         Label:
             text: 'CRF Level'
             bold: True
@@ -180,7 +195,7 @@
                 min: 0
                 max: 51
                 step: 1
-                value: 18
+                value: 0
             Label:
                 text: '{}'.format(crf.value).split('.')[0]
                 bold: True
@@ -198,6 +213,8 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active: True
         Label:
             text: 'Framerate'
             bold: True
@@ -228,6 +245,9 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.preset.value != 0 else False
         Label:
             text: 'Preset'
             bold: True
@@ -238,7 +258,7 @@
                 min: 0
                 max: 9
                 step: 1
-                value: 6
+                value: 0
             Label:
                 text:
                     x264_preset[int('{}'.format(preset.value)
@@ -258,6 +278,9 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.tune.value != 0 else False
         Label:
             text: 'Tune'
             bold: True
@@ -288,6 +311,9 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.profile.value != 0 else False
         Label:
             text: 'Profile'
             bold: True
@@ -318,6 +344,8 @@
                 pos: self.pos
         Switch:
             size_hint_x: .20
+            touch_control: False
+            active: True
         Label:
             text: 'Level'
             bold: True

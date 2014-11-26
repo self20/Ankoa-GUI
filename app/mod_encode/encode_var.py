@@ -26,11 +26,11 @@ ar_720p = ['1280x960', '1280x768', '1280x720',
 ar_1080p = ['1440x1080', '1800x1080', '1920x1080',
             '1920x1040', '1920x816', '1920x800']
 
-preset = ['UltraFast', 'SuperFast', 'VeryFast', 'Faster', 'Fast',
-          'Slow', 'Slower', 'VerySlow', 'Placebo', 'None']
+preset = ['None', 'UltraFast', 'SuperFast', 'VeryFast', 'Faster',
+          'Fast', 'Slow', 'Slower', 'VerySlow', 'Placebo']
 
-tune = ['Film', 'Animation', 'Grain', 'Still Image', 'PSNR',
-        'SSIM', 'Fast Decode', 'None']
+tune = ['None', 'Film', 'Animation', 'Grain',
+        'Still Image', 'PSNR', 'SSIM', 'Fast Decode']
 
 profile = ['Auto', 'Baseline', 'Main', 'High']
 

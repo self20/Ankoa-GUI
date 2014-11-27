@@ -81,21 +81,21 @@ BoxLayout:
         cols: 5
         Button:
             text: 'Queue Process'
-            value: 'QueuePopup()'
-            on_press: popup_id = self.value; app.main_popup(popup_id)
+            popup_id: 'QueuePopup()'
+            on_press: app.main_popup(self.popup_id)
         Button:
             text: 'File Manager'
-            value: 'FilePopup()'
-            on_press: popup_id = self.value; app.main_popup(popup_id)
+            popup_id: 'FilePopup()'
+            on_press: app.main_popup(self.popup_id)
         Button:
             text: 'Help'
-            value: 'HelpPopup()'
-            on_press: popup_id = self.value; app.main_popup(popup_id)
+            popup_id: 'HelpPopup()'
+            on_press: app.main_popup(self.popup_id)
         Button:
             text: 'GitHub'
-            value: 'GithubPopup()'
-            on_press: popup_id = self.value; app.main_popup(popup_id)
+            popup_id: 'GithubPopup()'
+            on_press: app.main_popup(self.popup_id)
         Button:
             text: 'About'
-            value: 'AboutPopup()'
-            on_press: popup_id = self.value; app.main_popup(popup_id)
+            popup_id: 'AboutPopup()'
+            on_press: app.main_popup(self.popup_id)

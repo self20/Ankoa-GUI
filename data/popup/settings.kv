@@ -1,0 +1,168 @@
+<SettingsPopup>:
+    size_hint: .8, .8
+    auto_dismiss: False
+    title: 'Settings'
+    GridLayout:
+        cols: 1
+        rows: 10
+        spacing: 5
+        row_force_default: True
+        row_default_height: 50
+
+        # ---------- USAGE ----------
+        BoxLayout:
+            ToggleButton:
+                text: 'LOCAL USAGE'
+                group: 'usage'
+                bold: True
+            ToggleButton:
+                text: 'REMOTE USAGE'
+                bold: True
+                group: 'usage'
+
+        # ---------- SOURCE FOLDER ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, .5
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
+                id: S_folder
+                size_hint_x: .20
+                touch_control: False
+            Label:
+                text: 'SOURCE'
+                size_hint_x: .40
+            TextInput:
+                hint_text: '/home/user/SOURCES/'
+                id: source_folder
+
+        # ---------- DESTINATION FOLDER ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
+                id: D_folder
+                size_hint_x: .20
+                touch_control: False
+            Label:
+                text: 'DESTINATION'
+                size_hint_x: .40
+            TextInput:
+                hint_text: '/home/user/ENCODES/'
+                id: destination_folder
+
+        # ---------- SSH SETTINGS ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, .5
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
+                id: remote
+                size_hint_x: .20
+                touch_control: False
+            Label:
+                text: 'SSH Settings'
+                size_hint_x: .40
+            BoxLayout:
+                TextInput:
+                    hint_text: 'Hostname / IP'
+                    id: ssh_host
+                TextInput:
+                    size_hint_x: .4
+                    hint_text: 'Port'
+                    id: ssh_port
+                TextInput:
+                    hint_text: 'Username'
+                    id: ssh_username
+                TextInput:
+                    hint_text: 'Password'
+                    id: ssh_passwd
+
+        # ---------- TEAM NAME ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
+                id: team
+                size_hint_x: .20
+                touch_control: False
+            Label:
+                text: 'Team Name'
+                size_hint_x: .40
+            TextInput:
+                hint_text: 'KULTURA'
+                id: team_name
+
+        # ---------- TMDB API KEY ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, .5
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
+                id: tmdb
+                size_hint_x: .20
+                touch_control: False
+            Label:
+                text: 'TMDB Api Key'
+                size_hint_x: .40
+            TextInput:
+                hint_text:
+                    'Create an account on \
+                    https://www.themoviedb.org/account/signup'
+                id: tmdb_api
+
+        # ---------- TRACKER ANNOUNCE ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
+                id: tracker
+                size_hint_x: .20
+                touch_control: False
+            Label:
+                text: 'Tracker Announce'
+                size_hint_x: .40
+            TextInput:
+                hint_text:
+                    'https://www.tracker.com:34000/announce'
+                id: tracker_announce
+
+        # ---------- CONTROL SETTINGS ----------
+        BoxLayout:
+        BoxLayout:
+        BoxLayout:
+            Button:
+                text: 'Validate Settings'
+            Button:
+                text: 'Reset Settings'
+            Label:
+            Button:
+                text: 'Close'
+                on_press: root.dismiss()

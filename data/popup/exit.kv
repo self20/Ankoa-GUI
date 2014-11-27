@@ -1,0 +1,15 @@
+<ExitPopup>:
+    size_hint: .3, .3
+    auto_dismiss: False
+    title: 'Exit'
+
+    GridLayout:
+        size_hint: 1, 1
+        orientation: 'vertical'
+        cols: 1
+        Button:
+            text: 'Confirm'
+            on_press: exit()
+        Button:
+            text: 'Cancel'
+            on_press: root.dismiss()

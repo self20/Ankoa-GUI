@@ -12,18 +12,19 @@ from kivy.properties import (NumericProperty,
 from app.mod_encode.bitrate_cal import *
 from app.popup.main_popup import *
 
-# INTERFACE SETTINGS
+# SETTINGS
+__version__ = 'Ankoa v0.1'
 Config.set('graphics', 'width', '1024')
 Config.set('graphics', 'height', '768')
 [count_audiotk, count_subtk] = [0, ] * 2
 
 
-# MAIN INTERFACE
+# INTERFACE
 class AnkoaScreen(Screen):
     pass
 
 
-# MAIN APP
+# ANKOA
 class AnkoaApp(App):
 
     # INTERACTIVE CONTENT
@@ -34,7 +35,7 @@ class AnkoaApp(App):
 
     # BUILDER
     def build(self):
-        self.title = 'AnkoA v1.0.1'
+        self.title = __version__
         curdir = dirname(__file__)
 
         # BUILD MAIN SCREENS
@@ -77,14 +78,17 @@ class AnkoaApp(App):
         self.screens[index] = screen
         return screen
 
-    # ENCODE MODE SCREENS
+    # LOAD ENCODE MODE SCREENS
     for mod_encod_kvs in os.listdir('data/screen/mod_encode/'):
         if mod_encod_kvs.endswith('.kv'):
             Builder.load_file(
                 'data/screen/mod_encode/{}'.format(mod_encod_kvs))
 
     # MANAGE POPUPS
-    Builder.load_file('data/popup/main_popup.kv')
+    for popup in os.listdir('data/popup/'):
+        if popup.endswith('.kv'):
+            Builder.load_file('data/popup/{}'.format(popup))
+
     def main_popup(self, popup_id):
         popup = '{}'.format(popup_id)
         eval(popup).open()
@@ -106,6 +110,7 @@ class AnkoaApp(App):
             'data/screen/mod_encode/widget/audio_track.kv')
         track_layout = self.root.ids.header_screens\
             .current_screen.ids.audio.ids.audio_track_layout
+
         if request == 'add_track' and count_audiotk < 5:
             track_layout.add_widget(audio_track)
             count_audiotk += 1
@@ -128,6 +133,7 @@ class AnkoaApp(App):
             'data/screen/mod_encode/widget/sub_file.kv')
         track_layout = self.root.ids.header_screens\
             .current_screen.ids.subtitles.ids.sub_track_layout
+
         if request == 'add_track' and count_subtk < 7:
             count_subtk += 1
             track_layout.add_widget(sub_track)

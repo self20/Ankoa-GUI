@@ -26,10 +26,10 @@ ar_720p = ['1280x960', '1280x768', '1280x720',
 ar_1080p = ['1440x1080', '1800x1080', '1920x1080',
             '1920x1040', '1920x816', '1920x800']
 
-preset = ['None', 'UltraFast', 'SuperFast', 'VeryFast', 'Faster',
+preset = ['Off', 'UltraFast', 'SuperFast', 'VeryFast', 'Faster',
           'Fast', 'Slow', 'Slower', 'VerySlow', 'Placebo']
 
-tune = ['None', 'Film', 'Animation', 'Grain',
+tune = ['Off', 'Film', 'Animation', 'Grain',
         'Still Image', 'PSNR', 'SSIM', 'Fast Decode']
 
 profile = ['Auto', 'Baseline', 'Main', 'High']
@@ -50,3 +50,33 @@ decomb = ['Off', 'Default', 'Fast', 'Bob', 'Custom']
 deinterlace = ['Off', 'Fast', 'Slow', 'Slower', 'Bob', 'Custom']
 
 denoise = ['Off', 'Weak', 'Medium', 'Strong', 'Custom']
+
+pyramidal_method = ['Off', 'Normal', 'Strict']
+
+direct_mode = ['Off', 'Spatial', 'Temporal', 'Auto']
+
+adaptive_bframes = ['VeryFast', 'Fast', 'Slower']
+
+weighted_pframes = ['Off', 'Simple', 'Smart']
+
+motion_method = ['DIA', 'HEX', 'UMH', 'ESA', 'TESA']
+
+partitions_type = ['None', 'All', 'p8x8', 'p4x4',
+                   'b8x8', 'i8x8', 'i4x4']
+
+trellis = ['Off', 'Default', 'All']
+
+quantization = ['0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6',
+                '0.7', '0.8', '0.9', '0', '1.1', '1.2', '1.3',
+                '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2.0']
+
+rate_distortion = ['0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6',
+                   '0.7', '0.8', '0.9', '1.0', '1.1', '1.2', '1.3',
+                   '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2.0']
+
+psy_trellis = ['0.00', '0.05', '0.10', '0.15', '0.20', '0.25', '0.30',
+               '0.35', '0.40', '0.45', '0.50', '0.55', '0.60', '0.65',
+               '0.70', '0.75', '0.80', '0.85', '0.90', '0.95', '1.0']
+
+deblocking = ['-6', '-5', '-4', '-3', '-2', '-1',
+              '0', '1', '2', '3', '4', '5', '6']

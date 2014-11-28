@@ -58,15 +58,15 @@ BoxLayout:
             ActionButton:
                 text: 'Settings'
                 icon: 'data/icon/settings.png'
-                value: 'SettingsPopup()'
+                popup_id: 'SettingsPopup()'
                 on_release:
-                    popup_id = self.value; app.main_popup(popup_id)
+                    popup_id = app.main_popup(self.popup_id)
             ActionButton:
                 text: 'Exit'
                 icon: 'data/icon/exit.png'
-                value: 'ExitPopup()'
+                popup_id: 'ExitPopup()'
                 on_release:
-                    popup_id = self.value; app.main_popup(popup_id)
+                    popup_id = app.main_popup(self.popup_id)
 
     # ---------- SCREEN MANAGER ----------
     ScreenManager:

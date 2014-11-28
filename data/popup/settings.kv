@@ -12,13 +12,15 @@
         # ---------- USAGE ----------
         BoxLayout:
             ToggleButton:
+                id: local_usage
                 text: 'LOCAL USAGE'
                 group: 'usage'
                 bold: True
             ToggleButton:
+                id: remote_usage
                 text: 'REMOTE USAGE'
-                bold: True
                 group: 'usage'
+                bold: True
 
         # ---------- SOURCE FOLDER ----------
         BoxLayout:
@@ -33,8 +35,10 @@
                 id: S_folder
                 size_hint_x: .20
                 touch_control: False
+                active:
+                    True if root.ids.source_folder.text else False
             Label:
-                text: 'SOURCE'
+                text: 'Source'
                 size_hint_x: .40
             TextInput:
                 hint_text: '/home/user/SOURCES/'
@@ -53,14 +57,16 @@
                 id: D_folder
                 size_hint_x: .20
                 touch_control: False
+                active:
+                    True if root.ids.dest_folder.text else False
             Label:
-                text: 'DESTINATION'
+                text: 'Destination'
                 size_hint_x: .40
             TextInput:
                 hint_text: '/home/user/ENCODES/'
-                id: destination_folder
+                id: dest_folder
 
-        # ---------- SSH SETTINGS ----------
+        # ---------- TEAM NAME ----------
         BoxLayout:
             padding: '8sp'
             canvas:
@@ -70,9 +76,76 @@
                     size: self.size
                     pos: self.pos
             Switch:
+                id: team
+                size_hint_x: .20
+                touch_control: False
+                active: True
+            Label:
+                text: 'Team Name'
+                size_hint_x: .40
+            TextInput:
+                hint_text: 'KULTURA'
+                id: team_name
+
+        # ---------- TMDB API KEY ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
+                id: tmdb
+                size_hint_x: .20
+                touch_control: False
+                active: True
+            Label:
+                text: 'TMDB Api Key'
+                size_hint_x: .40
+            TextInput:
+                hint_text:
+                    'Create an account on \
+                    https://www.themoviedb.org/account/signup'
+                id: tmdb_apikey
+
+        # ---------- TRACKER ANNOUNCE ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, .5
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
+                id: tracker
+                size_hint_x: .20
+                touch_control: False
+                active: True
+            Label:
+                text: 'Tracker Announce'
+                size_hint_x: .40
+            TextInput:
+                hint_text:
+                    'https://www.tracker.com:34000/announce'
+                id: tracker_announce
+
+        # ---------- SSH SETTINGS ----------
+        BoxLayout:
+            padding: '8sp'
+            canvas:
+                Color:
+                    rgba: .2, .3, .4, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Switch:
                 id: remote
                 size_hint_x: .20
                 touch_control: False
+                active: True
             Label:
                 text: 'SSH Settings'
                 size_hint_x: .40
@@ -91,27 +164,7 @@
                     hint_text: 'Password'
                     id: ssh_passwd
 
-        # ---------- TEAM NAME ----------
-        BoxLayout:
-            padding: '8sp'
-            canvas:
-                Color:
-                    rgba: .2, .3, .4, 1
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
-            Switch:
-                id: team
-                size_hint_x: .20
-                touch_control: False
-            Label:
-                text: 'Team Name'
-                size_hint_x: .40
-            TextInput:
-                hint_text: 'KULTURA'
-                id: team_name
-
-        # ---------- TMDB API KEY ----------
+        # ---------- LOCAL MOUNT FOLDER ----------
         BoxLayout:
             padding: '8sp'
             canvas:
@@ -121,47 +174,47 @@
                     size: self.size
                     pos: self.pos
             Switch:
-                id: tmdb
+                id: M_folder
                 size_hint_x: .20
                 touch_control: False
+                active: True
             Label:
-                text: 'TMDB Api Key'
+                text: 'Local Folder'
                 size_hint_x: .40
             TextInput:
-                hint_text:
-                    'Create an account on \
-                    https://www.themoviedb.org/account/signup'
-                id: tmdb_api
-
-        # ---------- TRACKER ANNOUNCE ----------
-        BoxLayout:
-            padding: '8sp'
-            canvas:
-                Color:
-                    rgba: .2, .3, .4, 1
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
-            Switch:
-                id: tracker
-                size_hint_x: .20
-                touch_control: False
-            Label:
-                text: 'Tracker Announce'
-                size_hint_x: .40
-            TextInput:
-                hint_text:
-                    'https://www.tracker.com:34000/announce'
-                id: tracker_announce
+                hint_text: '/home/user/temp/'
+                id: local_folder
 
         # ---------- CONTROL SETTINGS ----------
         BoxLayout:
         BoxLayout:
-        BoxLayout:
             Button:
                 text: 'Validate Settings'
+                on_press:
+                    app.save_settings(
+                    root.ids.source_folder.text,
+                    root.ids.dest_folder.text,
+                    root.ids.team_name.text,
+                    root.ids.tmdb_apikey.text,
+                    root.ids.tracker_announce.text,
+                    root.ids.ssh_host.text,
+                    root.ids.ssh_port.text,
+                    root.ids.ssh_username.text,
+                    root.ids.ssh_passwd.text,
+                    root.ids.local_folder.text,
+                    self.request) if (
+                    root.ids.S_folder.active == True and
+                    root.ids.D_folder.active == True and
+                    root.ids.remote.active == True and
+                    root.ids.team.active == True and
+                    root.ids.tmdb.active == True and
+                    root.ids.tracker.active == True and
+                    root.ids.M_folder.active == True) and (
+                    root.ids.local_usage.state == 'down' or
+                    root.ids.remote_usage.state == 'down') else ''
             Button:
                 text: 'Reset Settings'
+                on_press: app.reset_settings()
             Label:
             Button:
                 text: 'Close'

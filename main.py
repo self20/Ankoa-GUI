@@ -1,5 +1,7 @@
-#!/usr/bin/kivy
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import os
+import kivy
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.config import Config
@@ -11,6 +13,7 @@ from kivy.properties import (NumericProperty,
                              ListProperty)
 from app.mod_encode.bitrate_cal import *
 from app.popup.main_popup import *
+from user.settings import *
 
 # SETTINGS
 __version__ = 'Ankoa v0.1'
@@ -27,18 +30,17 @@ class AnkoaScreen(Screen):
 # ANKOA
 class AnkoaApp(App):
 
-    # INTERACTIVE CONTENT
+    # INTERACTIVE
     index = NumericProperty(-1)
-    current_title = StringProperty()
     screen_names = ListProperty([])
-    current_bitrate = StringProperty()
+    [current_title, current_bitrate] = [StringProperty(), ] * 2
 
     # BUILDER
     def build(self):
         self.title = __version__
         curdir = dirname(__file__)
 
-        # BUILD MAIN SCREENS
+        # MAIN SCREENS
         self.screens = {}
         self.menu_screens = sorted([
             'Encode', 'Remux', 'Extract', 'NFOgen',
@@ -78,7 +80,7 @@ class AnkoaApp(App):
         self.screens[index] = screen
         return screen
 
-    # LOAD ENCODE MODE SCREENS
+    # MANAGE ENCODE SCREENS
     for mod_encod_kvs in os.listdir('data/screen/mod_encode/'):
         if mod_encod_kvs.endswith('.kv'):
             Builder.load_file(
@@ -99,13 +101,20 @@ class AnkoaApp(App):
             height = 50
         else:
             height = 0
+
         Animation(height=height, d=.3, t='out_quart').start(
             self.root.ids.header_screens.current_screen
             .ids.video.ids.bitrate_view)
 
+    def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
+        current_bitrate = calculator(HH, MM, SS, audio_bit, desired_size)
+        self.current_bitrate = str(current_bitrate)
+        return self.current_bitrate
+
     # MANAGE AUDIO TRACKS
     def audioTrack(self, request):
         global count_audiotk
+
         audio_track = Builder.load_file(
             'data/screen/mod_encode/widget/audio_track.kv')
         track_layout = self.root.ids.header_screens\
@@ -114,9 +123,11 @@ class AnkoaApp(App):
         if request == 'add_track' and count_audiotk < 5:
             track_layout.add_widget(audio_track)
             count_audiotk += 1
+
         elif request == 'clear_tracks':
             track_layout.clear_widgets()
             count_audiotk = 0
+
         elif request == 'del_track':
             track_layout.remove_widget(track_layout.children[-1])
             if count_audiotk > 0:
@@ -127,22 +138,28 @@ class AnkoaApp(App):
     # MANAGE SUBTITLES TRACKS
     def subtitlesTrack(self, request):
         global count_subtk
+
         sub_track = Builder.load_file(
             'data/screen/mod_encode/widget/sub_track.kv')
+
         sub_file = Builder.load_file(
             'data/screen/mod_encode/widget/sub_file.kv')
+
         track_layout = self.root.ids.header_screens\
             .current_screen.ids.subtitles.ids.sub_track_layout
 
         if request == 'add_track' and count_subtk < 7:
             count_subtk += 1
             track_layout.add_widget(sub_track)
+
         elif request == 'add_file_track' and count_subtk < 7:
             count_subtk += 1
             track_layout.add_widget(sub_file)
+
         elif request == 'clear_tracks':
             track_layout.clear_widgets()
             count_subtk = 0
+
         elif request == 'del_track':
             track_layout.remove_widget(track_layout.children[-1])
             if count_subtk > 0:
@@ -150,11 +167,17 @@ class AnkoaApp(App):
         else:
             pass
 
-    # CALL BITRATE CALCULATOR
-    def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
-        current_bitrate = calculator(HH, MM, SS, audio_bit, desired_size)
-        self.current_bitrate = str(current_bitrate)
-        return self.current_bitrate
+    # MANAGE SETTINGS
+    def save_settings(self, source_folder, dest_folder, team_name,
+                      tmdb_apikey, tk_announce, ssh_host, ssh_port,
+                      ssh_username, ssh_passwd, local_folder, request):
+
+        modify_settings(source_folder, dest_folder, team_name,
+                        tmdb_apikey, tk_announce, ssh_host, ssh_port,
+                        ssh_username, ssh_passwd, local_folder)
+
+    def reset_settings(self):
+        clear_settings()
 
 if __name__ == '__main__':
     AnkoaApp().run()

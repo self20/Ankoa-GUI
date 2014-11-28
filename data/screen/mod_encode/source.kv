@@ -22,11 +22,11 @@
 
             FileChooserListView:
                 id: list_view_tab
-                rootpath: '.'
+                #rootpath:
 
             FileChooserIconView:
                 id: icon_view_tab
-                rootpath: '.'
+                #rootpath:
 
     # ---------- RELEASE SOURCE ----------
     BoxLayout:
@@ -49,7 +49,8 @@
             multiline: False
             readonly: True
             text:
-                list_view_tab.selection and list_view_tab.selection[0] or ''
+                list_view_tab.selection and\
+                list_view_tab.selection[0] or ''
 
     # ---------- RELEASE TITLE ----------
     BoxLayout:
@@ -65,5 +66,5 @@
         TextInput:
             multiline: False
             text:
-                list_view_tab.selection and list_view_tab.selection[0]\
-                .split('/')[-1] or ''
+                list_view_tab.selection and\
+                list_view_tab.selection[0].split('/')[-1] or ''

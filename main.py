@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import kivy
+kivy.require('1.8.0')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.config import Config
@@ -12,8 +13,8 @@ from kivy.properties import (NumericProperty,
                              StringProperty,
                              ListProperty)
 from app.mod_encode.bitrate_cal import *
-from app.popup.main_popup import *
-from user.settings import *
+from app.popup.popup_classes import *
+from app.popup.settings import *
 
 # SETTINGS
 __version__ = 'Ankoa v0.1'

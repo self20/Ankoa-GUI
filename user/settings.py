@@ -37,7 +37,7 @@ def modify_settings(source_folder, dest_folder, team_name,
                     tmdb_apikey, tk_announce, ssh_host, ssh_port,
                     ssh_username, ssh_passwd, local_folder):
 
-    if os.path.exists('user/user.cfg') is False:
+    if os.path.getsize('user/user.cfg') == 0:
         conf.add_section('USER_SETTINGS')
 
     conf.set('USER_SETTINGS', 'source_folder', source_folder)

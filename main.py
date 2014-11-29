@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
+import sys
 import kivy
 kivy.require('1.8.0')
 from kivy.app import App
@@ -31,10 +32,13 @@ class AnkoaScreen(Screen):
 # ANKOA
 class AnkoaApp(App):
 
-    # INTERACTIVE
+    # INTERACTIVE VARIABLES
     index = NumericProperty(-1)
     screen_names = ListProperty([])
     [current_title, current_bitrate] = [StringProperty(), ] * 2
+    (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
+     ssh_host, ssh_port, ssh_username, ssh_passwd, local_folder) =\
+     load_settings()
 
     # BUILDER
     def build(self):
@@ -51,6 +55,11 @@ class AnkoaApp(App):
             join(curdir, 'data', 'screen',
                  'mod_{}.kv'.format(fn)) for fn in self.menu_screens]
         self.go_next_screen()
+
+    # RESTART ANKOA
+    def restart_ankoa(self):
+        restart = sys.executable
+        os.execl(restart, restart, * sys.argv)
 
     # MANAGE MAIN SCREENS
     def go_previous_screen(self):

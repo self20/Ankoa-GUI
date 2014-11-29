@@ -4,24 +4,27 @@ import os
 import configparser
 
 conf = configparser.ConfigParser()
+conf_file = 'user/settings.cfg'
+section = 'USER_SETTINGS'
 
 
 # LOAD USER SETTINGS
 def load_settings():
 
-    if os.path.exists('user/user.cfg') is True:
-        conf.read('user/user.cfg')
+    if os.path.exists(conf_file) is True and\
+            os.path.getsize(conf_file) > 0:
+        conf.read(conf_file)
 
-        source_folder = conf.get('USER_SETTINGS', 'source_folder')
-        dest_folder = conf.get('USER_SETTINGS', 'dest_folder')
-        team_name = conf.get('USER_SETTINGS', 'team_name')
-        tmdb_apikey = conf.get('USER_SETTINGS', 'tmdb_apikey')
-        tk_announce = conf.get('USER_SETTINGS', 'tk_announce')
-        ssh_host = conf.get('USER_SETTINGS', 'ssh_host')
-        ssh_port = conf.get('USER_SETTINGS', 'ssh_port')
-        ssh_username = conf.get('USER_SETTINGS', 'ssh_username')
-        ssh_passwd = conf.get('USER_SETTINGS', 'ssh_passwd')
-        local_folder = conf.get('USER_SETTINGS', 'local_folder')
+        source_folder = conf.get(section, 'source_folder')
+        dest_folder = conf.get(section, 'dest_folder')
+        team_name = conf.get(section, 'team_name')
+        tmdb_apikey = conf.get(section, 'tmdb_apikey')
+        tk_announce = conf.get(section, 'tk_announce')
+        ssh_host = conf.get(section, 'ssh_host')
+        ssh_port = conf.get(section, 'ssh_port')
+        ssh_username = conf.get(section, 'ssh_username')
+        ssh_passwd = conf.get(section, 'ssh_passwd')
+        local_folder = conf.get(section, 'local_folder')
 
     else:
         [source_folder, dest_folder, team_name,
@@ -32,31 +35,33 @@ def load_settings():
             tmdb_apikey, tk_announce, ssh_host, ssh_port,
             ssh_username, ssh_passwd, local_folder)
 
+
 # SAVE USER SETTINGS
 def modify_settings(source_folder, dest_folder, team_name,
                     tmdb_apikey, tk_announce, ssh_host, ssh_port,
                     ssh_username, ssh_passwd, local_folder):
 
-    if os.path.getsize('user/user.cfg') == 0:
-        conf.add_section('USER_SETTINGS')
+    if os.path.exists(conf_file) is False or\
+            os.path.getsize(conf_file) == 0:
+        conf.add_section(section)
 
-    conf.set('USER_SETTINGS', 'source_folder', source_folder)
-    conf.set('USER_SETTINGS', 'dest_folder', dest_folder)
-    conf.set('USER_SETTINGS', 'team_name', team_name)
-    conf.set('USER_SETTINGS', 'tmdb_apikey', tmdb_apikey)
-    conf.set('USER_SETTINGS', 'tk_announce', tk_announce)
-    conf.set('USER_SETTINGS', 'ssh_host', ssh_host)
-    conf.set('USER_SETTINGS', 'ssh_port', ssh_port)
-    conf.set('USER_SETTINGS', 'ssh_username', ssh_username)
-    conf.set('USER_SETTINGS', 'ssh_passwd', ssh_passwd)
-    conf.set('USER_SETTINGS', 'local_folder', local_folder)
+    conf.set(section, 'source_folder', source_folder)
+    conf.set(section, 'dest_folder', dest_folder)
+    conf.set(section, 'team_name', team_name)
+    conf.set(section, 'tmdb_apikey', tmdb_apikey)
+    conf.set(section, 'tk_announce', tk_announce)
+    conf.set(section, 'ssh_host', ssh_host)
+    conf.set(section, 'ssh_port', ssh_port)
+    conf.set(section, 'ssh_username', ssh_username)
+    conf.set(section, 'ssh_passwd', ssh_passwd)
+    conf.set(section, 'local_folder', local_folder)
 
-    conf.write(open('user/user.cfg','w'))
+    conf.write(open(conf_file,'w'))
 
 
 # CLEAR USER SETTINGS
 def clear_settings():
 
-    if os.path.exists('user/user.cfg') is True:
-        conf.remove_section('USER_SETTINGS')
-        conf.write(open('user/user.cfg','w'))
+    if os.path.exists(conf_file) is True:
+        conf.remove_section(section)
+        conf.write(open(conf_file,'w'))

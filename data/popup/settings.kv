@@ -21,6 +21,9 @@
             ToggleButton:
                 id: remote_usage
                 text: 'REMOTE USAGE'
+                state:
+                    'down' if root.ids.remote.active == True and\
+                    root.ids.local_folder.active == True else 'normal'
                 group: 'usage'
                 bold: True
 
@@ -43,7 +46,11 @@
                 text: 'Source'
                 size_hint_x: .40
             TextInput:
-                hint_text: '/home/user/SOURCES/'
+                hint_text: 'ex: /home/user/SOURCES/'
+                text: app.source_folder
+                readonly:
+                    False if root.ids.remote_usage.state == 'down' or\
+                    root.ids.local_usage.state == 'down' else True
                 id: source_folder
 
         # ---------- DESTINATION FOLDER ----------
@@ -65,7 +72,11 @@
                 text: 'Destination'
                 size_hint_x: .40
             TextInput:
-                hint_text: '/home/user/ENCODES/'
+                hint_text: 'ex: /home/user/ENCODES/'
+                text: app.dest_folder
+                readonly:
+                    False if root.ids.remote_usage.state == 'down' or\
+                    root.ids.local_usage.state == 'down' else True
                 id: dest_folder
 
         # ---------- TEAM NAME ----------
@@ -81,12 +92,17 @@
                 id: team
                 size_hint_x: .20
                 touch_control: False
-                active: True
+                active:
+                    True if root.ids.team_name.text else False
             Label:
                 text: 'Team Name'
                 size_hint_x: .40
             TextInput:
-                hint_text: 'KULTURA'
+                hint_text: 'ex: KULTURA'
+                text: app.team_name
+                readonly:
+                    False if root.ids.remote_usage.state == 'down' or\
+                    root.ids.local_usage.state == 'down' else True
                 id: team_name
 
         # ---------- TMDB API KEY ----------
@@ -102,14 +118,19 @@
                 id: tmdb
                 size_hint_x: .20
                 touch_control: False
-                active: True
+                active:
+                    True if root.ids.tmdb_apikey.text else False
             Label:
                 text: 'TMDB Api Key'
                 size_hint_x: .40
             TextInput:
                 hint_text:
-                    'Create an account on \
+                    'Create an account : \
                     https://www.themoviedb.org/account/signup'
+                text: app.tmdb_apikey
+                readonly:
+                    False if root.ids.remote_usage.state == 'down' or\
+                    root.ids.local_usage.state == 'down' else True
                 id: tmdb_apikey
 
         # ---------- TRACKER ANNOUNCE ----------
@@ -125,14 +146,19 @@
                 id: tracker
                 size_hint_x: .20
                 touch_control: False
-                active: True
+                active:
+                    True if root.ids.tk_announce.text else False
             Label:
                 text: 'Tracker Announce'
                 size_hint_x: .40
             TextInput:
                 hint_text:
-                    'https://www.tracker.com:34000/announce'
-                id: tracker_announce
+                    'ex: https://www.tracker.com:34000/announce'
+                text: app.tk_announce
+                readonly:
+                    False if root.ids.remote_usage.state == 'down' or\
+                    root.ids.local_usage.state == 'down' else True
+                id: tk_announce
 
         # ---------- SSH SETTINGS ----------
         BoxLayout:
@@ -147,23 +173,43 @@
                 id: remote
                 size_hint_x: .20
                 touch_control: False
-                active: True
+                active:
+                    True if root.ids.ssh_host.text and\
+                    root.ids.ssh_port.text and\
+                    root.ids.ssh_username.text and\
+                    root.ids.ssh_passwd.text else False
             Label:
                 text: 'SSH Settings'
                 size_hint_x: .40
             BoxLayout:
                 TextInput:
                     hint_text: 'Hostname / IP'
+                    text: app.ssh_host
+                    readonly:
+                        False if\
+                        root.ids.remote_usage.state == 'down' else True
                     id: ssh_host
                 TextInput:
                     size_hint_x: .4
                     hint_text: 'Port'
+                    text: app.ssh_port
+                    readonly:
+                        False if\
+                        root.ids.remote_usage.state == 'down' else True
                     id: ssh_port
                 TextInput:
                     hint_text: 'Username'
+                    text: app.ssh_username
+                    readonly:
+                        False if\
+                        root.ids.remote_usage.state == 'down' else True
                     id: ssh_username
                 TextInput:
                     hint_text: 'Password'
+                    text: app.ssh_passwd
+                    readonly:
+                        False if\
+                        root.ids.remote_usage.state == 'down' else True
                     id: ssh_passwd
 
         # ---------- LOCAL MOUNT FOLDER ----------
@@ -179,12 +225,17 @@
                 id: M_folder
                 size_hint_x: .20
                 touch_control: False
-                active: True
+                active:
+                    True if root.ids.local_folder.text else False
             Label:
                 text: 'Local Folder'
                 size_hint_x: .40
             TextInput:
-                hint_text: '/home/user/temp/'
+                hint_text: 'ex: /home/user/temp/'
+                text: app.local_folder
+                readonly:
+                    False if\
+                    root.ids.remote_usage.state == 'down' else True
                 id: local_folder
 
         # ---------- CONTROL SETTINGS ----------
@@ -193,30 +244,23 @@
             Button:
                 text: 'Validate Settings'
                 on_press:
+                    if root.ids.S_folder.active == True and\
+                    root.ids.D_folder.active == True:\
                     app.save_settings(
                     root.ids.source_folder.text,
                     root.ids.dest_folder.text,
                     root.ids.team_name.text,
                     root.ids.tmdb_apikey.text,
-                    root.ids.tracker_announce.text,
+                    root.ids.tk_announce.text,
                     root.ids.ssh_host.text,
                     root.ids.ssh_port.text,
                     root.ids.ssh_username.text,
                     root.ids.ssh_passwd.text,
                     root.ids.local_folder.text,
-                    self.request) if (
-                    root.ids.S_folder.active == True and
-                    root.ids.D_folder.active == True and
-                    root.ids.remote.active == True and
-                    root.ids.team.active == True and
-                    root.ids.tmdb.active == True and
-                    root.ids.tracker.active == True and
-                    root.ids.M_folder.active == True) and (
-                    root.ids.local_usage.state == 'down' or
-                    root.ids.remote_usage.state == 'down') else ''
+                    self.request); app.restart_ankoa()
             Button:
                 text: 'Reset Settings'
-                on_press: app.reset_settings()
+                on_press: app.reset_settings(); app.restart_ankoa()
             Label:
             Button:
                 text: 'Close'

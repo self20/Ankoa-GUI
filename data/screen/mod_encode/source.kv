@@ -43,11 +43,15 @@
                 pos: self.pos
         Switch:
             size_hint_x: .14
+            active:
+                True if root.ids.source.text else False
+            on_active: app.scan_source_infos(root.ids.source.text)
         Label:
             text: 'Video Source'
             size_hint_x: .28
             bold: True
         TextInput:
+            id: source
             multiline: False
             readonly: True
             text:
@@ -61,11 +65,14 @@
         size_hint: 1, .1
         Switch:
             size_hint_x: .14
+            active:
+                True if root.ids.title.text else False
         Label:
             text: 'Release Title'
             size_hint_x: .28
             bold: True
         TextInput:
+            id: title
             multiline: False
             text:
                 list_view_tab.selection and\

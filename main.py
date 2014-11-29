@@ -10,10 +10,10 @@ from kivy.config import Config
 from os.path import dirname, join
 from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty,
-                             StringProperty,
-                             ListProperty)
+from kivy.properties import (NumericProperty, StringProperty,
+                             ObjectProperty, ListProperty)
 from app.mod_encode.bitrate_cal import *
+from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
 from app.popup.settings import *
 
@@ -32,10 +32,14 @@ class AnkoaScreen(Screen):
 # ANKOA
 class AnkoaApp(App):
 
-    # INTERACTIVE VARIABLES
+    # INTERACTIVE
     index = NumericProperty(-1)
     screen_names = ListProperty([])
-    [current_title, current_bitrate] = [StringProperty(), ] * 2
+    current_title = StringProperty()
+    current_bitrate = StringProperty()
+    scan_data = ObjectProperty()
+
+    # LOAD USER SETTINGS
     (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
      ssh_host, ssh_port, ssh_username, ssh_passwd, local_folder) =\
      load_settings()
@@ -106,12 +110,14 @@ class AnkoaApp(App):
         eval(popup).open()
 
     # MANAGE VIDEO TRACKS
+    def scan_source_infos(self, source):
+        (self.scan_data) = scan_source(source)
+
     def toggle_bitrate(self, state):
         if state == 'down':
             height = 50
         else:
             height = 0
-
         Animation(height=height, d=.3, t='out_quart').start(
             self.root.ids.header_screens.current_screen
             .ids.video.ids.bitrate_view)
@@ -151,10 +157,8 @@ class AnkoaApp(App):
 
         sub_track = Builder.load_file(
             'data/screen/mod_encode/widget/sub_track.kv')
-
         sub_file = Builder.load_file(
             'data/screen/mod_encode/widget/sub_file.kv')
-
         track_layout = self.root.ids.header_screens\
             .current_screen.ids.subtitles.ids.sub_track_layout
 

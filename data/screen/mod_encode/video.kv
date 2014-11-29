@@ -15,14 +15,16 @@
     # ---------- SOURCE INFOS ----------
     BoxLayout:
         size_hint: 1, .4
-        canvas.before:
-            Color:
-                rgba: 0, 0, 0, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        Label:
-            text: 'Source Infos Area'
+        TextInput:
+            readonly: True
+            auto_indent: True
+            background_color: 0, 0, 0, 1
+            foreground_color: 0, 255, 0, 1
+            hint_text: 'Source Infos Area'
+            hint_text_color: 0, 255, 0, 1
+            text:
+                '' if app.scan_data is None else\
+                app.scan_data
 
     # ---------- VIDEO CODEC / CONTAINER ----------
     BoxLayout:

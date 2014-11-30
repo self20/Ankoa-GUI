@@ -4,6 +4,20 @@
     size_hint: .3, .3
     auto_dismiss: False
     title: 'Remote'
-    Button:
-        text: 'Close'
-        on_press: root.dismiss()
+
+    GridLayout:
+        size_hint: 1, 1
+        orientation: 'vertical'
+        cols: 1
+        Button:
+            text: 'Mount Remote Folder'
+            request: 'mount_source_folder'
+            on_press:
+                app.manage_remote(self.request);\
+                app.restart_ankoa()
+        Button:
+            text: 'Umount Remote Folder'
+            request: 'umount_source_folder'
+            on_press:
+                app.manage_remote(self.request);\
+                app.restart_ankoa()

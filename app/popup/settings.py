@@ -24,22 +24,22 @@ def load_settings():
         ssh_port = conf.get(section, 'ssh_port')
         ssh_username = conf.get(section, 'ssh_username')
         ssh_passwd = conf.get(section, 'ssh_passwd')
-        local_folder = conf.get(section, 'local_folder')
+        remote_folder = conf.get(section, 'remote_folder')
 
     else:
         [source_folder, dest_folder, team_name,
          tmdb_apikey, tk_announce, ssh_host, ssh_port,
-         ssh_username, ssh_passwd, local_folder] = ['', ] * 10
+         ssh_username, ssh_passwd, remote_folder] = ['', ] * 10
 
     return (source_folder, dest_folder, team_name,
             tmdb_apikey, tk_announce, ssh_host, ssh_port,
-            ssh_username, ssh_passwd, local_folder)
+            ssh_username, ssh_passwd, remote_folder)
 
 
 # SAVE USER SETTINGS
 def modify_settings(source_folder, dest_folder, team_name,
                     tmdb_apikey, tk_announce, ssh_host, ssh_port,
-                    ssh_username, ssh_passwd, local_folder):
+                    ssh_username, ssh_passwd, remote_folder):
 
     if os.path.exists(conf_file) is False or\
             os.path.getsize(conf_file) == 0:
@@ -54,7 +54,7 @@ def modify_settings(source_folder, dest_folder, team_name,
     conf.set(section, 'ssh_port', ssh_port)
     conf.set(section, 'ssh_username', ssh_username)
     conf.set(section, 'ssh_passwd', ssh_passwd)
-    conf.set(section, 'local_folder', local_folder)
+    conf.set(section, 'remote_folder', remote_folder)
 
     conf.write(open(conf_file,'w'))
 

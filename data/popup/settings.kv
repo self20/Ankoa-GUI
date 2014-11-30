@@ -23,7 +23,7 @@
                 text: 'REMOTE USAGE'
                 state:
                     'down' if root.ids.remote.active == True and\
-                    root.ids.local_folder.active == True else 'normal'
+                    root.ids.M_folder.active == True else 'normal'
                 group: 'usage'
                 bold: True
 
@@ -212,7 +212,7 @@
                         root.ids.remote_usage.state == 'down' else True
                     id: ssh_passwd
 
-        # ---------- LOCAL MOUNT FOLDER ----------
+        # ---------- REMOTE FOLDER ----------
         BoxLayout:
             padding: '8sp'
             canvas:
@@ -226,17 +226,17 @@
                 size_hint_x: .20
                 touch_control: False
                 active:
-                    True if root.ids.local_folder.text else False
+                    True if root.ids.remote_folder.text else False
             Label:
-                text: 'Local Folder'
+                text: 'Remote Folder'
                 size_hint_x: .40
             TextInput:
-                hint_text: 'ex: /home/user/temp/'
-                text: app.local_folder
+                hint_text: 'ex: /home/user/torrents/'
+                text: app.remote_folder
                 readonly:
                     False if\
                     root.ids.remote_usage.state == 'down' else True
-                id: local_folder
+                id: remote_folder
 
         # ---------- CONTROL SETTINGS ----------
         BoxLayout:
@@ -256,7 +256,7 @@
                     root.ids.ssh_port.text,
                     root.ids.ssh_username.text,
                     root.ids.ssh_passwd.text,
-                    root.ids.local_folder.text,
+                    root.ids.remote_folder.text,
                     self.request); app.restart_ankoa()
             Button:
                 text: 'Reset Settings'

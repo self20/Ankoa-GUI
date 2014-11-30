@@ -13,10 +13,12 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 
+# DEPENDENCIES
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
 from app.popup.settings import *
+from app.popup.remote import *
 
 # SETTINGS
 __version__ = 'Ankoa v0.1'
@@ -42,7 +44,7 @@ class AnkoaApp(App):
 
     # LOAD USER SETTINGS
     (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
-     ssh_host, ssh_port, ssh_username, ssh_passwd, local_folder) =\
+     ssh_host, ssh_port, ssh_username, ssh_passwd, remote_folder) =\
      load_settings()
 
     # BUILDER
@@ -65,6 +67,33 @@ class AnkoaApp(App):
     def restart_ankoa(self):
         restart = sys.executable
         os.execl(restart, restart, * sys.argv)
+
+    # MANAGE SETTINGS
+    def save_settings(self, source_folder, dest_folder, team_name,
+                      tmdb_apikey, tk_announce, ssh_host, ssh_port,
+                      ssh_username, ssh_passwd, remote_folder, request):
+
+        modify_settings(source_folder, dest_folder, team_name,
+                        tmdb_apikey, tk_announce, ssh_host, ssh_port,
+                        ssh_username, ssh_passwd, remote_folder)
+
+    def reset_settings(self):
+        clear_settings()
+
+    # MANAGE REMOTE SESSION
+    def manage_remote(self, request):
+        remote(request, self.ssh_passwd, self.ssh_username,
+               self.ssh_host, self.source_folder,
+               self.remote_folder, self.ssh_port)
+
+    # MANAGE POPUPS
+    for popup in os.listdir('data/popup/'):
+        if popup.endswith('.kv'):
+            Builder.load_file('data/popup/{}'.format(popup))
+
+    def main_popup(self, popup_id):
+        popup = '{}'.format(popup_id)
+        eval(popup).open()
 
     # MANAGE MAIN SCREENS
     def go_previous_screen(self):
@@ -100,15 +129,6 @@ class AnkoaApp(App):
         if mod_encod_kvs.endswith('.kv'):
             Builder.load_file(
                 'data/screen/mod_encode/{}'.format(mod_encod_kvs))
-
-    # MANAGE POPUPS
-    for popup in os.listdir('data/popup/'):
-        if popup.endswith('.kv'):
-            Builder.load_file('data/popup/{}'.format(popup))
-
-    def main_popup(self, popup_id):
-        popup = '{}'.format(popup_id)
-        eval(popup).open()
 
     # MANAGE VIDEO TRACKS
     def scan_source_infos(self, source):
@@ -181,18 +201,6 @@ class AnkoaApp(App):
                 count_subtk += -1
         else:
             pass
-
-    # MANAGE SETTINGS
-    def save_settings(self, source_folder, dest_folder, team_name,
-                      tmdb_apikey, tk_announce, ssh_host, ssh_port,
-                      ssh_username, ssh_passwd, local_folder, request):
-
-        modify_settings(source_folder, dest_folder, team_name,
-                        tmdb_apikey, tk_announce, ssh_host, ssh_port,
-                        ssh_username, ssh_passwd, local_folder)
-
-    def reset_settings(self):
-        clear_settings()
 
 if __name__ == '__main__':
     AnkoaApp().run()

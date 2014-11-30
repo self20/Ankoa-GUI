@@ -17,12 +17,16 @@ def scan_source(source):
                             .format(source))
 
         HB_data = scan_HB.splitlines()
-        autocrop = ''
-        for lines in HB_data:
-            if 'autocrop' in lines:
-                autocrop = lines.replace('+', '').strip()
+        [ar_infos, autocrop] = ['', ] * 2
+        for line in HB_data:
+            if 'autocrop' in line and 'aspect' in line:
+                ar_infos = line
+            elif '+ autocrop' in line:
+                autocrop = line.replace('+', '')
 
-        scan_data = '{0}\n{1}'.format(autocrop, mediainfo)
+        scan_data = '{0}\n\n{1}\n\n{2}'.format(ar_infos.strip(),
+                                               mediainfo.strip(),
+                                               autocrop.strip())
         return scan_data
 
     except OSError as e:

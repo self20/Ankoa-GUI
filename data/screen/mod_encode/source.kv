@@ -24,10 +24,12 @@
 
             FileChooserListView:
                 id: list_view_tab
+                filters: ['*.mp4', '*.mkv', '*.h264']
                 rootpath: app.source_folder
 
             FileChooserIconView:
                 id: icon_view_tab
+                filters: ['*.mp4', '*.mkv', '*.h264']
                 rootpath: app.dest_folder
 
     # ---------- RELEASE SOURCE ----------

@@ -10,13 +10,15 @@
         size_hint: 1, .4
         TextInput:
             readonly: True
-            background_color: 0, 0, 0, 1
+            padding_x: '20sp'
+            cursor_color: 0, 0, 0, .5
+            background_color: 0, 0, 0, .5
             foreground_color: 0, 255, 0, 1
             hint_text: 'Source Infos Area'
             hint_text_color: 0, 255, 0, 1
             text:
                 '' if app.scan_data is None else\
-                app.scan_data
+                (app.scan_data).strip()
 
     # ---------- SUB TRACK MENU ----------
     BoxLayout:

@@ -45,7 +45,6 @@
             size_hint_x: .14
             active:
                 True if root.ids.source.text else False
-            on_active: app.scan_source_infos(root.ids.source.text)
         Label:
             text: 'Video Source'
             size_hint_x: .28
@@ -57,6 +56,8 @@
             text:
                 list_view_tab.selection and\
                 list_view_tab.selection[0] or ''
+            on_text:
+                app.scan_source_infos(root.ids.source.text)
 
     # ---------- RELEASE TITLE ----------
     BoxLayout:

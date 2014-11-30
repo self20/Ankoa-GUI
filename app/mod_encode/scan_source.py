@@ -9,7 +9,7 @@ from subprocess import getoutput
 def scan_source(source):
 
     try:
-        scan_media = os.popen('mediainfo --Output=...y {}'.format(source))
+        scan_media = os.popen('mediainfo {}'.format(source))
         mediainfo = scan_media.read()
         scan_media.close()
 

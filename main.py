@@ -1,10 +1,10 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+#!/usr/bin/kivy
 import os
 import sys
 import kivy
 kivy.require('1.8.0')
 from kivy.app import App
+from kivy.compat import PY2
 from kivy.lang import Builder
 from kivy.config import Config
 from os.path import dirname, join
@@ -12,6 +12,7 @@ from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
+
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
@@ -111,7 +112,7 @@ class AnkoaApp(App):
 
     # MANAGE VIDEO TRACKS
     def scan_source_infos(self, source):
-        (self.scan_data) = scan_source(source)
+        self.scan_data = scan_source(source)
 
     def toggle_bitrate(self, state):
         if state == 'down':

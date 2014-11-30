@@ -42,6 +42,7 @@
                 size: self.size
                 pos: self.pos
         Switch:
+            id: r_source
             size_hint_x: .14
             active:
                 True if root.ids.source.text else False
@@ -57,7 +58,8 @@
                 list_view_tab.selection and\
                 list_view_tab.selection[0] or ''
             on_text:
-                app.scan_source_infos(root.ids.source.text)
+                app.scan_source_infos(root.ids.source.text) if\
+                root.ids.r_source.active == True else ''
 
     # ---------- RELEASE TITLE ----------
     BoxLayout:

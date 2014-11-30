@@ -57,6 +57,12 @@ BoxLayout:
                     app.go_screen(current_screen)
             ActionSeparator:
             ActionButton:
+                text: 'Remote'
+                icon: 'data/icon/remote.png'
+                popup_id: 'RemotePopup()'
+                on_release:
+                    popup_id = app.main_popup(self.popup_id)
+            ActionButton:
                 text: 'Settings'
                 icon: 'data/icon/settings.png'
                 popup_id: 'SettingsPopup()'

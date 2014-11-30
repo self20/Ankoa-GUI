@@ -27,5 +27,9 @@ class AboutPopup(Popup):
     pass
 
 
+class RemotePopup(Popup):
+    pass
+
+
 class ExitPopup(Popup):
     pass

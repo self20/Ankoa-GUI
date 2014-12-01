@@ -1,4 +1,4 @@
-Ankoa-GUI
+![](http://i.imgur.com/Lx2SfgZ.png) Ankoa-GUI
 =========
 
 **Open Source Video Tools - Python GUI multi plateform**

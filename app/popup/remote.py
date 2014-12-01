@@ -9,7 +9,8 @@ import subprocess
 def remote(request, ssh_passwd, ssh_username, ssh_host,
            source_folder, remote_folder, ssh_port):
     '''
-        Mount & umount remote folder to local on demand
+    Mount & umount remote folder to local on demand,
+    using sshfs and fusermount
     '''
 
     # Mount source folder cmd

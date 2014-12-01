@@ -80,8 +80,8 @@ class AnkoaApp(App):
                       tmdb_apikey, tk_announce, ssh_host, ssh_port,
                       ssh_username, ssh_passwd, remote_folder, request):
         '''
-            Call app.popup.settings.py: save_settings()
-            From data.popup: settings.kv [validate settings button]
+        Call app.popup.settings.py: save_settings()
+        From data.popup: settings.kv [validate settings button]
         '''
         modify_settings(source_folder, dest_folder, team_name,
                         tmdb_apikey, tk_announce, ssh_host, ssh_port,
@@ -90,18 +90,18 @@ class AnkoaApp(App):
     # Clear user settings
     def reset_settings(self):
         '''
-            Call app.popup.settings.py: clear_settings()
-            From data.popup: settings.kv [clear settings button]
+        Call app.popup.settings.py: clear_settings()
+        From data.popup: settings.kv [clear settings button]
         '''
         clear_settings()
 
     # Remote session (mount remote folder to local via sshfs)
     def manage_remote(self, request):
         '''
-            Call app.popup.remote.py: remote()
-            From data.popup: remote.kv with corresponding request
-            request: 'mount_source_track' will mount remote folder
-            request: 'umount_source_track' will umount remote folder
+        Call app.popup.remote.py: remote()
+        From data.popup: remote.kv with corresponding request
+        request: 'mount_source_track' will mount remote folder
+        request: 'umount_source_track' will umount remote folder
         '''
         remote(request, self.ssh_passwd, self.ssh_username,
                self.ssh_host, self.source_folder,
@@ -115,8 +115,8 @@ class AnkoaApp(App):
     # Display popups
     def main_popup(self, popup_id):
         '''
-            Call app.popup.popup_classes.py: corresponding popup class
-            From anywhere with popup_id request (same name as classes)
+        Call app.popup.popup_classes.py: corresponding popup class
+        From anywhere with popup_id request (same name as classes)
         '''
         popup = '{}'.format(popup_id)
         eval(popup).open()
@@ -162,16 +162,16 @@ class AnkoaApp(App):
     # Scan video source
     def scan_source_infos(self, source):
         '''
-            Call app.mod_encode.scan_source.py: scan()
-            From data.screen.mod_encode.source.kv [scan button]
+        Call app.mod_encode.scan_source.py: scan()
+        From data.screen.mod_encode.source.kv [scan button]
         '''
         self.scan_data = scan_source(source)
 
     # Video bitrate calculator section
     def toggle_bitrate(self, state):
         '''
-            Toggle bitrate row animation (row height on/off)
-            From data.screen.mod_encode.video.kv [Bitrate button]
+        Toggle bitrate row animation (row height on/off)
+        From data.screen.mod_encode.video.kv [Bitrate button]
         '''
         if state == 'down':
             height = 50
@@ -184,8 +184,8 @@ class AnkoaApp(App):
     # Video bitrate calculator action
     def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
         '''
-            Call app.mod_encode.bitrate_cal.py: calculator()
-            From data.screen.mod_encode.video.kv [RUN button]
+        Call app.mod_encode.bitrate_cal.py: calculator()
+        From data.screen.mod_encode.video.kv [RUN button]
         '''
         current_bitrate = calculator(HH, MM, SS, audio_bit, desired_size)
         self.current_bitrate = str(current_bitrate)
@@ -195,8 +195,8 @@ class AnkoaApp(App):
     def audioTrack(self, request):
         global count_audiotk
         '''
-            Manage audio Tracks screen
-            From data.screen.mod_encode.audio.kv
+        Manage audio Tracks screen
+        From data.screen.mod_encode.audio.kv
         '''
 
         # Load audio Track Layout (kv file)
@@ -227,8 +227,8 @@ class AnkoaApp(App):
     def subtitlesTrack(self, request):
         global count_subtk
         '''
-            Manage subtitles Tracks screen
-            From data.screen.mod_encode.subtitles.kv
+        Manage subtitles Tracks screen
+        From data.screen.mod_encode.subtitles.kv
         '''
 
         # Load sub Track Layouts (kv files)

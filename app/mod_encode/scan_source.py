@@ -7,7 +7,8 @@ from subprocess import getoutput
 # Scan source infos
 def scan(source):
     '''
-        Scan video source to get required informations
+    Scan video source to get required informations
+    Return complete mediainfo and HandBrake autocrop
     '''
     try:
         # Get HB & mediainfo outputs

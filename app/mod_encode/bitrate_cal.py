@@ -6,8 +6,8 @@ import re
 # Video bitrate calculator
 def calculator(HH, MM, SS, audio_bit, desired_size):
     '''
-        Calculate required video bitrate by specify
-        video duration, audio bitrate and desired size
+    Calculate required video bitrate by specify
+    Video duration, audio bitrate and desired size
     '''
 
     # Duration: HOURS

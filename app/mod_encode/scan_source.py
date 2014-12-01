@@ -1,20 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
 import sys
 from subprocess import getoutput
 
 
 # SCAN SOURCE
-def scan_source(source):
+def scan(source):
 
     try:
-        scan_media = os.popen('mediainfo {}'.format(source))
-        mediainfo = scan_media.read()
-        scan_media.close()
+        scan_MI = getoutput('mediainfo {}'.format(source))
 
         scan_HB = getoutput('HandBrakeCLI -t 0 --scan -i {}'
                             .format(source))
+
+        mediainfo = ''.join(scan_MI)
 
         HB_data = scan_HB.splitlines()
         [ar_infos, autocrop] = ['', ] * 2

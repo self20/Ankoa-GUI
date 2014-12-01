@@ -46,6 +46,7 @@
         Switch:
             id: r_source
             size_hint_x: .14
+            touch_control: False
             active:
                 True if root.ids.source.text else False
         Label:
@@ -59,9 +60,6 @@
             text:
                 list_view_tab.selection and\
                 list_view_tab.selection[0] or ''
-            on_text:
-                app.scan_source_infos(root.ids.source.text) if\
-                root.ids.r_source.active == True else ''
 
     # ---------- RELEASE TITLE ----------
     BoxLayout:
@@ -70,6 +68,8 @@
         size_hint: 1, .1
         Switch:
             size_hint_x: .14
+            popup_id: 'ProgressPopup()'
+            touch_control: False
             active:
                 True if root.ids.title.text else False
         Label:
@@ -82,3 +82,32 @@
             text:
                 list_view_tab.selection and\
                 list_view_tab.selection[0].split('/')[-1] or ''
+
+    # ---------- SCAN SOURCE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        Switch:
+            size_hint_x: .14
+            touch_control: False
+            active:
+                True if root.ids.progress.text == 'Progression: 100%'\
+                else False
+        Label:
+            text: 'Scan Source'
+            size_hint_x: .28
+            bold: True
+        BoxLayout:
+            Button:
+                text: 'RUN'
+                size_hint: .3, 1
+                on_press:
+                    app.scan_source_infos(root.ids.source.text) if\
+                    root.ids.r_source.active == True else ''
+            Label:
+                id: progress
+                text: 'Progression: {}%'.format(int(pb.value))
+            ProgressBar:
+                id: pb
+                max: 100

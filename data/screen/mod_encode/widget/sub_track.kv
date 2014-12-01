@@ -19,18 +19,25 @@ BoxLayout:
             Switch:
                 size_hint_x: .2
                 touch_control: False
+                active:
+                    True if sub_track_ID.text != '' and\
+                    sub_track_title.text != '' else False
             Button:
                 text: 'DEL'
                 size_hint_x: .1
                 request: 'del_track'
                 on_press: app.subtitlesTrack(self.request)
+
             BoxLayout:
                 padding: '2sp'
                 TextInput:
-                    hint_text: 'Track N°'
+                    id: sub_track_ID
+                    hint_text: 'Track ID'
                     multiline: False
                     size_hint_x: .2
+                    input_filter: 'int'
                 TextInput:
+                    id: sub_track_title
                     hint_text: 'Track Title'
                     multiline: False
 
@@ -38,6 +45,7 @@ BoxLayout:
         BoxLayout:
             padding: '2sp'
             size_hint: .4, 1
+
             ToggleButton:
                 id: sub_forced
                 text: 'Forced'

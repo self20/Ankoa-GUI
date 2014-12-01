@@ -51,6 +51,7 @@
             text: 'Auto Resize'
             bold: True
             size_hint_x: .40
+
         BoxLayout:
             ToggleButton:
                 id: auto_sd
@@ -92,6 +93,7 @@
             text: 'Auto SAR'
             bold: True
             size_hint_x: .40
+
         BoxLayout:
             ToggleButton:
                 id: pal43
@@ -133,6 +135,7 @@
             text: 'Resolution'
             bold: True
             size_hint_x: .40
+
         BoxLayout:
             Slider:
                 id: aspect
@@ -147,6 +150,7 @@
                     aspect_ratio[int('{}'.format(aspect.value)
                     .split('.')[0])]
                 bold: True
+
             Label:
                 text: 'Width'
             TextInput:
@@ -167,6 +171,7 @@
                     eval(auto_1080p.ar_var)[int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[0]\
                     if auto_1080p.state == 'down' else ''
+
             Label:
                 text: 'Height'
             TextInput:
@@ -214,6 +219,7 @@
             text: 'Custom Crop'
             bold: True
             size_hint_x: .40
+
         BoxLayout:
             TextInput:
                 id: crop_W
@@ -230,22 +236,22 @@
                 id: crop_T
                 hint_text: 'Top'
                 multiline: False
-                input_filter: 'int'
+                input_type: 'number'
             TextInput:
                 id: crop_B
                 hint_text: 'Bottom'
                 multiline: False
-                input_filter: 'int'
+                input_type: 'number'
             TextInput:
                 id: crop_R
                 hint_text: 'Right'
                 multiline: False
-                input_filter: 'int'
+                input_type: 'number'
             TextInput:
                 id: crop_L
                 hint_text: 'Left'
                 multiline: False
-                input_filter: 'int'
+                input_type: 'number'
 
     # ---------- DETELINE ----------
     BoxLayout:
@@ -268,6 +274,7 @@
             text: 'Deteline Filter'
             bold: True
             size_hint_x: .40
+
         BoxLayout:
             Slider:
                 id: dtline
@@ -304,6 +311,7 @@
             text: 'Decomb Filter'
             bold: True
             size_hint_x: .40
+
         BoxLayout:
             Slider:
                 id: dcomb
@@ -340,6 +348,7 @@
             text: 'Deinterlace Filter'
             bold: True
             size_hint_x: .40
+
         BoxLayout:
             Slider:
                 id: dint
@@ -376,6 +385,7 @@
             text: 'Denoise Filter'
             bold: True
             size_hint_x: .40
+
         BoxLayout:
             Slider:
                 id: dnoise

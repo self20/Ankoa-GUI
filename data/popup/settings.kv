@@ -260,7 +260,10 @@
                     self.request); app.restart_ankoa()
             Button:
                 text: 'Reset Settings'
-                on_press: app.reset_settings(); app.restart_ankoa()
+                on_press:
+                    if root.ids.S_folder.active == True and\
+                    root.ids.D_folder.active == True:\
+                    app.reset_settings(); app.restart_ankoa()
             Label:
             Button:
                 text: 'Close'

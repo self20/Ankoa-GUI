@@ -28,9 +28,11 @@ def remote(request, ssh_passwd, ssh_username, ssh_host,
     if ssh_passwd == '' or ssh_username == '' or remote_folder == '':
         pass
     else:
-        # Run requested action
+        # Run requested action & restart
         try:
             os.system(session)
+            restart = sys.executable
+            os.execl(restart, restart, * sys.argv)
 
         except OSError as e:
             print (e)

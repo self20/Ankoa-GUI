@@ -13,15 +13,11 @@
         Button:
             text: 'Mount Remote Folder'
             request: 'mount_source_folder'
-            on_press:
-                app.manage_remote(self.request);\
-                app.restart_ankoa()
+            on_press: app.manage_remote(self.request)
         Button:
             text: 'Umount Remote Folder'
             request: 'umount_source_folder'
-            on_press:
-                app.manage_remote(self.request);\
-                app.restart_ankoa()
+            on_press: app.manage_remote(self.request)
         Button:
             text: 'Cancel'
             on_press:

@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# ENCODE MODE VARIABLES
+# Required variables [ENCODE MODE]
+'''
+    All required variables user can specify
+'''
+
 fixed_size = ['350MiB', '550MiB', '700MiB', '1.37GiB',
               '2.05GiB', '2.74GiB', '4.37GiB', '6.56GiB']
 

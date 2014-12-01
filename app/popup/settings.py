@@ -3,18 +3,25 @@
 import os
 import configparser
 
+# Create config memory file
 conf = configparser.ConfigParser()
+
+# Set .cfg filename and section
 conf_file = 'user/settings.cfg'
 section = 'USER_SETTINGS'
 
 
-# LOAD USER SETTINGS
+# Load user settings
 def load_settings():
 
+    # Check if conf file exists and not empty
     if os.path.exists(conf_file) is True and\
             os.path.getsize(conf_file) > 0:
+
+        # Load conf file
         conf.read(conf_file)
 
+        # Load defined options
         source_folder = conf.get(section, 'source_folder')
         dest_folder = conf.get(section, 'dest_folder')
         team_name = conf.get(section, 'team_name')
@@ -26,6 +33,7 @@ def load_settings():
         ssh_passwd = conf.get(section, 'ssh_passwd')
         remote_folder = conf.get(section, 'remote_folder')
 
+    # Set empty variables when conf file is empty
     else:
         [source_folder, dest_folder, team_name,
          tmdb_apikey, tk_announce, ssh_host, ssh_port,
@@ -36,15 +44,17 @@ def load_settings():
             ssh_username, ssh_passwd, remote_folder)
 
 
-# SAVE USER SETTINGS
+# Save user settings
 def modify_settings(source_folder, dest_folder, team_name,
                     tmdb_apikey, tk_announce, ssh_host, ssh_port,
                     ssh_username, ssh_passwd, remote_folder):
 
+    # Set section if conf file exists and empty
     if os.path.exists(conf_file) is False or\
             os.path.getsize(conf_file) == 0:
         conf.add_section(section)
 
+    # Set defined options
     conf.set(section, 'source_folder', source_folder)
     conf.set(section, 'dest_folder', dest_folder)
     conf.set(section, 'team_name', team_name)
@@ -56,12 +66,14 @@ def modify_settings(source_folder, dest_folder, team_name,
     conf.set(section, 'ssh_passwd', ssh_passwd)
     conf.set(section, 'remote_folder', remote_folder)
 
+    # Write conf file
     conf.write(open(conf_file,'w'))
 
 
-# CLEAR USER SETTINGS
+# Clear user settings
 def clear_settings():
 
+    # Remove options and write conf file if exists
     if os.path.exists(conf_file) is True:
         conf.remove_section(section)
         conf.write(open(conf_file,'w'))

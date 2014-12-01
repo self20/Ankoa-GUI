@@ -46,10 +46,10 @@ class AnkoaApp(App):
     current_bitrate = StringProperty()
     scan_data = ObjectProperty()
 
-    # Load user settings from [call app.popup.settings: load_settings()]
+    # Load user settings [call app.popup.settings: load_settings()]
     (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
-     ssh_host, ssh_port, ssh_username, ssh_passwd, remote_folder) =\
-     load_settings()
+     ssh_host, ssh_port, ssh_username, ssh_passwd,
+     remote_folder) = load_settings()
 
     # Ankoa Root
     def build(self):

@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 
+# ---------- AUDIO SCREEN ----------
 <audio@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -31,10 +32,14 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Add audio Track button ---
         Button:
             request: 'add_track'
             text: 'Add Audio Track'
             on_press: app.audioTrack(self.request)
+
+        # --- Clear audio Tracks button ---
         Button:
             request: 'clear_tracks'
             text: 'CLear All Tracks'

@@ -7,6 +7,7 @@
 #:import x264_level app.mod_encode.encode_var.level
 #:import x264_framerate app.mod_encode.encode_var.framerate
 
+# ---------- VIDEO SCREEN ----------
 <video@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -38,6 +39,8 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Container ---
         Switch:
             size_hint_x: .20
             touch_control: False
@@ -46,24 +49,34 @@
                 root.ids.mp4.state == 'down') and\
                 (root.ids.x264.state == 'down' or
                 root.ids.x265.state == 'down') else False
+
+        # --- Container Label ---
         Label:
             text: 'Container'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- MKV button ---
             ToggleButton:
                 id: matroska
                 text: 'MATROSKA'
                 group: 'v_container'
+
+            # --- MP4 button ---
             ToggleButton:
                 id: mp4
                 text: 'MPEG-4'
                 group: 'v_container'
+
+            # --- x264 button ---
             ToggleButton:
                 id: x264
                 text: 'x264'
                 group: 'v_codec'
+
+            # --- x265 button ---
             ToggleButton:
                 id: x265
                 text: 'x265'
@@ -80,17 +93,23 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check 2PASS ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active:
                 False if root.ids.video_bitrate.text == '' else True
+
+        # --- 2PASS Label ---
         Label:
             text: '2PASS Mode'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Video Bitrate ---
             Label:
                 text: 'Video Kbps'
             TextInput:
@@ -99,6 +118,8 @@
                 input_filter: 'int'
                 text: app.current_bitrate
             Label:
+
+            # --- Bitrate Calculator button ---
             ToggleButton:
                 text: 'Bitrate Calculator'
                 on_press: app.toggle_bitrate(self.state)
@@ -117,18 +138,23 @@
                     size: self.size
                     pos: self.pos
 
+            # --- HOURS ---
             TextInput:
                 id: HH
                 hint_text: 'HH'
                 size_hint: .6, 1
                 multiline: False
                 input_filter: 'int'
+
+            # --- MINUTES ---
             TextInput:
                 id: MM
                 hint_text: 'MM'
                 size_hint: .6, 1
                 multiline: False
                 input_filter: 'int'
+
+            # --- SECONDS ---
             TextInput:
                 id: SS
                 hint_text: 'SS'
@@ -136,6 +162,8 @@
                 multiline: False
                 input_filter: 'int'
             Label:
+
+            # --- Audio Bitrate ---
             Label:
                 text: 'Audio'
             Slider:
@@ -151,6 +179,8 @@
                     .split('.')[0])]
                 bold: True
             Label:
+
+            # --- Desired Size ---
             Label:
                 text: 'Size'
             Slider:
@@ -166,6 +196,8 @@
                     .split('.')[0])]
                 bold: True
             Label:
+
+            # --- Run Calculator ---
             Button:
                 text: 'RUN'
                 on_press:
@@ -187,16 +219,21 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check CRF ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active:
                 True if root.ids.video_bitrate.text == '' else False
+
+        # --- CRF Label ---
         Label:
             text: 'CRF Level'
             bold: True
             size_hint_x: .40
 
+        # --- CRF Value ---
         BoxLayout:
             Slider:
                 id: crf
@@ -219,15 +256,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Framerate ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active: True
+
+        # --- Framerate Label ---
         Label:
             text: 'Framerate'
             bold: True
             size_hint_x: .40
 
+        # --- Framerate Value ---
         BoxLayout:
             Slider:
                 id: frame
@@ -252,16 +294,21 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Preset ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active:
                 True if root.ids.preset.value != 0 else False
+
+        # --- Preset Label ---
         Label:
             text: 'Preset'
             bold: True
             size_hint_x: .40
 
+        # --- Preset Value ---
         BoxLayout:
             Slider:
                 id: preset
@@ -286,16 +333,21 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Tune ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active:
                 True if root.ids.tune.value != 0 else False
+
+        # --- Tune Label ---
         Label:
             text: 'Tune'
             bold: True
             size_hint_x: .40
 
+        # --- Check Value ---
         BoxLayout:
             Slider:
                 id: tune
@@ -320,16 +372,21 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Profile ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active:
                 True if root.ids.profile.value != 0 else False
+
+        # --- Profile Label ---
         Label:
             text: 'Profile'
             bold: True
             size_hint_x: .40
 
+        # --- Profile Value ---
         BoxLayout:
             Slider:
                 id: profile
@@ -354,15 +411,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Level ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active: True
+
+        # --- Level Label ---
         Label:
             text: 'Level'
             bold: True
             size_hint_x: .40
 
+        # --- Level Value ---
         BoxLayout:
             Slider:
                 id: level

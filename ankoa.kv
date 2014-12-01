@@ -1,7 +1,7 @@
 #:kivy 1.8.0
 #:import Factory kivy.factory.Factory
 
-# ---------- SPINNER MENU ----------
+# ---------- SCREENS MENU ----------
 <ActionSpinnerOptions@SpinnerOption>
     background_color: .4, .4, .4, 1
 
@@ -16,7 +16,7 @@
     background_normal: 'atlas://data/images/defaulttheme/action_group'
     option_cls: Factory.ActionSpinnerOptions
 
-# ---------- INTERFACE ----------
+# ---------- ROOT CONTAINER ----------
 BoxLayout:
     orientation: 'vertical'
     canvas:
@@ -29,6 +29,8 @@ BoxLayout:
     # ---------- HEADER ----------
     ActionBar:
         ActionView:
+
+            # --- App & Current Mode Titles ---
             ActionPrevious:
                 title:
                     'ANKOA  [' + ('' if not app.current_title else ' {} '
@@ -36,16 +38,22 @@ BoxLayout:
                 app_icon: 'data/icon/logo.png'
                 with_previous: False
             ActionSeparator:
+
+            # --- Previous Mode button ---
             ActionButton:
                 text: 'Previous Mode'
                 icon: 'data/icon/prev.png'
                 on_release: app.go_previous_screen()
+
+            # --- Next Mode button ---
             ActionButton:
                 text: 'Next Mode'
                 icon: 'data/icon/next.png'
                 on_release: app.go_next_screen()
                 important: True
             ActionSeparator:
+
+            # --- Screens Mode Selection ---
             ActionSpinner:
                 id: header_menu
                 important: True
@@ -56,18 +64,24 @@ BoxLayout:
                     current_screen = app.screen_names.index(args[1]);\
                     app.go_screen(current_screen)
             ActionSeparator:
+
+            # --- Remote button ---
             ActionButton:
                 text: 'Remote'
                 icon: 'data/icon/remote.png'
                 popup_id: 'RemotePopup()'
                 on_release:
                     popup_id = app.main_popup(self.popup_id)
+
+            # --- Settings button ---
             ActionButton:
                 text: 'Settings'
                 icon: 'data/icon/settings.png'
                 popup_id: 'SettingsPopup()'
                 on_release:
                     popup_id = app.main_popup(self.popup_id)
+
+            # --- Exit button ---
             ActionButton:
                 text: 'Exit'
                 icon: 'data/icon/exit.png'
@@ -86,22 +100,32 @@ BoxLayout:
     GridLayout:
         size_hint: 1, .1
         cols: 5
+
+        # --- Queue button ---
         Button:
             text: 'Queue Process'
             popup_id: 'QueuePopup()'
             on_press: app.main_popup(self.popup_id)
+
+        # --- File Manager button ---
         Button:
             text: 'File Manager'
             popup_id: 'FilePopup()'
             on_press: app.main_popup(self.popup_id)
+
+        # --- Help button ---
         Button:
             text: 'Help'
             popup_id: 'HelpPopup()'
             on_press: app.main_popup(self.popup_id)
+
+        # --- Github button ---
         Button:
             text: 'GitHub'
             popup_id: 'GithubPopup()'
             on_press: app.main_popup(self.popup_id)
+
+        # --- About button ---
         Button:
             text: 'About'
             popup_id: 'AboutPopup()'

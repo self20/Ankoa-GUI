@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 
+# ---------- SUBTITLES SCREEN ----------
 <subtitles@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -31,14 +32,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Add Subtitles Track Button ---
         Button:
             request: 'add_track'
             text: 'Add Subtitles Track'
             on_press: app.subtitlesTrack(self.request)
+
+        # --- Add Subtitles File Button ---
         Button:
             request: 'add_file_track'
             text: 'Import Subtitles File'
             on_press: app.subtitlesTrack(self.request)
+
+        # --- Clear Subtitles Tracks Button ---
         Button:
             request: 'clear_tracks'
             text: 'Clear All Tracks'

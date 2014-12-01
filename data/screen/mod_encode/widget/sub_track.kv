@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 
+# ---------- SUBTITLES TRACK WIDGET ----------
 BoxLayout:
     padding: '4sp'
     canvas:
@@ -16,12 +17,16 @@ BoxLayout:
         BoxLayout:
             padding: '3sp'
             size_hint: .6, 1
+
+            # --- Check Subtitles Track ---
             Switch:
                 size_hint_x: .2
                 touch_control: False
                 active:
                     True if sub_track_ID.text != '' and\
                     sub_track_title.text != '' else False
+
+            # --- DEL Subtitles Track ---
             Button:
                 text: 'DEL'
                 size_hint_x: .1
@@ -30,12 +35,16 @@ BoxLayout:
 
             BoxLayout:
                 padding: '2sp'
+
+                # --- Subtitles Track ID ---
                 TextInput:
                     id: sub_track_ID
                     hint_text: 'Track ID'
                     multiline: False
                     size_hint_x: .2
                     input_filter: 'int'
+
+                # --- Subtitles Track Title ---
                 TextInput:
                     id: sub_track_title
                     hint_text: 'Track Title'
@@ -46,18 +55,27 @@ BoxLayout:
             padding: '2sp'
             size_hint: .4, 1
 
+            # --- Subforced Track ---
             ToggleButton:
                 id: sub_forced
                 text: 'Forced'
+
+            # --- Burned Track ---
             ToggleButton:
                 id: sub_burned
                 text: 'Burn in'
+
+            # --- Default Track ---
             ToggleButton:
                 id: sub_default
                 text: 'Default'
+
+            # --- Subcharset ---
             TextInput:
                 hint_text: 'Chars'
                 multiline: False
+
+            # --- Subdelay ---
             TextInput:
                 hint_text: 'Delay'
                 multiline: False

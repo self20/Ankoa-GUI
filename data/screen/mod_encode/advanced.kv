@@ -11,6 +11,7 @@
 #:import psy_trellis app.mod_encode.encode_var.psy_trellis
 #:import deblocking app.mod_encode.encode_var.deblocking
 
+# ---------- ADVANCED SCREEN ----------
 <advanced@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -28,13 +29,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Threads ---
         Switch:
             size_hint_x: .12
+
+        # --- Threads Label ---
         Label:
             size_hint_x: .150
             text: 'Threads'
             bold: True
+
         BoxLayout:
+
+            # --- Threads Number ---
             Label:
                 text: 'Threads Number'
             Slider:
@@ -46,9 +54,13 @@
             Label:
                 text: str(root.ids.threads.value).split('.')[0]
                 bold: True
+
+            # --- Slice Threads ---
             ToggleButton:
                 text: 'SLICE'
                 group: 'threads'
+
+            # --- Frame Threads ---
             ToggleButton:
                 text: 'FRAME'
                 group: 'threads'
@@ -64,13 +76,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Frames ---
         Switch:
             size_hint_x: .12
+
+        # --- Frames Label ---
         Label:
             size_hint_x: .150
             text: 'Frames'
             bold: True
+
         BoxLayout:
+
+            # --- REF Frames ---
             Label:
                 text: 'Ref-frames'
             Slider:
@@ -82,6 +101,8 @@
             Label:
                 text: str(root.ids.ref_frames.value).split('.')[0]
                 bold: True
+
+            # --- Max BFrames ---
             Label:
                 text: 'Max B-Frames  '
             Slider:
@@ -93,6 +114,8 @@
             Label:
                 text: str(root.ids.b_frames.value).split('.')[0]
                 bold: True
+
+            # --- Mixed Frames ---
             ToggleButton:
                 text: 'MIXED'
 
@@ -107,13 +130,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Encoding ---
         Switch:
             size_hint_x: .12
+
+        # --- Encoding Label ---
         Label:
             size_hint_x: .150
             text: 'Encoding'
             bold: True
+
         BoxLayout:
+
+            # --- Pyramidal Method ---
             Label:
                 text: 'Pyramidal Method'
             Slider:
@@ -127,8 +157,12 @@
                     pyramidal_method[int('{}'.format(pyramidal.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- 8x8 Transform ---
             ToggleButton:
                 text: '8x8 TRANSFORM'
+
+            # --- Enable Cabac ---
             ToggleButton:
                 text: 'CABAC'
 
@@ -143,13 +177,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Adaptive ---
         Switch:
             size_hint_x: .12
+
+        # --- Adaptive Label ---
         Label:
             size_hint_x: .150
             text: 'Adaptive'
             bold: True
+
         BoxLayout:
+
+            # --- Direct Mode ---
             Label:
                 text: 'Direct Mode  '
             Slider:
@@ -163,6 +204,8 @@
                     direct_mode[int('{}'.format(direct_mod.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Adaptive BFrames ---
             Label:
                 text: 'B-Frames'
             Slider:
@@ -188,13 +231,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Weighted ---
         Switch:
             size_hint_x: .12
+
+        # --- Weighted Label ---
         Label:
             size_hint_x: .150
             text: 'Weighted'
             bold: True
+
         BoxLayout:
+
+            # --- Weighted BFrames ---
             Label:
                 text: 'Weighted B-Frames'
             Slider:
@@ -208,6 +258,8 @@
                     weighted_pframes[int('{}'.format(w_pframes.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Weighted PFrames ---
             ToggleButton:
                 text: 'Weighted P-Frames'
 
@@ -222,13 +274,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Motion ---
         Switch:
             size_hint_x: .12
+
+        # --- Motion Label ---
         Label:
             size_hint_x: .150
             text: 'Motion'
             bold: True
+
         BoxLayout:
+
+            # --- Motion Method ---
             Label:
                 text: 'Method'
             Slider:
@@ -242,6 +301,8 @@
                     motion_method[int('{}'.format(motion_mod.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Subpixel ---
             Label:
                 text: 'Subpixel'
             Slider:
@@ -253,6 +314,8 @@
             Label:
                 text: str(subpixel.value).split('.')[0]
                 bold: True
+
+            # --- ME Range ---
             Label:
                 text: 'ME-Range'
             Slider:
@@ -276,13 +339,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Partitions ---
         Switch:
             size_hint_x: .12
+
+        # --- Partitions Label ---
         Label:
             size_hint_x: .150
             text: 'Partitions'
             bold: True
+
         BoxLayout:
+
+            # --- Partitions Type ---
             Label:
                 text: 'Type'
             Slider:
@@ -296,6 +366,8 @@
                     partitions_type[int('{}'.format(part_type.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Trellis ---
             Label:
                 text: 'Trellis'
             Slider:
@@ -321,13 +393,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Quantization ---
         Switch:
             size_hint_x: .12
+
+        # --- Quantization Label ---
         Label:
             size_hint_x: .150
             text: 'Quantization'
             bold: True
+
         BoxLayout:
+
+            # --- Adaptive Strenght ---
             Label:
                 text: 'Adaptive Strenght'
             Slider:
@@ -341,6 +420,8 @@
                     quantization[int('{}'.format(quantiz.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Psychovisual Optimization ---
             ToggleButton:
                 text: 'PSY OPTIMIZATION'
 
@@ -355,13 +436,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Distortion ---
         Switch:
             size_hint_x: .12
+
+        # --- Distortion Label ---
         Label:
             size_hint_x: .150
             text: 'Distortion'
             bold: True
+
         BoxLayout:
+
+            # --- Rate Distortion ---
             Label:
                 text: 'Rate'
             Slider:
@@ -375,6 +463,8 @@
                     rate_distortion[int('{}'.format(rate.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Psychovisual Trellis ---
             Label:
                 text: 'Pychovisual Trellis   '
             Slider:
@@ -400,13 +490,20 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Deblock ---
         Switch:
             size_hint_x: .12
+
+        # --- Deblock Label ---
         Label:
             size_hint_x: .150
             text: 'Deblocking'
             bold: True
+
         BoxLayout:
+
+            # --- Deblock Alpha ---
             Label:
                 text: 'Alpha'
             Slider:
@@ -420,6 +517,8 @@
                     deblocking[int('{}'.format(alpha.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Deblock Beta ---
             Label:
                 text: 'Beta'
             Slider:
@@ -445,23 +544,34 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Keyframe ---
         Switch:
             size_hint_x: .12
+
+        # --- Keyframe Label ---
         Label:
             size_hint_x: .150
             text: 'KeyFrame'
             bold: True
+
         BoxLayout:
+
+            # --- Keyframe Interval ---
             Label:
                 text: 'Interval'
             TextInput:
                 hint_text: '250'
                 input_filter: 'int'
+
+            # --- Minimal Key ---
             Label:
                 text: 'Minimal Key'
             TextInput:
                 hint_text: '25'
                 input_filter: 'int'
+
+            # --- RC Lookahead ---
             Label:
                 text: 'Lookahead'
             TextInput:
@@ -479,27 +589,42 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Various ---
         Switch:
             size_hint_x: .12
+
+        # --- Various Label ---
         Label:
             size_hint_x: .150
             text: 'Various'
             bold: True
+
         BoxLayout:
+
+            # --- Scenecut ---
             Label:
                 text: 'Scenecut'
             TextInput:
                 hint_text: '40'
                 input_filter: 'int'
+
+            # --- Chroma ---
             ToggleButton:
                 text: 'CHROMA'
                 input_filter: 'int'
+
+            # --- Fast Skip ---
             ToggleButton:
                 text: 'FAST SKIP'
                 input_filter: 'int'
+
+            # --- Grayscale ---
             ToggleButton:
                 text: 'GRAYSCALE'
                 input_filter: 'int'
+
+            # --- BluRay Compatibility ---
             ToggleButton:
                 text:
                     'BLURAY'

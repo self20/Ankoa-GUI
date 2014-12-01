@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 
+# ---------- EXIT POPUP ----------
 <ExitPopup>:
     size_hint: .3, .3
     auto_dismiss: False
@@ -9,9 +10,13 @@
         size_hint: 1, 1
         orientation: 'vertical'
         cols: 1
+
+        # --- Confirm ---
         Button:
             text: 'Confirm'
             on_press: exit()
+
+        # --- Cancel ---
         Button:
             text: 'Cancel'
             on_press: root.dismiss()

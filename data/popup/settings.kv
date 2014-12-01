@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 
+# ---------- SETTINGS POPUP ----------
 <SettingsPopup>:
     size_hint: .8, .8
     auto_dismiss: False
@@ -13,11 +14,15 @@
 
         # ---------- USAGE ----------
         BoxLayout:
+
+            # --- Local button ---
             ToggleButton:
                 id: local_usage
                 text: 'LOCAL USAGE'
                 group: 'usage'
                 bold: True
+
+            # --- Remote button ---
             ToggleButton:
                 id: remote_usage
                 text: 'REMOTE USAGE'
@@ -36,15 +41,21 @@
                 Rectangle:
                     size: self.size
                     pos: self.pos
+
+            # --- Check source ---
             Switch:
                 id: S_folder
                 size_hint_x: .20
                 touch_control: False
                 active:
                     True if root.ids.source_folder.text else False
+
+            # --- Source Label ---
             Label:
                 text: 'Source'
                 size_hint_x: .40
+
+            # --- Source Input ---
             TextInput:
                 hint_text: 'ex: /home/user/SOURCES/'
                 text: app.source_folder
@@ -62,15 +73,21 @@
                 Rectangle:
                     size: self.size
                     pos: self.pos
+
+            # --- Check Destination ---
             Switch:
                 id: D_folder
                 size_hint_x: .20
                 touch_control: False
                 active:
                     True if root.ids.dest_folder.text else False
+
+            # --- Destination Label ---
             Label:
                 text: 'Destination'
                 size_hint_x: .40
+
+            # --- Destination Input ---
             TextInput:
                 hint_text: 'ex: /home/user/ENCODES/'
                 text: app.dest_folder
@@ -88,15 +105,21 @@
                 Rectangle:
                     size: self.size
                     pos: self.pos
+
+            # --- Check Team Name ---
             Switch:
                 id: team
                 size_hint_x: .20
                 touch_control: False
                 active:
                     True if root.ids.team_name.text else False
+
+            # --- Team Name Value ---
             Label:
                 text: 'Team Name'
                 size_hint_x: .40
+
+            # --- Team Name Input ---
             TextInput:
                 hint_text: 'ex: KULTURA'
                 text: app.team_name
@@ -114,15 +137,21 @@
                 Rectangle:
                     size: self.size
                     pos: self.pos
+
+            # --- Check TMDB ---
             Switch:
                 id: tmdb
                 size_hint_x: .20
                 touch_control: False
                 active:
                     True if root.ids.tmdb_apikey.text else False
+
+            # --- TMDB Label ---
             Label:
                 text: 'TMDB Api Key'
                 size_hint_x: .40
+
+            # --- TMDB Label ---
             TextInput:
                 hint_text:
                     'Create an account : \
@@ -142,15 +171,21 @@
                 Rectangle:
                     size: self.size
                     pos: self.pos
+
+            # --- Check Announce ---
             Switch:
                 id: tracker
                 size_hint_x: .20
                 touch_control: False
                 active:
                     True if root.ids.tk_announce.text else False
+
+            # --- Announce Label ---
             Label:
                 text: 'Tracker Announce'
                 size_hint_x: .40
+
+            # --- Announce Input ---
             TextInput:
                 hint_text:
                     'ex: https://www.tracker.com:34000/announce'
@@ -169,6 +204,8 @@
                 Rectangle:
                     size: self.size
                     pos: self.pos
+
+            # --- Check SSH Settings ---
             Switch:
                 id: remote
                 size_hint_x: .20
@@ -178,10 +215,15 @@
                     root.ids.ssh_port.text and\
                     root.ids.ssh_username.text and\
                     root.ids.ssh_passwd.text else False
+
+            # --- SSH Settings Label ---
             Label:
                 text: 'SSH Settings'
                 size_hint_x: .40
+
             BoxLayout:
+
+                # --- Hostname / IP ---
                 TextInput:
                     hint_text: 'Hostname / IP'
                     text: app.ssh_host
@@ -189,6 +231,8 @@
                         False if\
                         root.ids.remote_usage.state == 'down' else True
                     id: ssh_host
+
+                # --- SSH Port ---
                 TextInput:
                     size_hint_x: .4
                     hint_text: 'Port'
@@ -197,6 +241,8 @@
                         False if\
                         root.ids.remote_usage.state == 'down' else True
                     id: ssh_port
+
+                # --- SSH Username ---
                 TextInput:
                     hint_text: 'Username'
                     text: app.ssh_username
@@ -204,6 +250,8 @@
                         False if\
                         root.ids.remote_usage.state == 'down' else True
                     id: ssh_username
+
+                # --- SSH Password ---
                 TextInput:
                     hint_text: 'Password'
                     text: app.ssh_passwd
@@ -221,15 +269,21 @@
                 Rectangle:
                     size: self.size
                     pos: self.pos
+
+            # --- Check Remote ---
             Switch:
                 id: M_folder
                 size_hint_x: .20
                 touch_control: False
                 active:
                     True if root.ids.remote_folder.text else False
+
+            # --- Remote Label ---
             Label:
                 text: 'Remote Folder'
                 size_hint_x: .40
+
+            # --- Remote Input ---
             TextInput:
                 hint_text: 'ex: /home/user/torrents/'
                 text: app.remote_folder
@@ -241,6 +295,8 @@
         # ---------- CONTROL SETTINGS ----------
         BoxLayout:
         BoxLayout:
+
+            # --- Validate Settings ---
             Button:
                 text: 'Validate Settings'
                 on_press:
@@ -258,6 +314,8 @@
                     root.ids.ssh_passwd.text,
                     root.ids.remote_folder.text,
                     self.request); app.restart_ankoa()
+
+            # --- Reset Settings ---
             Button:
                 text: 'Reset Settings'
                 on_press:
@@ -265,6 +323,8 @@
                     root.ids.D_folder.active == True:\
                     app.reset_settings(); app.restart_ankoa()
             Label:
+
+            # --- Close Settings ---
             Button:
                 text: 'Close'
                 on_press: root.dismiss()

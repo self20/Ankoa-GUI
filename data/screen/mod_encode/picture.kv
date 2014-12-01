@@ -8,6 +8,7 @@
 #:import ar_720p app.mod_encode.encode_var.ar_720p
 #:import ar_1080p app.mod_encode.encode_var.ar_1080p
 
+# ---------- PICTURE SCREEN ----------
 <picture@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -39,6 +40,8 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Autoresize ---
         Switch:
             id: auto_resize
             size_hint_x: .20
@@ -47,22 +50,30 @@
                 True if root.ids.auto_sd.state == 'down' or\
                 root.ids.auto_720p.state == 'down' or\
                 root.ids.auto_1080p.state == 'down' else False
+
+        # --- Autoresize Label ---
         Label:
             text: 'Auto Resize'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Auto SD button ---
             ToggleButton:
                 id: auto_sd
                 text: 'Auto SD'
                 group: 'auto_resize'
                 ar_var: 'ar_sd'
+
+            # --- Auto 720p button ---
             ToggleButton:
                 id: auto_720p
                 text: 'Auto 720p'
                 group: 'auto_resize'
                 ar_var: 'ar_720p'
+
+            # --- Auto 1080p button ---
             ToggleButton:
                 id: auto_1080p
                 text: 'Auto 1080p'
@@ -80,6 +91,8 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check SAR ---
         Switch:
             id: sar
             size_hint_x: .20
@@ -89,24 +102,34 @@
                 root.ids.pal169.state == 'down' or\
                 root.ids.ntsc43.state == 'down' or\
                 root.ids.ntsc169.state == 'down' else False
+
+        # --- SAR Label ---
         Label:
             text: 'Auto SAR'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Auto PAL 4:3 ---
             ToggleButton:
                 id: pal43
                 text: 'PAL 4:3'
                 group: 'auto_resize'
+
+            # --- Auto PAL 16:9 ---
             ToggleButton:
                 id: pal169
                 text: 'PAL 16:9'
                 group: 'auto_resize'
+
+            # --- Auto NTSC 4:3 ---
             ToggleButton:
                 id: ntsc43
                 text: 'NTSC 4:3'
                 group: 'auto_resize'
+
+            # --- Auto NTSC 16:9 ---
             ToggleButton:
                 id: ntsc169
                 text: 'NTSC 16:9'
@@ -123,6 +146,8 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Resolution ---
         Switch:
             id: reso
             size_hint_x: .20
@@ -131,12 +156,16 @@
                 True if root.ids.sar.active == False and\
                 root.ids.video_W.text != '' and\
                 root.ids.video_H.text != '' else False
+
+        # --- Resolution Label ---
         Label:
             text: 'Resolution'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Aspect Ratio ---
             Slider:
                 id: aspect
                 min: 0
@@ -151,6 +180,7 @@
                     .split('.')[0])]
                 bold: True
 
+            # --- Resolution WIDTH ---
             Label:
                 text: 'Width'
             TextInput:
@@ -172,6 +202,7 @@
                     .split('.')[0])].split('x')[0]\
                     if auto_1080p.state == 'down' else ''
 
+            # --- Resolution HEIGHT ---
             Label:
                 text: 'Height'
             TextInput:
@@ -204,6 +235,8 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Crop ---
         Switch:
             id: custom_crop
             size_hint_x: .20
@@ -215,38 +248,52 @@
                 root.ids.crop_B.text != '' and\
                 root.ids.crop_R.text != '' and\
                 root.ids.crop_L.text != '' else False
+
+        # --- Crop Label ---
         Label:
             text: 'Custom Crop'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Crop WIDTH ---
             TextInput:
                 id: crop_W
                 hint_text: 'Width'
                 multiline: False
                 input_filter: 'int'
+
+            # --- Crop HEIGHT ---
             TextInput:
                 id: crop_H
                 hint_text: 'Height'
                 multiline: False
                 input_filter: 'int'
             Label:
+
+            # --- Crop TOP ---
             TextInput:
                 id: crop_T
                 hint_text: 'Top'
                 multiline: False
                 input_type: 'number'
+
+            # --- Crop BOTTOM ---
             TextInput:
                 id: crop_B
                 hint_text: 'Bottom'
                 multiline: False
                 input_type: 'number'
+
+            # --- Crop RIGHT ---
             TextInput:
                 id: crop_R
                 hint_text: 'Right'
                 multiline: False
                 input_type: 'number'
+
+            # --- Crop LEFT ---
             TextInput:
                 id: crop_L
                 hint_text: 'Left'
@@ -264,18 +311,24 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Deteline ---
         Switch:
             id: deteline_on
             size_hint_x: .20
             touch_control: False
             active:
                 True if root.ids.dtline.value != 0 else False
+
+        # --- Deteline Label ---
         Label:
             text: 'Deteline Filter'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Deteline Mode ---
             Slider:
                 id: dtline
                 min: 0
@@ -287,6 +340,8 @@
                     deteline[int('{}'.format(dtline.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Custom Deteline ---
             TextInput:
                 readonly:
                     True if root.ids.dtline.value != 2 else False
@@ -302,17 +357,23 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Decomb ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active:
                 True if root.ids.dcomb.value != 0 else False
+
+        # --- Decomb Label ---
         Label:
             text: 'Decomb Filter'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Decomb Mode ---
             Slider:
                 id: dcomb
                 min: 0
@@ -324,6 +385,8 @@
                     decomb[int('{}'.format(dcomb.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Custom Decomb ---
             TextInput:
                 readonly:
                     True if root.ids.dcomb.value != 4 else False
@@ -339,17 +402,23 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Deinterlace ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active:
                 True if root.ids.dint.value != 0 else False
+
+        # --- Deinterlace Label ---
         Label:
             text: 'Deinterlace Filter'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Deinterlace Mode ---
             Slider:
                 id: dint
                 min: 0
@@ -361,6 +430,8 @@
                     deinterlace[int('{}'.format(dint.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Custom Deinterlace ---
             TextInput:
                 readonly:
                     True if root.ids.dint.value != 5 else False
@@ -376,17 +447,23 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Denoise ---
         Switch:
             size_hint_x: .20
             touch_control: False
             active:
                 True if root.ids.dnoise.value != 0 else False
+
+        # --- Denoise Label ---
         Label:
             text: 'Denoise Filter'
             bold: True
             size_hint_x: .40
 
         BoxLayout:
+
+            # --- Denoise Mode ---
             Slider:
                 id: dnoise
                 min: 0
@@ -398,6 +475,8 @@
                     denoise[int('{}'.format(dnoise.value)
                     .split('.')[0])]
                 bold: True
+
+            # --- Custom Denoise ---
             TextInput:
                 readonly:
                     True if root.ids.dnoise.value != 4 else False

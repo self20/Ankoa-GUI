@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 
+# ---------- REMOTE POPUP ----------
 <RemotePopup>:
     size_hint: .3, .3
     auto_dismiss: False
@@ -10,14 +11,19 @@
         orientation: 'vertical'
         cols: 1
 
+        # --- Mount button ---
         Button:
             text: 'Mount Remote Folder'
             request: 'mount_source_folder'
             on_press: app.manage_remote(self.request)
+
+        # --- Umount button ---
         Button:
             text: 'Umount Remote Folder'
             request: 'umount_source_folder'
             on_press: app.manage_remote(self.request)
+
+        # --- Cancel button ---
         Button:
             text: 'Cancel'
             on_press:

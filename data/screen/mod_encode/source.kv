@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 
+# ---------- SOURCE SCREEN ----------
 <source@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
@@ -22,6 +23,7 @@
                 text: 'Icon View'
                 content: icon_view_tab
 
+            # --- LIST VIEW ---
             FileChooserListView:
                 id: list_view_tab
                 filters:
@@ -31,6 +33,7 @@
                     app.scan_source_infos(
                     self.selection and self.selection[0])
 
+            # --- ICON VIEW ---
             FileChooserIconView:
                 id: icon_view_tab
                 filters:
@@ -51,16 +54,22 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        # --- Check Source ---
         Switch:
             id: r_source
             size_hint_x: .14
             touch_control: False
             active:
                 True if root.ids.source.text else False
+
+        # --- Source Label ---
         Label:
             text: 'Video Source'
             size_hint_x: .28
             bold: True
+
+        # --- Source Location ---
         TextInput:
             id: source
             multiline: False
@@ -74,15 +83,21 @@
         padding: '8sp'
         orientation: 'horizontal'
         size_hint: 1, .1
+
+        # --- Check Title ---
         Switch:
             size_hint_x: .14
             touch_control: False
             active:
                 True if root.ids.title.text else False
+
+        # --- Title Label ---
         Label:
             text: 'Release Title'
             size_hint_x: .28
             bold: True
+
+        # --- Title Input ---
         TextInput:
             id: title
             multiline: False

@@ -22,6 +22,7 @@ def scan(source):
         # Splitlines HB output and get autocrop lines
         HB_data = scan_HB.splitlines()
         [ar_infos, autocrop] = ['', ] * 2
+
         for line in HB_data:
             if 'autocrop' in line and 'aspect' in line:
                 ar_infos = line

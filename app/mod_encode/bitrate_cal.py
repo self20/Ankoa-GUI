@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import re
 
 
 # Video bitrate calculator
@@ -9,24 +8,6 @@ def calculator(HH, MM, SS, audio_bit, desired_size):
     Calculate required video bitrate by specify
     Video duration, audio bitrate and desired size
     '''
-
-    # Duration: HOURS
-    verif_HH = re.compile(r'^[0].+', flags=0).search(HH)
-    while not HH or HH.isdigit() is False\
-            or verif_HH is not None or int(HH) > 23:
-        pass # todo: add popup error
-
-    # Duration: MINUTES
-    verif_MM = re.compile(r'^[0].+', flags=0).search(MM)
-    while not HH or HH.isdigit() is False\
-            or verif_HH is not None or int(HH) > 59:
-        pass # todo: add popup error
-
-    # Duration: SECONDS
-    verif_SS = re.compile(r'^[0].+', flags=0).search(SS)
-    while not HH or HH.isdigit() is False\
-            or verif_HH is not None or int(HH) > 23:
-        pass # todo: add popup error
 
     # Target sizes
     bit_sizes = ['357.8', '562.9', '716.3', '1439.3',

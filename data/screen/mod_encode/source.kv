@@ -24,13 +24,21 @@
 
             FileChooserListView:
                 id: list_view_tab
-                filters: ['*.mp4', '*.mkv', '*.h264']
+                filters:
+                    ['*.mp4', '*.mkv', '*.h264', '*.m2ts', '.iso', '*.img']
                 rootpath: app.source_folder
+                on_selection:
+                    app.scan_source_infos(
+                    self.selection and self.selection[0])
 
             FileChooserIconView:
                 id: icon_view_tab
-                filters: ['*.mp4', '*.mkv', '*.h264']
-                rootpath: app.dest_folder
+                filters:
+                    ['*.mp4', '*.mkv', '*.h264', '*.m2ts', '.iso', '*.img']
+                rootpath: app.source_folder
+                on_selection:
+                    app.scan_source_infos(
+                    self.selection and self.selection[0])
 
     # ---------- RELEASE SOURCE ----------
     BoxLayout:
@@ -68,7 +76,6 @@
         size_hint: 1, .1
         Switch:
             size_hint_x: .14
-            popup_id: 'ProgressPopup()'
             touch_control: False
             active:
                 True if root.ids.title.text else False
@@ -82,32 +89,3 @@
             text:
                 list_view_tab.selection and\
                 list_view_tab.selection[0].split('/')[-1] or ''
-
-    # ---------- SCAN SOURCE ----------
-    BoxLayout:
-        padding: '8sp'
-        orientation: 'horizontal'
-        size_hint: 1, .1
-        Switch:
-            size_hint_x: .14
-            touch_control: False
-            active:
-                True if root.ids.progress.text == 'Progression: 100%'\
-                else False
-        Label:
-            text: 'Scan Source'
-            size_hint_x: .28
-            bold: True
-        BoxLayout:
-            Button:
-                text: 'RUN'
-                size_hint: .3, 1
-                on_press:
-                    app.scan_source_infos(root.ids.source.text) if\
-                    root.ids.r_source.active == True else ''
-            Label:
-                id: progress
-                text: 'Progression: {}%'.format(int(pb.value))
-            ProgressBar:
-                id: pb
-                max: 100

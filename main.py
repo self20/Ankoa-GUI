@@ -112,7 +112,7 @@ class AnkoaApp(App):
         if popup.endswith('.kv'):
             Builder.load_file('data/popup/{}'.format(popup))
 
-    # Open popups
+    # Display popups
     def main_popup(self, popup_id):
         '''
         Call app.popup.popup_classes.py: corresponding popup class
@@ -167,7 +167,7 @@ class AnkoaApp(App):
         '''
         self.scan_data = scan(source)
 
-    # Video bitrate calculator section
+    # Video bitrate calculator layout
     def toggle_bitrate(self, state):
         '''
         Toggle bitrate row animation (row height on/off)

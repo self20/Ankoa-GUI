@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+#!/usr/bin/kivy
 
 # Required variables [ENCODE MODE]
 

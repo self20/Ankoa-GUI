@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+#!/usr/bin/kivy
 from kivy.uix.popup import Popup
 
 # Popups containers

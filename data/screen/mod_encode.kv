@@ -16,6 +16,13 @@ AnkoaScreen:
 		        Layout_source:
 		            id: source
 
+		# ---------- PREVIEW ----------
+		TabbedPanelItem:
+			text: 'Preview'
+			FloatLayout:
+				Layout_preview:
+					id: preview
+
 		# ---------- PICTURE ----------
 		TabbedPanelItem:
 			text: 'Picture'
@@ -27,15 +34,15 @@ AnkoaScreen:
 		TabbedPanelItem:
 			text: 'Video'
 			FloatLayout:
-				Layout_video:
-					id: video
+				Layout_videox:
+					id: videox
 
 		# ---------- AUDIO ----------
 		TabbedPanelItem:
 			text: 'Audio'
 			FloatLayout:
-				Layout_audio:
-					id: audio
+				Layout_audiox:
+					id: audiox
 
 		# ---------- SUBTITLES ----------
 		TabbedPanelItem:
@@ -51,11 +58,20 @@ AnkoaScreen:
 				Layout_advanced:
 					id: advanced
 
+		# ---------- RUN ----------
+		TabbedPanelItem:
+			text: 'Queue'
+			FloatLayout:
+				Layout_queue:
+					id: queue
+
 # ---------- LAYOUTS SCREENS ----------
 <Layout_source@GridLayout+source>
+<Layout_preview@GridLayout+preview>
 <Layout_picture@GridLayout+picture>
 <Layout_filters@GridLayout+filters>
-<Layout_video@GridLayout+video>
-<Layout_audio@GridLayout+audio>
+<Layout_videox@GridLayout+videox>
+<Layout_audiox@GridLayout+audiox>
 <Layout_subtitles@GridLayout+subtitles>
 <Layout_advanced@GridLayout+advanced>
+<Layout_queue@GridLayout+queue>

@@ -27,7 +27,8 @@
             FileChooserListView:
                 id: list_view_tab
                 filters:
-                    ['*.mp4', '*.mkv', '*.h264', '*.m2ts', '.iso', '*.img']
+                    ['*.mp4', '*.mkv', '*.h264',
+                    '*.m2ts', '.iso', '*.img']
                 rootpath: app.source_folder
                 on_selection:
                     app.scan_source_infos(
@@ -37,7 +38,8 @@
             FileChooserIconView:
                 id: icon_view_tab
                 filters:
-                    ['*.mp4', '*.mkv', '*.h264', '*.m2ts', '.iso', '*.img']
+                    ['*.mp4', '*.mkv', '*.h264',
+                    '*.m2ts', '.iso', '*.img']
                 rootpath: app.source_folder
                 on_selection:
                     app.scan_source_infos(
@@ -77,6 +79,7 @@
             text:
                 list_view_tab.selection and\
                 list_view_tab.selection[0] or ''
+            on_text: app.get_video_source(self.text)
 
     # ---------- RELEASE TITLE ----------
     BoxLayout:

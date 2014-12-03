@@ -2,9 +2,45 @@
 
 # ---------- ABOUT POPUP ----------
 <AboutPopup>:
-    size_hint: .3, .3
-    auto_dismiss: False
-    title: 'About'
-    Button:
-        text: 'Close'
-        on_press: root.dismiss()
+    size_hint: .5, .5
+    auto_dismiss: True
+    title: 'Open Source Video Tools'
+    GridLayout:
+        rows: 3
+
+        # --- Logo ---
+        BoxLayout:
+            size_hint: 1, .4
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, .5
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Image:
+                mipmap: True
+                source: 'data/img/logo_title.png'
+
+        # --- Version ---
+        RstDocument:
+            text:
+                ('.. _top:\n'
+                '\n'
+                'Version\n'
+                '=======\n'
+                '\n'
+                'Ankoa v0.1 released soon...\n'
+                '\n'
+                'CeCILL-C Free Software\n')
+
+        # --- Author ---
+        RstDocument:
+            text:
+                ('.. _top:\n'
+                '\n'
+                'Author\n'
+                '=======\n'
+                '\n'
+                'Made with love by grm34\n'
+                '\n'
+                'fripouillejack@gmail.com\n')

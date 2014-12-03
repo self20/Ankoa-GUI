@@ -3,8 +3,31 @@
 # ---------- GITHUB POPUP ----------
 <GithubPopup>:
     size_hint: .3, .3
-    auto_dismiss: False
+    auto_dismiss: True
     title: 'Github'
-    Button:
-        text: 'Close'
-        on_press: root.dismiss()
+    GridLayout:
+        rows: 3
+
+        # --- Logo ---
+        BoxLayout:
+            size_hint: 1, .4
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, .5
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Image:
+                mipmap: True
+                source: 'data/img/logo_title.png'
+
+        # --- Help ---
+        RstDocument:
+            text:
+                ('.. _top:\n'
+                '\n'
+                'Organization\n'
+                '============\n'
+                '\n'
+                'Open Source Video Tools\n'
+                'https://github.com/Ankoa\n')

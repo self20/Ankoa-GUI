@@ -1,0 +1,33 @@
+#:kivy 1.8.0
+
+# ---------- FILEMANAGER ----------
+<File_managerPopup>:
+    size_hint: .8, .8
+    auto_dismiss: True
+    title: 'File Manager'
+
+    BoxLayout:
+        TabbedPanel:
+            tab_pos: "top_right"
+            default_tab_text: "List View"
+            default_tab_content: list_view_tab
+
+            TabbedPanelHeader:
+                text: 'Icon View'
+                content: icon_view_tab
+
+            # --- LIST VIEW ---
+            FileChooserListView:
+                id: list_view_tab
+                filters:
+                    ['*.mp4', '*.mkv', '*.h264',
+                    '*.m2ts', '.iso', '*.img']
+                rootpath: app.source_folder
+
+            # --- ICON VIEW ---
+            FileChooserIconView:
+                id: icon_view_tab
+                filters:
+                    ['*.mp4', '*.mkv', '*.h264',
+                    '*.m2ts', '.iso', '*.img']
+                rootpath: app.source_folder

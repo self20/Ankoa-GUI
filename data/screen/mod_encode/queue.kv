@@ -4,11 +4,12 @@
 <queue@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .96, .96
+    spacing: 5
     cols: 1
 
     # ---------- SOURCE INFOS ----------
     BoxLayout:
-        size_hint: 1, .3
+        size_hint: 1, .4
         TextInput:
             readonly: True
             padding_x: '20sp'
@@ -21,8 +22,31 @@
                 '' if app.scan_data is None else\
                 (app.scan_data).strip()
 
-    # ---------- MENU ----------
+    # ---------- FFMPEG CMD ----------
     BoxLayout:
+        size_hint: 1, .4
+        TextInput:
+            readonly: True
+            padding_x: '20sp'
+            cursor_color: 0, 0, 0, .5
+            background_color: 0, 0, 0, .5
+            foreground_color: 0, 255, 0, 1
+            hint_text: 'Source Infos Area'
+            hint_text_color: 0, 255, 0, 1
+            text: 'FFMPEG Command'
+
+    # ---------- MENU ----------
+    GridLayout:
+        cols: 2
+        spacing: 5
         padding: '8sp'
         orientation: 'vertical'
-        size_hint: 1, .7
+        size_hint: 1, .1
+
+        # --- Add to queue ---
+        Button:
+            text: 'Add to queue'
+
+        # --- Copy cmd to clipboard ---
+        Button:
+            text: 'Copy command to clipboard'

@@ -33,7 +33,8 @@ BoxLayout:
             # --- App & Current Mode Titles ---
             ActionPrevious:
                 title:
-                    'ANKOA  [' + ('' if not app.current_title else ' {} '
+                    'ANKOA  [' + (\
+                    '' if not app.current_title else ' {} '
                     .format(app.current_title)) + ' Mode ]'
                 app_icon: 'data/icon/logo.png'
                 with_previous: False
@@ -110,7 +111,7 @@ BoxLayout:
         # --- File Manager button ---
         Button:
             text: 'File Manager'
-            popup_id: 'FilePopup()'
+            popup_id: 'File_managerPopup()'
             on_press: app.main_popup(self.popup_id)
 
         # --- Help button ---

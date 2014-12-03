@@ -3,8 +3,31 @@
 # ---------- HELP POPUP ----------
 <HelpPopup>:
     size_hint: .8, .8
-    auto_dismiss: False
-    title: 'Help'
-    Button:
-        text: 'Close'
-        on_press: root.dismiss()
+    auto_dismiss: True
+    title: 'General Help'
+    GridLayout:
+        rows: 3
+
+        # --- Logo ---
+        BoxLayout:
+            size_hint: 1, .1
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, .5
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Image:
+                mipmap: True
+                source: 'data/img/logo_title.png'
+
+        # --- Help ---
+        RstDocument:
+            text:
+                ('.. _top:\n'
+                '\n'
+                'Guide\n'
+                '=====\n'
+                '\n'
+                'Under construction...\n'
+                '\n')

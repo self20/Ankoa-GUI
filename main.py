@@ -179,7 +179,7 @@ class AnkoaApp(App):
             height = 0
         Animation(height=height, d=.3, t='out_quart').start(
             self.root.ids.header_screens.current_screen
-            .ids.video.ids.bitrate_view)
+            .ids.videox.ids.bitrate_view)
 
     # Video bitrate calculator action
     def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
@@ -203,7 +203,7 @@ class AnkoaApp(App):
         audio_track = Builder.load_file(
             'data/screen/mod_encode/widget/audio_track.kv')
         track_layout = self.root.ids.header_screens\
-            .current_screen.ids.audio.ids.audio_track_layout
+            .current_screen.ids.audiox.ids.audio_track_layout
 
         # Add audio Track (max 5 tracks)
         if request == 'add_track' and count_audiotk < 5:

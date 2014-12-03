@@ -45,6 +45,7 @@ class AnkoaApp(App):
     current_bitrate = StringProperty()
     scan_data = ObjectProperty()
     video_source = StringProperty()
+    sub_source = StringProperty()
 
     # Load user settings [call app.popup.settings: load_settings()]
     (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
@@ -265,6 +266,10 @@ class AnkoaApp(App):
     # Get Video Source on user selection
     def get_video_source(self, text):
         self.video_source = text
+
+    # Get Subs Source on user selection
+    def get_sub_source(self, value):
+        self.sub_source = value
 
 if __name__ == '__main__':
     AnkoaApp().run()

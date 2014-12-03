@@ -22,7 +22,7 @@ BoxLayout:
             Switch:
                 size_hint_x: .2
                 touch_control: False
-                active: True if sub_track_title != '' else False
+                active: True if sub_track_title.text != '' else False
 
             # --- DEL Subtitles Track ---
             Button:
@@ -38,12 +38,15 @@ BoxLayout:
                 Button:
                     text: 'SOURCE'
                     size_hint_x: .2
+                    popup_id: 'File_managerPopup()'
+                    on_press: app.main_popup(self.popup_id)
 
                 # --- Subtitles Track Title ---
                 TextInput:
                     id: sub_track_title
                     hint_text: 'Track Title'
                     multiline: False
+                    text: (app.sub_source).split('/')[-1]
 
         # ---------- SUB TRACK INFOS ----------
         BoxLayout:

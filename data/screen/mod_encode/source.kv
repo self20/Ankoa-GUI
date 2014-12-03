@@ -78,7 +78,9 @@
             readonly: True
             text:
                 list_view_tab.selection and\
-                list_view_tab.selection[0] or ''
+                list_view_tab.selection[0] or\
+                icon_view_tab.selection and\
+                icon_view_tab.selection[0] or ''
             on_text: app.get_video_source(self.text)
 
     # ---------- RELEASE TITLE ----------
@@ -106,4 +108,6 @@
             multiline: False
             text:
                 list_view_tab.selection and\
-                list_view_tab.selection[0].split('/')[-1] or ''
+                list_view_tab.selection[0].split('/')[-1] or\
+                icon_view_tab.selection and\
+                icon_view_tab.selection[0].split('/')[-1] or ''

@@ -20,14 +20,22 @@
             FileChooserListView:
                 id: list_view_tab
                 filters:
-                    ['*.mp4', '*.mkv', '*.h264',
-                    '*.m2ts', '.iso', '*.img']
+                    ['*.ass', '*.srt', '*.vobsub']
                 rootpath: app.source_folder
+                value:
+                    self.selection and\
+                    self.selection[0] or ''
+                on_selection:
+                    app.get_sub_source(self.value)
 
             # --- ICON VIEW ---
             FileChooserIconView:
                 id: icon_view_tab
                 filters:
-                    ['*.mp4', '*.mkv', '*.h264',
-                    '*.m2ts', '.iso', '*.img']
+                    ['*.ass', '*.srt', '*.vobsub']
                 rootpath: app.source_folder
+                value:
+                    self.selection and\
+                    self.selection[0] or ''
+                on_selection:
+                    app.get_sub_source(self.value)

@@ -59,9 +59,9 @@ class AnkoaApp(App):
 
     def build(self):
         self.title = __version__
-        self.screens = {}
 
-        # Set screens names (MODES)
+        # Set screens (MODES)
+        self.screens = {}
         self.menu_screens = sorted([
             'Encode', 'Remux', 'Extract', 'NFOgen',
             'Genprez', 'Thumbnails', 'Torrent'])
@@ -247,9 +247,9 @@ class AnkoaApp(App):
             self.audio_count += 1
 
     # Delete current Audio Track
-    def del_audio_track(self):
+    def del_audio_track(self, track):
         (audio_track, track_layout) = self.load_audio_track()
-        track_layout.remove_widget(track_layout.children[-1])
+        track_layout.remove_widget(track)
         if self.audio_count > 0:
             self.audio_count += -1
 
@@ -294,10 +294,10 @@ class AnkoaApp(App):
             self.sub_count += 1
 
     # Delete current Subtitles Track
-    def del_subtitles_track(self):
+    def del_subtitles_track(self, track):
         (sub_track, sub_file,
          track_layout) = self.load_subtitles_track()
-        track_layout.remove_widget(track_layout.children[-1])
+        track_layout.remove_widget(track)
         if self.sub_count > 0:
             self.sub_count += -1
 

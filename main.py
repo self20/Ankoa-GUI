@@ -36,7 +36,7 @@ class AnkoaScreen(Screen):
 class AnkoaApp(App):
 
     # Set vars properties
-    ''' kv files interaction '''
+    '''kv files interaction'''
     index = NumericProperty(-1)
     screen_names = ListProperty([])
     current_title = StringProperty()
@@ -48,7 +48,7 @@ class AnkoaApp(App):
     sub_count = NumericProperty(0)
 
     # Load user settings on start
-    '''[call app.popup.settings: load_settings()]'''
+    '''call app.popup.settings: load_settings()'''
     (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
      ssh_host, ssh_port, ssh_username, ssh_passwd,
      remote_folder) = load_settings()
@@ -247,9 +247,9 @@ class AnkoaApp(App):
             self.audio_count += 1
 
     # Delete current Audio Track
-    def del_audio_track(self, track):
+    def del_audio_track(self, current_track):
         (audio_track, track_layout) = self.load_audio_track()
-        track_layout.remove_widget(track)
+        track_layout.remove_widget(current_track)
         if self.audio_count > 0:
             self.audio_count += -1
 
@@ -294,10 +294,10 @@ class AnkoaApp(App):
             self.sub_count += 1
 
     # Delete current Subtitles Track
-    def del_subtitles_track(self, track):
+    def del_subtitles_track(self, current_track):
         (sub_track, sub_file,
          track_layout) = self.load_subtitles_track()
-        track_layout.remove_widget(track)
+        track_layout.remove_widget(current_track)
         if self.sub_count > 0:
             self.sub_count += -1
 

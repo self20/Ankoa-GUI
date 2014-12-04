@@ -46,6 +46,7 @@ class AnkoaApp(App):
     sub_source = StringProperty()
     audio_count = NumericProperty(0)
     sub_count = NumericProperty(0)
+    current_track = ObjectProperty()
 
     # Load user settings on start
     '''call app.popup.settings: load_settings()'''

@@ -35,21 +35,18 @@
 
         # --- Add Subtitles Track Button ---
         Button:
-            request: 'add_track'
             text: 'Add Subtitles Track'
-            on_press: app.subtitlesTrack(self.request)
+            on_press: app.add_sub_source_track()
 
         # --- Add Subtitles File Button ---
         Button:
-            request: 'add_file_track'
             text: 'Import Subtitles File'
-            on_press: app.subtitlesTrack(self.request)
+            on_press: app.add_sub_file_track()
 
         # --- Clear Subtitles Tracks Button ---
         Button:
-            request: 'clear_tracks'
             text: 'Clear All Tracks'
-            on_press: app.subtitlesTrack(self.request)
+            on_press: app.clear_subtitles_tracks()
 
     # ---------- SUBTITLES TRACK LAYOUT ----------
     GridLayout:

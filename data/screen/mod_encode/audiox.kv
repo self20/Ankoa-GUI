@@ -35,15 +35,13 @@
 
         # --- Add audio Track button ---
         Button:
-            request: 'add_track'
             text: 'Add Audio Track'
-            on_press: app.audioTrack(self.request)
+            on_press: app.add_audio_track()
 
         # --- Clear audio Tracks button ---
         Button:
-            request: 'clear_tracks'
             text: 'CLear All Tracks'
-            on_press: app.audioTrack(self.request)
+            on_press: app.clear_audio_tracks()
 
     # ---------- AUDIO TRACK LAYOUT ----------
     GridLayout:

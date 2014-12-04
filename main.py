@@ -22,15 +22,12 @@ from app.popup.popup_classes import *
 from app.popup.settings import *
 from app.popup.remote import *
 
-# Interface Resolution
+# Resolution
 Config.set('graphics', 'width', '1024')
 Config.set('graphics', 'height', '768')
 
-# Set Tracks count variables
-[count_audiotk, count_subtk] = [0, ] * 2
 
-
-# Interface Container
+# Container
 class AnkoaScreen(Screen):
     pass
 
@@ -38,7 +35,8 @@ class AnkoaScreen(Screen):
 # Ankoa-GUI
 class AnkoaApp(App):
 
-    # Set variables property (required in kv files)
+    # Set vars properties
+    ''' kv files interaction '''
     index = NumericProperty(-1)
     screen_names = ListProperty([])
     current_title = StringProperty()
@@ -46,18 +44,24 @@ class AnkoaApp(App):
     scan_data = ObjectProperty()
     video_source = StringProperty()
     sub_source = StringProperty()
+    audio_count = NumericProperty(0)
+    sub_count = NumericProperty(0)
 
-    # Load user settings [call app.popup.settings: load_settings()]
+    # Load user settings on start
+    '''[call app.popup.settings: load_settings()]'''
     (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
      ssh_host, ssh_port, ssh_username, ssh_passwd,
      remote_folder) = load_settings()
 
-    # Ankoa ROOT
+    # ---------------------------------------------------------------
+    #  ANKOA ROOT ###################################################
+    # ---------------------------------------------------------------
+
     def build(self):
         self.title = __version__
         self.screens = {}
 
-        # Set screens names
+        # Set screens names (MODES)
         self.menu_screens = sorted([
             'Encode', 'Remux', 'Extract', 'NFOgen',
             'Genprez', 'Thumbnails', 'Torrent'])
@@ -134,7 +138,7 @@ class AnkoaApp(App):
     #  MANAGE SCREENS  ##############################################
     # ---------------------------------------------------------------
 
-    # Go previous screen
+    # Go previous screen (MODES)
     def go_previous_screen(self):
         self.index = (self.index - 1) % len(self.menu_screens)
         screen = self.load_screen(self.index)
@@ -142,7 +146,7 @@ class AnkoaApp(App):
         header_screens.switch_to(screen, direction='right')
         self.current_title = screen.name
 
-    # Go next screen
+    # Go next screen (MODES)
     def go_next_screen(self):
         self.index = (self.index + 1) % len(self.menu_screens)
         screen = self.load_screen(self.index)
@@ -150,7 +154,7 @@ class AnkoaApp(App):
         header_screens.switch_to(screen, direction='left')
         self.current_title = screen.name
 
-    # Go selected screen
+    # Go selected screen (MODES)
     def go_screen(self, current_screen):
         self.index = current_screen
         screen = self.load_screen(self.index)
@@ -158,7 +162,7 @@ class AnkoaApp(App):
             self.load_screen(current_screen), direction='left')
         self.current_title = screen.name
 
-    # Load corresponding screen on request
+    # Load screen on request (MODES)
     def load_screen(self, index):
         if index in self.screens:
             return self.screens[index]
@@ -179,6 +183,7 @@ class AnkoaApp(App):
     # Scan video source
     def scan_source_infos(self, source):
         '''
+        Return complete mediainfo with autocrop values
         Call app.mod_encode.scan_source.py: scan()
         From data.screen.mod_encode.source.kv [scan button]
         '''
@@ -187,6 +192,7 @@ class AnkoaApp(App):
     # Video bitrate calculator layout
     def toggle_bitrate(self, state):
         '''
+        Display bitrate calculator section on clic
         Toggle bitrate row animation (row height on/off)
         From data.screen.mod_encode.video.kv [Bitrate button]
         '''
@@ -198,9 +204,10 @@ class AnkoaApp(App):
             self.root.ids.header_screens.current_screen
             .ids.videox.ids.bitrate_view)
 
-    # Video bitrate calculator action
+    # Video bitrate calculator function
     def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
         '''
+        Return video bitrate in kbps
         Call app.mod_encode.bitrate_cal.py: calculator()
         From data.screen.mod_encode.video.kv [RUN button]
         '''
@@ -210,89 +217,103 @@ class AnkoaApp(App):
 
     # Get Video Source on user selection
     def get_video_source(self, text):
+        '''
+        Get source location on filemanager selection
+        Required by preview screen (video player)
+        '''
         self.video_source = text
 
     # ---------------------------------------------------------------
     #  AUDIO SCREEN  ################################################
     # ---------------------------------------------------------------
+    '''
+    Manage audio Tracks screens (max 5 tracks)
+    From data.screen.mod_encode.audio.kv
+    '''
 
-    # Audio Tracks
-    def audioTrack(self, request):
-        global count_audiotk
-        '''
-        Manage audio Tracks screen
-        From data.screen.mod_encode.audio.kv
-        '''
-
-        # Load audio Track Layout (kv file)
+    # Load Audio Track (kv file)
+    def load_audio_track(self):
         audio_track = Builder.load_file(
             'data/screen/mod_encode/widget/audio_track.kv')
         track_layout = self.root.ids.header_screens\
             .current_screen.ids.audiox.ids.audio_track_layout
+        return (audio_track, track_layout)
 
-        # Add audio Track (max 5 tracks)
-        if request == 'add_track' and count_audiotk < 5:
+    # Add Audio Tracks (max 5)
+    def add_audio_track(self):
+        (audio_track, track_layout) = self.load_audio_track()
+        if self.audio_count < 5:
             track_layout.add_widget(audio_track)
-            count_audiotk += 1
+            self.audio_count += 1
 
-        # Clear all audio Tracks
-        elif request == 'clear_tracks':
-            track_layout.clear_widgets()
-            count_audiotk = 0
+    # Delete current Audio Track
+    def del_audio_track(self):
+        (audio_track, track_layout) = self.load_audio_track()
+        track_layout.remove_widget(track_layout.children[-1])
+        if self.audio_count > 0:
+            self.audio_count += -1
 
-        # Delete selected audio Track
-        elif request == 'del_track':
-            track_layout.remove_widget(track_layout.children[-1])
-            if count_audiotk > 0:
-                count_audiotk += -1
-        else:
-            pass
+    # Clear all Audio Tracks
+    def clear_audio_tracks(self):
+        (audio_track, track_layout) = self.load_audio_track()
+        track_layout.clear_widgets()
+        self.audio_count = 0
 
     # ---------------------------------------------------------------
     #  SUBTITLES SCREEN  ############################################
     # ---------------------------------------------------------------
+    '''
+    Manage subtitles Tracks screen (max 7 tracks)
+    From data.screen.mod_encode.subtitles.kv
+    '''
 
-    # Subtitles Tracks
-    def subtitlesTrack(self, request):
-        global count_subtk
-        '''
-        Manage subtitles Tracks screen
-        From data.screen.mod_encode.subtitles.kv
-        '''
-
-        # Load sub Track Layouts (kv files)
+    # Load Subtitles Tracks (kv files)
+    def load_subtitles_track(self):
         sub_track = Builder.load_file(
             'data/screen/mod_encode/widget/sub_track.kv')
         sub_file = Builder.load_file(
             'data/screen/mod_encode/widget/sub_file.kv')
         track_layout = self.root.ids.header_screens\
             .current_screen.ids.subtitles.ids.sub_track_layout
+        return (sub_track, sub_file, track_layout)
 
-        # Add subtitles Track from source (max 7)
-        if request == 'add_track' and count_subtk < 7:
-            count_subtk += 1
+    # Add Subtitles Source Track
+    def add_sub_source_track(self):
+        (sub_track, sub_file,
+         track_layout) = self.load_subtitles_track()
+        if self.sub_count < 7:
             track_layout.add_widget(sub_track)
+            self.sub_count += 1
 
-        # Add subtitles Track from file (max 7)
-        elif request == 'add_file_track' and count_subtk < 7:
-            count_subtk += 1
+    # Add Subtitles File Track
+    def add_sub_file_track(self):
+        (sub_track, sub_file,
+         track_layout) = self.load_subtitles_track()
+        if self.sub_count < 7:
             track_layout.add_widget(sub_file)
+            self.sub_count += 1
 
-        # Clear all subtitles Tracks
-        elif request == 'clear_tracks':
-            track_layout.clear_widgets()
-            count_subtk = 0
+    # Delete current Subtitles Track
+    def del_subtitles_track(self):
+        (sub_track, sub_file,
+         track_layout) = self.load_subtitles_track()
+        track_layout.remove_widget(track_layout.children[-1])
+        if self.sub_count > 0:
+            self.sub_count += -1
 
-        # Delete selected subtitles Track
-        elif request == 'del_track':
-            track_layout.remove_widget(track_layout.children[-1])
-            if count_subtk > 0:
-                count_subtk += -1
-        else:
-            pass
+    # Clear all Subtitles Tracks
+    def clear_subtitles_tracks(self):
+        (sub_track, sub_file,
+         track_layout) = self.load_subtitles_track()
+        track_layout.clear_widgets()
+        self.sub_count = 0
 
     # Get Subs Source on user selection
     def get_sub_source(self, value):
+        '''
+        Get subfile location on filemanager selection to
+        display subfile title in corresponding track area
+        '''
         self.sub_source = value
 
 if __name__ == '__main__':

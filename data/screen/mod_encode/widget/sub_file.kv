@@ -1,78 +1,77 @@
 #:kivy 1.8.0
 
 # ---------- SUBTITLES FILE WIDGET ----------
-BoxLayout:
+GridLayout:
     padding: '4sp'
+    cols: 2
+    rows: 1
     canvas:
         Color:
             rgba: 128, 128, 1, .5
         Rectangle:
             size: self.size
             pos: self.pos
-    GridLayout:
-        cols: 2
-        rows: 1
 
-        # ---------- SUBS TRACK SOURCE & TITLE ----------
-        BoxLayout:
-            padding: '3sp'
-            size_hint: .6, 1
+    # ---------- SUBS TRACK SOURCE & TITLE ----------
+    BoxLayout:
+        padding: '3sp'
+        size_hint: .6, 1
 
-            # --- Check Subtitles Track ---
-            Switch:
-                size_hint_x: .2
-                touch_control: False
-                active: True if sub_track_title.text != '' else False
+        # --- Check Subtitles Track ---
+        Switch:
+            size_hint_x: .2
+            touch_control: False
+            active: True if sub_track_title.text != '' else False
 
-            # --- DEL Subtitles Track ---
-            Button:
-                text: 'DEL'
-                size_hint_x: .1
-                on_press: app.del_subtitles_track()
+        # --- DEL Subtitles Track ---
+        Button:
+            text: 'DEL'
+            size_hint_x: .1
+            on_press: app.del_subtitles_track()
 
-            BoxLayout:
-                padding: '2sp'
-
-                # --- Select Track Source ---
-                Button:
-                    text: 'SOURCE'
-                    size_hint_x: .2
-                    popup_id: 'File_managerPopup()'
-                    on_press: app.main_popup(self.popup_id)
-
-                # --- Subtitles Track Title ---
-                TextInput:
-                    id: sub_track_title
-                    hint_text: 'Track Title'
-                    multiline: False
-                    text: (app.sub_source).split('/')[-1]
-
-        # ---------- SUB TRACK INFOS ----------
         BoxLayout:
             padding: '2sp'
-            size_hint: .4, 1
 
-            # --- Subforced Track ---
-            ToggleButton:
-                id: sub_forced
-                text: 'Forced'
+            # --- Select Track Source ---
+            Button:
+                text: 'SOURCE'
+                size_hint_x: .2
+                popup_id: 'File_managerPopup()'
+                on_press: app.main_popup(self.popup_id)
 
-            # --- Burned Track ---
-            ToggleButton:
-                id: sub_burned
-                text: 'Burn in'
-
-            # --- Default Track ---
-            ToggleButton:
-                id: sub_default
-                text: 'Default'
-
-            # --- Subcharset ---
+            # --- Subtitles Track Title ---
             TextInput:
-                hint_text: 'Chars'
+                id: sub_track_title
+                hint_text: 'Track Title'
                 multiline: False
+                text: (app.sub_source).split('/')[-1]
 
-            # --- Subdelay ---
-            TextInput:
-                hint_text: 'Delay'
-                multiline: False
+    # ---------- SUB TRACK INFOS ----------
+    BoxLayout:
+        padding: '2sp'
+        size_hint: .4, 1
+
+        # --- Subforced Track ---
+        ToggleButton:
+            id: sub_forced
+            text: 'Forced'
+
+        # --- Burned Track ---
+        ToggleButton:
+            id: sub_burned
+            text: 'Burn in'
+
+        # --- Default Track ---
+        ToggleButton:
+            id: sub_default
+            text: 'Default'
+
+        # --- Subcharset ---
+        TextInput:
+            hint_text: 'Chars'
+            multiline: False
+
+        # --- Subdelay ---
+        TextInput:
+            hint_text: 'Delay'
+            multiline: False

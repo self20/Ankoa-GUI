@@ -30,7 +30,7 @@ Config.set('graphics', 'height', '768')
 [count_audiotk, count_subtk] = [0, ] * 2
 
 
-# CONTAINER (principal screen)
+# Interface Container
 class AnkoaScreen(Screen):
     pass
 
@@ -52,7 +52,7 @@ class AnkoaApp(App):
      ssh_host, ssh_port, ssh_username, ssh_passwd,
      remote_folder) = load_settings()
 
-    # Ankoa Root
+    # Ankoa ROOT
     def build(self):
         self.title = __version__
         self.screens = {}
@@ -70,6 +70,10 @@ class AnkoaApp(App):
 
         # Display 1st screen on open
         self.go_next_screen()
+
+    # ---------------------------------------------------------------
+    #  GLOBAL SETTINGS ##############################################
+    # ---------------------------------------------------------------
 
     # Restart app
     def restart_ankoa(self):
@@ -108,6 +112,10 @@ class AnkoaApp(App):
                self.ssh_host, self.source_folder,
                self.remote_folder, self.ssh_port)
 
+    # ---------------------------------------------------------------
+    #  MANAGE POPUPS  ###############################################
+    # ---------------------------------------------------------------
+
     # Load all popups (kv files)
     for popup in os.listdir('data/popup/'):
         if popup.endswith('.kv'):
@@ -121,6 +129,10 @@ class AnkoaApp(App):
         '''
         popup = '{}'.format(popup_id)
         eval(popup).open()
+
+    # ---------------------------------------------------------------
+    #  MANAGE SCREENS  ##############################################
+    # ---------------------------------------------------------------
 
     # Go previous screen
     def go_previous_screen(self):
@@ -160,6 +172,10 @@ class AnkoaApp(App):
             Builder.load_file(
                 'data/screen/mod_encode/{}'.format(mod_encod_kvs))
 
+    # ---------------------------------------------------------------
+    #  VIDEO SCREEN  ################################################
+    # ---------------------------------------------------------------
+
     # Scan video source
     def scan_source_infos(self, source):
         '''
@@ -192,6 +208,14 @@ class AnkoaApp(App):
         self.current_bitrate = str(current_bitrate)
         return self.current_bitrate
 
+    # Get Video Source on user selection
+    def get_video_source(self, text):
+        self.video_source = text
+
+    # ---------------------------------------------------------------
+    #  AUDIO SCREEN  ################################################
+    # ---------------------------------------------------------------
+
     # Audio Tracks
     def audioTrack(self, request):
         global count_audiotk
@@ -223,6 +247,10 @@ class AnkoaApp(App):
                 count_audiotk += -1
         else:
             pass
+
+    # ---------------------------------------------------------------
+    #  SUBTITLES SCREEN  ############################################
+    # ---------------------------------------------------------------
 
     # Subtitles Tracks
     def subtitlesTrack(self, request):
@@ -262,10 +290,6 @@ class AnkoaApp(App):
                 count_subtk += -1
         else:
             pass
-
-    # Get Video Source on user selection
-    def get_video_source(self, text):
-        self.video_source = text
 
     # Get Subs Source on user selection
     def get_sub_source(self, value):

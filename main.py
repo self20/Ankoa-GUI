@@ -15,7 +15,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 
-# Load required scripts
+# Local libraries
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
@@ -35,28 +35,25 @@ class AnkoaScreen(Screen):
 # Ankoa-GUI
 class AnkoaApp(App):
 
-    # Set vars properties
+    # ---------------------------------------------------------------
+    #  PROPERTIES ###################################################
+    # ---------------------------------------------------------------
     '''kv files interaction'''
+
     index = NumericProperty(-1)
     screen_names = ListProperty([])
     current_title = StringProperty()
     current_bitrate = StringProperty()
     scan_data = ObjectProperty()
     video_source = StringProperty()
-    sub_source = StringProperty()
     audio_count = NumericProperty(0)
     sub_count = NumericProperty(0)
     current_track = ObjectProperty()
 
-    # Load user settings on start
-    '''call app.popup.settings: load_settings()'''
-    (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
-     ssh_host, ssh_port, ssh_username, ssh_passwd,
-     remote_folder) = load_settings()
-
     # ---------------------------------------------------------------
-    #  ANKOA ROOT ###################################################
+    #  ROOT #########################################################
     # ---------------------------------------------------------------
+    '''Application Root'''
 
     def build(self):
         self.title = __version__
@@ -76,9 +73,29 @@ class AnkoaApp(App):
         # Display 1st screen on open
         self.go_next_screen()
 
+        # Get ENCODE_MODE screens (layouts)
+        self.source_screen = \
+            self.root.ids.header_screens.current_screen.ids.source
+        self.picture_screen = \
+            self.root.ids.header_screens.current_screen.ids.picture
+        self.video_screen = \
+            self.root.ids.header_screens.current_screen.ids.videox
+        self.audio_screen = \
+            self.root.ids.header_screens.current_screen.ids.audiox
+        self.subtitles_screen = \
+            self.root.ids.header_screens.current_screen.ids.subtitles
+        self.advanced_screen = \
+            self.root.ids.header_screens.current_screen.ids.advanced
+
     # ---------------------------------------------------------------
-    #  GLOBAL SETTINGS ##############################################
+    #  SETTINGS #####################################################
     # ---------------------------------------------------------------
+
+    # Load user settings on start
+    '''call app.popup.settings: load_settings()'''
+    (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
+     ssh_host, ssh_port, ssh_username, ssh_passwd,
+     remote_folder) = load_settings()
 
     # Restart app
     def restart_ankoa(self):
@@ -211,8 +228,7 @@ class AnkoaApp(App):
         else:
             height = 0
         Animation(height=height, d=.3, t='out_quart').start(
-            self.root.ids.header_screens.current_screen
-            .ids.videox.ids.bitrate_view)
+            self.video_screen.ids.bitrate_view)
 
     # Video bitrate calculator function
     def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
@@ -225,8 +241,8 @@ class AnkoaApp(App):
         self.current_bitrate = str(current_bitrate)
         return self.current_bitrate
 
-    # Get Video Source on user selection
-    def get_video_source(self, text):
+    # Load Video Source
+    def load_video_source(self, text):
         '''
         Get source location on filemanager selection
         Required by preview screen (video player)
@@ -237,7 +253,7 @@ class AnkoaApp(App):
     #  AUDIO SCREEN #################################################
     # ---------------------------------------------------------------
     '''
-    Manage audio Tracks screens (max 5 tracks)
+    Manage audio Tracks (max 5 tracks)
     From data.screen.mod_encode.audio.kv
     '''
 
@@ -245,8 +261,7 @@ class AnkoaApp(App):
     def load_audio_track(self):
         audio_track = Builder.load_file(
             'data/screen/mod_encode/widget/audio_track.kv')
-        track_layout = self.root.ids.header_screens\
-            .current_screen.ids.audiox.ids.audio_track_layout
+        track_layout = self.audio_screen.ids.audio_track_layout
         return (audio_track, track_layout)
 
     # Add Audio Track (from source)
@@ -273,7 +288,7 @@ class AnkoaApp(App):
     #  SUBTITLES SCREEN #############################################
     # ---------------------------------------------------------------
     '''
-    Manage subtitles Tracks screen (max 7 tracks)
+    Manage subtitles Tracks (max 7 tracks)
     From data.screen.mod_encode.subtitles.kv
     '''
 
@@ -283,8 +298,7 @@ class AnkoaApp(App):
             'data/screen/mod_encode/widget/sub_track.kv')
         sub_file = Builder.load_file(
             'data/screen/mod_encode/widget/sub_file.kv')
-        track_layout = self.root.ids.header_screens\
-            .current_screen.ids.subtitles.ids.sub_track_layout
+        track_layout = self.subtitles_screen.ids.sub_track_layout
         return (sub_track, sub_file, track_layout)
 
     # Add Subtitles Track (from source)
@@ -318,14 +332,47 @@ class AnkoaApp(App):
         track_layout.clear_widgets()
         self.sub_count = 0
 
-    # Get Subs Source on user selection
-    def get_sub_source(self, value):
+    # Load Subtitles Source
+    def load_sub_source(self, value):
         '''
         Get subfile location from filemanager selection to
         display subfile title in corresponding track area
         '''
         current_track = self.get_current_track(self.current_track)
         current_track.ids.sub_track_title.text = value.split('/')[-1]
+
+    # ---------------------------------------------------------------
+    #  MAPPING ########################################### ENCODE ###
+    # ---------------------------------------------------------------
+    '''Each mode requires its own manage.py file'''
+
+    # Get source infos
+    def get_source_infos(self):
+        rls_source = self.source_screen.ids.source.text
+        rls_title = self.source_screen.ids.title.text
+        return (rls_source, rls_title)
+
+    # Get picture infos
+    def get_picture_infos(self):
+        if self.picture_screen.ids.sar.active == True:
+            reso = [self.picture_screen.x.value]
+        else:
+            reso = [self.picture_screen.ids.video_W.text,
+                    self.picture_screen.ids.video_H.text]
+        crop_width = self.picture_screen.ids.crop_W
+        crop_height = self.picture_screen.ids.crop_H
+        crop_top = self.picture_screen.ids.crop_T
+        crop_bottom = self.picture_screen.ids.crop_B
+        crop_right = self.picture_screen.ids.crop_R
+        crop_left = self.picture_screen.ids.crop_L
+        deteline = self.picture_screen.ids.deteline.text
+        decomb = self.picture_screen.ids.decomb.text
+        deinterlace = self.picture_screen.ids.dinterlace.text
+        denoise = self.picture_screen.ids.denoise.text
+
+        return (reso, crop_width, crop_height, crop_top,
+                crop_bottom, crop_right, crop_left,
+                deteline, decomb, deinterlace, denoise)
 
 if __name__ == '__main__':
     AnkoaApp().run()

@@ -26,7 +26,7 @@
                     self.selection and\
                     self.selection[0] or ''
                 on_selection:
-                    app.get_sub_source(self.value)
+                    app.load_sub_source(self.value)
 
             # --- ICON VIEW ---
             FileChooserIconView:
@@ -38,4 +38,4 @@
                     self.selection and\
                     self.selection[0] or ''
                 on_selection:
-                    app.get_sub_source(self.value)
+                    app.load_sub_source(self.value)

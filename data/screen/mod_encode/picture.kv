@@ -110,30 +110,33 @@
             size_hint_x: .40
 
         BoxLayout:
+            id: x
 
             # --- Auto PAL 4:3 ---
             ToggleButton:
                 id: pal43
                 text: 'PAL 4:3'
                 group: 'auto_resize'
+                on_release: root.ids.x.value = '64:45'
 
             # --- Auto PAL 16:9 ---
             ToggleButton:
                 id: pal169
                 text: 'PAL 16:9'
                 group: 'auto_resize'
+                on_release: root.ids.x.value = '16:15'
 
             # --- Auto NTSC 4:3 ---
             ToggleButton:
                 id: ntsc43
                 text: 'NTSC 4:3'
-                group: 'auto_resize'
+                on_release: root.ids.x.value = '32:27'
 
             # --- Auto NTSC 16:9 ---
             ToggleButton:
                 id: ntsc169
                 text: 'NTSC 16:9'
-                group: 'auto_resize'
+                on_release: root.ids.x.value = '8:9'
 
     # ---------- RESOLUTION ----------
     BoxLayout:
@@ -343,6 +346,7 @@
 
             # --- Custom Deteline ---
             TextInput:
+                id: deteline
                 readonly:
                     True if root.ids.dtline.value != 2 else False
 
@@ -388,6 +392,7 @@
 
             # --- Custom Decomb ---
             TextInput:
+                id: decomb
                 readonly:
                     True if root.ids.dcomb.value != 4 else False
 
@@ -433,6 +438,7 @@
 
             # --- Custom Deinterlace ---
             TextInput:
+                id: dinterlace
                 readonly:
                     True if root.ids.dint.value != 5 else False
 
@@ -478,5 +484,6 @@
 
             # --- Custom Denoise ---
             TextInput:
+                id: denoise
                 readonly:
                     True if root.ids.dnoise.value != 4 else False

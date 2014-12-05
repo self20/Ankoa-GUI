@@ -57,30 +57,35 @@
             size_hint_x: .40
 
         BoxLayout:
+            id: vcontainer
 
             # --- MKV button ---
             ToggleButton:
                 id: matroska
                 text: 'MATROSKA'
                 group: 'v_container'
+                on_release: root.ids.vcontainer.valueA = 'mastroska'
 
             # --- MP4 button ---
             ToggleButton:
                 id: mp4
                 text: 'MPEG-4'
                 group: 'v_container'
+                on_release: root.ids.vcontainer.valueA = 'mp4'
 
             # --- x264 button ---
             ToggleButton:
                 id: x264
                 text: 'x264'
                 group: 'v_codec'
+                on_release: root.ids.vcontainer.valueB = 'libx264'
 
             # --- x265 button ---
             ToggleButton:
                 id: x265
                 text: 'x265'
                 group: 'v_codec'
+                on_release: root.ids.vcontainer.valueB = 'libx265'
 
     # ---------- 2PASS MODE ----------
     BoxLayout:
@@ -222,6 +227,7 @@
 
         # --- Check CRF ---
         Switch:
+            id: check_crf
             size_hint_x: .20
             touch_control: False
             active:

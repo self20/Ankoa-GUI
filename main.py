@@ -342,7 +342,7 @@ class AnkoaApp(App):
         current_track.ids.sub_track_title.text = value.split('/')[-1]
 
     # ---------------------------------------------------------------
-    #  MAPPING ########################################### ENCODE ###
+    #  MAPPING ENCODE ###############################################
     # ---------------------------------------------------------------
     '''Each mode requires its own manage.py file'''
 
@@ -354,8 +354,8 @@ class AnkoaApp(App):
 
     # Get picture infos
     def get_picture_infos(self):
-        if self.picture_screen.ids.sar.active == True:
-            reso = [self.picture_screen.x.value]
+        if self.picture_screen.ids.check_sar.active == True:
+            reso = [self.picture_screen.sar_val.value]
         else:
             reso = [self.picture_screen.ids.video_W.text,
                     self.picture_screen.ids.video_H.text]
@@ -373,6 +373,25 @@ class AnkoaApp(App):
         return (reso, crop_width, crop_height, crop_top,
                 crop_bottom, crop_right, crop_left,
                 deteline, decomb, deinterlace, denoise)
+
+    # Get video infos
+    def get_video_infos(self):
+        container = self.video_screen.ids.vcontainer.valueA
+        codec = self.video_screen.ids.vcontainer.valueB
+        if self.video_screen.ids.check_crf.active == True:
+            crf = self.video_screen.ids.crf.value
+            dual_pass = None
+        else:
+            crf = None
+            dual_pass = self.video_screen.ids.video_bitrate.text
+        framerate = self.video_screen.ids.frame.value
+        preset = self.video_screen.ids.preset.value
+        tune = self.video_screen.ids.tune.value
+        profile = self.video_screen.ids.profile.value
+        level = self.video_screen.ids.level.value
+
+        return (container, codec, crf, dual_pass,
+                framerate, preset, tune, profile, level)
 
 if __name__ == '__main__':
     AnkoaApp().run()

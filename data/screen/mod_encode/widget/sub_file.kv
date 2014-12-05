@@ -37,14 +37,15 @@ GridLayout:
                 text: 'SOURCE'
                 size_hint_x: .2
                 popup_id: 'File_managerPopup()'
-                on_press: app.main_popup(self.popup_id)
+                on_press:
+                    app.main_popup(self.popup_id);\
+                    app.get_current_track(root)
 
             # --- Subtitles Track Title ---
             TextInput:
                 id: sub_track_title
                 hint_text: 'Track Title'
                 multiline: False
-                text: (app.sub_source).split('/')[-1]
 
     # ---------- SUB TRACK INFOS ----------
     BoxLayout:

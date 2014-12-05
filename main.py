@@ -46,6 +46,7 @@ class AnkoaApp(App):
     sub_source = StringProperty()
     audio_count = NumericProperty(0)
     sub_count = NumericProperty(0)
+    current_track = ObjectProperty()
 
     # Load user settings on start
     '''call app.popup.settings: load_settings()'''
@@ -117,7 +118,7 @@ class AnkoaApp(App):
                self.remote_folder, self.ssh_port)
 
     # ---------------------------------------------------------------
-    #  MANAGE POPUPS  ###############################################
+    #  MANAGE POPUPS ################################################
     # ---------------------------------------------------------------
 
     # Load all popups (kv files)
@@ -135,7 +136,7 @@ class AnkoaApp(App):
         eval(popup).open()
 
     # ---------------------------------------------------------------
-    #  MANAGE SCREENS  ##############################################
+    #  MANAGE SCREENS ###############################################
     # ---------------------------------------------------------------
 
     # Go previous screen (MODES)
@@ -177,7 +178,16 @@ class AnkoaApp(App):
                 'data/screen/mod_encode/{}'.format(mod_encod_kvs))
 
     # ---------------------------------------------------------------
-    #  VIDEO SCREEN  ################################################
+    #  MANAGE TRACKS ################################################
+    # ---------------------------------------------------------------
+
+    # Get current track
+    def get_current_track(self, current_track):
+        self.current_track = current_track
+        return self.current_track
+
+    # ---------------------------------------------------------------
+    #  VIDEO SCREEN #################################################
     # ---------------------------------------------------------------
 
     # Scan video source
@@ -224,7 +234,7 @@ class AnkoaApp(App):
         self.video_source = text
 
     # ---------------------------------------------------------------
-    #  AUDIO SCREEN  ################################################
+    #  AUDIO SCREEN #################################################
     # ---------------------------------------------------------------
     '''
     Manage audio Tracks screens (max 5 tracks)
@@ -239,7 +249,7 @@ class AnkoaApp(App):
             .current_screen.ids.audiox.ids.audio_track_layout
         return (audio_track, track_layout)
 
-    # Add Audio Tracks (max 5)
+    # Add Audio Track (from source)
     def add_audio_track(self):
         (audio_track, track_layout) = self.load_audio_track()
         if self.audio_count < 5:
@@ -260,7 +270,7 @@ class AnkoaApp(App):
         self.audio_count = 0
 
     # ---------------------------------------------------------------
-    #  SUBTITLES SCREEN  ############################################
+    #  SUBTITLES SCREEN #############################################
     # ---------------------------------------------------------------
     '''
     Manage subtitles Tracks screen (max 7 tracks)
@@ -277,7 +287,7 @@ class AnkoaApp(App):
             .current_screen.ids.subtitles.ids.sub_track_layout
         return (sub_track, sub_file, track_layout)
 
-    # Add Subtitles Source Track
+    # Add Subtitles Track (from source)
     def add_sub_source_track(self):
         (sub_track, sub_file,
          track_layout) = self.load_subtitles_track()
@@ -285,7 +295,7 @@ class AnkoaApp(App):
             track_layout.add_widget(sub_track)
             self.sub_count += 1
 
-    # Add Subtitles File Track
+    # Add Subtitles Track (from file)
     def add_sub_file_track(self):
         (sub_track, sub_file,
          track_layout) = self.load_subtitles_track()
@@ -311,10 +321,11 @@ class AnkoaApp(App):
     # Get Subs Source on user selection
     def get_sub_source(self, value):
         '''
-        Get subfile location on filemanager selection to
+        Get subfile location from filemanager selection to
         display subfile title in corresponding track area
         '''
-        self.sub_source = value
+        current_track = self.get_current_track(self.current_track)
+        current_track.ids.sub_track_title.text = value.split('/')[-1]
 
 if __name__ == '__main__':
     AnkoaApp().run()

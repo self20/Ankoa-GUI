@@ -344,10 +344,7 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  MAPPING ENCODE ###############################################
     # ---------------------------------------------------------------
-    '''
-    Get all screens values from corresponding kv file
-    Each mode requires its own manage.py file
-    '''
+    '''Get all screens values from corresponding kv file'''
 
     # Get source infos
     def get_source_infos(self):
@@ -391,11 +388,11 @@ class AnkoaApp(App):
         else:
             crf = None
             dual_pass = self.video_screen.ids.video_bitrate.text
-        framerate = self.video_screen.ids.frame.value
-        preset = self.video_screen.ids.preset.value
-        tune = self.video_screen.ids.tune.value
-        profile = self.video_screen.ids.profile.value
-        level = self.video_screen.ids.level.value
+        framerate = self.video_screen.ids.fram_rate.text
+        preset = self.video_screen.ids.pre_set.text
+        tune = self.video_screen.ids.tu_ne.text
+        profile = self.video_screen.ids.pro_file.text
+        level = self.video_screen.ids.le_vel.text
 
         return (container, codec, crf, dual_pass,
                 framerate, preset, tune, profile, level)
@@ -447,37 +444,74 @@ class AnkoaApp(App):
     # Get advanced infos
     def get_advanced_infos(self):
         '''from data/mod_encode/screen/advanced.kv'''
-        threads_nb = self.advanced_screen.ids.threads_nb.value
-        threads_mod = self.advanced_screen.ids.threads_mod.value
-        ref_frames = self.advanced_screen.ids.ref_frames.value
-        max_Bframes = self.advanced_screen.ids.max_Bframes.value
-        mixed_ref = self.advanced_screen.ids.mixed_ref.value
-        pyramid_mod = self.advanced_screen.ids.pyramid_mod.value
-        transform = self.advanced_screen.ids.transform.value
-        cabac = self.advanced_screen.ids.cabac.value
-        direct_mod = self.advanced_screen.ids.direct_mod.value
-        B_frames = self.advanced_screen.ids.B_frames.value
-        weighted_bf = self.advanced_screen.ids.weighted_bf.value
-        weighted_pf = self.advanced_screen.ids.weighted_pf.value
-        me_method = self.advanced_screen.ids.me_method.value
-        subpixel = self.advanced_screen.ids.subpixel.value
-        me_range = self.advanced_screen.ids.me_range.value
-        partitions = self.advanced_screen.ids.partitions.value
-        trellis = self.advanced_screen.ids.trellis.value
-        adapt_strenght = self.advanced_screen.ids.adapt_strengh.value
-        psy_optim = self.advanced_screen.ids.psy_optim.value
-        distord_rate = self.advanced_screen.ids.distord_rate.value
-        psy_trellis = self.advanced_screen.ids.psy_trellis.value
-        deblock_alpha = self.advanced_screen.ids.deblock_alpha.value
-        deblock_beta = self.advanced_screen.ids.deblock_beta.value
-        key_interval = self.advanced_screen.ids.key_interval.text
-        min_key = self.advanced_screen.ids.min_key.text
-        lookahead = self.advanced_screen.ids.lookahead.text
-        scenecut = self.advanced_screen.ids.scenecut.text
-        chroma = self.advanced_screen.ids.chroma.value
-        fast_skip = self.advanced_screen.ids.fast_skip.value
-        grayscale = self.advanced_screen.ids.grayscale.value
-        bluray_compat = self.advanced_screen.ids.bluray_compat.value
+        if self.advanced_screen.ids.threads_on.active is True:
+            threads_nb = self.advanced_screen.ids.threads_nb.value
+            threads_mod = self.advanced_screen.ids.threads_mod.value
+        else:
+            [threads_nb, threads_mod] = [None, ] * 2
+        if self.advanced_screen.ids.frames_on.active is True:
+            ref_frames = self.advanced_screen.ids.ref_frames.value
+            max_Bframes = self.advanced_screen.ids.max_Bframes.value
+            mixed_ref = self.advanced_screen.ids.mixed_ref.value
+        else:
+            [ref_frames, max_Bframes, mixed_ref] = [None, ] * 3
+        if self.advanced_screen.ids.encod_on.active is True:
+            pyramid_mod = self.advanced_screen.ids.pyram.text
+            transform = self.advanced_screen.ids.transform.value
+            cabac = self.advanced_screen.ids.cabac.value
+        else:
+            [pyramid_mod, transform, cabac] = [None, ] * 3
+        if self.advanced_screen.ids.adapt_on.active is True:
+            direct_mod = self.advanced_screen.ids.direct.text
+            B_frames = self.advanced_screen.ids.Bframes.text
+        else:
+            [direct_mod, B_frames] = [None, ] * 2
+        if self.advanced_screen.ids.weight_on.active is True:
+            weighted_bf = self.advanced_screen.ids.weight_bf.text
+            weighted_pf = self.advanced_screen.ids.weight_pf.value
+        else:
+            [weighted_bf, weighted_pf] = [None, ] * 2
+        if self.advanced_screen.ids.motion_on.active is True:
+            me_method = self.advanced_screen.ids.me_mod.text
+            subpixel = self.advanced_screen.ids.subpixel.value
+            me_range = self.advanced_screen.ids.me_range.value
+        else:
+            [me_method, subpixel, me_range] = [None, ] * 3
+        if self.advanced_screen.ids.partitions_on.active is True:
+            partitions = self.advanced_screen.ids.parts.text
+            trellis = self.advanced_screen.ids.trell.text
+        else:
+            [partitions, trellis] = [None, ] * 2
+        if self.advanced_screen.ids.quantiz_on.active is True:
+            adapt_strenght = self.advanced_screen.ids.adapt_s.text
+            psy_optim = self.advanced_screen.ids.psy_optim.value
+        else:
+            [adapt_strenght, psy_optim] = [None, ] * 2
+        if self.advanced_screen.ids.distortion_on.active is True:
+            distord_rate = self.advanced_screen.ids.dist_rate.text
+            psy_trellis = self.advanced_screen.ids.psy_trell.text
+        else:
+            [distord_rate, psy_trellis] = [None, ] * 2
+        if self.advanced_screen.ids.deblock_on.active is True:
+            deblock_alpha = self.advanced_screen.ids.d_alpha.text
+            deblock_beta = self.advanced_screen.ids.d_beta.text
+        else:
+            [deblock_alpha, deblock_beta] = [None, ] * 2
+        if self.advanced_screen.ids.keyframe_on.active is True:
+            key_interval = self.advanced_screen.ids.key_interval.text
+            min_key = self.advanced_screen.ids.min_key.text
+            lookahead = self.advanced_screen.ids.lookahead.text
+        else:
+            [key_interval, min_key, lookahead] = [None, ] * 3
+        if self.advanced_screen.ids.various_on.active is True:
+            scenecut = self.advanced_screen.ids.scenecut.text
+            chroma = self.advanced_screen.ids.chroma.value
+            fast_skip = self.advanced_screen.ids.fast_skip.value
+            grayscale = self.advanced_screen.ids.grayscale.value
+            bluray_compat = self.advanced_screen.ids.bluray_compat.value
+        else:
+            [scenecut, chroma, fast_skip,
+             grayscale, bluray_compat] = [None, ] * 5
 
         return (
             threads_nb, threads_mod, ref_frames, max_Bframes,
@@ -487,6 +521,23 @@ class AnkoaApp(App):
             distord_rate, psy_trellis, deblock_alpha, deblock_beta,
             key_interval, min_key, lookahead, scenecut, chroma,
             fast_skip, grayscale, bluray_compat)
+
+    # ---------------------------------------------------------------
+    #  MANAGE ENCODE ################################################
+    # ---------------------------------------------------------------
+    '''Check and send content to app/mod_encode/manage.py'''
+
+    # Check if user is not a n00b
+    '''Essential values verification'''
+    def check_encode_values(self):
+        if self.source_screen.ids.r_source.active is True and\
+                self.source_screen.ids.r_title.active is True and\
+                (self.picture_screen.ids.auto_resize.active is True or\
+                 self.picture_screen.ids.check_sar.active is True) and\
+                self.video_screen.ids.check_codec.active is True:
+            return True
+        else:
+            return False
 
 if __name__ == '__main__':
     AnkoaApp().run()

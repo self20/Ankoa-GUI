@@ -42,6 +42,7 @@
 
         # --- Check Container ---
         Switch:
+            id: check_codec
             size_hint_x: .20
             touch_control: False
             active:
@@ -284,6 +285,7 @@
                 step: 1
                 value: 4
             Label:
+                id: fram_rate
                 text:
                     x264_framerate[int('{}'.format(framerate.value)
                     .split('.')[0])]
@@ -323,6 +325,7 @@
                 step: 1
                 value: 0
             Label:
+                id: pre_set
                 text:
                     x264_preset[int('{}'.format(preset.value)
                     .split('.')[0])]
@@ -362,6 +365,7 @@
                 step: 1
                 value: 0
             Label:
+                id: tu_ne
                 text:
                     x264_tune[int('{}'.format(tune.value)
                     .split('.')[0])]
@@ -401,6 +405,7 @@
                 step: 1
                 value: 0
             Label:
+                id: pro_file
                 text:
                     x264_profile[int('{}'.format(profile.value)
                     .split('.')[0])]
@@ -439,6 +444,7 @@
                 step: 1
                 value: 8
             Label:
+                id: le_vel
                 text:
                     x264_level[int('{}'.format(level.value)
                     .split('.')[0])]

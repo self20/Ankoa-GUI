@@ -469,7 +469,7 @@ class AnkoaApp(App):
         distord_rate = self.advanced_screen.ids.distord_rate.value
         psy_trellis = self.advanced_screen.ids.psy_trellis.value
         deblock_alpha = self.advanced_screen.ids.deblock_alpha.value
-        debloack_beta = self.advanced_screen.ids.debloack_beta.value
+        deblock_beta = self.advanced_screen.ids.deblock_beta.value
         key_interval = self.advanced_screen.ids.key_interval.value
         min_key = self.advanced_screen.ids.min_key.value
         lookahead = self.advanced_screen.ids.lookahead.value

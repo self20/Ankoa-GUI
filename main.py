@@ -532,7 +532,7 @@ class AnkoaApp(App):
     def check_encode_values(self):
         if self.source_screen.ids.r_source.active is True and\
                 self.source_screen.ids.r_title.active is True and\
-                (self.picture_screen.ids.auto_resize.active is True or\
+                (self.picture_screen.ids.reso.active is True or
                  self.picture_screen.ids.check_sar.active is True) and\
                 self.video_screen.ids.check_codec.active is True:
             return True

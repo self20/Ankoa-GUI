@@ -397,30 +397,40 @@ class AnkoaApp(App):
     def get_audio_infos(self):
         [audio_ID, audio_title, audio_codec, audio_bitrate,
          audio_samplerate, audio_gain] = [[], [], [], [], [], []]
-        for nb in range(0, len(
-                self.audio_screen.ids.audio_track_layout.children)):
-            audio_ID.append(
-                self.audio_screen.ids.audio_track_layout\
-                    .children[nb].ids.audio_track_ID.text)
-            audio_title.append(
-                self.audio_screen.ids.audio_track_layout\
-                    .children[nb].ids.audio_track_title.text)
-            audio_codec.append(
-                self.audio_screen.ids.audio_track_layout\
-                    .children[nb].ids.acodec.value)
-            audio_bitrate.append(
-                self.audio_screen.ids.audio_track_layout\
-                   .children[nb].ids.abitrate.text)
-            audio_samplerate.append(
-                self.audio_screen.ids.audio_track_layout\
-                    .children[nb].ids.sample_rate.text)
-            audio_gain.append(
-                self.audio_screen.ids.audio_track_layout\
-                    .children[nb].ids.gain.text)
+        layout = \
+            self.audio_screen.ids.audio_track_layout.children
+
+        for nb in range(0, len(layout)):
+            audio_ID.append(layout[nb].ids.audio_track_ID.text)
+            audio_title.append(layout[nb].ids.audio_track_title.text)
+            audio_codec.append(layout[nb].ids.acodec.value)
+            audio_bitrate.append(layoutn[nb].ids.abitrate.text)
+            audio_samplerate.append(layout[nb].ids.sample_rate.text)
+            audio_gain.append(layout[nb].ids.gain.text)
             nb = nb + 1
 
         return (audio_ID, audio_title, audio_codec,
                 audio_bitrate, audio_samplerate, audio_gain)
+
+    # Get subtitles infos
+    def get_subtitles_infos(self):
+        [subs_ID, subs_title, subs_forced, subs_burned, subs_default,
+         subs_chars, subs_delay] = [[], [], [], [], [], [], []]
+        layout = \
+            self.subtitles_screen.ids.sub_track_layout.children
+
+        for nb in range(0, len(layout)):
+            subs_ID.append(layout[nb].ids.sub_track_ID.text)
+            subs_title.append(layout[nb].ids.sub_track_title.text)
+            subs_forced.append(layout[nb].ids.sub_forced.value)
+            subs_burned.append(layout[nb].ids.sub_burned.value)
+            subs_default.append(layout[nb].ids.sub_default.value)
+            subs_chars.append(layout[nb].ids.sub_charset.text)
+            subs_delay.append(layout[nb].ids.sub_delay.text)
+            nb = nb + 1
+
+        print (subs_ID, subs_title, subs_forced, subs_burned,
+                subs_default, subs_chars, subs_delay)
 
 if __name__ == '__main__':
     AnkoaApp().run()

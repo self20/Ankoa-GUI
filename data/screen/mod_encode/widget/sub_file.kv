@@ -14,6 +14,8 @@ GridLayout:
 
     # ---------- SUBS TRACK SOURCE & TITLE ----------
     BoxLayout:
+        id: sub_track_ID
+        text: ''
         padding: '3sp'
         size_hint: .6, 1
 
@@ -56,23 +58,34 @@ GridLayout:
         ToggleButton:
             id: sub_forced
             text: 'Forced'
+            value: ''
+            on_release:
+                self.value = 'subforced'
 
         # --- Burned Track ---
         ToggleButton:
             id: sub_burned
             text: 'Burn in'
+            value: ''
+            on_release:
+                self.value = 'subburned'
 
         # --- Default Track ---
         ToggleButton:
             id: sub_default
             text: 'Default'
+            value: ''
+            on_release:
+                self.value = 'subdefault'
 
         # --- Subcharset ---
         TextInput:
+            id: sub_charset
             hint_text: 'Chars'
             multiline: False
 
         # --- Subdelay ---
         TextInput:
+            id: sub_delay
             hint_text: 'Delay'
             multiline: False

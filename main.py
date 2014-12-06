@@ -419,7 +419,7 @@ class AnkoaApp(App):
                     .children[nb].ids.gain.text)
             nb = nb + 1
 
-        print (audio_ID, audio_title, audio_codec,
+        return (audio_ID, audio_title, audio_codec,
                 audio_bitrate, audio_samplerate, audio_gain)
 
 if __name__ == '__main__':

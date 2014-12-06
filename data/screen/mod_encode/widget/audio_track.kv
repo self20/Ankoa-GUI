@@ -1,4 +1,5 @@
 #:kivy 1.8.0
+#:import uuid uuid
 #:import audio_bitrate app.mod_encode.encode_var.audio_bitrate
 #:import sample_rate app.mod_encode.encode_var.sample_rate
 #:import audio_gain app.mod_encode.encode_var.audio_gain
@@ -54,6 +55,8 @@ GridLayout:
 
     # ---------- AUDIO TRACK CODEC ----------
     BoxLayout:
+        id: acodec
+        group: uuid.uuid4()
         padding: '2sp'
         size_hint: .4, 1
 
@@ -61,25 +64,29 @@ GridLayout:
         ToggleButton:
             id: mp3
             text: 'MP3'
-            group: 'audio_codec'
+            group: root.ids.acodec.group
+            on_release: root.ids.acodec.value = 'mp3'
 
         # --- AAC ---
         ToggleButton:
             id: aac
             text: 'AAC'
-            group: 'audio_codec'
+            group: root.ids.acodec.group
+            on_release: root.ids.acodec.value = 'aac'
 
         # --- AC3 ---
         ToggleButton:
             id: ac3
             text: 'AC3'
-            group: 'audio_codec'
+            group: root.ids.acodec.group
+            on_release: root.ids.acodec.value = 'ac3'
 
         # --- DTS ---
         ToggleButton:
             id: dts
             text: 'DTS'
-            group: 'audio_codec'
+            group: root.ids.acodec.group
+            on_release: root.ids.acodec.value = 'dts'
 
     # ---------- AUDIO TRACK INFOS ----------
     BoxLayout:
@@ -97,6 +104,7 @@ GridLayout:
             step: 1
             value: 6
         Label:
+            id: abitrate
             text:
                 audio_bitrate[int('{}'.format(audiobit.value)
                 .split('.')[0])]
@@ -114,6 +122,7 @@ GridLayout:
             step: 1
             value: 3
         Label:
+            id: sample_rate
             text:
                 sample_rate[int('{}'.format(samplerate.value)
                 .split('.')[0])]
@@ -135,6 +144,7 @@ GridLayout:
             step: 1
             value: 20
         Label:
+            id: gain
             text:
                 audio_gain[int('{}'.format(audiogain.value)
                 .split('.')[0])]

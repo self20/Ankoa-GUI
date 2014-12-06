@@ -393,5 +393,34 @@ class AnkoaApp(App):
         return (container, codec, crf, dual_pass,
                 framerate, preset, tune, profile, level)
 
+    # Get audio infos
+    def get_audio_infos(self):
+        [audio_ID, audio_title, audio_codec, audio_bitrate,
+         audio_samplerate, audio_gain] = [[], [], [], [], [], []]
+        for nb in range(0, len(
+                self.audio_screen.ids.audio_track_layout.children)):
+            audio_ID.append(
+                self.audio_screen.ids.audio_track_layout\
+                    .children[nb].ids.audio_track_ID.text)
+            audio_title.append(
+                self.audio_screen.ids.audio_track_layout\
+                    .children[nb].ids.audio_track_title.text)
+            audio_codec.append(
+                self.audio_screen.ids.audio_track_layout\
+                    .children[nb].ids.acodec.value)
+            audio_bitrate.append(
+                self.audio_screen.ids.audio_track_layout\
+                   .children[nb].ids.abitrate.text)
+            audio_samplerate.append(
+                self.audio_screen.ids.audio_track_layout\
+                    .children[nb].ids.sample_rate.text)
+            audio_gain.append(
+                self.audio_screen.ids.audio_track_layout\
+                    .children[nb].ids.gain.text)
+            nb = nb + 1
+
+        print (audio_ID, audio_title, audio_codec,
+                audio_bitrate, audio_samplerate, audio_gain)
+
 if __name__ == '__main__':
     AnkoaApp().run()

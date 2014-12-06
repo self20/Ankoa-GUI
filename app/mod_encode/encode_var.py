@@ -1,5 +1,4 @@
 #!/usr/bin/kivy
-
 # Required variables [ENCODE MODE]
 
 fixed_size = ['350MiB', '550MiB', '700MiB', '1.37GiB',

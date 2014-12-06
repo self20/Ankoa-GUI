@@ -470,10 +470,10 @@ class AnkoaApp(App):
         psy_trellis = self.advanced_screen.ids.psy_trellis.value
         deblock_alpha = self.advanced_screen.ids.deblock_alpha.value
         deblock_beta = self.advanced_screen.ids.deblock_beta.value
-        key_interval = self.advanced_screen.ids.key_interval.value
-        min_key = self.advanced_screen.ids.min_key.value
-        lookahead = self.advanced_screen.ids.lookahead.value
-        scenecut = self.advanced_screen.ids.scenecut.value
+        key_interval = self.advanced_screen.ids.key_interval.text
+        min_key = self.advanced_screen.ids.min_key.text
+        lookahead = self.advanced_screen.ids.lookahead.text
+        scenecut = self.advanced_screen.ids.scenecut.text
         chroma = self.advanced_screen.ids.chroma.value
         fast_skip = self.advanced_screen.ids.fast_skip.value
         grayscale = self.advanced_screen.ids.grayscale.value

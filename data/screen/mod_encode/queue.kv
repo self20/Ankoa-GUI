@@ -45,7 +45,17 @@
 
         # --- Add to queue ---
         Button:
+            request: 'ErrorPopup()'
             text: 'Add to queue'
+            on_press:
+                app.main_popup(self.request) if\
+                app.check_encode_values() == False else\
+                (app.get_source_infos() and\
+                app.get_picture_infos() and\
+                app.get_video_infos() and\
+                app.get_audio_infos() and\
+                app.get_subtitles_infos() and\
+                app.get_advanced_infos())
 
         # --- Copy cmd to clipboard ---
         Button:

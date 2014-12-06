@@ -409,7 +409,7 @@ class AnkoaApp(App):
             audio_ID.append(layout[nb].ids.audio_track_ID.text)
             audio_title.append(layout[nb].ids.audio_track_title.text)
             audio_codec.append(layout[nb].ids.acodec.value)
-            audio_bitrate.append(layoutn[nb].ids.abitrate.text)
+            audio_bitrate.append(layout[nb].ids.abitrate.text)
             audio_samplerate.append(layout[nb].ids.sample_rate.text)
             audio_gain.append(layout[nb].ids.gain.text)
             nb = nb + 1

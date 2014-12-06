@@ -30,5 +30,9 @@ class RemotePopup(Popup):
     pass
 
 
+class ErrorPopup(Popup):
+    pass
+
+
 class ExitPopup(Popup):
     pass

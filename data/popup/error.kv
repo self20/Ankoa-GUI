@@ -1,10 +1,10 @@
 #:kivy 1.8.0
 
-# ---------- GITHUB POPUP ----------
-<GithubPopup>:
+# ---------- ERROR POPUP ----------
+<ErrorPopup>:
     size_hint: .3, .3
     auto_dismiss: True
-    title: 'Github'
+    title: 'Warning'
     GridLayout:
         rows: 3
 
@@ -21,13 +21,12 @@
                 mipmap: True
                 source: 'data/img/logo_title.png'
 
-        # --- Infos ---
+        # --- Error ---
         RstDocument:
             text:
                 ('.. _top:\n'
                 '\n'
-                'Organization\n'
+                'Error\n'
                 '============\n'
                 '\n'
-                'Open Source Video Tools\n'
-                'https://github.com/Ankoa\n')
+                'Some values are missing\n')

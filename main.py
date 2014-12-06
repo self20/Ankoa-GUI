@@ -429,7 +429,7 @@ class AnkoaApp(App):
             subs_delay.append(layout[nb].ids.sub_delay.text)
             nb = nb + 1
 
-        print (subs_ID, subs_title, subs_forced, subs_burned,
+        return (subs_ID, subs_title, subs_forced, subs_burned,
                 subs_default, subs_chars, subs_delay)
 
 if __name__ == '__main__':

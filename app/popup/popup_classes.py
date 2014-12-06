@@ -1,7 +1,6 @@
 #!/usr/bin/kivy
 from kivy.uix.popup import Popup
 
-# Popups containers
 
 class SettingsPopup(Popup):
     pass

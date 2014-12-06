@@ -19,8 +19,8 @@ from kivy.properties import (NumericProperty, StringProperty,
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
-from app.popup.settings import *
-from app.popup.remote import *
+from app.settings.settings import *
+from app.server.remote import *
 
 # Resolution
 Config.set('graphics', 'width', '1024')

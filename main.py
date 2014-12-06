@@ -364,15 +364,20 @@ class AnkoaApp(App):
         else:
             reso = [self.picture_screen.ids.video_W.text,
                     self.picture_screen.ids.video_H.text]
+        crop_width = self.picture_screen.ids.crop_W.text
+        crop_height = self.picture_screen.ids.crop_H.text
+        crop_top = self.picture_screen.ids.crop_T.text
+        crop_bottom = self.picture_screen.ids.crop_B.text
+        crop_right = self.picture_screen.ids.crop_R.text
+        crop_left = self.picture_screen.ids.crop_L.text
+        deteline = self.picture_screen.ids.deteline.text
+        decomb = self.picture_screen.ids.decomb.text
+        deinterlace = self.picture_screen.ids.deint.text
+        denoise = self.picture_screen.ids.denoise.text
 
-        picture_list = [crop_W, crop_H, crop_T, crop_B, crop_R,
-                        crop_L, dtline, dcomb, dint, dnoise]
-        for item in picture_list:
-            if item in self.picture_screen.ids:
-                item = self.picture_screen.ids.item.text
-
-        return (reso, crop_W, crop_H, crop_T, crop_B, crop_R,
-                crop_L, dtline, dcomb, dint, dnoise)
+        return (reso, crop_width, crop_height, crop_top,
+                crop_bottom, crop_right, crop_left,
+                deteline, decomb, deinterlace, denoise)
 
     # Get video infos
     def get_video_infos(self):
@@ -386,11 +391,11 @@ class AnkoaApp(App):
         else:
             crf = None
             dual_pass = self.video_screen.ids.video_bitrate.text
-
-        video_list = [framerate, preset, tune, profile, level]
-        for item in video_list:
-            if item in self.video_screen.ids:
-                item = self.video_screen.ids.item.value
+        framerate = self.video_screen.ids.frame.value
+        preset = self.video_screen.ids.preset.value
+        tune = self.video_screen.ids.tune.value
+        profile = self.video_screen.ids.profile.value
+        level = self.video_screen.ids.level.value
 
         return (container, codec, crf, dual_pass,
                 framerate, preset, tune, profile, level)
@@ -442,18 +447,37 @@ class AnkoaApp(App):
     # Get advanced infos
     def get_advanced_infos(self):
         '''from data/mod_encode/screen/advanced.kv'''
-        advanced_list = (
-            threads_nb, threads_mod, ref_frames, max_Bframes,
-            mixed_ref, pyramid_mod, transform, cabac, direct_mod,
-            B_frames, weighted_bf, weighted_pf, me_method, subpixel,
-            me_range, partitions, trellis, adapt_strenght, psy_optim,
-            distord_rate, psy_trelli, deblock_alpha, deblock_beta,
-            key_interval, min_key, lookahead, scenecut, chroma,
-            fast_skip, grayscale, bluray_compat)
-
-        for item in advanced_list:
-            if item in self.advanced_screen.ids:
-                item = self.advanced_screen.ids.item.value
+        threads_nb = self.advanced_screen.ids.threads_nb.value
+        threads_mod = self.advanced_screen.ids.threads_mod.value
+        ref_frames = self.advanced_screen.ids.ref_frames.value
+        max_Bframes = self.advanced_screen.ids.max_Bframes.value
+        mixed_ref = self.advanced_screen.ids.mixed_ref.value
+        pyramid_mod = self.advanced_screen.ids.pyramid_mod.value
+        transform = self.advanced_screen.ids.transform.value
+        cabac = self.advanced_screen.ids.cabac.value
+        direct_mod = self.advanced_screen.ids.direct_mod.value
+        B_frames = self.advanced_screen.ids.B_frames.value
+        weighted_bf = self.advanced_screen.ids.weighted_bf.value
+        weighted_pf = self.advanced_screen.ids.weighted_pf.value
+        me_method = self.advanced_screen.ids.me_method.value
+        subpixel = self.advanced_screen.ids.subpixel.value
+        me_range = self.advanced_screen.ids.me_range.value
+        partitions = self.advanced_screen.ids.partitions.value
+        trellis = self.advanced_screen.ids.trellis.value
+        adapt_strenght = self.advanced_screen.ids.adapt_strengh.value
+        psy_optim = self.advanced_screen.ids.psy_optim.value
+        distord_rate = self.advanced_screen.ids.distord_rate.value
+        psy_trellis = self.advanced_screen.ids.psy_trellis.value
+        deblock_alpha = self.advanced_screen.ids.deblock_alpha.value
+        debloack_beta = self.advanced_screen.ids.debloack_beta.value
+        key_interval = self.advanced_screen.ids.key_interval.value
+        min_key = self.advanced_screen.ids.min_key.value
+        lookahead = self.advanced_screen.ids.lookahead.value
+        scenecut = self.advanced_screen.ids.scenecut.value
+        chroma = self.advanced_screen.ids.chroma.value
+        fast_skip = self.advanced_screen.ids.fast_skip.value
+        grayscale = self.advanced_screen.ids.grayscale.value
+        bluray_compat = self.advanced_screen.ids.bluray_compat.value
 
         return (
             threads_nb, threads_mod, ref_frames, max_Bframes,

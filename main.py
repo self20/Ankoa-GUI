@@ -344,57 +344,60 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  MAPPING ENCODE ###############################################
     # ---------------------------------------------------------------
-    '''Each mode requires its own manage.py file'''
+    '''
+    Get all screens values from corresponding kv file
+    Each mode requires its own manage.py file
+    '''
 
     # Get source infos
     def get_source_infos(self):
+        '''from data/mod_encode/screen/source.kv'''
         rls_source = self.source_screen.ids.source.text
         rls_title = self.source_screen.ids.title.text
         return (rls_source, rls_title)
 
     # Get picture infos
     def get_picture_infos(self):
-        if self.picture_screen.ids.check_sar.active == True:
+        '''from data/mod_encode/screen/picture.kv'''
+        if self.picture_screen.ids.check_sar.active is True:
             reso = [self.picture_screen.sar_val.value]
         else:
             reso = [self.picture_screen.ids.video_W.text,
                     self.picture_screen.ids.video_H.text]
-        crop_width = self.picture_screen.ids.crop_W
-        crop_height = self.picture_screen.ids.crop_H
-        crop_top = self.picture_screen.ids.crop_T
-        crop_bottom = self.picture_screen.ids.crop_B
-        crop_right = self.picture_screen.ids.crop_R
-        crop_left = self.picture_screen.ids.crop_L
-        deteline = self.picture_screen.ids.deteline.text
-        decomb = self.picture_screen.ids.decomb.text
-        deinterlace = self.picture_screen.ids.dinterlace.text
-        denoise = self.picture_screen.ids.denoise.text
 
-        return (reso, crop_width, crop_height, crop_top,
-                crop_bottom, crop_right, crop_left,
-                deteline, decomb, deinterlace, denoise)
+        picture_list = [crop_W, crop_H, crop_T, crop_B, crop_R,
+                        crop_L, dtline, dcomb, dint, dnoise]
+        for item in picture_list:
+            if item in self.picture_screen.ids:
+                item = self.picture_screen.ids.item.text
+
+        return (reso, crop_W, crop_H, crop_T, crop_B, crop_R,
+                crop_L, dtline, dcomb, dint, dnoise)
 
     # Get video infos
     def get_video_infos(self):
+        '''from data/mod_encode/screen/video.kv'''
         container = self.video_screen.ids.vcontainer.valueA
         codec = self.video_screen.ids.vcontainer.valueB
-        if self.video_screen.ids.check_crf.active == True:
+
+        if self.video_screen.ids.check_crf.active is True:
             crf = self.video_screen.ids.crf.value
             dual_pass = None
         else:
             crf = None
             dual_pass = self.video_screen.ids.video_bitrate.text
-        framerate = self.video_screen.ids.frame.value
-        preset = self.video_screen.ids.preset.value
-        tune = self.video_screen.ids.tune.value
-        profile = self.video_screen.ids.profile.value
-        level = self.video_screen.ids.level.value
+
+        video_list = [framerate, preset, tune, profile, level]
+        for item in video_list:
+            if item in self.video_screen.ids:
+                item = self.video_screen.ids.item.value
 
         return (container, codec, crf, dual_pass,
                 framerate, preset, tune, profile, level)
 
     # Get audio infos
     def get_audio_infos(self):
+        '''from data/mod_encode/screen/widget/audio_track.kv'''
         [audio_ID, audio_title, audio_codec, audio_bitrate,
          audio_samplerate, audio_gain] = [[], [], [], [], [], []]
         layout = \
@@ -414,6 +417,10 @@ class AnkoaApp(App):
 
     # Get subtitles infos
     def get_subtitles_infos(self):
+        '''
+        from data/mod_encode/screen/widget/sub_file.kv
+        from data/mod_encode/screen/widget/sub_file.kv
+        '''
         [subs_ID, subs_title, subs_forced, subs_burned, subs_default,
          subs_chars, subs_delay] = [[], [], [], [], [], [], []]
         layout = \
@@ -431,6 +438,31 @@ class AnkoaApp(App):
 
         return (subs_ID, subs_title, subs_forced, subs_burned,
                 subs_default, subs_chars, subs_delay)
+
+    # Get advanced infos
+    def get_advanced_infos(self):
+        '''from data/mod_encode/screen/advanced.kv'''
+        advanced_list = (
+            threads_nb, threads_mod, ref_frames, max_Bframes,
+            mixed_ref, pyramid_mod, transform, cabac, direct_mod,
+            B_frames, weighted_bf, weighted_pf, me_method, subpixel,
+            me_range, partitions, trellis, adapt_strenght, psy_optim,
+            distord_rate, psy_trelli, deblock_alpha, deblock_beta,
+            key_interval, min_key, lookahead, scenecut, chroma,
+            fast_skip, grayscale, bluray_compat)
+
+        for item in advanced_list:
+            if item in self.advanced_screen.ids:
+                item = self.advanced_screen.ids.item.value
+
+        return (
+            threads_nb, threads_mod, ref_frames, max_Bframes,
+            mixed_ref, pyramid_mod, transform, cabac, direct_mod,
+            B_frames, weighted_bf, weighted_pf, me_method, subpixel,
+            me_range, partitions, trellis, adapt_strenght, psy_optim,
+            distord_rate, psy_trellis, deblock_alpha, deblock_beta,
+            key_interval, min_key, lookahead, scenecut, chroma,
+            fast_skip, grayscale, bluray_compat)
 
 if __name__ == '__main__':
     AnkoaApp().run()

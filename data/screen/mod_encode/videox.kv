@@ -278,14 +278,14 @@
         # --- Framerate Value ---
         BoxLayout:
             Slider:
-                id: frame
+                id: framerate
                 min: 0
                 max: 11
                 step: 1
                 value: 4
             Label:
                 text:
-                    x264_framerate[int('{}'.format(frame.value)
+                    x264_framerate[int('{}'.format(framerate.value)
                     .split('.')[0])]
                 bold: True
 

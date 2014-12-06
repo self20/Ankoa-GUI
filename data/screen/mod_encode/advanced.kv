@@ -2,10 +2,10 @@
 #:import pyramidal_method app.mod_encode.encode_var.pyramidal_method
 #:import direct_mode app.mod_encode.encode_var.direct_mode
 #:import adaptive_bframes app.mod_encode.encode_var.adaptive_bframes
-#:import weighted_pframes app.mod_encode.encode_var.weighted_pframes
+#:import weighted_bframes app.mod_encode.encode_var.weighted_bframes
 #:import motion_method app.mod_encode.encode_var.motion_method
 #:import partitions_type app.mod_encode.encode_var.partitions_type
-#:import trellis app.mod_encode.encode_var.trellis
+#:import trellis_val app.mod_encode.encode_var.trellis_val
 #:import quantization app.mod_encode.encode_var.quantization
 #:import rate_distortion app.mod_encode.encode_var.rate_distortion
 #:import psy_trellis app.mod_encode.encode_var.psy_trellis
@@ -46,24 +46,28 @@
             Label:
                 text: 'Threads Number'
             Slider:
-                id: threads
+                id: threads_nb
                 min: 0
                 max: 32
                 step: 1
                 value: 0
             Label:
-                text: str(root.ids.threads.value).split('.')[0]
+                text: str(root.ids.threads_nb.value).split('.')[0]
                 bold: True
 
             # --- Slice Threads ---
             ToggleButton:
+                id: threads_mod
+                value: ''
                 text: 'SLICE'
                 group: 'threads'
+                on_release: root.ids.threads_mod.value = 'slice'
 
             # --- Frame Threads ---
             ToggleButton:
                 text: 'FRAME'
                 group: 'threads'
+                on_release: root.ids.threads_mod.value = 'frame'
 
     # ---------- FRAMES ----------
     BoxLayout:
@@ -106,18 +110,21 @@
             Label:
                 text: 'Max B-Frames  '
             Slider:
-                id: b_frames
+                id: max_Bframes
                 min: 0
                 max: 16
                 step: 1
                 value: 0
             Label:
-                text: str(root.ids.b_frames.value).split('.')[0]
+                text: str(root.ids.max_Bframes.value).split('.')[0]
                 bold: True
 
             # --- Mixed Frames ---
             ToggleButton:
+                id: mixed_ref
+                value: ''
                 text: 'MIXED'
+                on_release: self.value = 'mixed'
 
     # ---------- ENCODING ----------
     BoxLayout:
@@ -147,24 +154,30 @@
             Label:
                 text: 'Pyramidal Method'
             Slider:
-                id: pyramidal
+                id: pyramid_mod
                 min: 0
                 max: 2
                 step: 1
                 value: 0
             Label:
                 text:
-                    pyramidal_method[int('{}'.format(pyramidal.value)
+                    pyramidal_method[int('{}'.format(pyramid_mod.value)
                     .split('.')[0])]
                 bold: True
 
             # --- 8x8 Transform ---
             ToggleButton:
+                id: transform
+                value: ''
                 text: '8x8 TRANSFORM'
+                on_release: self.value = 'transform'
 
             # --- Enable Cabac ---
             ToggleButton:
+                id: cabac
+                value: ''
                 text: 'CABAC'
+                on_release: self.value = 'cabac'
 
     # ---------- ADAPTIVE ----------
     BoxLayout:
@@ -209,14 +222,14 @@
             Label:
                 text: 'B-Frames'
             Slider:
-                id: adapt_bf
+                id: B_frames
                 min: 0
                 max: 2
                 step: 1
                 value: 0
             Label:
                 text:
-                    adaptive_bframes[int('{}'.format(adapt_bf.value)
+                    adaptive_bframes[int('{}'.format(B_frames.value)
                     .split('.')[0])]
                 bold: True
 
@@ -248,20 +261,23 @@
             Label:
                 text: 'Weighted B-Frames'
             Slider:
-                id: w_pframes
+                id: weighted_bf
                 min: 0
                 max: 2
                 step: 1
                 value: 0
             Label:
                 text:
-                    weighted_pframes[int('{}'.format(w_pframes.value)
+                    weighted_bframes[int('{}'.format(weighted_bf.value)
                     .split('.')[0])]
                 bold: True
 
             # --- Weighted PFrames ---
             ToggleButton:
+                id: weighted_pf
+                value: ''
                 text: 'Weighted P-Frames'
+                on_release: self.value = 'weighted_pf'
 
     # ---------- MOTION ----------
     BoxLayout:
@@ -291,14 +307,14 @@
             Label:
                 text: 'Method'
             Slider:
-                id: motion_mod
+                id: me_method
                 min: 0
                 max: 3
                 step: 1
                 value: 1
             Label:
                 text:
-                    motion_method[int('{}'.format(motion_mod.value)
+                    motion_method[int('{}'.format(me_method.value)
                     .split('.')[0])]
                 bold: True
 
@@ -356,14 +372,14 @@
             Label:
                 text: 'Type'
             Slider:
-                id: part_type
+                id: partitions
                 min: 0
                 max: 6
                 step: 1
                 value: 1
             Label:
                 text:
-                    partitions_type[int('{}'.format(part_type.value)
+                    partitions_type[int('{}'.format(partitions.value)
                     .split('.')[0])]
                 bold: True
 
@@ -371,14 +387,14 @@
             Label:
                 text: 'Trellis'
             Slider:
-                id: trelli
+                id: trellis
                 min: 0
                 max: 2
                 step: 1
                 value: 1
             Label:
                 text:
-                    trellis[int('{}'.format(trelli.value)
+                    trellis_val[int('{}'.format(trellis.value)
                     .split('.')[0])]
                 bold: True
 
@@ -410,20 +426,23 @@
             Label:
                 text: 'Adaptive Strenght'
             Slider:
-                id: quantiz
+                id: adapt_strenght
                 min: 0
                 max: 20
                 step: 1
                 value: 10
             Label:
                 text:
-                    quantization[int('{}'.format(quantiz.value)
+                    quantization[int('{}'.format(adapt_strenght.value)
                     .split('.')[0])]
                 bold: True
 
             # --- Psychovisual Optimization ---
             ToggleButton:
+                id: psy_optim
+                value: ''
                 text: 'PSY OPTIMIZATION'
+                on_release: self.value = 'psy_optim'
 
     # ---------- DISTORTION ----------
     BoxLayout:
@@ -453,20 +472,20 @@
             Label:
                 text: 'Rate'
             Slider:
-                id: rate
+                id: distord_rate
                 min: 0
                 max: 20
                 step: 1
                 value: 10
             Label:
                 text:
-                    rate_distortion[int('{}'.format(rate.value)
+                    rate_distortion[int('{}'.format(distord_rate.value)
                     .split('.')[0])]
                 bold: True
 
             # --- Psychovisual Trellis ---
             Label:
-                text: 'Pychovisual Trellis   '
+                text: 'Psychovisual Trellis   '
             Slider:
                 id: psy_trelli
                 min: 0
@@ -507,14 +526,14 @@
             Label:
                 text: 'Alpha'
             Slider:
-                id: alpha
+                id: deblock_alpha
                 min: 0
                 max: 12
                 step: 1
                 value: 6
             Label:
                 text:
-                    deblocking[int('{}'.format(alpha.value)
+                    deblocking[int('{}'.format(deblock_alpha.value)
                     .split('.')[0])]
                 bold: True
 
@@ -522,14 +541,14 @@
             Label:
                 text: 'Beta'
             Slider:
-                id: beta
+                id: deblock_beta
                 min: 0
                 max: 12
                 step: 1
                 value: 6
             Label:
                 text:
-                    deblocking[int('{}'.format(beta.value)
+                    deblocking[int('{}'.format(deblock_beta.value)
                     .split('.')[0])]
                 bold: True
 
@@ -561,6 +580,8 @@
             Label:
                 text: 'Interval'
             TextInput:
+                id: key_interval
+                value: self.text
                 hint_text: '250'
                 input_filter: 'int'
 
@@ -568,6 +589,8 @@
             Label:
                 text: 'Minimal Key'
             TextInput:
+                id: min_key
+                value: self.text
                 hint_text: '25'
                 input_filter: 'int'
 
@@ -575,6 +598,8 @@
             Label:
                 text: 'Lookahead'
             TextInput:
+                id: lookahead
+                value: self.text
                 hint_text: '60'
                 input_filter: 'int'
 
@@ -606,25 +631,34 @@
             Label:
                 text: 'Scenecut'
             TextInput:
+                id: scenecut
+                value: self.text
                 hint_text: '40'
                 input_filter: 'int'
 
             # --- Chroma ---
             ToggleButton:
+                id: chroma
+                value: ''
                 text: 'CHROMA'
-                input_filter: 'int'
+                on_release: self.value = 'chroma'
 
             # --- Fast Skip ---
             ToggleButton:
+                id: fast_skip
                 text: 'FAST SKIP'
-                input_filter: 'int'
+                on_release: self.value = 'fast_skip'
 
             # --- Grayscale ---
             ToggleButton:
+                id: grayscale
+                value: ''
                 text: 'GRAYSCALE'
-                input_filter: 'int'
+                on_release: self.value = 'grayscale'
 
             # --- BluRay Compatibility ---
             ToggleButton:
-                text:
-                    'BLURAY'
+                id: bluray_compat
+                value: ''
+                text: 'BLURAY'
+                on_release: self.value = 'bluray_compat'

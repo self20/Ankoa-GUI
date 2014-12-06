@@ -56,14 +56,14 @@ direct_mode = ['Off', 'Spatial', 'Temporal', 'Auto']
 
 adaptive_bframes = ['VeryFast', 'Fast', 'Slower']
 
-weighted_pframes = ['Off', 'Simple', 'Smart']
+weighted_bframes = ['Off', 'Simple', 'Smart']
 
 motion_method = ['DIA', 'HEX', 'UMH', 'ESA', 'TESA']
 
 partitions_type = ['None', 'All', 'p8x8', 'p4x4',
                    'b8x8', 'i8x8', 'i4x4']
 
-trellis = ['Off', 'Default', 'All']
+trellis_val = ['Off', 'Default', 'All']
 
 quantization = ['0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6',
                 '0.7', '0.8', '0.9', '0', '1.1', '1.2', '1.3',

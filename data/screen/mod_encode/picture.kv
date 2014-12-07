@@ -176,10 +176,11 @@
             Slider:
                 id: aspect
                 min: 0
-                max: 5
+                max: 5 if ar_val.text != 'Custom' else 0
                 step: 1
                 value: 0
             Label:
+                id: ar_val
                 text:
                     'Custom' if root.ids.check_sar.active is True or\
                     root.ids.auto_resize.active is False else\
@@ -353,7 +354,7 @@
                 multiline: False
                 padding: 5, 8, 0, 0
                 font_size: 11
-                foreground_color: 255, 0, 0, 1
+                foreground_color: 128, 0, 0, 1
                 hint_text:
                     'FFMPEG Video Filters' if\
                     root.ids.dint.value == 0 else ''
@@ -409,7 +410,7 @@
                 multiline: False
                 padding: 5, 8, 0, 0
                 font_size: 11
-                foreground_color: 255, 0, 0, 1
+                foreground_color: 128, 0, 0, 1
                 hint_text:
                     'FFMPEG Video Filters' if\
                     root.ids.motion.value == 0 else ''
@@ -466,7 +467,7 @@
                 multiline: False
                 padding: 5, 8, 0, 0
                 font_size: 11
-                foreground_color: 255, 0, 0, 1
+                foreground_color: 128, 0, 0, 1
                 hint_text:
                     'FFMPEG Video Filters' if\
                     root.ids.dcimate.value == 0 else ''
@@ -522,7 +523,7 @@
                 multiline: False
                 padding: 5, 8, 0, 0
                 font_size: 11
-                foreground_color: 255, 0, 0, 1
+                foreground_color: 128, 0, 0, 1
                 hint_text:
                     'FFMPEG Video Filters' if\
                     root.ids.dnoise.value == 0 else ''

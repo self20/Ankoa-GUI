@@ -419,62 +419,6 @@
                     motion_cmd[int('{}'.format(motion.value)
                     .split('.')[0])]
 
-    # ---------- DENOISE ----------
-    BoxLayout:
-        padding: '8sp'
-        orientation: 'horizontal'
-        size_hint: 1, .1
-        canvas:
-            Color:
-                rgba: .2, .3, .4, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-
-        # --- Check Denoise ---
-        Switch:
-            size_hint_x: .20
-            touch_control: False
-            active:
-                True if root.ids.dnoise.value != 0 else False
-
-        # --- Denoise Label ---
-        Label:
-            text: 'Denoise Filter'
-            bold: True
-            size_hint_x: .40
-
-        BoxLayout:
-
-            # --- Denoise Mode ---
-            Slider:
-                id: dnoise
-                min: 0
-                max: 4
-                step: 1
-                value: 0
-            Label:
-                text:
-                    denoise[int('{}'.format(dnoise.value)
-                    .split('.')[0])]
-                bold: True
-
-            # --- Custom Denoise ---
-            TextInput:
-                id: denoise
-                multiline: False
-                padding: 5, 8, 0, 0
-                font_size: 11
-                foreground_color: 255, 0, 0, 1
-                hint_text:
-                    'FFMPEG Video Filters' if\
-                    root.ids.dnoise.value == 0 else ''
-                readonly:
-                    True if root.ids.dnoise.value != 4 else False
-                text:
-                    denoise_cmd[int('{}'.format(root.ids.dnoise.value)
-                    .split('.')[0])]
-
     # ---------- DECIMATE ----------
     BoxLayout:
         padding: '8sp'
@@ -530,4 +474,60 @@
                     True if root.ids.dcimate.value != 2 else False
                 text:
                     decimate_cmd[int('{}'.format(dcimate.value)
+                    .split('.')[0])]
+
+    # ---------- DENOISE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        # --- Check Denoise ---
+        Switch:
+            size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.dnoise.value != 0 else False
+
+        # --- Denoise Label ---
+        Label:
+            text: 'Denoise Filter'
+            bold: True
+            size_hint_x: .40
+
+        BoxLayout:
+
+            # --- Denoise Mode ---
+            Slider:
+                id: dnoise
+                min: 0
+                max: 4
+                step: 1
+                value: 0
+            Label:
+                text:
+                    denoise[int('{}'.format(dnoise.value)
+                    .split('.')[0])]
+                bold: True
+
+            # --- Custom Denoise ---
+            TextInput:
+                id: denoise
+                multiline: False
+                padding: 5, 8, 0, 0
+                font_size: 11
+                foreground_color: 255, 0, 0, 1
+                hint_text:
+                    'FFMPEG Video Filters' if\
+                    root.ids.dnoise.value == 0 else ''
+                readonly:
+                    True if root.ids.dnoise.value != 4 else False
+                text:
+                    denoise_cmd[int('{}'.format(root.ids.dnoise.value)
                     .split('.')[0])]

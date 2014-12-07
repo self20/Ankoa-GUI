@@ -1,6 +1,8 @@
 #:kivy 1.8.0
 #:import uuid uuid
-#:import audio_bitrate app.mod_encode.encode_var.audio_bitrate
+#:import mp3_bitrate app.mod_encode.encode_var.mp3_bitrate
+#:import aac_bitrate app.mod_encode.encode_var.aac_bitrate
+#:import ac3_bitrate app.mod_encode.encode_var.ac3_bitrate
 #:import sample_rate app.mod_encode.encode_var.sample_rate
 #:import audio_gain app.mod_encode.encode_var.audio_gain
 
@@ -26,8 +28,8 @@ GridLayout:
             size_hint_x: .2
             touch_control: False
             active:
-                True if audio_track_ID != '' and\
-                audio_track_title != '' and\
+                True if audio_track_ID.text != '' and\
+                audio_track_title.text != '' and\
                 (root.ids.mp3.state == 'down' or\
                 root.ids.aac.state == 'down' or\
                 root.ids.ac3.state == 'down' or\
@@ -56,6 +58,7 @@ GridLayout:
     # ---------- AUDIO TRACK CODEC ----------
     BoxLayout:
         id: acodec
+        value: ''
         group: uuid.uuid4()
         padding: '2sp'
         size_hint: .4, 1
@@ -100,14 +103,22 @@ GridLayout:
         Slider:
             id: audiobit
             min: 0
-            max: 9
+            max:
+                13 if root.ids.mp3.state == 'down' else\
+                11 if root.ids.aac.state == 'down' else\
+                9 if root.ids.ac3.state == 'down' else 0
             step: 1
-            value: 6
+            value: 0
         Label:
             id: abitrate
             text:
-                audio_bitrate[int('{}'.format(audiobit.value)
-                .split('.')[0])]
+                mp3_bitrate[int('{}'.format(audiobit.value)\
+                .split('.')[0])] if root.ids.mp3.state == 'down' else\
+                aac_bitrate[int('{}'.format(audiobit.value)\
+                .split('.')[0])] if root.ids.aac.state == 'down' else\
+                ac3_bitrate[int('{}'.format(audiobit.value)\
+                .split('.')[0])] if root.ids.ac3.state == 'down' else\
+                'Original'
             bold: True
         Label:
 

@@ -4,9 +4,22 @@
 fixed_size = ['350MiB', '550MiB', '700MiB', '1.37GiB',
               '2.05GiB', '2.74GiB', '4.37GiB', '6.56GiB']
 
-audio_bitrate = ['96Kbps', '128Kbps', '192Kbps', '256Kbps',
-                 '320Kbps', '384Kbps', '448Kbps', '640Kbps',
-                 '755Kbps', '1509Kbps']
+mp3_bitrate = ['32Kbps', '40Kbps', '48Kbps', '56Kbps', '64Kbps',
+               '80Kbps', '96Kbps', '112Kbps', '128Kbps', '160Kbps',
+               '192Kbps', '224Kbps', '256Kbps', '320Kbps']
+
+aac_bitrate = ['64Kbps', '80Kbps', '96Kbps', '112Kbps', '128Kbps',
+               '160Kbps', '192Kbps', '224Kbps', '256Kbps', '320Kbps',
+               '384Kbps', '448Kbps']
+
+ac3_bitrate = ['96Kbps', '112Kbps', '128Kbps', '160Kbps', '192Kbps',
+               '224Kbps', '256Kbps', '320Kbps', '384Kbps', '448Kbps',
+               '640Kbps']
+
+audio_bitrate = ['32Kbps', '40Kbps', '48Kbps', '56Kbps', '64Kbps',
+                 '80Kbps', '96Kbps', '112Kbps', '128Kbps', '160Kbps',
+                 '192Kbps', '224Kbps', '256Kbps', '320Kbps', '448Kbps',
+                 '640Kbps', '755Kbps', '1509Kbps']
 
 sample_rate = ['24kHz', '32kHz', '44kHz', '48kHz', '96kHz']
 

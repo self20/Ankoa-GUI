@@ -42,13 +42,28 @@ framerate = ['5', '10', '12', '15', '23.976', '24', '25',
 
 aspect_ratio = ['1.33', '1.66', '1.78', '1.85', '2.35', '2.40']
 
-deteline = ['Off', 'Default', 'Custom']
+deinterlace = ['Off', 'Fast', 'Slow', 'Slower', 'VerySlow',
+               'Yadif Default', 'Yadif All', 'Custom']
 
-decomb = ['Off', 'Default', 'Fast', 'Bob', 'Custom']
+deint_cmd = ['',
+             'w3fdif=filter=simple:deint=interlaced',
+             'w3fdif=filter=simple:deint=all',
+             'w3fdif=filter=complex:deint=interlaced',
+             'w3fdif=filter=complex:deint=all',
+             'yadif=deint=1', 'yadif=deint=0', '']
 
-deinterlace = ['Off', 'Fast', 'Slow', 'Slower', 'Bob', 'Custom']
+motion_deint = ['Off', 'Fast', 'Medium', 'Slow', 'ExtraSlow', 'Custom']
+
+motion_cmd = ['', 'mcdeint=fast', 'mcdeint=medium',
+              'mcdeint=slow', 'mcdeint=extra_slow', '']
 
 denoise = ['Off', 'Weak', 'Medium', 'Strong', 'Custom']
+
+denoise_cmd = ['', 'dctdnoiz=0', 'dctdnoiz=4.5', 'dctdnoiz=15:n=4', '']
+
+decimate = ['Off', 'Default', 'Custom']
+
+decimate_cmd = ['', 'cycle=5:scthresh=15:ppsrc=0', '']
 
 pyramidal_method = ['Off', 'Normal', 'Strict']
 

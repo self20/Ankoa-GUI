@@ -1,9 +1,13 @@
 #:kivy 1.8.0
 #:import aspect_ratio app.mod_encode.encode_var.aspect_ratio
-#:import deteline app.mod_encode.encode_var.deteline
-#:import decomb app.mod_encode.encode_var.decomb
 #:import deinterlace app.mod_encode.encode_var.deinterlace
+#:import deint_cmd app.mod_encode.encode_var.deint_cmd
+#:import motion_deint app.mod_encode.encode_var.motion_deint
+#:import motion_cmd app.mod_encode.encode_var.motion_cmd
 #:import denoise app.mod_encode.encode_var.denoise
+#:import denoise_cmd app.mod_encode.encode_var.denoise_cmd
+#:import decimate app.mod_encode.encode_var.decimate
+#:import decimate_cmd app.mod_encode.encode_var.decimate_cmd
 #:import ar_sd app.mod_encode.encode_var.ar_sd
 #:import ar_720p app.mod_encode.encode_var.ar_720p
 #:import ar_1080p app.mod_encode.encode_var.ar_1080p
@@ -303,99 +307,6 @@
                 multiline: False
                 input_type: 'number'
 
-    # ---------- DETELINE ----------
-    BoxLayout:
-        padding: '8sp'
-        orientation: 'horizontal'
-        size_hint: 1, .1
-        canvas:
-            Color:
-                rgba: .2, .3, .4, .5
-            Rectangle:
-                size: self.size
-                pos: self.pos
-
-        # --- Check Deteline ---
-        Switch:
-            id: deteline_on
-            size_hint_x: .20
-            touch_control: False
-            active:
-                True if root.ids.dtline.value != 0 else False
-
-        # --- Deteline Label ---
-        Label:
-            text: 'Deteline Filter'
-            bold: True
-            size_hint_x: .40
-
-        BoxLayout:
-
-            # --- Deteline Mode ---
-            Slider:
-                id: dtline
-                min: 0
-                max: 2
-                step: 1
-                value: 0
-            Label:
-                text:
-                    deteline[int('{}'.format(dtline.value)
-                    .split('.')[0])]
-                bold: True
-
-            # --- Custom Deteline ---
-            TextInput:
-                id: deteline
-                readonly:
-                    True if root.ids.dtline.value != 2 else False
-
-    # ---------- DECOMB ----------
-    BoxLayout:
-        padding: '8sp'
-        orientation: 'horizontal'
-        size_hint: 1, .1
-        canvas:
-            Color:
-                rgba: .2, .3, .4, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-
-        # --- Check Decomb ---
-        Switch:
-            size_hint_x: .20
-            touch_control: False
-            active:
-                True if root.ids.dcomb.value != 0 else False
-
-        # --- Decomb Label ---
-        Label:
-            text: 'Decomb Filter'
-            bold: True
-            size_hint_x: .40
-
-        BoxLayout:
-
-            # --- Decomb Mode ---
-            Slider:
-                id: dcomb
-                min: 0
-                max: 4
-                step: 1
-                value: 0
-            Label:
-                text:
-                    decomb[int('{}'.format(dcomb.value)
-                    .split('.')[0])]
-                bold: True
-
-            # --- Custom Decomb ---
-            TextInput:
-                id: decomb
-                readonly:
-                    True if root.ids.dcomb.value != 4 else False
-
     # ---------- DEINTERLACE ----------
     BoxLayout:
         padding: '8sp'
@@ -427,7 +338,7 @@
             Slider:
                 id: dint
                 min: 0
-                max: 5
+                max: 7
                 step: 1
                 value: 0
             Label:
@@ -439,8 +350,74 @@
             # --- Custom Deinterlace ---
             TextInput:
                 id: deint
+                multiline: False
+                padding: 5, 8, 0, 0
+                font_size: 11
+                foreground_color: 255, 0, 0, 1
+                hint_text:
+                    'FFMPEG Video Filters' if\
+                    root.ids.dint.value == 0 else ''
                 readonly:
                     True if root.ids.dint.value != 5 else False
+                text:
+                    deint_cmd[int('{}'.format(root.ids.dint.value)
+                    .split('.')[0])]
+
+    # ---------- MOTION DEINTERLACE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        # --- Check Motion ---
+        Switch:
+            size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.motion.value != 0 else False
+
+        # --- Motion Label ---
+        Label:
+            text: 'Deinterlace Motion'
+            bold: True
+            size_hint_x: .40
+
+        BoxLayout:
+
+            # --- Motion Mode ---
+            Slider:
+                id: motion
+                min: 0
+                max: 5
+                step: 1
+                value: 0
+            Label:
+                text:
+                    motion_deint[int('{}'.format(motion.value)
+                    .split('.')[0])]
+                bold: True
+
+            # --- Custom Motion ---
+            TextInput:
+                id: motion_d
+                multiline: False
+                padding: 5, 8, 0, 0
+                font_size: 11
+                foreground_color: 255, 0, 0, 1
+                hint_text:
+                    'FFMPEG Video Filters' if\
+                    root.ids.motion.value == 0 else ''
+                readonly:
+                    True if root.ids.motion.value != 4 else False
+                text:
+                    motion_cmd[int('{}'.format(motion.value)
+                    .split('.')[0])]
 
     # ---------- DENOISE ----------
     BoxLayout:
@@ -485,5 +462,72 @@
             # --- Custom Denoise ---
             TextInput:
                 id: denoise
+                multiline: False
+                padding: 5, 8, 0, 0
+                font_size: 11
+                foreground_color: 255, 0, 0, 1
+                hint_text:
+                    'FFMPEG Video Filters' if\
+                    root.ids.dnoise.value == 0 else ''
                 readonly:
                     True if root.ids.dnoise.value != 4 else False
+                text:
+                    denoise_cmd[int('{}'.format(root.ids.dnoise.value)
+                    .split('.')[0])]
+
+    # ---------- DECIMATE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        # --- Check Decimate ---
+        Switch:
+            id: decimate_on
+            size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.dcimate.value != 0 else False
+
+        # --- Decimate Label ---
+        Label:
+            text: 'Decimate Filter'
+            bold: True
+            size_hint_x: .40
+
+        BoxLayout:
+
+            # --- Decimate Mode ---
+            Slider:
+                id: dcimate
+                min: 0
+                max: 2
+                step: 1
+                value: 0
+            Label:
+                text:
+                    decimate[int('{}'.format(dcimate.value)
+                    .split('.')[0])]
+                bold: True
+
+            # --- Custom Decimate ---
+            TextInput:
+                id: decimate
+                multiline: False
+                padding: 5, 8, 0, 0
+                font_size: 11
+                foreground_color: 255, 0, 0, 1
+                hint_text:
+                    'FFMPEG Video Filters' if\
+                    root.ids.dcimate.value == 0 else ''
+                readonly:
+                    True if root.ids.dcimate.value != 2 else False
+                text:
+                    decimate_cmd[int('{}'.format(dcimate.value)
+                    .split('.')[0])]

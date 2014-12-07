@@ -368,14 +368,14 @@ class AnkoaApp(App):
         crop_bottom = self.picture_screen.ids.crop_B.text
         crop_right = self.picture_screen.ids.crop_R.text
         crop_left = self.picture_screen.ids.crop_L.text
-        deteline = self.picture_screen.ids.deteline.text
-        decomb = self.picture_screen.ids.decomb.text
         deinterlace = self.picture_screen.ids.deint.text
+        motion_deint = self.picture_screen.ids.motion_d.text
         denoise = self.picture_screen.ids.denoise.text
+        decimate = self.picture_screen.ids.decimate.text
 
         return (reso, crop_width, crop_height, crop_top,
                 crop_bottom, crop_right, crop_left,
-                deteline, decomb, deinterlace, denoise)
+                deinterlace, motion_deint, denoise, decimate)
 
     # Get video infos
     def get_video_infos(self):
@@ -549,8 +549,8 @@ class AnkoaApp(App):
         '''Get all values'''
         (rls_source, rls_title) = self.get_source_infos()
         (reso, crop_width, crop_height, crop_top, crop_bottom,
-         crop_right, crop_left, deteline, decomb, deinterlace,
-         denoise) = self.get_picture_infos()
+         crop_right, crop_left, deinterlace, motion_deint,
+         denoise, decimate) = self.get_picture_infos()
         (video_ID, movie_name, container, codec, crf,
          dual_pass, framerate, preset, tune, profile,
          level) = self.get_video_infos()
@@ -568,8 +568,8 @@ class AnkoaApp(App):
 
         ffmpeg = encode(
             rls_source, rls_title, reso, crop_width, crop_height,
-            crop_top, crop_bottom, crop_right, crop_left, deteline,
-            decomb, deinterlace, denoise, container, video_ID,
+            crop_top, crop_bottom, crop_right, crop_left, deinterlace,
+            motion_deint, denoise, decimate, container, video_ID,
             movie_name, codec, crf, dual_pass, framerate, preset,
             tune, profile, level, audio_ID, audio_title, audio_codec,
             audio_bitrate, audio_samplerate, audio_gain, subs_ID,

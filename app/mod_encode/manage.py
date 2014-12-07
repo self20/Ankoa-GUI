@@ -3,8 +3,8 @@
 
 # Manage Encode MODE
 def encode(rls_source, rls_title, reso, crop_width, crop_height,
-           crop_top, crop_bottom, crop_right, crop_left, deteline,
-           decomb, deinterlace, denoise, container, video_ID,
+           crop_top, crop_bottom, crop_right, crop_left, deinterlace,
+           motion_deint, denoise, decimate, container, video_ID,
            movie_name, codec, crf, dual_pass, framerate, preset,
            tune, profile, level, audio_ID, audio_title, audio_codec,
            audio_bitrate, audio_samplerate, audio_gain, subs_ID,
@@ -33,8 +33,8 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
 
     print (
         rls_source, rls_title, reso, crop_width, crop_height,
-        crop_top, crop_bottom, crop_right, crop_left, deteline,
-        decomb, deinterlace, denoise, container, codec, crf,
+        crop_top, crop_bottom, crop_right, crop_left, deinterlace,
+        motion_deint, denoise, decimate, container, codec, crf,
         dual_pass, framerate, preset, tune, profile, level,
         audio_ID, audio_title, audio_codec, audio_bitrate,
         audio_samplerate, audio_gain, subs_ID, subs_title,

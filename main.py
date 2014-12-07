@@ -383,7 +383,7 @@ class AnkoaApp(App):
         codec = self.video_screen.ids.vcontainer.valueB
 
         if self.video_screen.ids.check_crf.active is True:
-            crf = self.video_screen.ids.crf.value
+            crf = self.video_screen.ids.crf_val.text
             dual_pass = None
         else:
             crf = None
@@ -538,6 +538,44 @@ class AnkoaApp(App):
             return True
         else:
             return False
+
+    # Send ENCODE values to Manager
+    def send_encode_values(self):
+
+        '''Get all values'''
+        (rls_source, rls_title) = self.get_source_infos()
+        (reso, crop_width, crop_height, crop_top, crop_bottom,
+         crop_right, crop_left, deteline, decomb, deinterlace,
+         denoise) = self.get_picture_infos()
+        (container, codec, crf, dual_pass, framerate, preset,
+         tune, profile, level) = self.get_video_infos()
+        (audio_ID, audio_title, audio_codec, audio_bitrate,
+         audio_samplerate, audio_gain) = self.get_audio_infos()
+        (subs_ID, subs_title, subs_forced, subs_burned, subs_default,
+         subs_chars, subs_delay) = self.get_subtitles_infos()
+        (threads_nb, threads_mod, ref_frames, max_Bframes, mixed_ref,
+         pyramid_mod, transform, cabac, direct_mod, B_frames,
+         weighted_bf, weighted_pf, me_method, subpixel, me_range,
+         partitions, trellis, adapt_strenght, psy_optim, distord_rate,
+         psy_trellis, deblock_alpha, deblock_beta, key_interval,
+         min_key, lookahead, scenecut, chroma, fast_skip, grayscale,
+         bluray_compat) = self.get_advanced_infos()
+
+        print(
+            rls_source, rls_title, reso, crop_width, crop_height,
+            crop_top, crop_bottom, crop_right, crop_left, deteline,
+            decomb, deinterlace, denoise, container, codec, crf,
+            dual_pass, framerate, preset, tune, profile, level,
+            audio_ID, audio_title, audio_codec, audio_bitrate,
+            audio_samplerate, audio_gain, subs_ID, subs_title,
+            subs_forced, subs_burned, subs_default, subs_chars,
+            subs_delay, threads_nb, threads_mod, ref_frames,
+            max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
+            direct_mod, B_frames, weighted_bf, weighted_pf, me_method,
+            subpixel, me_range, partitions, trellis, adapt_strenght,
+            psy_optim, distord_rate, psy_trellis, deblock_alpha,
+            deblock_beta, key_interval, min_key, lookahead, scenecut,
+            chroma, fast_skip, grayscale, bluray_compat)
 
 if __name__ == '__main__':
     AnkoaApp().run()

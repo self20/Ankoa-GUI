@@ -16,6 +16,7 @@ from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 
 # Local libraries
+from app.mod_encode.manage import encode
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
@@ -379,6 +380,8 @@ class AnkoaApp(App):
     # Get video infos
     def get_video_infos(self):
         '''from data/mod_encode/screen/video.kv'''
+        video_ID = self.video_screen.ids.video_track_ID.text
+        movie_name = self.video_screen.ids.movie_name.text
         container = self.video_screen.ids.vcontainer.valueA
         codec = self.video_screen.ids.vcontainer.valueB
 
@@ -394,8 +397,8 @@ class AnkoaApp(App):
         profile = self.video_screen.ids.pro_file.text
         level = self.video_screen.ids.le_vel.text
 
-        return (container, codec, crf, dual_pass,
-                framerate, preset, tune, profile, level)
+        return (video_ID, movie_name, container, codec, crf,
+                dual_pass, framerate, preset, tune, profile, level)
 
     # Get audio infos
     def get_audio_infos(self):
@@ -534,6 +537,7 @@ class AnkoaApp(App):
                 self.source_screen.ids.r_title.active is True and\
                 (self.picture_screen.ids.reso.active is True or
                  self.picture_screen.ids.check_sar.active is True) and\
+                self.video_screen.ids.check_vtrack.active is True and\
                 self.video_screen.ids.check_codec.active is True:
             return True
         else:
@@ -547,8 +551,9 @@ class AnkoaApp(App):
         (reso, crop_width, crop_height, crop_top, crop_bottom,
          crop_right, crop_left, deteline, decomb, deinterlace,
          denoise) = self.get_picture_infos()
-        (container, codec, crf, dual_pass, framerate, preset,
-         tune, profile, level) = self.get_video_infos()
+        (video_ID, movie_name, container, codec, crf,
+         dual_pass, framerate, preset, tune, profile,
+         level) = self.get_video_infos()
         (audio_ID, audio_title, audio_codec, audio_bitrate,
          audio_samplerate, audio_gain) = self.get_audio_infos()
         (subs_ID, subs_title, subs_forced, subs_burned, subs_default,
@@ -561,15 +566,15 @@ class AnkoaApp(App):
          min_key, lookahead, scenecut, chroma, fast_skip, grayscale,
          bluray_compat) = self.get_advanced_infos()
 
-        print(
+        ffmpeg = encode(
             rls_source, rls_title, reso, crop_width, crop_height,
             crop_top, crop_bottom, crop_right, crop_left, deteline,
-            decomb, deinterlace, denoise, container, codec, crf,
-            dual_pass, framerate, preset, tune, profile, level,
-            audio_ID, audio_title, audio_codec, audio_bitrate,
-            audio_samplerate, audio_gain, subs_ID, subs_title,
-            subs_forced, subs_burned, subs_default, subs_chars,
-            subs_delay, threads_nb, threads_mod, ref_frames,
+            decomb, deinterlace, denoise, container, video_ID,
+            movie_name, codec, crf, dual_pass, framerate, preset,
+            tune, profile, level, audio_ID, audio_title, audio_codec,
+            audio_bitrate, audio_samplerate, audio_gain, subs_ID,
+            subs_title, subs_forced, subs_burned, subs_default,
+            subs_chars, subs_delay, threads_nb, threads_mod, ref_frames,
             max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
             direct_mod, B_frames, weighted_bf, weighted_pf, me_method,
             subpixel, me_range, partitions, trellis, adapt_strenght,

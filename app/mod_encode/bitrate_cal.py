@@ -14,9 +14,9 @@ def calculator(HH, MM, SS, audio_bit, desired_size):
     calsize = bit_sizes[int(desired_size)]
 
     # Audio bitrates
-    audiobit = ['32', '40', '48', '56', '64', '80', '96',
-                '112', '128', '160', '192', '224', '256',
-                '320', '448', '640', '755', '1509']
+    audiobit = ['56', '64', '80', '96', '112', '128',
+                '160', '192', '224', '256', '320',
+                '448', '640', '755', '1509']
     audiobit = audiobit[int(audio_bit)]
 
     # Formula

@@ -16,7 +16,7 @@ from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 
 # Local libraries
-from app.mod_encode.manage import encode
+from app.mod_encode.manager import encode
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
@@ -540,7 +540,7 @@ class AnkoaApp(App):
     #  MANAGE ENCODE ################################################
     # ---------------------------------------------------------------
     '''
-    Check and send content to app/mod_encode/manage.py
+    Check and send content to app/mod_encode/manager.py
     Manager will return proper FFMPEG cmd
     '''
 

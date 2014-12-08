@@ -2,7 +2,7 @@
 #:import pyramidal_method app.mod_encode.encode_var.pyramidal_method
 #:import direct_mode app.mod_encode.encode_var.direct_mode
 #:import adaptive_bframes app.mod_encode.encode_var.adaptive_bframes
-#:import weighted_bframes app.mod_encode.encode_var.weighted_bframes
+#:import weighted_pframes app.mod_encode.encode_var.weighted_pframes
 #:import motion_method app.mod_encode.encode_var.motion_method
 #:import partitions_type app.mod_encode.encode_var.partitions_type
 #:import trellis_val app.mod_encode.encode_var.trellis_val
@@ -59,16 +59,17 @@
             # --- Slice Threads ---
             ToggleButton:
                 id: threads_mod
-                value: ''
+                value:
+                    'slice' if self.state == 'down' else\
+                    'frame' if root.ids.thread.state == 'down' else ''
                 text: 'SLICE'
                 group: 'threads'
-                on_release: root.ids.threads_mod.value = 'slice'
 
             # --- Frame Threads ---
             ToggleButton:
+                id: thread
                 text: 'FRAME'
                 group: 'threads'
-                on_release: root.ids.threads_mod.value = 'frame'
 
     # ---------- FRAMES ----------
     BoxLayout:
@@ -124,9 +125,8 @@
             # --- Mixed Frames ---
             ToggleButton:
                 id: mixed_ref
-                value: ''
+                value: '1' if self.state == 'down' else '0'
                 text: 'MIXED'
-                on_release: self.value = 'mixed'
 
     # ---------- ENCODING ----------
     BoxLayout:
@@ -164,6 +164,7 @@
                 value: 0
             Label:
                 id: pyram
+                value: '' if self.text == 'Off' else self.text
                 text:
                     pyramidal_method[int('{}'.format(pyramid_mod.value)
                     .split('.')[0])]
@@ -172,16 +173,15 @@
             # --- 8x8 Transform ---
             ToggleButton:
                 id: transform
-                value: ''
+                value: '1' if self.state == 'down' else '0'
                 text: '8x8 TRANSFORM'
-                on_release: self.value = 'transform'
 
             # --- Enable Cabac ---
             ToggleButton:
                 id: cabac
-                value: ''
+                value:
+                    'ac' if self.state == 'down' else 'vlc'
                 text: 'CABAC'
-                on_release: self.value = 'cabac'
 
     # ---------- ADAPTIVE ----------
     BoxLayout:
@@ -219,6 +219,7 @@
                 value: 0
             Label:
                 id: direct
+                value: '' if self.text == 'Off' else self.text
                 text:
                     direct_mode[int('{}'.format(direct_mod.value)
                     .split('.')[0])]
@@ -230,11 +231,12 @@
             Slider:
                 id: B_frames
                 min: 0
-                max: 2
+                max: 3
                 step: 1
                 value: 0
             Label:
                 id: Bframes
+                value: '' if self.text == 'Off' else self.text
                 text:
                     adaptive_bframes[int('{}'.format(B_frames.value)
                     .split('.')[0])]
@@ -265,28 +267,29 @@
 
         BoxLayout:
 
-            # --- Weighted BFrames ---
+            # --- Weighted PFrames ---
             Label:
-                text: 'Weighted B-Frames'
+                text: 'Weighted P-Frames'
             Slider:
-                id: weighted_bf
+                id: weighted_pf
                 min: 0
-                max: 2
+                max: 3
                 step: 1
                 value: 0
             Label:
-                id: weight_bf
+                id: weight_pf
+                value: '' if self.text == 'Off' else self.text
                 text:
-                    weighted_bframes[int('{}'.format(weighted_bf.value)
+                    weighted_pframes[int('{}'.format(weighted_pf.value)
                     .split('.')[0])]
                 bold: True
 
-            # --- Weighted PFrames ---
+            # --- Weighted BFrames ---
             ToggleButton:
-                id: weight_pf
+                id: weight_bf
                 value: ''
-                text: 'Weighted P-Frames'
-                on_release: self.value = 'weight_pf'
+                text: 'Weighted B-Frames'
+                on_release: self.value = 'weight_f'
 
     # ---------- MOTION ----------
     BoxLayout:
@@ -321,7 +324,7 @@
                 min: 0
                 max: 3
                 step: 1
-                value: 1
+                value: 2
             Label:
                 id: me_mod
                 text:
@@ -406,7 +409,6 @@
                 step: 1
                 value: 1
             Label:
-                id: trell
                 text:
                     trellis_val[int('{}'.format(trellis.value)
                     .split('.')[0])]
@@ -456,9 +458,8 @@
             # --- Psychovisual Optimization ---
             ToggleButton:
                 id: psy_optim
-                value: ''
+                value: '1' if self.state == 'down' else '0'
                 text: 'PSY OPTIMIZATION'
-                on_release: self.value = 'psy_optim'
 
     # ---------- DISTORTION ----------
     BoxLayout:
@@ -659,26 +660,24 @@
             # --- Chroma ---
             ToggleButton:
                 id: chroma
-                value: ''
+                value: 'chroma' if self.state == 'down' else 'sad'
                 text: 'CHROMA'
-                on_release: self.value = 'chroma'
 
             # --- Fast Skip ---
             ToggleButton:
                 id: fast_skip
                 text: 'FAST SKIP'
+                value: '1' if self.state == 'down' else '0'
                 on_release: self.value = 'fast_skip'
 
             # --- Grayscale ---
             ToggleButton:
                 id: grayscale
-                value: ''
                 text: 'GRAYSCALE'
-                on_release: self.value = 'grayscale'
+                value: 'gray' if self.state == 'down' else ''
 
             # --- BluRay Compatibility ---
             ToggleButton:
                 id: bluray_compat
-                value: ''
                 text: 'BLURAY'
-                on_release: self.value = 'bluray_compat'
+                value: '1' if self.state == 'down' else '0'

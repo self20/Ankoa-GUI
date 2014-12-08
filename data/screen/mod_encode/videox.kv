@@ -68,7 +68,7 @@
             # --- Movie Name ---
             TextInput:
                 id: movie_name
-                hint_text: 'Track Title'
+                hint_text: 'Metadata Title (mediainfo)'
                 multiline: False
                 text:
                     (app.video_source).split('/')[-1][:-4]
@@ -170,12 +170,18 @@
                 multiline: False
                 input_filter: 'int'
                 text: app.current_bitrate
-            Label:
 
             # --- Bitrate Calculator button ---
             ToggleButton:
                 text: 'Bitrate Calculator'
                 on_press: app.toggle_bitrate(self.state)
+
+            # --- Fast First Pass ---
+            ToggleButton:
+                id: fast1pass
+                value:
+                    '1' if self.state == 'down' else '0'
+                text: 'Fast Firstpass'
 
     # ---------- BITRATE CALCULATOR ----------
     ScrollView:

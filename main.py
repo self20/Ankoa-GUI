@@ -362,12 +362,16 @@ class AnkoaApp(App):
         else:
             reso = [self.picture_screen.ids.video_W.text,
                     self.picture_screen.ids.video_H.text]
-        crop_width = self.picture_screen.ids.crop_W.text
-        crop_height = self.picture_screen.ids.crop_H.text
-        crop_top = self.picture_screen.ids.crop_T.text
-        crop_bottom = self.picture_screen.ids.crop_B.text
-        crop_right = self.picture_screen.ids.crop_R.text
-        crop_left = self.picture_screen.ids.crop_L.text
+        if self.pciture_screen.ids.custom_crop.active is True:
+            crop_width = self.picture_screen.ids.crop_W.text
+            crop_height = self.picture_screen.ids.crop_H.text
+            crop_top = self.picture_screen.ids.crop_T.text
+            crop_bottom = self.picture_screen.ids.crop_B.text
+            crop_right = self.picture_screen.ids.crop_R.text
+            crop_left = self.picture_screen.ids.crop_L.text
+        else:
+            [crop_width, crop_height, crop_top, crop_bottom,
+             crop_right, crop_left] = [None, ] * 6
         deinterlace = self.picture_screen.ids.deint.text
         motion_deint = self.picture_screen.ids.motion_d.text
         denoise = self.picture_screen.ids.denoise.text
@@ -387,10 +391,11 @@ class AnkoaApp(App):
 
         if self.video_screen.ids.check_crf.active is True:
             crf = self.video_screen.ids.crf_val.text
-            dual_pass = None
+            [dual_pass, fast1pass] = ['', ] * 2
         else:
             crf = None
             dual_pass = self.video_screen.ids.video_bitrate.text
+            fast1pass = self.video_screen.ids.fast1pass.value
         framerate = self.video_screen.ids.fram_rate.text
         preset = self.video_screen.ids.pre_set.text
         tune = self.video_screen.ids.tu_ne.text
@@ -451,61 +456,61 @@ class AnkoaApp(App):
             threads_nb = self.advanced_screen.ids.threads_nb.value
             threads_mod = self.advanced_screen.ids.threads_mod.value
         else:
-            [threads_nb, threads_mod] = [None, ] * 2
+            [threads_nb, threads_mod] = ['', ] * 2
         if self.advanced_screen.ids.frames_on.active is True:
             ref_frames = self.advanced_screen.ids.ref_frames.value
             max_Bframes = self.advanced_screen.ids.max_Bframes.value
             mixed_ref = self.advanced_screen.ids.mixed_ref.value
         else:
-            [ref_frames, max_Bframes, mixed_ref] = [None, ] * 3
+            [ref_frames, max_Bframes, mixed_ref] = ['', ] * 3
         if self.advanced_screen.ids.encod_on.active is True:
-            pyramid_mod = self.advanced_screen.ids.pyram.text
+            pyramid_mod = self.advanced_screen.ids.pyram.value
             transform = self.advanced_screen.ids.transform.value
             cabac = self.advanced_screen.ids.cabac.value
         else:
-            [pyramid_mod, transform, cabac] = [None, ] * 3
+            [pyramid_mod, transform, cabac] = ['', ] * 3
         if self.advanced_screen.ids.adapt_on.active is True:
-            direct_mod = self.advanced_screen.ids.direct.text
-            B_frames = self.advanced_screen.ids.Bframes.text
+            direct_mod = self.advanced_screen.ids.direct.value
+            B_frames = self.advanced_screen.ids.Bframes.value
         else:
-            [direct_mod, B_frames] = [None, ] * 2
+            [direct_mod, B_frames] = ['', ] * 2
         if self.advanced_screen.ids.weight_on.active is True:
-            weighted_bf = self.advanced_screen.ids.weight_bf.text
             weighted_pf = self.advanced_screen.ids.weight_pf.value
+            weighted_bf = self.advanced_screen.ids.weight_bf.value
         else:
-            [weighted_bf, weighted_pf] = [None, ] * 2
+            [weighted_bf, weighted_pf] = ['', ] * 2
         if self.advanced_screen.ids.motion_on.active is True:
             me_method = self.advanced_screen.ids.me_mod.text
             subpixel = self.advanced_screen.ids.subpixel.value
             me_range = self.advanced_screen.ids.me_range.value
         else:
-            [me_method, subpixel, me_range] = [None, ] * 3
+            [me_method, subpixel, me_range] = ['', ] * 3
         if self.advanced_screen.ids.partitions_on.active is True:
             partitions = self.advanced_screen.ids.parts.text
-            trellis = self.advanced_screen.ids.trell.text
+            trellis = self.advanced_screen.ids.trellis.value
         else:
-            [partitions, trellis] = [None, ] * 2
+            [partitions, trellis] = ['', ] * 2
         if self.advanced_screen.ids.quantiz_on.active is True:
             adapt_strenght = self.advanced_screen.ids.adapt_s.text
             psy_optim = self.advanced_screen.ids.psy_optim.value
         else:
-            [adapt_strenght, psy_optim] = [None, ] * 2
+            [adapt_strenght, psy_optim] = ['', ] * 2
         if self.advanced_screen.ids.distortion_on.active is True:
             distord_rate = self.advanced_screen.ids.dist_rate.text
             psy_trellis = self.advanced_screen.ids.psy_trell.text
         else:
-            [distord_rate, psy_trellis] = [None, ] * 2
+            [distord_rate, psy_trellis] = ['', ] * 2
         if self.advanced_screen.ids.deblock_on.active is True:
             deblock_alpha = self.advanced_screen.ids.d_alpha.text
             deblock_beta = self.advanced_screen.ids.d_beta.text
         else:
-            [deblock_alpha, deblock_beta] = [None, ] * 2
+            [deblock_alpha, deblock_beta] = ['', ] * 2
         if self.advanced_screen.ids.keyframe_on.active is True:
             key_interval = self.advanced_screen.ids.key_interval.text
             min_key = self.advanced_screen.ids.min_key.text
             lookahead = self.advanced_screen.ids.lookahead.text
         else:
-            [key_interval, min_key, lookahead] = [None, ] * 3
+            [key_interval, min_key, lookahead] = ['', ] * 3
         if self.advanced_screen.ids.various_on.active is True:
             scenecut = self.advanced_screen.ids.scenecut.text
             chroma = self.advanced_screen.ids.chroma.value
@@ -514,7 +519,7 @@ class AnkoaApp(App):
             bluray_compat = self.advanced_screen.ids.bluray_compat.value
         else:
             [scenecut, chroma, fast_skip,
-             grayscale, bluray_compat] = [None, ] * 5
+             grayscale, bluray_compat] = ['', ] * 5
 
         return (
             threads_nb, threads_mod, ref_frames, max_Bframes,
@@ -552,31 +557,32 @@ class AnkoaApp(App):
          crop_right, crop_left, deinterlace, motion_deint,
          denoise, decimate) = self.get_picture_infos()
         (video_ID, movie_name, container, codec, crf,
-         dual_pass, framerate, preset, tune, profile,
-         level) = self.get_video_infos()
+         dual_pass, fast1pass, framerate, preset, tune,
+         profile, level) = self.get_video_infos()
         (audio_ID, audio_title, audio_codec, audio_bitrate,
          audio_samplerate, audio_gain) = self.get_audio_infos()
         (subs_ID, subs_title, subs_forced, subs_burned, subs_default,
          subs_chars, subs_delay) = self.get_subtitles_infos()
         (threads_nb, threads_mod, ref_frames, max_Bframes, mixed_ref,
          pyramid_mod, transform, cabac, direct_mod, B_frames,
-         weighted_bf, weighted_pf, me_method, subpixel, me_range,
+         weighted_pf, weighted_bf, me_method, subpixel, me_range,
          partitions, trellis, adapt_strenght, psy_optim, distord_rate,
          psy_trellis, deblock_alpha, deblock_beta, key_interval,
          min_key, lookahead, scenecut, chroma, fast_skip, grayscale,
          bluray_compat) = self.get_advanced_infos()
 
         ffmpeg = encode(
+            team_name,
             rls_source, rls_title, reso, crop_width, crop_height,
             crop_top, crop_bottom, crop_right, crop_left, deinterlace,
             motion_deint, denoise, decimate, container, video_ID,
-            movie_name, codec, crf, dual_pass, framerate, preset,
+            movie_name, codec, crf, dual_pass, fast1pass, framerate, preset,
             tune, profile, level, audio_ID, audio_title, audio_codec,
             audio_bitrate, audio_samplerate, audio_gain, subs_ID,
             subs_title, subs_forced, subs_burned, subs_default,
             subs_chars, subs_delay, threads_nb, threads_mod, ref_frames,
             max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
-            direct_mod, B_frames, weighted_bf, weighted_pf, me_method,
+            direct_mod, B_frames, weighted_pf, weighted_bf, me_method,
             subpixel, me_range, partitions, trellis, adapt_strenght,
             psy_optim, distord_rate, psy_trellis, deblock_alpha,
             deblock_beta, key_interval, min_key, lookahead, scenecut,

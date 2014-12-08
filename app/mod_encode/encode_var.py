@@ -59,32 +59,32 @@ deinterlace = ['Off', 'Fast', 'Slow', 'Slower', 'VerySlow',
                'Yadif Default', 'Yadif All', 'Custom']
 
 deint_cmd = ['',
-             'w3fdif=filter=simple:deint=interlaced',
-             'w3fdif=filter=simple:deint=all',
-             'w3fdif=filter=complex:deint=interlaced',
-             'w3fdif=filter=complex:deint=all',
-             'yadif=deint=1', 'yadif=deint=0', '']
+             ' w3fdif=filter=simple:deint=interlaced',
+             ' w3fdif=filter=simple:deint=all',
+             ' w3fdif=filter=complex:deint=interlaced',
+             ' w3fdif=filter=complex:deint=all',
+             ' yadif=deint=1', ' yadif=deint=0', '']
 
 motion_deint = ['Off', 'Fast', 'Medium', 'Slow', 'ExtraSlow', 'Custom']
 
-motion_cmd = ['', 'mcdeint=fast', 'mcdeint=medium',
-              'mcdeint=slow', 'mcdeint=extra_slow', '']
+motion_cmd = ['', ' mcdeint=fast', ' mcdeint=medium',
+              ' mcdeint=slow', ' mcdeint=extra_slow', '']
 
 denoise = ['Off', 'Weak', 'Medium', 'Strong', 'Custom']
 
-denoise_cmd = ['', 'dctdnoiz=0', 'dctdnoiz=4.5', 'dctdnoiz=15:n=4', '']
+denoise_cmd = ['', ' dctdnoiz=0', ' dctdnoiz=4.5', ' dctdnoiz=15:n=4', '']
 
 decimate = ['Off', 'Default', 'Custom']
 
-decimate_cmd = ['', 'cycle=5:scthresh=15:ppsrc=0', '']
+decimate_cmd = ['', ' cycle=5:scthresh=15:ppsrc=0', '']
 
 pyramidal_method = ['Off', 'Normal', 'Strict']
 
 direct_mode = ['Off', 'Spatial', 'Temporal', 'Auto']
 
-adaptive_bframes = ['VeryFast', 'Fast', 'Slower']
+adaptive_bframes = ['Off', 'VeryFast', 'Fast', 'Slower']
 
-weighted_bframes = ['Off', 'Simple', 'Smart']
+weighted_pframes = ['Off', 'None', 'Simple', 'Smart']
 
 motion_method = ['DIA', 'HEX', 'UMH', 'ESA', 'TESA']
 

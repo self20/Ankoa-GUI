@@ -9,7 +9,6 @@
 # ---------- AUDIO TRACK WIDGET ----------
 GridLayout:
     padding: '4sp'
-    cols: 2
     rows: 2
     canvas:
         Color:
@@ -17,84 +16,90 @@ GridLayout:
         Rectangle:
             size: self.size
             pos: self.pos
-
-    # ---------- AUDIO TRACK ID & TITLE ----------
     BoxLayout:
-        padding: '2sp'
-        size_hint: .6, 1
 
-        # --- Check Audio Track ---
-        Switch:
-            size_hint_x: .2
-            touch_control: False
-            active:
-                True if audio_track_ID.text != '' and\
-                audio_track_title.text != '' and\
-                (root.ids.mp3.state == 'down' or\
-                root.ids.aac.state == 'down' or\
-                root.ids.ac3.state == 'down' or\
-                root.ids.dts.state == 'down') else False
+        # ---------- AUDIO TRACK ID & TITLE ----------
+        BoxLayout:
+            padding: '2sp'
+            size_hint: .7, 1
 
-        # --- DEL Track button ----
-        Button:
-            text: 'DEL'
-            size_hint_x: .1
-            on_press: app.del_audio_track(root)
+            # --- Check Audio Track ---
+            Switch:
+                size_hint_x: .3
+                touch_control: False
+                active:
+                    True if audio_track_ID.text != '' and\
+                    (root.ids.mp3.state == 'down' or\
+                    root.ids.aac.state == 'down' or\
+                    root.ids.ac3.state == 'down' or\
+                    root.ids.dts.state == 'down') else False
 
-        # --- Audio Track ID ---
-        TextInput:
-            id: audio_track_ID
-            hint_text: 'Track ID'
-            multiline: False
-            size_hint_x: .2
-            input_filter: 'int'
+            # --- DEL Track button ----
+            Button:
+                text: 'DEL'
+                size_hint_x: .1
+                on_press: app.del_audio_track(root)
 
-        # --- Audio Track Title ---
-        TextInput:
-            id: audio_track_title
-            hint_text: 'Track Title'
-            multiline: False
+            # --- Audio Track ID ---
+            TextInput:
+                id: audio_track_ID
+                hint_text: 'Track ID'
+                multiline: False
+                size_hint_x: .2
+                input_filter: 'int'
 
-    # ---------- AUDIO TRACK CODEC ----------
-    BoxLayout:
-        id: acodec
-        value: ''
-        group: uuid.uuid4()
-        padding: '2sp'
-        size_hint: .4, 1
+            # --- Audio Track Title ---
+            TextInput:
+                id: audio_track_title
+                hint_text: 'Track Title'
+                multiline: False
 
-        # --- MP3 ---
-        ToggleButton:
-            id: mp3
-            text: 'MP3'
-            group: root.ids.acodec.group
-            on_release: root.ids.acodec.value = 'mp3'
+            # --- Audio Track Language ---
+            TextInput:
+                id: audio_track_lang
+                hint_text: 'Language'
+                multiline: False
+                size_hint_x: .3
 
-        # --- AAC ---
-        ToggleButton:
-            id: aac
-            text: 'AAC'
-            group: root.ids.acodec.group
-            on_release: root.ids.acodec.value = 'aac'
+        # ---------- AUDIO TRACK CODEC ----------
+        BoxLayout:
+            size_hint: .3, 1
+            id: acodec
+            value: ''
+            group: uuid.uuid4()
+            padding: '2sp'
 
-        # --- AC3 ---
-        ToggleButton:
-            id: ac3
-            text: 'AC3'
-            group: root.ids.acodec.group
-            on_release: root.ids.acodec.value = 'ac3'
+            # --- MP3 ---
+            ToggleButton:
+                id: mp3
+                text: 'MP3'
+                group: root.ids.acodec.group
+                on_release: root.ids.acodec.value = 'mp3'
 
-        # --- DTS ---
-        ToggleButton:
-            id: dts
-            text: 'DTS'
-            group: root.ids.acodec.group
-            on_release: root.ids.acodec.value = 'dts'
+            # --- AAC ---
+            ToggleButton:
+                id: aac
+                text: 'AAC'
+                group: root.ids.acodec.group
+                on_release: root.ids.acodec.value = 'aac'
+
+            # --- AC3 ---
+            ToggleButton:
+                id: ac3
+                text: 'AC3'
+                group: root.ids.acodec.group
+                on_release: root.ids.acodec.value = 'ac3'
+
+            # --- DTS ---
+            ToggleButton:
+                id: dts
+                text: 'DTS'
+                group: root.ids.acodec.group
+                on_release: root.ids.acodec.value = 'dts'
 
     # ---------- AUDIO TRACK INFOS ----------
     BoxLayout:
         padding: '2sp'
-        size_hint: .9, 1
 
         # --- Audio Bitrate ---
         Label:
@@ -104,9 +109,9 @@ GridLayout:
             id: audiobit
             min: 0
             max:
-                13 if root.ids.mp3.state == 'down' else\
-                11 if root.ids.aac.state == 'down' else\
-                10 if root.ids.ac3.state == 'down' else 0
+                10 if root.ids.aac.state == 'down' or\
+                root.ids.ac3.state == 'down' or\
+                root.ids.mp3.state == 'down' else 0
             step: 1
             value: 0
         Label:
@@ -120,7 +125,28 @@ GridLayout:
                 .split('.')[0])] if root.ids.ac3.state == 'down' else\
                 'Original'
             bold: True
+
+        # --- Channels ---
         Label:
+            text: 'Channels'
+            bold: True
+        Slider:
+            id: channel
+            min: 2
+            max:
+                6 if root.ids.aac.state == 'down' or\
+                root.ids.ac3.state == 'down' else 2
+            step: 1
+            value: 2
+        Label:
+            id: channels
+            text:
+                'Original' if root.ids.dts.state == 'down' else\
+                '2' if root.ids.mp3.state == 'down' else\
+                '{}'.format(root.ids.channel.value).split('.')[0]
+            bold: True
+        Label:
+            size_hint_x: .2
 
         # --- Samplerate ---
         Label:
@@ -138,11 +164,6 @@ GridLayout:
                 sample_rate[int('{}'.format(samplerate.value)
                 .split('.')[0])]
             bold: True
-
-    BoxLayout:
-        padding: '2sp'
-        size_hint: .1, 1
-        Label:
 
         # --- Audio Gain ---
         Label:

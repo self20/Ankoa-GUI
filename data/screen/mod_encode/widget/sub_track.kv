@@ -37,7 +37,7 @@ GridLayout:
             # --- Subtitles Track ID ---
             TextInput:
                 id: sub_track_ID
-                hint_text: 'Track ID'
+                hint_text: 'ID'
                 multiline: False
                 size_hint_x: .2
                 input_filter: 'int'
@@ -47,6 +47,13 @@ GridLayout:
                 id: sub_track_title
                 hint_text: 'Track Title'
                 multiline: False
+
+            # --- Subtitles Track Language ---
+            TextInput:
+                id: sub_track_lang
+                hint_text: 'Language'
+                multiline: False
+                size_hint_x: .3
 
     # ---------- SUB TRACK INFOS ----------
     BoxLayout:
@@ -79,12 +86,14 @@ GridLayout:
 
         # --- Subcharset ---
         TextInput:
+            padding: 10, 10, 0, 0
             id: sub_charset
             hint_text: 'Chars'
             multiline: False
 
         # --- Subdelay ---
         TextInput:
+            padding: 10, 10, 0, 0
             id: sub_delay
             hint_text: 'Delay'
             multiline: False

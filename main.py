@@ -362,7 +362,7 @@ class AnkoaApp(App):
         else:
             reso = [self.picture_screen.ids.video_W.text,
                     self.picture_screen.ids.video_H.text]
-        if self.pciture_screen.ids.custom_crop.active is True:
+        if self.picture_screen.ids.custom_crop.active is True:
             crop_width = self.picture_screen.ids.crop_W.text
             crop_height = self.picture_screen.ids.crop_H.text
             crop_top = self.picture_screen.ids.crop_T.text
@@ -397,13 +397,13 @@ class AnkoaApp(App):
             dual_pass = self.video_screen.ids.video_bitrate.text
             fast1pass = self.video_screen.ids.fast1pass.value
         framerate = self.video_screen.ids.fram_rate.text
-        preset = self.video_screen.ids.pre_set.text
-        tune = self.video_screen.ids.tu_ne.text
+        preset = self.video_screen.ids.pre_set.value
+        tune = self.video_screen.ids.tu_ne.value
         profile = self.video_screen.ids.pro_file.text
         level = self.video_screen.ids.le_vel.text
 
-        return (video_ID, movie_name, container, codec, crf,
-                dual_pass, framerate, preset, tune, profile, level)
+        return (video_ID, movie_name, container, codec, crf, dual_pass,
+                fast1pass, framerate, preset, tune, profile, level)
 
     # Get audio infos
     def get_audio_infos(self):
@@ -572,7 +572,6 @@ class AnkoaApp(App):
          bluray_compat) = self.get_advanced_infos()
 
         ffmpeg = encode(
-            team_name,
             rls_source, rls_title, reso, crop_width, crop_height,
             crop_top, crop_bottom, crop_right, crop_left, deinterlace,
             motion_deint, denoise, decimate, container, video_ID,

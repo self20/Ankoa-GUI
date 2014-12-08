@@ -5,7 +5,7 @@ Manage all required values to return proper FFMPEG cmd
 '''
 
 # Encode Management
-def encode(team_name, rls_source, rls_title, reso, crop_width, crop_height,
+def encode(rls_source, rls_title, reso, crop_width, crop_height,
            crop_top, crop_bottom, crop_right, crop_left, deinterlace,
            motion_deint, denoise, decimate, container, video_ID,
            movie_name, codec, crf, dual_pass, fast1pass, framerate, preset,
@@ -98,20 +98,20 @@ def encode(team_name, rls_source, rls_title, reso, crop_width, crop_height,
         bluray_compat = ' -bluray-compat {}'.format(bluray_compat)
 
     # FFMPEG CRF
-    if crf is not None:
-
-        ffmpeg = \
-            'ffmpeg -i {0} -map_metadata -1 -metadata title="{1}" '\
-            '-metadata proudly.presented.by="{2}" -map 0:{3} -r {4}'\
-            ' -f {5} {6} -c:v:0 {7} -crf {8} -level {9}'\
-            ' -passlogfile {1}.log '\
-            .format(
-                rls_source, movie_name, team_name, framerate, video_filter,
-                container, video_reso, codec, crf, level)
+    # if crf is not None:
+    #
+    #     ffmpeg = \
+    #         'ffmpeg -i {0} -map_metadata -1 -metadata title="{1}" '\
+    #         '-metadata proudly.presented.by="{2}" -map 0:{3} -r {4}'\
+    #         ' -f {5} {6} -c:v:0 {7} -crf {8} -level {9}'\
+    #         ' -passlogfile {1}.log '\
+    #         .format(
+    #             rls_source, movie_name, team_name, framerate, video_filter,
+    #             container, video_reso, codec, crf, level)
 
 
     print (
-        team_name, rls_source, rls_title, reso, crop_width, crop_height,
+        rls_source, rls_title, reso, crop_width, crop_height,
         crop_top, crop_bottom, crop_right, crop_left, deinterlace,
         motion_deint, denoise, decimate, container, video_ID,
         movie_name, codec, crf, dual_pass, framerate, preset,

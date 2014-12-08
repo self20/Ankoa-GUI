@@ -149,6 +149,7 @@
 
         # --- Check 2PASS ---
         Switch:
+            id: dualpass
             size_hint_x: .20
             touch_control: False
             active:
@@ -380,6 +381,7 @@
                 value: 0
             Label:
                 id: pre_set
+                value: '' if self.text == 'Off' else self.text
                 text:
                     x264_preset[int('{}'.format(preset.value)
                     .split('.')[0])]
@@ -420,6 +422,7 @@
                 value: 0
             Label:
                 id: tu_ne
+                value: '' if self.text == 'Off' else self.text
                 text:
                     x264_tune[int('{}'.format(tune.value)
                     .split('.')[0])]

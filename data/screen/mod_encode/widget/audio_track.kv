@@ -116,6 +116,9 @@ GridLayout:
             value: 0
         Label:
             id: abitrate
+            value:
+                '' if self.text == 'Original' else\
+                (self.text).split('K')[0]
             text:
                 mp3_bitrate[int('{}'.format(audiobit.value)\
                 .split('.')[0])] if root.ids.mp3.state == 'down' else\

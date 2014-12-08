@@ -9,10 +9,11 @@ Manage all required values to return proper FFMPEG cmd
 def encode(rls_source, rls_title, reso, crop_width, crop_height,
            crop_top, crop_bottom, crop_right, crop_left, deinterlace,
            motion_deint, denoise, decimate, container, video_ID,
-           movie_name, codec, crf, dual_pass, fast1pass, framerate, preset,
-           tune, profile, level, audio_ID, audio_title, audio_codec,
-           audio_bitrate, audio_samplerate, audio_gain, subs_ID,
-           subs_title, subs_forced, subs_burned, subs_default,
+           movie_name, codec, crf, dual_pass, fast1pass, framerate,
+           preset, tune, profile, level, audio_ID, audio_title,
+           audio_lang, audio_codec, audio_bitrate, audio_channels,
+           audio_samplerate, audio_gain, subs_ID, subs_title,
+           subs_lang, subs_forced, subs_burned, subs_default,
            subs_chars, subs_delay, threads_nb, threads_mod, ref_frames,
            max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
            direct_mod, B_frames, weighted_pf, weighted_bf, me_method,
@@ -78,9 +79,9 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
     if psy_optim != '':
         psy_optim = ' -psy {}'.format(psy_optim)
     if distord_rate != '':
-        psy_rd = ' -psy-rd {0}:{1}'.format(distord_rate, psy_trellis)
+        distord_rate = ' -psy-rd {0}:{1}'.format(distord_rate, psy_trellis)
     if deblock_alpha != '':
-        deblock = ' -deblock {0}:{1}'.format(deblock_alpha, deblock_beta)
+        deblock_alpha = ' -deblock {0}:{1}'.format(deblock_alpha, deblock_beta)
     if key_interval != '':
         key_interval = ' -g {}'.format(key_interval)
     if min_key != '':
@@ -107,13 +108,23 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
             mixed_ref, pyramid_mod, transform, cabac, direct_mod,
             B_frames, weighted_pf, weighted_bf, me_method, subpixel,
             me_range, partitions, trellis, adapt_strenght, psy_optim,
-            psy_rd, deblock, key_interval, min_key, lookahead, scenecut,
-            chroma, fast_skip, grayscale, bluray_compat)
+            distord_rate, deblock_alpha, key_interval, min_key, lookahead,
+            scenecut, chroma, fast_skip, grayscale, bluray_compat)
 
     # Audio config
-    if len(audio_ID) > 0:
-        for audio_track in audio_ID:
-            audio_config = ' -c:a:0 {} -b:a:0 {}k -ac:a:0 {}'
+    audio_config = []
+    for nb in range(0, len(audio_ID)):
+        audio_config.append(
+            " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} {3} "\
+            "-ar:a:{8} {4} -af 'volume={5}dB' -metadata:s:a:{8} "\
+            "title='{6}' -metadata:s:a:{8} language='{6}'"\
+            .format(
+                audio_ID[nb], audio_codec[nb], audio_bitrate[nb],
+                audio_channels[nb], audio_samplerate[nb], audio_gain[nb],
+                audio_title[nb], audio_lang[nb], nb))
+        nb = nb + 1
+
+    print (audio_config)
 
     # FFMPEG CRF
     # if crf is not None:
@@ -147,10 +158,11 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
         rls_source, rls_title, reso, crop_width, crop_height,
         crop_top, crop_bottom, crop_right, crop_left, deinterlace,
         motion_deint, denoise, decimate, container, video_ID,
-        movie_name, codec, crf, dual_pass, framerate, preset,
-        tune, profile, level, audio_ID, audio_title, audio_codec,
-        audio_bitrate, audio_samplerate, audio_gain, subs_ID,
-        subs_title, subs_forced, subs_burned, subs_default,
+        movie_name, codec, crf, dual_pass, fast1pass, framerate,
+        preset, tune, profile, level, audio_ID, audio_title,
+        audio_lang, audio_codec, audio_bitrate, audio_channels,
+        audio_samplerate, audio_gain, subs_ID, subs_title,
+        subs_lang, subs_forced, subs_burned, subs_default,
         subs_chars, subs_delay, threads_nb, threads_mod, ref_frames,
         max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
         direct_mod, B_frames, weighted_pf, weighted_bf, me_method,

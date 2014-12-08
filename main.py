@@ -408,22 +408,26 @@ class AnkoaApp(App):
     # Get audio infos
     def get_audio_infos(self):
         '''from data/mod_encode/screen/widget/audio_track.kv'''
-        [audio_ID, audio_title, audio_codec, audio_bitrate,
-         audio_samplerate, audio_gain] = [[], [], [], [], [], []]
+        [audio_ID, audio_title, audio_lang, audio_codec,
+         audio_bitrate, audio_channels, audio_samplerate,
+         audio_gain] = [[], [], [], [], [], [], [], []]
         layout = \
             self.audio_screen.ids.audio_track_layout.children
 
         for nb in range(0, len(layout)):
             audio_ID.append(layout[nb].ids.audio_track_ID.text)
             audio_title.append(layout[nb].ids.audio_track_title.text)
+            audio_lang.append(layout[nb].ids.audio_track_lang.text)
             audio_codec.append(layout[nb].ids.acodec.value)
-            audio_bitrate.append(layout[nb].ids.abitrate.text)
+            audio_bitrate.append(layout[nb].ids.abitrate.value)
+            audio_channels.append(layout[nb].ids.channels.text)
             audio_samplerate.append(layout[nb].ids.sample_rate.text)
             audio_gain.append(layout[nb].ids.gain.text)
             nb = nb + 1
 
-        return (audio_ID, audio_title, audio_codec,
-                audio_bitrate, audio_samplerate, audio_gain)
+        return (audio_ID, audio_title, audio_lang, audio_codec,
+                audio_bitrate, audio_channels, audio_samplerate,
+                audio_gain)
 
     # Get subtitles infos
     def get_subtitles_infos(self):
@@ -431,14 +435,16 @@ class AnkoaApp(App):
         from data/mod_encode/screen/widget/sub_file.kv
         from data/mod_encode/screen/widget/sub_file.kv
         '''
-        [subs_ID, subs_title, subs_forced, subs_burned, subs_default,
-         subs_chars, subs_delay] = [[], [], [], [], [], [], []]
+        [subs_ID, subs_title, subs_lang, subs_forced,
+         subs_burned, subs_default, subs_chars,
+         subs_delay] = [[], [], [], [], [], [], [], []]
         layout = \
             self.subtitles_screen.ids.sub_track_layout.children
 
         for nb in range(0, len(layout)):
             subs_ID.append(layout[nb].ids.sub_track_ID.text)
             subs_title.append(layout[nb].ids.sub_track_title.text)
+            subs_lang.append(layout[nb].ids.sub_track_lang.text)
             subs_forced.append(layout[nb].ids.sub_forced.value)
             subs_burned.append(layout[nb].ids.sub_burned.value)
             subs_default.append(layout[nb].ids.sub_default.value)
@@ -446,8 +452,8 @@ class AnkoaApp(App):
             subs_delay.append(layout[nb].ids.sub_delay.text)
             nb = nb + 1
 
-        return (subs_ID, subs_title, subs_forced, subs_burned,
-                subs_default, subs_chars, subs_delay)
+        return (subs_ID, subs_title, subs_lang, subs_forced,
+                subs_burned, subs_default, subs_chars, subs_delay)
 
     # Get advanced infos
     def get_advanced_infos(self):
@@ -559,10 +565,11 @@ class AnkoaApp(App):
         (video_ID, movie_name, container, codec, crf,
          dual_pass, fast1pass, framerate, preset, tune,
          profile, level) = self.get_video_infos()
-        (audio_ID, audio_title, audio_codec, audio_bitrate,
-         audio_samplerate, audio_gain) = self.get_audio_infos()
-        (subs_ID, subs_title, subs_forced, subs_burned, subs_default,
-         subs_chars, subs_delay) = self.get_subtitles_infos()
+        (audio_ID, audio_title, audio_lang, audio_codec,
+         audio_bitrate, audio_channels, audio_samplerate,
+         audio_gain) = self.get_audio_infos()
+        (subs_ID, subs_title, subs_lang, subs_forced, subs_burned,
+         subs_default, subs_chars, subs_delay) = self.get_subtitles_infos()
         (threads_nb, threads_mod, ref_frames, max_Bframes, mixed_ref,
          pyramid_mod, transform, cabac, direct_mod, B_frames,
          weighted_pf, weighted_bf, me_method, subpixel, me_range,
@@ -575,10 +582,11 @@ class AnkoaApp(App):
             rls_source, rls_title, reso, crop_width, crop_height,
             crop_top, crop_bottom, crop_right, crop_left, deinterlace,
             motion_deint, denoise, decimate, container, video_ID,
-            movie_name, codec, crf, dual_pass, fast1pass, framerate, preset,
-            tune, profile, level, audio_ID, audio_title, audio_codec,
-            audio_bitrate, audio_samplerate, audio_gain, subs_ID,
-            subs_title, subs_forced, subs_burned, subs_default,
+            movie_name, codec, crf, dual_pass, fast1pass, framerate,
+            preset, tune, profile, level, audio_ID, audio_title,
+            audio_lang, audio_codec, audio_bitrate, audio_channels,
+            audio_samplerate, audio_gain, subs_ID, subs_title,
+            subs_lang, subs_forced, subs_burned, subs_default,
             subs_chars, subs_delay, threads_nb, threads_mod, ref_frames,
             max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
             direct_mod, B_frames, weighted_pf, weighted_bf, me_method,

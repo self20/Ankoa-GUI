@@ -557,19 +557,29 @@ class AnkoaApp(App):
     # Send ENCODE values to Manager
     def send_encode_values(self):
 
-        '''Get all values'''
+        '''Source screen'''
         (rls_source, rls_title) = self.get_source_infos()
+
+        '''Picture screen'''
         (reso, crop_width, crop_height, crop_top, crop_bottom,
          crop_right, crop_left, deinterlace, motion_deint,
          denoise, decimate) = self.get_picture_infos()
+
+        '''Video screen'''
         (video_ID, movie_name, container, codec, crf,
          dual_pass, fast1pass, framerate, preset, tune,
          profile, level) = self.get_video_infos()
+
+        '''Audio screen'''
         (audio_ID, audio_title, audio_lang, audio_codec,
          audio_bitrate, audio_channels, audio_samplerate,
          audio_gain) = self.get_audio_infos()
+
+        '''Subtitles screen'''
         (subs_ID, subs_title, subs_lang, subs_forced, subs_burned,
          subs_default, subs_chars, subs_delay) = self.get_subtitles_infos()
+
+        '''Advanced screen'''
         (threads_nb, threads_mod, ref_frames, max_Bframes, mixed_ref,
          pyramid_mod, transform, cabac, direct_mod, B_frames,
          weighted_pf, weighted_bf, me_method, subpixel, me_range,
@@ -578,6 +588,7 @@ class AnkoaApp(App):
          min_key, lookahead, scenecut, chroma, fast_skip, grayscale,
          bluray_compat) = self.get_advanced_infos()
 
+        '''Send all values'''
         ffmpeg = encode(
             rls_source, rls_title, reso, crop_width, crop_height,
             crop_top, crop_bottom, crop_right, crop_left, deinterlace,

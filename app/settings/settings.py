@@ -66,7 +66,7 @@ def modify_settings(source_folder, dest_folder, team_name,
     conf.set(section, 'remote_folder', remote_folder)
 
     # Write conf file
-    conf.write(open(conf_file,'w'))
+    conf.write(open(conf_file, 'w'))
 
 
 # Clear user settings
@@ -75,4 +75,4 @@ def clear_settings():
     # Remove options and write conf file if exists
     if os.path.exists(conf_file) is True:
         conf.remove_section(section)
-        conf.write(open(conf_file,'w'))
+        conf.write(open(conf_file, 'w'))

@@ -539,7 +539,10 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  MANAGE ENCODE ################################################
     # ---------------------------------------------------------------
-    '''Check and send content to app/mod_encode/manage.py'''
+    '''
+    Check and send content to app/mod_encode/manage.py
+    Manager will return proper FFMPEG cmd
+    '''
 
     # Check if user is not a n00b
     '''Essential values verification'''
@@ -588,7 +591,7 @@ class AnkoaApp(App):
          min_key, lookahead, scenecut, chroma, fast_skip, grayscale,
          bluray_compat) = self.get_advanced_infos()
 
-        '''Send all values'''
+        '''Let's see what the manager will do with this'''
         ffmpeg = encode(
             rls_source, rls_title, reso, crop_width, crop_height,
             crop_top, crop_bottom, crop_right, crop_left, deinterlace,

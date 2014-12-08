@@ -115,9 +115,9 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
     audio_config = []
     for nb in range(0, len(audio_ID)):
         audio_config.append(
-            " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} {3} "\
-            "-ar:a:{8} {4} -af 'volume={5}dB' -metadata:s:a:{8} "\
-            "title='{6}' -metadata:s:a:{8} language='{6}'"\
+            " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} {3} "
+            "-ar:a:{8} {4} -af 'volume={5}dB' -metadata:s:a:{8} "
+            "title='{6}' -metadata:s:a:{8} language='{6}'"
             .format(
                 audio_ID[nb], audio_codec[nb], audio_bitrate[nb],
                 audio_channels[nb], audio_samplerate[nb], audio_gain[nb],

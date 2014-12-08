@@ -40,5 +40,5 @@ def scan(source):
         print (e)
         sys.exit()
     except subprocess.CalledProcessError as e:
-         print (e)
-         sys.exit()
+        print (e)
+        sys.exit()

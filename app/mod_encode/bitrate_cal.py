@@ -21,9 +21,9 @@ def calculator(HH, MM, SS, audio_bit, desired_size):
 
     # Formula
     bitrate = \
-        ((float(calsize)-((int(audiobit)/8)/1024*((int(HH)*3600)\
-        +(int(MM)*60)+int(SS))))/((int(HH)*3600)+(int(MM)*60)\
-        +int(SS)))*8*1024
+        ((float(calsize)-((int(audiobit)/8)/1024*((int(HH)*3600)
+          + (int(MM)*60)+int(SS))))/((int(HH)*3600)+(int(MM)*60)
+                                     + int(SS)))*8*1024
 
     # Round result to integer
     if int(str(round(bitrate, 2)).split('.')[1]) > 51:

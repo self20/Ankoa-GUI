@@ -4,6 +4,7 @@
 Manage all required values to return proper FFMPEG cmd
 '''
 
+
 # Encode Management
 def encode(rls_source, rls_title, reso, crop_width, crop_height,
            crop_top, crop_bottom, crop_right, crop_left, deinterlace,
@@ -83,7 +84,7 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
     if key_interval != '':
         key_interval = ' -g {}'.format(key_interval)
     if min_key != '':
-        min_key = ' {}'.format(min_key)
+        min_key = ' -keyint_min {}'.format(min_key)
     if lookahead != '':
         lookahead = ' -rc-lookahead {}'.format(lookahead)
     if scenecut != '':
@@ -99,8 +100,8 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
 
     # Return video params cmd
     video_params =  \
-        '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}'\
-        '{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}{30}'\
+        '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
+        '{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}'\
         .format(
             threads_nb, threads_mod, ref_frames, fast1pass, max_Bframes,
             mixed_ref, pyramid_mod, transform, cabac, direct_mod,
@@ -108,6 +109,11 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
             me_range, partitions, trellis, adapt_strenght, psy_optim,
             psy_rd, deblock, key_interval, min_key, lookahead, scenecut,
             chroma, fast_skip, grayscale, bluray_compat)
+
+    # Audio config
+    if len(audio_ID) > 0:
+        for audio_track in audio_ID:
+            audio_config = ' -c:a:0 {} -b:a:0 {}k -ac:a:0 {}'
 
     # FFMPEG CRF
     # if crf is not None:

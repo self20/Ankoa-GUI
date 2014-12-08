@@ -35,7 +35,7 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
     else:
         video_reso = '-sar {}'.format(reso[0])
 
-    # Advanced codec params
+    # Advanced video params
     if threads_nb != '':
         threads_nb = ' -threads {}'.format(threads_nb)
     if threads_mod != '':
@@ -97,18 +97,45 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
     if bluray_compat != '':
         bluray_compat = ' -bluray-compat {}'.format(bluray_compat)
 
+    # Return video params cmd
+    video_params =  \
+        '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}'\
+        '{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}{30}'\
+        .format(
+            threads_nb, threads_mod, ref_frames, fast1pass, max_Bframes,
+            mixed_ref, pyramid_mod, transform, cabac, direct_mod,
+            B_frames, weighted_pf, weighted_bf, me_method, subpixel,
+            me_range, partitions, trellis, adapt_strenght, psy_optim,
+            psy_rd, deblock, key_interval, min_key, lookahead, scenecut,
+            chroma, fast_skip, grayscale, bluray_compat)
+
     # FFMPEG CRF
     # if crf is not None:
-    #
     #     ffmpeg = \
-    #         'ffmpeg -i {0} -map_metadata -1 -metadata title="{1}" '\
-    #         '-metadata proudly.presented.by="{2}" -map 0:{3} -r {4}'\
-    #         ' -f {5} {6} -c:v:0 {7} -crf {8} -level {9}'\
-    #         ' -passlogfile {1}.log '\
+    #         "ffmpeg -i {0} -map_metadata -1 -metadata title='{1}' "\
+    #         "-metadata proudly.presented.by='{2}' -map 0:{3} -r {4}"\
+    #         " -f {5} {6} -c:v:0 {7} -crf {8} -level {9}{10}{11}{12}"\
+    #         " -passlogfile {1}.log {13}"\
     #         .format(
     #             rls_source, movie_name, team_name, framerate, video_filter,
-    #             container, video_reso, codec, crf, level)
+    #             container, video_reso, codec, crf, level, video_params,
+    #             audio_config, subtitles_config, output)
+    # else:
+    #     ffmpeg = \
+    #         "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} {6} "\
+    #         "c:v:0 {7} -b:v:0 {8}k -level {9}{10} -an -sn -passlogfile "\
+    #         "{1}.log {13} && ffmpeg -y -i {0} -pass 2 -map_metadata -1 "\
+    #         "-metadata title='{1}' -metadata proudly.presented.by='{2}'"\
+    #         " -map 0:{3} -r {4} -f {5} {6} -c:v:0 {7} -b:v:0 {8}k -level"\
+    #         " {9}{10}{11}{12} -passlogfile {1}.log {13}"
+    #         .format(
+    #             rls_source, movie_name, team_name, framerate, video_filter,
+    #             container, video_reso, codec, dual_pass, level, video_params,
+    #             audio_config, subtitles_config, output)
+    #
+    # return ffmpeg
 
+    # MISSING => audio_config, subtitles_config, output and users settings
 
     print (
         rls_source, rls_title, reso, crop_width, crop_height,

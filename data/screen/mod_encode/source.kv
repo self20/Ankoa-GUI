@@ -108,4 +108,7 @@
             id: title
             multiline: False
             text:
-                (app.video_source).split('/')[-1][:-4]
+                list_view_tab.selection and\
+                list_view_tab.selection[0].split('/')[-1][:-4] or\
+                icon_view_tab.selection and\
+                icon_view_tab.selection[0][:-4] or ''

@@ -117,7 +117,7 @@ GridLayout:
         Label:
             id: abitrate
             value:
-                '' if self.text == 'Original' else\
+                'dts_copy' if self.text == 'Original' else\
                 (self.text).split('K')[0]
             text:
                 mp3_bitrate[int('{}'.format(audiobit.value)\
@@ -143,6 +143,9 @@ GridLayout:
             value: 2
         Label:
             id: channels
+            value:
+                '' if self.text == 'Original' else\
+                (self.text).split('K')[0]
             text:
                 'Original' if root.ids.dts.state == 'down' else\
                 '2' if root.ids.mp3.state == 'down' else\

@@ -94,9 +94,9 @@ class AnkoaApp(App):
 
     # Load user settings on start
     '''call app.popup.settings: load_settings()'''
-    (source_folder, dest_folder, team_name, tmdb_apikey, tk_announce,
-     ssh_host, ssh_port, ssh_username, ssh_passwd,
-     remote_folder) = load_settings()
+    (source_folder, dest_folder, team_name, tmdb_apikey,
+     tk_announce, ssh_host, ssh_port, ssh_username,
+     ssh_passwd, remote_folder) = load_settings()
 
     # Restart app
     def restart_ankoa(self):
@@ -420,7 +420,7 @@ class AnkoaApp(App):
             audio_lang.append(layout[nb].ids.audio_track_lang.text)
             audio_codec.append(layout[nb].ids.acodec.value)
             audio_bitrate.append(layout[nb].ids.abitrate.value)
-            audio_channels.append(layout[nb].ids.channels.text)
+            audio_channels.append(layout[nb].ids.channels.value)
             audio_samplerate.append(layout[nb].ids.sample_rate.text)
             audio_gain.append(layout[nb].ids.gain.text)
             nb = nb + 1

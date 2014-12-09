@@ -127,7 +127,10 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
                     audio_gain[nb], audio_title[nb], audio_lang[nb], nb))
         nb = nb + 1
 
-    print (audio_config)
+    # Subtitles config
+    subtitles_config = []
+    for nb in range(0, len(subs_ID)):
+        pass
 
     # FFMPEG CRF
     # if crf is not None:
@@ -140,6 +143,8 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
     #             rls_source, movie_name, team_name, framerate, video_filter,
     #             container, video_reso, codec, crf, level, video_params,
     #             audio_config, subtitles_config, output)
+    #
+    # FFMPEG 2PASS
     # else:
     #     ffmpeg = \
     #         "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} {6} "\
@@ -155,21 +160,4 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
     #
     # return ffmpeg
 
-    # MISSING => audio_config, subtitles_config, output and users settings
-
-    print (
-        rls_source, rls_title, reso, crop_width, crop_height,
-        crop_top, crop_bottom, crop_right, crop_left, deinterlace,
-        motion_deint, denoise, decimate, container, video_ID,
-        movie_name, codec, crf, dual_pass, fast1pass, framerate,
-        preset, tune, profile, level, audio_ID, audio_title,
-        audio_lang, audio_codec, audio_bitrate, audio_channels,
-        audio_samplerate, audio_gain, subs_ID, subs_title,
-        subs_lang, subs_forced, subs_burned, subs_default,
-        subs_chars, subs_delay, threads_nb, threads_mod, ref_frames,
-        max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
-        direct_mod, B_frames, weighted_pf, weighted_bf, me_method,
-        subpixel, me_range, partitions, trellis, adapt_strenght,
-        psy_optim, distord_rate, psy_trellis, deblock_alpha,
-        deblock_beta, key_interval, min_key, lookahead, scenecut,
-        chroma, fast_skip, grayscale, bluray_compat)
+    ''' MISSING => ubtitles_config, output and users settings '''

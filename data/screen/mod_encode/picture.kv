@@ -134,12 +134,14 @@
             ToggleButton:
                 id: ntsc43
                 text: 'NTSC 4:3'
+                group: 'auto_resize'
                 on_release: root.ids.sar_val = '32:27'
 
             # --- Auto NTSC 16:9 ---
             ToggleButton:
                 id: ntsc169
                 text: 'NTSC 16:9'
+                group: 'auto_resize'
                 on_release: root.ids.sar_val = '8:9'
 
     # ---------- RESOLUTION ----------

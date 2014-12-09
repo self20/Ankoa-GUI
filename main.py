@@ -225,7 +225,7 @@ class AnkoaApp(App):
         From data.screen.mod_encode.video.kv [Bitrate button]
         '''
         if state == 'down':
-            height = 45
+            height = 42
         else:
             height = 0
         Animation(height=height, d=.3, t='out_quart').start(

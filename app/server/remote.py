@@ -26,8 +26,9 @@ def remote(request, ssh_passwd, ssh_username, ssh_host,
     # Pass if remote session unset
     if ssh_passwd == '' or ssh_username == '' or remote_folder == '':
         pass
+
+    # Run requested action & restart
     else:
-        # Run requested action & restart
         try:
             os.system(session)
             restart = sys.executable

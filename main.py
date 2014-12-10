@@ -367,10 +367,8 @@ class AnkoaApp(App):
         if self.picture_screen.ids.custom_crop.active is True:
             o_o['crop_width'] = self.picture_screen.ids.crop_W.text
             o_o['crop_height'] = self.picture_screen.ids.crop_H.text
-            o_o['crop_top'] = self.picture_screen.ids.crop_T.text
-            o_o['crop_bottom'] = self.picture_screen.ids.crop_B.text
-            o_o['crop_right'] = self.picture_screen.ids.crop_R.text
-            o_o['crop_left'] = self.picture_screen.ids.crop_L.text
+            o_o['crop_right_left'] = self.picture_screen.ids.crop_R.text
+            o_o['crop_top_bottom'] = self.picture_screen.ids.crop_T.text
         o_o['deinterlace'] = self.picture_screen.ids.deint.text
         o_o['motion_deint'] = self.picture_screen.ids.motion_d.text
         o_o['denoise'] = self.picture_screen.ids.denoise.text
@@ -483,8 +481,9 @@ class AnkoaApp(App):
         else:
             return False
 
-    # Call the Manager
+    # Get content and call the Manager
     def send_encode_values(self):
+        self.get_encode_infos(o_o)
         ffmpeg = encode_manger(o_o)
 
 if __name__ == '__main__':

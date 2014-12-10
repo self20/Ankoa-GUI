@@ -255,9 +255,7 @@
                 True if root.ids.crop_W.text != '' and\
                 root.ids.crop_H.text != '' and\
                 root.ids.crop_T.text != '' and\
-                root.ids.crop_B.text != '' and\
-                root.ids.crop_R.text != '' and\
-                root.ids.crop_L.text != '' else False
+                root.ids.crop_R.text != '' else False
 
         # --- Crop Label ---
         Label:
@@ -282,31 +280,17 @@
                 input_filter: 'int'
             Label:
 
-            # --- Crop TOP ---
-            TextInput:
-                id: crop_T
-                hint_text: 'Top'
-                multiline: False
-                input_type: 'number'
-
-            # --- Crop BOTTOM ---
-            TextInput:
-                id: crop_B
-                hint_text: 'Bottom'
-                multiline: False
-                input_type: 'number'
-
-            # --- Crop RIGHT ---
+            # --- Crop RIGHT/LEFT ---
             TextInput:
                 id: crop_R
-                hint_text: 'Right'
+                hint_text: 'Right/Left'
                 multiline: False
                 input_type: 'number'
 
-            # --- Crop LEFT ---
+            # --- Crop TOP/BOTTOM ---
             TextInput:
-                id: crop_L
-                hint_text: 'Left'
+                id: crop_T
+                hint_text: 'Top/Bottom'
                 multiline: False
                 input_type: 'number'
 

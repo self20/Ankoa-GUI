@@ -16,8 +16,8 @@ from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 
 # Local libraries
+from app.mod_encode.manager import encode_manager
 from app.mod_encode.encode_dict import o_o
-from app.mod_encode.manager import encode
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
@@ -356,7 +356,7 @@ class AnkoaApp(App):
 
         # Get source infos
         o_o['rls_source'] = self.source_screen.ids.source.text
-        o_o['rls_title'] = self.source_screen.ids.title.text}
+        o_o['rls_title'] = self.source_screen.ids.title.text
 
         # Get picture infos
         if self.picture_screen.ids.check_sar.active is True:

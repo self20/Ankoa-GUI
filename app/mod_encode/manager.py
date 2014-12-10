@@ -130,7 +130,11 @@ def encode(rls_source, rls_title, reso, crop_width, crop_height,
     # Subtitles config
     subtitles_config = []
     for nb in range(0, len(subs_ID)):
-        pass
+        subtitles_config.append(
+            " -map 0:{0} -c:s:{} -sub_charenc {} "
+            "-metadata:s:s:{} title='{}' -metadata:s:s:{} language={}"
+            .format(
+                subs_ID[nb], ))
 
     # FFMPEG CRF
     # if crf is not None:

@@ -1,7 +1,9 @@
 #:kivy 1.8.0
+#:import uuid uuid
 
 # ---------- SUBTITLES FILE WIDGET ----------
 GridLayout:
+    id: subFile
     padding: '4sp'
     cols: 2
     rows: 1
@@ -12,12 +14,10 @@ GridLayout:
             size: self.size
             pos: self.pos
 
-    # ---------- SUBS TRACK SOURCE & TITLE ----------
     BoxLayout:
-        id: sub_track_ID
-        text: ''
-        padding: '3sp'
-        size_hint: .6, 1
+        id: sub_infos
+        padding: '5sp'
+        group: uuid.uuid4()
 
         # --- Check Subtitles Track ---
         Switch:
@@ -30,68 +30,54 @@ GridLayout:
             text: 'DEL'
             size_hint_x: .1
             on_press: app.del_subtitles_track(root)
+        Label:
+            size_hint_x: .05
 
-        BoxLayout:
-            padding: '2sp'
+        # --- Select Track Source ---
+        Button:
+            text: 'FILE'
+            size_hint_x: .2
+            popup_id: 'File_managerPopup()'
+            on_press:
+                app.main_popup(self.popup_id);\
+                app.get_current_track(root)
 
-            # --- Select Track Source ---
-            Button:
-                text: 'FILE'
-                size_hint_x: .2
-                popup_id: 'File_managerPopup()'
-                on_press:
-                    app.main_popup(self.popup_id);\
-                    app.get_current_track(root)
+        # --- Subtitles Track Source ---
+        TextInput:
+            id: sub_track_title
+            hint_text: 'Track Source'
+            readonly: True
+            multiline: False
+            size_hint_x: .6
 
-            # --- Subtitles Track Title ---
-            TextInput:
-                id: sub_track_title
-                hint_text: 'Track Title'
-                multiline: False
-
-            # --- Subtitles Track Language ---
-            TextInput:
-                id: sub_track_lang
-                hint_text: 'Language'
-                multiline: False
-                size_hint_x: .3
-
-    # ---------- SUB TRACK INFOS ----------
-    BoxLayout:
-        padding: '2sp'
-        size_hint: .4, 1
+        # --- Subtitles Track Language ---
+        TextInput:
+            id: sub_track_lang
+            hint_text: 'Language'
+            multiline: False
+            size_hint_x: .3
+            readonly: True if sub_burned.state == 'down' else False
 
         # --- Subforced Track ---
         ToggleButton:
             id: sub_forced
             text: 'Forced'
-            value: ''
-            on_release: self.value = 'subforced'
+            size_hint_x: .2
+            group: root.ids.sub_infos.group
+            value: '1' if self.state == 'down' else '0'
 
         # --- Burned Track ---
         ToggleButton:
             id: sub_burned
-            text: 'Burn in'
-            value: ''
-            on_release: self.value = 'subburned'
-
-        # --- Default Track ---
-        ToggleButton:
-            id: sub_default
-            text: 'Default'
-            value: ''
-            on_release: self.value = 'subdefault'
+            text: 'Burned'
+            size_hint_x: .2
+            group: root.ids.sub_infos.group
+            value: 'subburned' if self.state == 'down' else ''
 
         # --- Subcharset ---
         TextInput:
-            padding: 10, 10, 0, 0
             id: sub_charset
-            hint_text: 'Chars'
+            hint_text: 'Charset'
             multiline: False
-
-        # --- Subdelay ---
-        TextInput:
-            padding: 10, 10, 0, 0
-            id: sub_delay
-            hint_text: 'Delay'
-            multiline: False
+            size_hint_x: .2
+            readonly: True if sub_burned.state == 'down' else False

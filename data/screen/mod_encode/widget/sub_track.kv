@@ -1,9 +1,10 @@
 #:kivy 1.8.0
+#:import uuid uuid
 
 # ---------- SUBTITLES TRACK WIDGET ----------
 GridLayout:
+    id: subTrack
     padding: '4sp'
-    cols: 2
     rows: 1
     canvas:
         Color:
@@ -12,88 +13,95 @@ GridLayout:
             size: self.size
             pos: self.pos
 
-    # ---------- SUBS TRACK ID & TITLE ----------
     BoxLayout:
-        padding: '3sp'
-        size_hint: .6, 1
+        id: sub_infos
+        padding: '5sp'
+        group_codec: uuid.uuid4()
+        group_forced: uuid.uuid4()
 
         # --- Check Subtitles Track ---
         Switch:
             size_hint_x: .2
             touch_control: False
             active:
-                True if sub_track_ID.text != '' and\
-                sub_track_title.text != '' else False
+                True if root.ids.sub_track_ID.text != '' and\
+                root.ids.sub_codec.value != '' else False
 
         # --- DEL Subtitles Track ---
         Button:
             text: 'DEL'
             size_hint_x: .1
             on_press: app.del_subtitles_track(root)
+        Label:
+            size_hint_x: .05
 
-        BoxLayout:
-            padding: '2sp'
+        # --- Subtitles Track ID ---
+        TextInput:
+            id: sub_track_ID
+            hint_text: 'Track ID'
+            multiline: False
+            size_hint_x: .2
+            input_filter: 'int'
+            padding: 8, 8, 0, 0
 
-            # --- Subtitles Track ID ---
-            TextInput:
-                id: sub_track_ID
-                hint_text: 'ID'
-                multiline: False
-                size_hint_x: .2
-                input_filter: 'int'
+        # --- Subtitles Codec ---
+        ToggleButton:
+            id: sub_codec
+            text: 'SRT'
+            size_hint_x: .15
+            group: root.ids.sub_infos.group_codec
+            value:
+                'srt' if self.state == 'down' else\
+                'ass' if root.ids.ass.state == 'down' else\
+                'pgs' if root.ids.pgs.state == 'down' else\
+                'vobsub' if root.ids.vob.state == 'down' else ''
 
-            # --- Subtitles Track Title ---
-            TextInput:
-                id: sub_track_title
-                hint_text: 'Track Title'
-                multiline: False
+        ToggleButton:
+            id: ass
+            text: 'ASS'
+            size_hint_x: .15
+            group: root.ids.sub_infos.group_codec
 
-            # --- Subtitles Track Language ---
-            TextInput:
-                id: sub_track_lang
-                hint_text: 'Language'
-                multiline: False
-                size_hint_x: .3
+        ToggleButton:
+            id: pgs
+            text: 'PGS'
+            size_hint_x: .15
+            group: root.ids.sub_infos.group_codec
 
-    # ---------- SUB TRACK INFOS ----------
-    BoxLayout:
-        padding: '2sp'
-        size_hint: .4, 1
+        ToggleButton:
+            id: vob
+            text: 'VOB'
+            size_hint_x: .15
+            group: root.ids.sub_infos.group_codec
 
-        # --- Subforced Track ---
+        # --- Subtitles Language ---
+        TextInput:
+            id: sub_track_lang
+            hint_text: 'Language'
+            multiline: False
+            size_hint_x: .3
+
+        # --- Subforced ---
         ToggleButton:
             id: sub_forced
             text: 'Forced'
-            value: ''
-            on_release:
-                self.value = 'subforced'
+            size_hint_x: .2
+            group: root.ids.sub_infos.group_forced
+            value: '1' if self.state == 'down' else '0'
 
-        # --- Burned Track ---
+        # --- SubBurned ---
         ToggleButton:
             id: sub_burned
-            text: 'Burn in'
-            value: ''
-            on_release:
-                self.value = 'subburned'
-
-        # --- Default Track ---
-        ToggleButton:
-            id: sub_default
-            text: 'Default'
-            value: ''
-            on_release:
-                self.value = 'subdefault'
+            text: 'Burned'
+            size_hint_x: .2
+            group: root.ids.sub_infos.group_forced
+            value: 'subburned' if self.state == 'down' else ''
 
         # --- Subcharset ---
         TextInput:
-            padding: 10, 10, 0, 0
             id: sub_charset
-            hint_text: 'Chars'
+            hint_text: 'Charset'
             multiline: False
-
-        # --- Subdelay ---
-        TextInput:
-            padding: 10, 10, 0, 0
-            id: sub_delay
-            hint_text: 'Delay'
-            multiline: False
+            size_hint_x: .2
+            readonly:
+                True if root.ids.sub_burned.state == 'down' else False

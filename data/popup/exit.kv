@@ -2,7 +2,7 @@
 
 # ---------- EXIT POPUP ----------
 <ExitPopup>:
-    size_hint: .3, .2
+    size_hint: .3, .3
     auto_dismiss: False
     title: 'Exit'
 
@@ -15,6 +15,11 @@
         Button:
             text: 'Confirm'
             on_press: exit()
+
+        # --- Restart ---
+        Button:
+            text: 'Restart'
+            on_press: app.restart_ankoa()
 
         # --- Cancel ---
         Button:

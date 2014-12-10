@@ -16,6 +16,7 @@ from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 
 # Local libraries
+from app.mod_encode.encode_dict import o_o
 from app.mod_encode.manager import encode
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
@@ -345,207 +346,132 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  MAPPING ENCODE ###############################################
     # ---------------------------------------------------------------
-    '''Get all screens values from corresponding kv file'''
 
-    # Get source infos
-    def get_source_infos(self):
-        '''from data/mod_encode/screen/source.kv'''
-        rls_source = self.source_screen.ids.source.text
-        rls_title = self.source_screen.ids.title.text
-        return (rls_source, rls_title)
+    # Get encode infos
+    def get_encode_infos(self, o_o):
+        '''
+        Get all screens values from corresponding kv file
+        Fill in the dictionary o_o
+        '''
 
-    # Get picture infos
-    def get_picture_infos(self):
-        '''from data/mod_encode/screen/picture.kv'''
+        # Get source infos
+        o_o['rls_source'] = self.source_screen.ids.source.text
+        o_o['rls_title'] = self.source_screen.ids.title.text}
+
+        # Get picture infos
         if self.picture_screen.ids.check_sar.active is True:
-            reso = [self.picture_screen.sar_val.value]
+            o_o['resolution'].append(self.picture_screen.sar_val.value)
         else:
-            reso = [self.picture_screen.ids.video_W.text,
-                    self.picture_screen.ids.video_H.text]
+            o_o['resolution'].append(self.picture_screen.ids.video_W.text)
+            o_o['resolution'].append(self.picture_screen.ids.video_H.text)
         if self.picture_screen.ids.custom_crop.active is True:
-            crop_width = self.picture_screen.ids.crop_W.text
-            crop_height = self.picture_screen.ids.crop_H.text
-            crop_top = self.picture_screen.ids.crop_T.text
-            crop_bottom = self.picture_screen.ids.crop_B.text
-            crop_right = self.picture_screen.ids.crop_R.text
-            crop_left = self.picture_screen.ids.crop_L.text
-        else:
-            [crop_width, crop_height, crop_top, crop_bottom,
-             crop_right, crop_left] = [None, ] * 6
-        deinterlace = self.picture_screen.ids.deint.text
-        motion_deint = self.picture_screen.ids.motion_d.text
-        denoise = self.picture_screen.ids.denoise.text
-        decimate = self.picture_screen.ids.decimate.text
+            o_o['crop_width'] = self.picture_screen.ids.crop_W.text
+            o_o['crop_height'] = self.picture_screen.ids.crop_H.text
+            o_o['crop_top'] = self.picture_screen.ids.crop_T.text
+            o_o['crop_bottom'] = self.picture_screen.ids.crop_B.text
+            o_o['crop_right'] = self.picture_screen.ids.crop_R.text
+            o_o['crop_left'] = self.picture_screen.ids.crop_L.text
+        o_o['deinterlace'] = self.picture_screen.ids.deint.text
+        o_o['motion_deint'] = self.picture_screen.ids.motion_d.text
+        o_o['denoise'] = self.picture_screen.ids.denoise.text
+        o_o['decimate'] = self.picture_screen.ids.decimate.text
 
-        return (reso, crop_width, crop_height, crop_top,
-                crop_bottom, crop_right, crop_left,
-                deinterlace, motion_deint, denoise, decimate)
-
-    # Get video infos
-    def get_video_infos(self):
-        '''from data/mod_encode/screen/video.kv'''
-        video_ID = self.video_screen.ids.video_track_ID.text
-        movie_name = self.video_screen.ids.movie_name.text
-        container = self.video_screen.ids.vcontainer.valueA
-        codec = self.video_screen.ids.vcontainer.valueB
-
+        # Get video infos
+        o_o['video_ID'] = self.video_screen.ids.video_track_ID.text
+        o_o['movie_name'] = self.video_screen.ids.movie_name.text
+        o_o['container'] = self.video_screen.ids.vcontainer.valueA
+        o_o['video_codec'] = self.video_screen.ids.vcontainer.valueB
         if self.video_screen.ids.check_crf.active is True:
-            crf = self.video_screen.ids.crf_val.text
-            [dual_pass, fast1pass] = ['', ] * 2
+            o_o['crf_mode'] = self.video_screen.ids.crf_val.text
         else:
-            crf = None
-            dual_pass = self.video_screen.ids.video_bitrate.text
-            fast1pass = self.video_screen.ids.fast1pass.value
-        framerate = self.video_screen.ids.fram_rate.text
-        preset = self.video_screen.ids.pre_set.value
-        tune = self.video_screen.ids.tu_ne.value
-        profile = self.video_screen.ids.pro_file.text
-        level = self.video_screen.ids.le_vel.text
+            o_o['dual_pass'] = self.video_screen.ids.video_bitrate.text
+            o_o['fast1pass'] = self.video_screen.ids.fast1pass.value
+        o_o['framerate'] = self.video_screen.ids.fram_rate.text
+        o_o['preset'] = self.video_screen.ids.pre_set.value
+        o_o['tune'] = self.video_screen.ids.tu_ne.value
+        o_o['profile'] = self.video_screen.ids.pro_file.text
+        o_o['level'] = self.video_screen.ids.le_vel.text
 
-        return (video_ID, movie_name, container, codec, crf, dual_pass,
-                fast1pass, framerate, preset, tune, profile, level)
-
-    # Get audio infos
-    def get_audio_infos(self):
-        '''from data/mod_encode/screen/widget/audio_track.kv'''
-        [audio_ID, audio_title, audio_lang, audio_codec,
-         audio_bitrate, audio_channels, audio_samplerate,
-         audio_gain] = [[], [], [], [], [], [], [], []]
-        layout = \
-            self.audio_screen.ids.audio_track_layout.children
-
-        for nb in range(0, len(layout)):
-            audio_ID.append(layout[nb].ids.audio_track_ID.text)
-            audio_title.append(layout[nb].ids.audio_track_title.text)
-            audio_lang.append(layout[nb].ids.audio_track_lang.text)
-            audio_codec.append(layout[nb].ids.acodec.value)
-            audio_bitrate.append(layout[nb].ids.abitrate.value)
-            audio_channels.append(layout[nb].ids.channels.value)
-            audio_samplerate.append(layout[nb].ids.sample_rate.text)
-            audio_gain.append(layout[nb].ids.gain.text)
+        # Get audio infos
+        audio = self.audio_screen.ids.audio_track_layout.children
+        for nb in range(0, len(audiosub)):
+            o_o['audio_ID'].append(audio[nb].ids.audio_track_ID.text)
+            o_o['audio_title'].append(audio[nb].ids.audio_track_title.text)
+            o_o['audio_lang'].append(audio[nb].ids.audio_track_lang.text)
+            o_o['audio_codec'].append(audio[nb].ids.acodec.value)
+            o_o['audio_bitrate'].append(audio[nb].ids.abitrate.value)
+            o_o['audio_channels'].append(audio[nb].ids.channels.value)
+            o_o['audio_samplerate'].append(audio[nb].ids.sample_rate.text)
+            o_o['audio_gain'].append(audio[nb].ids.gain.text)
             nb = nb + 1
 
-        return (audio_ID, audio_title, audio_lang, audio_codec,
-                audio_bitrate, audio_channels, audio_samplerate,
-                audio_gain)
-
-    # Get subtitles infos
-    def get_subtitles_infos(self):
-        '''
-        from data/mod_encode/screen/widget/sub_file.kv
-        from data/mod_encode/screen/widget/sub_file.kv
-        '''
-        [subs_ID, subs_title, subs_lang, subs_forced,
-         subs_burned, subs_default, subs_chars,
-         subs_delay] = [[], [], [], [], [], [], [], []]
-        layout = \
-            self.subtitles_screen.ids.sub_track_layout.children
-
-        for nb in range(0, len(layout)):
-            subs_ID.append(layout[nb].ids.sub_track_ID.text)
-            subs_title.append(layout[nb].ids.sub_track_title.text)
-            subs_lang.append(layout[nb].ids.sub_track_lang.text)
-            subs_forced.append(layout[nb].ids.sub_forced.value)
-            subs_burned.append(layout[nb].ids.sub_burned.value)
-            subs_default.append(layout[nb].ids.sub_default.value)
-            subs_chars.append(layout[nb].ids.sub_charset.text)
-            subs_delay.append(layout[nb].ids.sub_delay.text)
+        # Get subtitles infos
+        sub = self.subtitles_screen.ids.sub_track_layout.children
+        for nb in range(0, len(sub)):
+            o_o['subs_ID'].append(sub[nb].ids.sub_track_ID.text)
+            o_o['subs_source'].append(sub[nb].ids.sub_source.text)
+            o_o['subs_codec'].append(sub[nb].ids.sub_codec.value)
+            o_o['subs_lang'].append(sub[nb].ids.sub_track_lang.text)
+            o_o['subs_forced'].append(sub[nb].ids.sub_forced.value)
+            o_o['subs_burned'].append(sub[nb].ids.sub_burned.value)
+            o_o['subs_charset'].append(sub[nb].ids.sub_charset.text)
             nb = nb + 1
 
-        return (subs_ID, subs_title, subs_lang, subs_forced,
-                subs_burned, subs_default, subs_chars, subs_delay)
-
-    # Get advanced infos
-    def get_advanced_infos(self):
-        '''from data/mod_encode/screen/advanced.kv'''
+        # Get advanced infos
         if self.advanced_screen.ids.threads_on.active is True:
-            threads_nb = self.advanced_screen.ids.threads_nb.value
-            threads_mod = self.advanced_screen.ids.threads_mod.value
-        else:
-            [threads_nb, threads_mod] = ['', ] * 2
+            o_o['threads_nb'] = self.advanced_screen.ids.threads_nb.value
+            o_o['threads_mod'] = self.advanced_screen.ids.threads_mod.value
         if self.advanced_screen.ids.frames_on.active is True:
-            ref_frames = self.advanced_screen.ids.ref_frames.value
-            max_Bframes = self.advanced_screen.ids.max_Bframes.value
-            mixed_ref = self.advanced_screen.ids.mixed_ref.value
-        else:
-            [ref_frames, max_Bframes, mixed_ref] = ['', ] * 3
+            o_o['ref_frames'] = self.advanced_screen.ids.ref_frames.value
+            o_o['max_Bframes'] = self.advanced_screen.ids.max_Bframes.value
+            o_o['mixed_ref'] = self.advanced_screen.ids.mixed_ref.value
         if self.advanced_screen.ids.encod_on.active is True:
-            pyramid_mod = self.advanced_screen.ids.pyram.value
-            transform = self.advanced_screen.ids.transform.value
-            cabac = self.advanced_screen.ids.cabac.value
-        else:
-            [pyramid_mod, transform, cabac] = ['', ] * 3
+            o_o['pyramid_mod'] = self.advanced_screen.ids.pyram.value
+            o_o['transform'] = self.advanced_screen.ids.transform.value
+            o_o['cabac'] = self.advanced_screen.ids.cabac.value
         if self.advanced_screen.ids.adapt_on.active is True:
-            direct_mod = self.advanced_screen.ids.direct.value
-            B_frames = self.advanced_screen.ids.Bframes.value
-        else:
-            [direct_mod, B_frames] = ['', ] * 2
+            o_o['direct_mod'] = self.advanced_screen.ids.direct.value
+            o_o['B_frames'] = self.advanced_screen.ids.Bframes.value
         if self.advanced_screen.ids.weight_on.active is True:
-            weighted_pf = self.advanced_screen.ids.weight_pf.value
-            weighted_bf = self.advanced_screen.ids.weight_bf.value
-        else:
-            [weighted_bf, weighted_pf] = ['', ] * 2
+            o_o['weighted_pf'] = self.advanced_screen.ids.weight_pf.value
+            o_o['weighted_bf'] = self.advanced_screen.ids.weight_bf.value
         if self.advanced_screen.ids.motion_on.active is True:
-            me_method = self.advanced_screen.ids.me_mod.text
-            subpixel = self.advanced_screen.ids.subpixel.value
-            me_range = self.advanced_screen.ids.me_range.value
-        else:
-            [me_method, subpixel, me_range] = ['', ] * 3
+            o_o['me_method'] = self.advanced_screen.ids.me_mod.text
+            o_o['subpixel'] = self.advanced_screen.ids.subpixel.value
+            o_o['me_range'] = self.advanced_screen.ids.me_range.value
         if self.advanced_screen.ids.partitions_on.active is True:
-            partitions = self.advanced_screen.ids.parts.text
-            trellis = self.advanced_screen.ids.trellis.value
-        else:
-            [partitions, trellis] = ['', ] * 2
+            o_o['partitions'] = self.advanced_screen.ids.parts.text
+            o_o['trellis'] = self.advanced_screen.ids.trellis.value
         if self.advanced_screen.ids.quantiz_on.active is True:
-            adapt_strenght = self.advanced_screen.ids.adapt_s.text
-            psy_optim = self.advanced_screen.ids.psy_optim.value
-        else:
-            [adapt_strenght, psy_optim] = ['', ] * 2
+            o_o['adapt_strenght'] = self.advanced_screen.ids.adapt_s.text
+            o_o['psy_optim'] = self.advanced_screen.ids.psy_optim.value
         if self.advanced_screen.ids.distortion_on.active is True:
-            distord_rate = self.advanced_screen.ids.dist_rate.text
-            psy_trellis = self.advanced_screen.ids.psy_trell.text
-        else:
-            [distord_rate, psy_trellis] = ['', ] * 2
+            o_o['distord_rate'] = self.advanced_screen.ids.dist_rate.text
+            o_o['psy_trellis'] = self.advanced_screen.ids.psy_trell.text
         if self.advanced_screen.ids.deblock_on.active is True:
-            deblock_alpha = self.advanced_screen.ids.d_alpha.text
-            deblock_beta = self.advanced_screen.ids.d_beta.text
-        else:
-            [deblock_alpha, deblock_beta] = ['', ] * 2
+            o_o['deblock_alpha'] = self.advanced_screen.ids.d_alpha.text
+            o_o['deblock_beta'] = self.advanced_screen.ids.d_beta.text
         if self.advanced_screen.ids.keyframe_on.active is True:
-            key_interval = self.advanced_screen.ids.key_interval.text
-            min_key = self.advanced_screen.ids.min_key.text
-            lookahead = self.advanced_screen.ids.lookahead.text
-        else:
-            [key_interval, min_key, lookahead] = ['', ] * 3
+            o_o['key_interv'] = self.advanced_screen.ids.key_interval.text
+            o_o['min_key'] = self.advanced_screen.ids.min_key.text
+            o_o['lookahead'] = self.advanced_screen.ids.lookahead.text
         if self.advanced_screen.ids.various_on.active is True:
-            scenecut = self.advanced_screen.ids.scenecut.text
-            chroma = self.advanced_screen.ids.chroma.value
-            fast_skip = self.advanced_screen.ids.fast_skip.value
-            grayscale = self.advanced_screen.ids.grayscale.value
-            bluray_compat = self.advanced_screen.ids.bluray_compat.value
-        else:
-            [scenecut, chroma, fast_skip,
-             grayscale, bluray_compat] = ['', ] * 5
-
-        return (
-            threads_nb, threads_mod, ref_frames, max_Bframes,
-            mixed_ref, pyramid_mod, transform, cabac, direct_mod,
-            B_frames, weighted_bf, weighted_pf, me_method, subpixel,
-            me_range, partitions, trellis, adapt_strenght, psy_optim,
-            distord_rate, psy_trellis, deblock_alpha, deblock_beta,
-            key_interval, min_key, lookahead, scenecut, chroma,
-            fast_skip, grayscale, bluray_compat)
+            o_o['scenecut'] = self.advanced_screen.ids.scenecut.text
+            o_o['chroma'] = self.advanced_screen.ids.chroma.value
+            o_o['fast_skip'] = self.advanced_screen.ids.fast_skip.value
+            o_o['grayscale'] = self.advanced_screen.ids.grayscale.value
+            o_o['bluray'] = self.advanced_screen.ids.bluray_compat.value
 
     # ---------------------------------------------------------------
     #  MANAGE ENCODE ################################################
     # ---------------------------------------------------------------
     '''
-    Check and send content to app/mod_encode/manager.py
+    Check content and call the manager 'app/mod_encode/manager.py'
     Manager will return proper FFMPEG cmd
     '''
 
     # Check if user is not a n00b
-    '''Essential values verification'''
+    '''Essential content verification'''
     def check_encode_values(self):
         if self.source_screen.ids.r_source.active is True and\
                 self.source_screen.ids.r_title.active is True and\
@@ -557,57 +483,9 @@ class AnkoaApp(App):
         else:
             return False
 
-    # Send ENCODE values to Manager
+    # Call the Manager
     def send_encode_values(self):
-
-        '''Source screen'''
-        (rls_source, rls_title) = self.get_source_infos()
-
-        '''Picture screen'''
-        (reso, crop_width, crop_height, crop_top, crop_bottom,
-         crop_right, crop_left, deinterlace, motion_deint,
-         denoise, decimate) = self.get_picture_infos()
-
-        '''Video screen'''
-        (video_ID, movie_name, container, codec, crf,
-         dual_pass, fast1pass, framerate, preset, tune,
-         profile, level) = self.get_video_infos()
-
-        '''Audio screen'''
-        (audio_ID, audio_title, audio_lang, audio_codec,
-         audio_bitrate, audio_channels, audio_samplerate,
-         audio_gain) = self.get_audio_infos()
-
-        '''Subtitles screen'''
-        (subs_ID, subs_title, subs_lang, subs_forced, subs_burned,
-         subs_default, subs_chars, subs_delay) = self.get_subtitles_infos()
-
-        '''Advanced screen'''
-        (threads_nb, threads_mod, ref_frames, max_Bframes, mixed_ref,
-         pyramid_mod, transform, cabac, direct_mod, B_frames,
-         weighted_pf, weighted_bf, me_method, subpixel, me_range,
-         partitions, trellis, adapt_strenght, psy_optim, distord_rate,
-         psy_trellis, deblock_alpha, deblock_beta, key_interval,
-         min_key, lookahead, scenecut, chroma, fast_skip, grayscale,
-         bluray_compat) = self.get_advanced_infos()
-
-        '''Let's see what the manager will do with this'''
-        ffmpeg = encode(
-            rls_source, rls_title, reso, crop_width, crop_height,
-            crop_top, crop_bottom, crop_right, crop_left, deinterlace,
-            motion_deint, denoise, decimate, container, video_ID,
-            movie_name, codec, crf, dual_pass, fast1pass, framerate,
-            preset, tune, profile, level, audio_ID, audio_title,
-            audio_lang, audio_codec, audio_bitrate, audio_channels,
-            audio_samplerate, audio_gain, subs_ID, subs_title,
-            subs_lang, subs_forced, subs_burned, subs_default,
-            subs_chars, subs_delay, threads_nb, threads_mod, ref_frames,
-            max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
-            direct_mod, B_frames, weighted_pf, weighted_bf, me_method,
-            subpixel, me_range, partitions, trellis, adapt_strenght,
-            psy_optim, distord_rate, psy_trellis, deblock_alpha,
-            deblock_beta, key_interval, min_key, lookahead, scenecut,
-            chroma, fast_skip, grayscale, bluray_compat)
+        ffmpeg = encode_manger(o_o)
 
 if __name__ == '__main__':
     AnkoaApp().run()

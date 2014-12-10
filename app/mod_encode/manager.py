@@ -1,26 +1,12 @@
 #!/usr/bin/kivy
 '''
 [ MODE ENCODE ]
-Manage all required values to return proper FFMPEG cmd
+Manage all content to return proper FFMPEG cmd
 '''
 
 
 # Encode Management
-def encode(rls_source, rls_title, reso, crop_width, crop_height,
-           crop_top, crop_bottom, crop_right, crop_left, deinterlace,
-           motion_deint, denoise, decimate, container, video_ID,
-           movie_name, codec, crf, dual_pass, fast1pass, framerate,
-           preset, tune, profile, level, audio_ID, audio_title,
-           audio_lang, audio_codec, audio_bitrate, audio_channels,
-           audio_samplerate, audio_gain, subs_ID, subs_title,
-           subs_lang, subs_forced, subs_burned, subs_default,
-           subs_chars, subs_delay, threads_nb, threads_mod, ref_frames,
-           max_Bframes, mixed_ref, pyramid_mod, transform, cabac,
-           direct_mod, B_frames, weighted_pf, weighted_bf, me_method,
-           subpixel, me_range, partitions, trellis, adapt_strenght,
-           psy_optim, distord_rate, psy_trellis, deblock_alpha,
-           deblock_beta, key_interval, min_key, lookahead, scenecut,
-           chroma, fast_skip, grayscale, bluray_compat):
+def encode_manager(o_o):
 
     # Videos Filters
     if deinterlace == '' and motion_deint == '' and\

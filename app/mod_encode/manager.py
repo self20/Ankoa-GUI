@@ -4,103 +4,120 @@
 Manage all content to return proper FFMPEG cmd
 '''
 
+# Set some values
+[video_filter, crop, threads_nb, threads_mod, ref_frames,
+ fast1pass, max_bf, mixed_ref, pyramid_mod, transform,
+ cabac, direct_mod, B_frames, weighted_pf, weighted_bf,
+ me_method, subpixel, me_range, partitions, trellis,
+ adapt_strenght, psy_optim, psy_rd, deblock_alpha,
+ key_interval, min_key, lookahead, scenecut, chroma,
+ fast_skip, grayscale, bluray_on] = ['', ] * 31
+
 
 # Encode Management
 def encode_manager(o_o):
 
     # Videos Filters
-    if deinterlace == '' and motion_deint == '' and\
-            denoise == '' and decimate == '' and crop_top is None:
-        video_filter = ''
-    else:
-        crop = ''
-        video_filter = ' -filter:v{0}{1}{2}{3}{4}'\
-            .format(crop, deinterlace, motion_deint, denoise, decimate)
+    if o_o['deinterlace'] or o_o['motion_deint'] or\
+            o_o['denoise'] or o_o['decimate'] or\
+            o_o['crop_width']:
+
+        if o_o['crop_width']:
+            crop = ' crop={0}:{1}:{2}:{3}'.format(
+                o_o['crop_width'], o_o['crop_height'],
+                o_o['crop_right_left'], o_o['crop_top_bottom'])
+
+        video_filter = ' -filter:v{0}{1}{2}{3}{4}'.format(
+            crop, o_o['deinterlace'], o_o['motion_deint'],
+            o_o['denoise'], o_o['decimate'])
 
     # Video Resolution
-    if len(reso) == 2:
-        video_reso = '-s {0}x{1}'.format(reso[0], reso[1])
+    if len(o_o['resolution']) == 2:
+        video_reso = '-s {0}x{1}'.format(
+            o_o['resolution'][0], o_o['resolution'][1])
     else:
-        video_reso = '-sar {}'.format(reso[0])
+        video_reso = '-sar {}'.format(o_o['resolution'][0])
 
     # Advanced video params
-    if threads_nb != '':
-        threads_nb = ' -threads {}'.format(threads_nb)
-    if threads_mod != '':
-        threads_mod = ' -thread_type {}'.format(threads_mod)
-    if fast1pass != '':
-        fast1pass = ' -fastfirstpass {}'.format(fast1pass)
-    if ref_frames != '':
-        ref_frames = ' -refs {}'.format(ref_frames)
-    if max_Bframes != '':
-        max_Bframes = ' -bf {}'.format(max_Bframes)
-    if mixed_ref != '':
-        mixed_ref = ' -mixed-refs {}'.format(mixed_ref)
-    if pyramid_mod != '':
-        pyramid_mod = ' -b-pyramid {}'.format(pyramid_mod.lower())
-    if transform != '':
-        transform = ' -8x8dct {}'.format(transform)
-    if cabac != '':
-        cabac = ' -coder {}'.format(cabac)
-    if direct_mod != '':
-        direct_mod = ' -direct-pred {}'.format(direct_mod.lower())
-    if B_frames != '':
-        B_frames = ' -b_strategy {}'.format(B_frames.lower())
-    if weighted_pf != '':
-        weighted_pf = ' -weightp {}'.format(weighted_pf.lower())
-    if weighted_bf != '':
-        weighted_bf = ' -weightb {}'.format(weighted_bf)
-    if me_method != '':
-        me_method = ' -me_method {}'.format(me_method.lower())
-    if subpixel != '':
-        subpixel = ' -subq {}'.format(subpixel)
-    if me_range != '':
-        me_range = ' -me_range {}'.format(me_range)
-    if partitions != '':
-        partitions = ' -partitions {}'.format(partitions.lower())
-    if trellis != '':
-        trellis = ' -trellis {}'.format(trellis)
-    if adapt_strenght != '':
-        adapt_strenght = ' -aq-strength {}'.format(adapt_strenght)
-    if psy_optim != '':
-        psy_optim = ' -psy {}'.format(psy_optim)
-    if distord_rate != '':
-        distord_rate = ' -psy-rd {0}:{1}'.format(distord_rate, psy_trellis)
-    if deblock_alpha != '':
-        deblock_alpha = ' -deblock {0}:{1}'.format(deblock_alpha, deblock_beta)
-    if key_interval != '':
-        key_interval = ' -g {}'.format(key_interval)
-    if min_key != '':
-        min_key = ' -keyint_min {}'.format(min_key)
-    if lookahead != '':
-        lookahead = ' -rc-lookahead {}'.format(lookahead)
-    if scenecut != '':
-        scenecut = ' -sc_threshold {}'.format(scenecut)
-    if chroma != '':
-        chroma = ' -cmp {}'.format(chroma)
-    if fast_skip != '':
-        fast_skip = ' -fast-pskip {}'.format(fast_skip)
-    if grayscale != '':
-        grayscale = ' -pix_fmt {}'.format(grayscale)
-    if bluray_compat != '':
-        bluray_compat = ' -bluray-compat {}'.format(bluray_compat)
+    if o_o['threads_nb']:
+        threads_nb = ' -threads {}'.format(o_o['threads_nb'])
+    if o_o['threads_mod']:
+        threads_mod = ' -thread_type {}'.format(o_o['threads_mod'])
+    if o_o['fast1pass']:
+        fast1pass = ' -fastfirstpass {}'.format(o_o['fast1pass'])
+    if o_o['ref_frames']:
+        ref_frames = ' -refs {}'.format(o_o['ref_frames'])
+    if o_o['max_Bframes']:
+        max_bf = ' -bf {}'.format(o_o['max_Bframes'])
+    if o_o['mixed_ref']:
+        mixed_ref = ' -mixed-refs {}'.format(o_o['mixed_ref'])
+    if o_o['pyramid_mod']:
+        pyramid_mod = ' -b-pyramid {}'.format(o_o['pyramid_mod'].lower())
+    if o_o['transform']:
+        transform = ' -8x8dct {}'.format(o_o['transform'])
+    if o_o['cabac']:
+        cabac = ' -coder {}'.format(o_o['cabac'])
+    if o_o['direct_mod']:
+        direct_mod = ' -direct-pred {}'.format(o_o['direct_mod'].lower())
+    if o_o['B_frames']:
+        B_frames = ' -b_strategy {}'.format(o_o['B_frames'].lower())
+    if o_o['weighted_pf']:
+        weighted_pf = ' -weightp {}'.format(o_o['weighted_pf'].lower())
+    if o_o['weighted_bf']:
+        weighted_bf = ' -weightb {}'.format(o_o['weighted_bf'])
+    if o_o['me_method']:
+        me_method = ' -me_method {}'.format(o_o['me_method'].lower())
+    if o_o['subpixel']:
+        subpixel = ' -subq {}'.format(o_o['subpixel'])
+    if o_o['me_range']:
+        me_range = ' -me_range {}'.format(o_o['me_range'])
+    if o_o['partitions']:
+        partitions = ' -partitions {}'.format(o_o['partitions'].lower())
+    if o_o['trellis']:
+        trellis = ' -trellis {}'.format(o_o['trellis'])
+    if o_o['adapt_strenght']:
+        adapt_strenght = ' -aq-strength {}'.format(o_o['adapt_strenght'])
+    if o_o['psy_optim']:
+        psy_optim = ' -psy {}'.format(o_o['psy_optim'])
+    if o_o['distord_rate']:
+        psy_rd = ' -psy-rd {0}:{1}'.format(o_o['distord_rate'],
+                                           o_o['psy_trellis'])
+    if o_o['deblock_alpha']:
+        deblock = ' -deblock {0}:{1}'.format(o_o['deblock_alpha'],
+                                             o_o['deblock_beta'])
+    if o_o['key_interv']:
+        key_interval = ' -g {}'.format(o_o['key_interv'])
+    if o_o['min_key']:
+        min_key = ' -keyint_min {}'.format(o_o['min_key'])
+    if o_o['lookahead']:
+        lookahead = ' -rc-lookahead {}'.format(o_o['lookahead'])
+    if o_o['scenecut']:
+        scenecut = ' -sc_threshold {}'.format(o_o['scenecut'])
+    if o_o['chroma']:
+        chroma = ' -cmp {}'.format(o_o['chroma'])
+    if o_o['fast_skip']:
+        fast_skip = ' -fast-pskip {}'.format(o_o['fast_skip'])
+    if o_o['grayscale']:
+        grayscale = ' -pix_fmt {}'.format(o_o['grayscale'])
+    if o_o['bluray']:
+        bluray_on = ' -bluray-compat {}'.format(o_o['bluray'])
 
     # Return video params cmd
     video_params =  \
         '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
         '{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}'\
         .format(
-            threads_nb, threads_mod, ref_frames, fast1pass, max_Bframes,
+            threads_nb, threads_mod, ref_frames, fast1pass, max_bf,
             mixed_ref, pyramid_mod, transform, cabac, direct_mod,
             B_frames, weighted_pf, weighted_bf, me_method, subpixel,
             me_range, partitions, trellis, adapt_strenght, psy_optim,
-            distord_rate, deblock_alpha, key_interval, min_key, lookahead,
-            scenecut, chroma, fast_skip, grayscale, bluray_compat)
+            psy_rd, deblock_alpha, key_interval, min_key, lookahead,
+            scenecut, chroma, fast_skip, grayscale, bluray_on)
 
     # Audio config
     audio_config = []
-    for nb in range(0, len(audio_ID)):
-        if audio_bitrate[nb] == 'dts_copy':
+    for nb in range(0, len(o_o['audio_ID'])):
+        if o_o['audio_bitrate'][nb] == 'dts_copy':
             audio_config.append(' -acodec copy')
         else:
             audio_config.append(
@@ -108,19 +125,20 @@ def encode_manager(o_o):
                 "-ar:a:{8} {4} -af 'volume={5}dB' -metadata:s:a:{8} "
                 "title='{6}' -metadata:s:a:{8} language='{6}'"
                 .format(
-                    audio_ID[nb], audio_codec[nb], audio_bitrate[nb],
-                    audio_channels[nb], audio_samplerate[nb],
-                    audio_gain[nb], audio_title[nb], audio_lang[nb], nb))
+                    o_o['audio_ID'][nb], o_o['audio_codec'][nb],
+                    o_o['audio_bitrate'][nb], o_o['audio_channels'][nb],
+                    o_o['audio_samplerate'][nb], o_o['audio_gain'][nb],
+                    o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
         nb = nb + 1
 
     # Subtitles config
     subtitles_config = []
-    for nb in range(0, len(subs_ID)):
+    for nb in range(0, len(o_o['subs_ID'])):
         subtitles_config.append(
             " -map 0:{0} -c:s:{} -sub_charenc {} "
             "-metadata:s:s:{} title='{}' -metadata:s:s:{} language={}"
             .format(
-                subs_ID[nb], ))
+                o_o['subs_ID'][nb], ))
 
     # FFMPEG CRF
     # if crf is not None:
@@ -150,4 +168,4 @@ def encode_manager(o_o):
     #
     # return ffmpeg
 
-    ''' MISSING => ubtitles_config, output and users settings '''
+    ''' MISSING => subtitles_config, output and users settings '''

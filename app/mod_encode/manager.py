@@ -8,7 +8,7 @@ Manage all content to return proper FFMPEG cmd
 # Encode Management
 def encode_manager(o_o):
 
-    # Set empty values
+    # Set empty values (will be included in cmd)
     [video_filter, crop, threads_nb, threads_mod, ref_frames,
      fast1pass, max_bf, mixed_ref, pyramid_mod, transform,
      cabac, direct_mod, B_frames, weighted_pf, weighted_bf,
@@ -17,7 +17,11 @@ def encode_manager(o_o):
      key_interval, min_key, lookahead, scenecut, chroma,
      fast_skip, grayscale, bluray_on] = ['', ] * 32
 
-    # Videos Filters
+    # ---------------------------------------------------------------
+    #  VIDEO TRACK ##################################################
+    # ---------------------------------------------------------------
+
+    # Video Filters
     if o_o['deinterlace'] or o_o['motion_deint'] or\
             o_o['denoise'] or o_o['decimate'] or\
             o_o['crop_width']:
@@ -38,7 +42,11 @@ def encode_manager(o_o):
     else:
         video_reso = '-sar {}'.format(o_o['resolution'][0])
 
-    # Advanced video params
+    # ---------------------------------------------------------------
+    #  ADVANCED #####################################################
+    # ---------------------------------------------------------------
+    '''Advanced video parameters'''
+
     if o_o['threads_nb']:
         threads_nb = ' -threads {}'.format(o_o['threads_nb'])
     if o_o['threads_mod']:
@@ -102,7 +110,7 @@ def encode_manager(o_o):
     if o_o['bluray']:
         bluray_on = ' -bluray-compat {}'.format(o_o['bluray'])
 
-    # Return video params cmd
+    # Return video_params cmd
     video_params =  \
         '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
         '{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}'\
@@ -114,10 +122,13 @@ def encode_manager(o_o):
             psy_rd, deblock_alpha, key_interval, min_key, lookahead,
             scenecut, chroma, fast_skip, grayscale, bluray_on)
 
-    # Audio config
+    # ---------------------------------------------------------------
+    #  AUDIO TRACKS #################################################
+    # ---------------------------------------------------------------
     audio_config = []
     for nb in range(0, len(o_o['audio_ID'])):
 
+        # DTS Tracks
         if o_o['audio_bitrate'][nb] == 'dts_copy':
             audio_config.append(
                 " -map 0:{0} -c:a:{4} copy -af:a:{4} 'volume={1}db'"
@@ -125,6 +136,8 @@ def encode_manager(o_o):
                 "language='{3}'".format(
                     o_o['audio_ID'][nb], o_o['audio_gain'][nb],
                     o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
+
+        # MP3/AAC/AC3 Tracks
         else:
             audio_config.append(
                 " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} "
@@ -137,10 +150,13 @@ def encode_manager(o_o):
                     o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
         nb = nb + 1
 
-    # Subtitles config
+    # ---------------------------------------------------------------
+    #  SUBTITLES TRACKS #############################################
+    # ---------------------------------------------------------------
     subtitles_config = []
     for nb in range(0, len(o_o['subs_type'])):
 
+        # Subs File Tracks muxed
         if o_o['subs_type'][nb] == 'subfile' and\
                 not o_o['subs_burned'][nb]:
             subtitles_config.append(
@@ -151,6 +167,7 @@ def encode_manager(o_o):
                     o_o['subs_charset'][nb], o_o['subs_forced'][nb],
                     o_o['subs_lang'][nb], nb))
 
+        # Subs Source Tracks muxed
         elif o_o['subs_type'][nb] == 'subtrack' and\
                 not o_o['subs_burned'][nb]:
             subtitles_config.append(
@@ -161,11 +178,13 @@ def encode_manager(o_o):
                     o_o['subs_charset'][nb], o_o['subs_forced'][nb],
                     o_o['subs_lang'][nb], nb))
 
+        # Subs File Tracks burned
         elif o_o['subs_type'][nb] == 'subfile' and\
                 o_o['subs_burned'][nb]:
             subtitles_config.append(
                 " subtitles={}".format(o_o['subs_source'][nb]))
 
+        # Subs Source Tracks burned
         elif o_o['subs_type'][nb] == 'subtrack' and\
                 o_o['subs_burned'][nb]:
             subtitles_config.append(
@@ -175,6 +194,9 @@ def encode_manager(o_o):
 
     print (o_o)
 
+    # ---------------------------------------------------------------
+    #  FFMPEG CMD ###################################################
+    # ---------------------------------------------------------------
     # FFMPEG CRF
     # if crf is not None:
     #     ffmpeg = \

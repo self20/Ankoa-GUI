@@ -342,6 +342,7 @@ class AnkoaApp(App):
         '''
         current_track = self.get_current_track(self.current_track)
         current_track.ids.sub_source.text = value.split('/')[-1]
+        current_track.ids.sub_codec.value = value.split('.')[-1]
 
     # ---------------------------------------------------------------
     #  MAPPING ENCODE ###############################################
@@ -392,7 +393,7 @@ class AnkoaApp(App):
 
         # Get audio infos
         audio = self.audio_screen.ids.audio_track_layout.children
-        for nb in range(0, len(audiosub)):
+        for nb in range(0, len(audio)):
             o_o['audio_ID'].append(audio[nb].ids.audio_track_ID.text)
             o_o['audio_title'].append(audio[nb].ids.audio_track_title.text)
             o_o['audio_lang'].append(audio[nb].ids.audio_track_lang.text)
@@ -407,7 +408,6 @@ class AnkoaApp(App):
         sub = self.subtitles_screen.ids.sub_track_layout.children
         for nb in range(0, len(sub)):
             o_o['subs_type'].append(sub[nb].ids.sub_infos.type)
-            o_o['subs_ID'].append(sub[nb].ids.sub_track_ID.text)
             o_o['subs_source'].append(sub[nb].ids.sub_source.text)
             o_o['subs_codec'].append(sub[nb].ids.sub_codec.value)
             o_o['subs_lang'].append(sub[nb].ids.sub_track_lang.text)
@@ -485,7 +485,7 @@ class AnkoaApp(App):
     # Get content and call the Manager
     def send_encode_values(self):
         self.get_encode_infos(o_o)
-        ffmpeg = encode_manger(o_o)
+        ffmpeg = encode_manager(o_o)
 
 if __name__ == '__main__':
     AnkoaApp().run()

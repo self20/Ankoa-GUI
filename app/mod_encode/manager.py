@@ -4,18 +4,18 @@
 Manage all content to return proper FFMPEG cmd
 '''
 
-# Set some values
-[video_filter, crop, threads_nb, threads_mod, ref_frames,
- fast1pass, max_bf, mixed_ref, pyramid_mod, transform,
- cabac, direct_mod, B_frames, weighted_pf, weighted_bf,
- me_method, subpixel, me_range, partitions, trellis,
- adapt_strenght, psy_optim, psy_rd, deblock_alpha,
- key_interval, min_key, lookahead, scenecut, chroma,
- fast_skip, grayscale, bluray_on] = ['', ] * 32
-
 
 # Encode Management
 def encode_manager(o_o):
+
+    # Set empty values
+    [video_filter, crop, threads_nb, threads_mod, ref_frames,
+     fast1pass, max_bf, mixed_ref, pyramid_mod, transform,
+     cabac, direct_mod, B_frames, weighted_pf, weighted_bf,
+     me_method, subpixel, me_range, partitions, trellis,
+     adapt_strenght, psy_optim, psy_rd, deblock_alpha,
+     key_interval, min_key, lookahead, scenecut, chroma,
+     fast_skip, grayscale, bluray_on] = ['', ] * 32
 
     # Videos Filters
     if o_o['deinterlace'] or o_o['motion_deint'] or\
@@ -117,14 +117,20 @@ def encode_manager(o_o):
     # Audio config
     audio_config = []
     for nb in range(0, len(o_o['audio_ID'])):
+
         if o_o['audio_bitrate'][nb] == 'dts_copy':
-            audio_config.append(' -acodec copy')
+            audio_config.append(
+                " -map 0:{0} -c:a:{4} copy -af:a:{4} 'volume={1}db'"
+                " -metadata:s:a:{4} title='{2}' -metadata:s:a:{4} "
+                "language='{3}'".format(
+                    o_o['audio_ID'][nb], o_o['audio_gain'][nb],
+                    o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
         else:
             audio_config.append(
-                " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} {3} "
-                "-ar:a:{8} {4} -af 'volume={5}dB' -metadata:s:a:{8} "
-                "title='{6}' -metadata:s:a:{8} language='{6}'"
-                .format(
+                " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} "
+                "{3} -ar:a:{8} {4} -af:a:{8} 'volume={5}dB' -metad"
+                "ata:s:a:{8} title='{6}' -metadata:s:a:{8} languag"
+                "e='{6}'".format(
                     o_o['audio_ID'][nb], o_o['audio_codec'][nb],
                     o_o['audio_bitrate'][nb], o_o['audio_channels'][nb],
                     o_o['audio_samplerate'][nb], o_o['audio_gain'][nb],
@@ -133,22 +139,41 @@ def encode_manager(o_o):
 
     # Subtitles config
     subtitles_config = []
-    for nb in range(0, len(o_o['subs_ID'])):
-        if o_o['subs_type'] == 'subfile':
+    for nb in range(0, len(o_o['subs_type'])):
+
+        if o_o['subs_type'][nb] == 'subfile' and\
+                not o_o['subs_burned'][nb]:
             subtitles_config.append(
-                " -map 0:{0} -c:s:{6} -sub_charenc {1} -forced_subs"
-                "_only {2} -metadata:s:s:{6} title='{4}' -metadata:"
-                "s:s:{6} language={5}".format(
-                    o_o['subs_ID'][nb], o_o['subs_charset'][nb],
-                    o_o['subs_forced'][nb], o_o['subs_lang'][nb],
-                    o_o['subs_ID'][nb], o_o['subs_ID'][nb]))
-        elif o_o['subs_type'] == 'subtrack':
-            subtitles_config.append(
-                " -c:s:{} -sub_charenc {} "
-                "-metadata:s:s:{} title='{}' -metadata:s:s:{} language={}"
+                " -map 0:{0} -c:s:{5} {1} -sub_charenc {2} -forced_"
+                "subs_only {3} -metadata:s:s:{5} language={4}"
                 .format(
-                    o_o['subs_ID'][nb], ))
+                    o_o['subs_source'][nb], o_o['subs_codec'][nb],
+                    o_o['subs_charset'][nb], o_o['subs_forced'][nb],
+                    o_o['subs_lang'][nb], nb))
+
+        elif o_o['subs_type'][nb] == 'subtrack' and\
+                not o_o['subs_burned'][nb]:
+            subtitles_config.append(
+                " -c:s:{4} {0} -sub_charenc {1} -forced_"
+                "subs_only {2} -metadata:s:s:{4} language={3}"
+                .format(
+                    o_o['subs_source'][nb], o_o['subs_codec'][nb],
+                    o_o['subs_charset'][nb], o_o['subs_forced'][nb],
+                    o_o['subs_lang'][nb], nb))
+
+        elif o_o['subs_type'][nb] == 'subfile' and\
+                o_o['subs_burned'][nb]:
+            subtitles_config.append(
+                " subtitles={}".format(o_o['subs_source'][nb]))
+
+        elif o_o['subs_type'][nb] == 'subtrack' and\
+                o_o['subs_burned'][nb]:
+            subtitles_config.append(
+                " subtitles={}:si={}".format(
+                    o_o['rls_source'][nb], o_o['subs_source'][nb]))
         nb = nb + 1
+
+    print (o_o)
 
     # FFMPEG CRF
     # if crf is not None:
@@ -160,7 +185,7 @@ def encode_manager(o_o):
     #         .format(
     #             rls_source, movie_name, team_name, framerate, video_filter,
     #             container, video_reso, codec, crf, level, video_params,
-    #             audio_config, subtitles_config, output)
+    #             subtitles_config, audio_config, output)
     #
     # FFMPEG 2PASS
     # else:
@@ -174,7 +199,7 @@ def encode_manager(o_o):
     #         .format(
     #             rls_source, movie_name, team_name, framerate, video_filter,
     #             container, video_reso, codec, dual_pass, level, video_params,
-    #             audio_config, subtitles_config, output)
+    #             subtitles_config, audio_config, output)
     #
     # return ffmpeg
 

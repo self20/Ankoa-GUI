@@ -17,7 +17,6 @@ GridLayout:
         id: sub_infos
         type: 'subtrack'
         group_codec: uuid.uuid4()
-        group_forced: uuid.uuid4()
         padding: '5sp'
 
         # --- Check Subtitles Track ---
@@ -25,7 +24,7 @@ GridLayout:
             size_hint_x: .2
             touch_control: False
             active:
-                True if root.ids.sub_track_ID.text != '' and\
+                True if root.ids.sub_source.text != '' and\
                 root.ids.sub_codec.value != '' else False
 
         # --- DEL Subtitles Track ---
@@ -38,7 +37,7 @@ GridLayout:
 
         # --- Subtitles Track ID ---
         TextInput:
-            id: sub_track_ID
+            id: sub_source
             hint_text: 'Track ID'
             multiline: False
             size_hint_x: .2
@@ -88,7 +87,7 @@ GridLayout:
             id: sub_forced
             text: 'Forced'
             size_hint_x: .2
-            group: root.ids.sub_infos.group_forced
+            group: 'subs'
             value: '1' if self.state == 'down' else '0'
 
         # --- SubBurned ---
@@ -96,8 +95,8 @@ GridLayout:
             id: sub_burned
             text: 'Burned'
             size_hint_x: .2
-            group: root.ids.sub_infos.group_forced
-            value: 'subburned' if self.state == 'down' else ''
+            group: 'subs'
+            value: 'burned' if self.state == 'down' else ''
 
         # --- Subcharset ---
         TextInput:

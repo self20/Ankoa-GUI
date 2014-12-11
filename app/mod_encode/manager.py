@@ -191,7 +191,7 @@ def encode_manager(o_o, team_name):
 
             # Ass or srt
             if o_o['subs_codec'][nb] == 'ass' or\
-                o_o['subs_codec'][nb] == 'srt':
+                    o_o['subs_codec'][nb] == 'srt':
                 subtitles_tracks_list.append(
                     " subtitles={}".format(o_o['subs_source'][nb]))
 
@@ -201,14 +201,13 @@ def encode_manager(o_o, team_name):
                     " -filter_complex 'overlay[{}]' -map '[{}]'"
                     .format(o_o['subs_source'][nb]))
 
-
         # BURNED - Source Tracks
         elif o_o['subs_type'][nb] == 'subtrack' and\
                 o_o['subs_burned'][nb]:
 
             # Ass or srt
             if o_o['subs_codec'][nb] == 'ass' or\
-                o_o['subs_codec'][nb] == 'srt':
+                    o_o['subs_codec'][nb] == 'srt':
                 subtitles_tracks_list.append(
                     " subtitles={0}:si={1}".format(
                         o_o['rls_source'][nb], o_o['subs_source'][nb]))

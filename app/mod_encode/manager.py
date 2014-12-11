@@ -6,7 +6,7 @@ Manage all content to return proper FFMPEG cmd
 
 
 # Encode Management
-def encode_manager(o_o):
+def encode_manager(o_o, team_name):
 
     # Set empty values (will be included in cmd)
     [video_filter, crop, threads_nb, threads_mod, ref_frames,
@@ -20,6 +20,11 @@ def encode_manager(o_o):
     # ---------------------------------------------------------------
     #  VIDEO TRACK ##################################################
     # ---------------------------------------------------------------
+
+    # Output
+    rls_output = '{}.{}'.format(
+        o_o['rls_title'],
+        str(o_o['container'].replace('matroska', 'mkv')))
 
     # Video Filters
     if o_o['deinterlace'] or o_o['motion_deint'] or\
@@ -125,12 +130,12 @@ def encode_manager(o_o):
     # ---------------------------------------------------------------
     #  AUDIO TRACKS #################################################
     # ---------------------------------------------------------------
-    audio_config = []
+    audio_tracks_list = []
     for nb in range(0, len(o_o['audio_ID'])):
 
         # DTS Tracks
         if o_o['audio_bitrate'][nb] == 'dts_copy':
-            audio_config.append(
+            audio_tracks_list.append(
                 " -map 0:{0} -c:a:{4} copy -af:a:{4} 'volume={1}db'"
                 " -metadata:s:a:{4} title='{2}' -metadata:s:a:{4} "
                 "language='{3}'".format(
@@ -139,27 +144,29 @@ def encode_manager(o_o):
 
         # MP3/AAC/AC3 Tracks
         else:
-            audio_config.append(
+            audio_tracks_list.append(
                 " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} "
                 "{3} -ar:a:{8} {4} -af:a:{8} 'volume={5}dB' -metad"
                 "ata:s:a:{8} title='{6}' -metadata:s:a:{8} languag"
-                "e='{6}'".format(
+                "e='{7}'".format(
                     o_o['audio_ID'][nb], o_o['audio_codec'][nb],
                     o_o['audio_bitrate'][nb], o_o['audio_channels'][nb],
                     o_o['audio_samplerate'][nb], o_o['audio_gain'][nb],
                     o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
+
         nb = nb + 1
+    audio_config = ''.join(audio_tracks_list)
 
     # ---------------------------------------------------------------
     #  SUBTITLES TRACKS #############################################
     # ---------------------------------------------------------------
-    subtitles_config = []
+    subtitles_tracks_list = []
     for nb in range(0, len(o_o['subs_type'])):
 
         # MUXED - File Tracks
         if o_o['subs_type'][nb] == 'subfile' and\
                 not o_o['subs_burned'][nb]:
-            subtitles_config.append(
+            subtitles_tracks_list.append(
                 " -map 0:{0} -c:s:{5} {1} -sub_charenc {2} -forced_"
                 "subs_only {3} -metadata:s:s:{5} language={4}"
                 .format(
@@ -170,7 +177,7 @@ def encode_manager(o_o):
         # MUXED - Source Tracks
         elif o_o['subs_type'][nb] == 'subtrack' and\
                 not o_o['subs_burned'][nb]:
-            subtitles_config.append(
+            subtitles_tracks_list.append(
                 " -c:s:{4} {0} -sub_charenc {1} -forced_"
                 "subs_only {2} -metadata:s:s:{4} language={3}"
                 .format(
@@ -185,12 +192,12 @@ def encode_manager(o_o):
             # Ass or srt
             if o_o['subs_codec'][nb] == 'ass' or\
                 o_o['subs_codec'][nb] == 'srt':
-                subtitles_config.append(
+                subtitles_tracks_list.append(
                     " subtitles={}".format(o_o['subs_source'][nb]))
 
             # Picture based
             else:
-                subtitles_config.append(
+                subtitles_tracks_list.append(
                     " -filter_complex 'overlay[{}]' -map '[{}]'"
                     .format(o_o['subs_source'][nb]))
 
@@ -202,49 +209,51 @@ def encode_manager(o_o):
             # Ass or srt
             if o_o['subs_codec'][nb] == 'ass' or\
                 o_o['subs_codec'][nb] == 'srt':
-                subtitles_config.append(
+                subtitles_tracks_list.append(
                     " subtitles={0}:si={1}".format(
                         o_o['rls_source'][nb], o_o['subs_source'][nb]))
 
             # Picture based
             else:
-                subtitles_config.append(
+                subtitles_tracks_list.append(
                     " -filter_complex 'overlay[0:s:{}]'"
                     " -map '[0:s:{}]'".format(
                         o_o['subs_source'][nb]))
         nb = nb + 1
-
-    print (o_o)
+    subtitles_config = ''.join(subtitles_tracks_list)
 
     # ---------------------------------------------------------------
     #  FFMPEG CMD ###################################################
     # ---------------------------------------------------------------
-    # FFMPEG CRF
-    # if crf is not None:
-    #     ffmpeg = \
-    #         "ffmpeg -i {0} -map_metadata -1 -metadata title='{1}' "\
-    #         "-metadata proudly.presented.by='{2}' -map 0:{3} -r {4}"\
-    #         " -f {5} {6} -c:v:0 {7} -crf {8} -level {9}{10}{11}{12}"\
-    #         " -passlogfile {1}.log {13}"\
-    #         .format(
-    #             rls_source, movie_name, team_name, framerate, video_filter,
-    #             container, video_reso, codec, crf, level, video_params,
-    #             subtitles_config, audio_config, output)
-    #
-    # FFMPEG 2PASS
-    # else:
-    #     ffmpeg = \
-    #         "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} {6} "\
-    #         "c:v:0 {7} -b:v:0 {8}k -level {9}{10} -an -sn -passlogfile "\
-    #         "{1}.log {13} && ffmpeg -y -i {0} -pass 2 -map_metadata -1 "\
-    #         "-metadata title='{1}' -metadata proudly.presented.by='{2}'"\
-    #         " -map 0:{3} -r {4} -f {5} {6} -c:v:0 {7} -b:v:0 {8}k -level"\
-    #         " {9}{10}{11}{12} -passlogfile {1}.log {13}"
-    #         .format(
-    #             rls_source, movie_name, team_name, framerate, video_filter,
-    #             container, video_reso, codec, dual_pass, level, video_params,
-    #             subtitles_config, audio_config, output)
-    #
-    # return ffmpeg
 
-    ''' MISSING => subtitles_config, output and users settings '''
+    # CRF
+    if o_o['crf_mode']:
+        ffmpeg = \
+            "ffmpeg -i {0} -map_metadata -1 -metadata title='{1}' "\
+            "-metadata proudly.presented.by='{2}' -map 0:{3} -r {4}"\
+            " -f {5} -c:v:0 {6} {7}{8} -crf {9} -level {10}{11}{12}"\
+            "{13} -passlogfile {1}.log {14}"\
+            .format(
+                o_o['rls_source'], o_o['movie_name'], team_name,
+                o_o['video_ID'], o_o['framerate'], o_o['container'],
+                o_o['video_codec'], video_reso, video_filter,
+                o_o['crf_mode'], o_o['level'], video_params,
+                subtitles_config, audio_config, rls_output)
+
+    # 2PASS
+    elif o_o['dual_pass']:
+        ffmpeg = \
+            "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} {6} "\
+            "c:v:0 {7} -b:v:0 {8}k -level {9}{10} -an -sn -passlogfile "\
+            "{1}.log {13} && ffmpeg -y -i {0} -pass 2 -map_metadata -1 "\
+            "-metadata title='{1}' -metadata proudly.presented.by='{2}'"\
+            " -map 0:{3} -r {4} -f {5} {6} -c:v:0 {7} -b:v:0 {8}k -level"\
+            " {9}{10}{11}{12} -passlogfile {1}.log {13}"\
+            .format(
+                o_o['rls_source'], o_o['movie_name'], team_name,
+                o_o['framerate'], video_filter, o_o['container'],
+                video_reso, o_o['video_codec'], o_o['dual_pass'],
+                o_o['level'], video_params, subtitles_config,
+                audio_config, rls_output)
+
+    return ffmpeg

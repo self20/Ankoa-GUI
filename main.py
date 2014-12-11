@@ -88,6 +88,8 @@ class AnkoaApp(App):
             self.root.ids.header_screens.current_screen.ids.subtitles
         self.advanced_screen = \
             self.root.ids.header_screens.current_screen.ids.advanced
+        self.queue_screen = \
+            self.root.ids.header_screens.current_screen.ids.queue
 
     # ---------------------------------------------------------------
     #  SETTINGS #####################################################
@@ -485,7 +487,12 @@ class AnkoaApp(App):
     # Get content and call the Manager
     def send_encode_values(self):
         self.get_encode_infos(o_o)
-        ffmpeg = encode_manager(o_o)
+        ffmpeg = encode_manager(o_o, self.team_name)
+        self.queue_screen.ids.ffmpeg_cmd.text = '{}'.format(ffmpeg)
+
+        '''debug'''
+        print (str(o_o).replace(", ", "'\n")
+                       .replace("],", "]\n"))
 
 if __name__ == '__main__':
     AnkoaApp().run()

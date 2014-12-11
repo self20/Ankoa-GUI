@@ -43,9 +43,9 @@ def encode_manager(o_o):
         video_reso = '-sar {}'.format(o_o['resolution'][0])
 
     # ---------------------------------------------------------------
-    #  ADVANCED #####################################################
+    #  ADVANCED CODEC ###############################################
     # ---------------------------------------------------------------
-    '''Advanced video parameters'''
+    '''Advanced video codec parameters'''
 
     if o_o['threads_nb']:
         threads_nb = ' -threads {}'.format(o_o['threads_nb'])
@@ -156,7 +156,7 @@ def encode_manager(o_o):
     subtitles_config = []
     for nb in range(0, len(o_o['subs_type'])):
 
-        # Subs File Tracks muxed
+        # MUXED - File Tracks
         if o_o['subs_type'][nb] == 'subfile' and\
                 not o_o['subs_burned'][nb]:
             subtitles_config.append(
@@ -167,7 +167,7 @@ def encode_manager(o_o):
                     o_o['subs_charset'][nb], o_o['subs_forced'][nb],
                     o_o['subs_lang'][nb], nb))
 
-        # Subs Source Tracks muxed
+        # MUXED - Source Tracks
         elif o_o['subs_type'][nb] == 'subtrack' and\
                 not o_o['subs_burned'][nb]:
             subtitles_config.append(
@@ -178,18 +178,40 @@ def encode_manager(o_o):
                     o_o['subs_charset'][nb], o_o['subs_forced'][nb],
                     o_o['subs_lang'][nb], nb))
 
-        # Subs File Tracks burned
+        # BURNED - File Tracks
         elif o_o['subs_type'][nb] == 'subfile' and\
                 o_o['subs_burned'][nb]:
-            subtitles_config.append(
-                " subtitles={}".format(o_o['subs_source'][nb]))
 
-        # Subs Source Tracks burned
+            # Ass or srt
+            if o_o['subs_codec'][nb] == 'ass' or\
+                o_o['subs_codec'][nb] == 'srt':
+                subtitles_config.append(
+                    " subtitles={}".format(o_o['subs_source'][nb]))
+
+            # Picture based
+            else:
+                subtitles_config.append(
+                    " -filter_complex 'overlay[{}]' -map '[{}]'"
+                    .format(o_o['subs_source'][nb]))
+
+
+        # BURNED - Source Tracks
         elif o_o['subs_type'][nb] == 'subtrack' and\
                 o_o['subs_burned'][nb]:
-            subtitles_config.append(
-                " subtitles={}:si={}".format(
-                    o_o['rls_source'][nb], o_o['subs_source'][nb]))
+
+            # Ass or srt
+            if o_o['subs_codec'][nb] == 'ass' or\
+                o_o['subs_codec'][nb] == 'srt':
+                subtitles_config.append(
+                    " subtitles={0}:si={1}".format(
+                        o_o['rls_source'][nb], o_o['subs_source'][nb]))
+
+            # Picture based
+            else:
+                subtitles_config.append(
+                    " -filter_complex 'overlay[0:s:{}]'"
+                    " -map '[0:s:{}]'".format(
+                        o_o['subs_source'][nb]))
         nb = nb + 1
 
     print (o_o)

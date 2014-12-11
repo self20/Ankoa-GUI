@@ -487,7 +487,7 @@ class AnkoaApp(App):
     # Get content and call the Manager
     def send_encode_values(self):
         self.get_encode_infos(o_o)
-        ffmpeg = encode_manager(o_o, self.team_name)
+        ffmpeg = encode_manager(o_o, self.team_name, self.dest_folder)
         self.queue_screen.ids.ffmpeg_cmd.text = '{}'.format(ffmpeg)
 
         '''debug'''

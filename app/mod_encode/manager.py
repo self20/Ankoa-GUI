@@ -6,7 +6,7 @@ Manage all content to return proper FFMPEG cmd
 
 
 # Encode Management
-def encode_manager(o_o, team_name):
+def encode_manager(o_o, team_name, dest_folder):
 
     # Set empty values (will be included in cmd)
     [video_filter, crop, threads_nb, threads_mod, ref_frames,
@@ -22,8 +22,8 @@ def encode_manager(o_o, team_name):
     # ---------------------------------------------------------------
 
     # Output
-    rls_output = '{}.{}'.format(
-        o_o['rls_title'],
+    rls_output = '{0}{1}.{2}'.format(
+        dest_folder, o_o['rls_title'],
         str(o_o['container'].replace('matroska', 'mkv')))
 
     # Video Filters
@@ -36,7 +36,7 @@ def encode_manager(o_o, team_name):
                 o_o['crop_width'], o_o['crop_height'],
                 o_o['crop_right_left'], o_o['crop_top_bottom'])
 
-        video_filter = ' -filter:v{0}{1}{2}{3}{4}'.format(
+        video_filter = ' -vf{0}{1}{2}{3}{4}'.format(
             crop, o_o['deinterlace'], o_o['motion_deint'],
             o_o['denoise'], o_o['decimate'])
 
@@ -242,17 +242,17 @@ def encode_manager(o_o, team_name):
     # 2PASS
     elif o_o['dual_pass']:
         ffmpeg = \
-            "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} {6} "\
-            "c:v:0 {7} -b:v:0 {8}k -level {9}{10} -an -sn -passlogfile "\
-            "{1}.log {13} && ffmpeg -y -i {0} -pass 2 -map_metadata -1 "\
+            "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} c:v:0 {6} "\
+            "{7}{8} -b:v:0 {9}k -level {10}{11} -an -sn -passlogfile "\
+            "{1}.log {14} && ffmpeg -y -i {0} -pass 2 -map_metadata -1 "\
             "-metadata title='{1}' -metadata proudly.presented.by='{2}'"\
-            " -map 0:{3} -r {4} -f {5} {6} -c:v:0 {7} -b:v:0 {8}k -level"\
-            " {9}{10}{11}{12} -passlogfile {1}.log {13}"\
+            " -map 0:{3} -r {4} -f {5} -c:v:0 {6} {7}{8} -b:v:0 {9}k "\
+            "-level {10}{11}{12}{13} -passlogfile {1}.log {14}"\
             .format(
                 o_o['rls_source'], o_o['movie_name'], team_name,
-                o_o['framerate'], video_filter, o_o['container'],
-                video_reso, o_o['video_codec'], o_o['dual_pass'],
-                o_o['level'], video_params, subtitles_config,
-                audio_config, rls_output)
+                o_o['video_ID'], o_o['framerate'], o_o['container'],
+                o_o['video_codec'], video_reso, video_filter,
+                o_o['dual_pass'], o_o['level'], video_params,
+                subtitles_config, audio_config, rls_output)
 
     return ffmpeg

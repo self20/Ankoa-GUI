@@ -36,6 +36,7 @@ o_o = {
     'audio_channels': [],
     'audio_samplerate': [],
     'audio_gain': [],
+    'subs_type': '',
     'subs_ID': [],
     'subs_source': [],
     'subs_codec': [],

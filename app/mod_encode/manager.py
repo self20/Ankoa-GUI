@@ -11,7 +11,7 @@ Manage all content to return proper FFMPEG cmd
  me_method, subpixel, me_range, partitions, trellis,
  adapt_strenght, psy_optim, psy_rd, deblock_alpha,
  key_interval, min_key, lookahead, scenecut, chroma,
- fast_skip, grayscale, bluray_on] = ['', ] * 31
+ fast_skip, grayscale, bluray_on] = ['', ] * 32
 
 
 # Encode Management
@@ -134,11 +134,21 @@ def encode_manager(o_o):
     # Subtitles config
     subtitles_config = []
     for nb in range(0, len(o_o['subs_ID'])):
-        subtitles_config.append(
-            " -map 0:{0} -c:s:{} -sub_charenc {} "
-            "-metadata:s:s:{} title='{}' -metadata:s:s:{} language={}"
-            .format(
-                o_o['subs_ID'][nb], ))
+        if o_o['subs_type'] == 'subfile':
+            subtitles_config.append(
+                " -map 0:{0} -c:s:{6} -sub_charenc {1} -forced_subs"
+                "_only {2} -metadata:s:s:{6} title='{4}' -metadata:"
+                "s:s:{6} language={5}".format(
+                    o_o['subs_ID'][nb], o_o['subs_charset'][nb],
+                    o_o['subs_forced'][nb], o_o['subs_lang'][nb],
+                    o_o['subs_ID'][nb], o_o['subs_ID'][nb]))
+        elif o_o['subs_type'] == 'subtrack':
+            subtitles_config.append(
+                " -c:s:{} -sub_charenc {} "
+                "-metadata:s:s:{} title='{}' -metadata:s:s:{} language={}"
+                .format(
+                    o_o['subs_ID'][nb], ))
+        nb = nb + 1
 
     # FFMPEG CRF
     # if crf is not None:

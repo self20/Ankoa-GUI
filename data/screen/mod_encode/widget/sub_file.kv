@@ -16,14 +16,15 @@ GridLayout:
 
     BoxLayout:
         id: sub_infos
-        padding: '5sp'
+        type: 'subfile'
         group: uuid.uuid4()
+        padding: '5sp'
 
         # --- Check Subtitles Track ---
         Switch:
             size_hint_x: .2
             touch_control: False
-            active: True if sub_track_title.text != '' else False
+            active: True if sub_source.text != '' else False
 
         # --- DEL Subtitles Track ---
         Button:
@@ -49,6 +50,7 @@ GridLayout:
             readonly: True
             multiline: False
             size_hint_x: .6
+            padding: 8, 8, 0, 0
 
         # --- Subtitles Track Language ---
         TextInput:
@@ -56,7 +58,9 @@ GridLayout:
             hint_text: 'Language'
             multiline: False
             size_hint_x: .3
-            readonly: True if sub_burned.state == 'down' else False
+            padding: 8, 8, 0, 0
+            readonly:
+                True if sub_burned.state == 'down' else False
 
         # --- Subforced Track ---
         ToggleButton:
@@ -80,4 +84,6 @@ GridLayout:
             hint_text: 'Charset'
             multiline: False
             size_hint_x: .2
-            readonly: True if sub_burned.state == 'down' else False
+            padding: 8, 8, 0, 0
+            readonly:
+                True if sub_burned.state == 'down' else False

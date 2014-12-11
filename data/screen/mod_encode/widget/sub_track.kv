@@ -15,9 +15,10 @@ GridLayout:
 
     BoxLayout:
         id: sub_infos
-        padding: '5sp'
+        type: 'subtrack'
         group_codec: uuid.uuid4()
         group_forced: uuid.uuid4()
+        padding: '5sp'
 
         # --- Check Subtitles Track ---
         Switch:
@@ -80,6 +81,7 @@ GridLayout:
             hint_text: 'Language'
             multiline: False
             size_hint_x: .3
+            padding: 8, 8, 0, 0
 
         # --- Subforced ---
         ToggleButton:
@@ -103,5 +105,6 @@ GridLayout:
             hint_text: 'Charset'
             multiline: False
             size_hint_x: .2
+            padding: 8, 8, 0, 0
             readonly:
                 True if root.ids.sub_burned.state == 'down' else False

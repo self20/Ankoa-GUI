@@ -341,7 +341,7 @@ class AnkoaApp(App):
         display subfile title in corresponding track area
         '''
         current_track = self.get_current_track(self.current_track)
-        current_track.ids.sub_track_title.text = value.split('/')[-1]
+        current_track.ids.sub_source.text = value.split('/')[-1]
 
     # ---------------------------------------------------------------
     #  MAPPING ENCODE ###############################################
@@ -406,6 +406,7 @@ class AnkoaApp(App):
         # Get subtitles infos
         sub = self.subtitles_screen.ids.sub_track_layout.children
         for nb in range(0, len(sub)):
+            o_o['subs_type'].append(sub[nb].ids.sub_infos.type)
             o_o['subs_ID'].append(sub[nb].ids.sub_track_ID.text)
             o_o['subs_source'].append(sub[nb].ids.sub_source.text)
             o_o['subs_codec'].append(sub[nb].ids.sub_codec.value)

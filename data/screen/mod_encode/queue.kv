@@ -37,7 +37,7 @@
 
     # ---------- MENU ----------
     GridLayout:
-        cols: 2
+        cols: 3
         spacing: 5
         padding: '8sp'
         orientation: 'vertical'
@@ -51,6 +51,11 @@
                 app.main_popup(self.request) if\
                 app.check_encode_values() is False else\
                 app.send_encode_values()
+
+        # --- Reset ---
+        Button:
+            text: 'Reset'
+            on_press: app.reset_dictionary()
 
         # --- Copy cmd to clipboard ---
         Button:

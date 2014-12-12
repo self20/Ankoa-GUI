@@ -363,10 +363,11 @@ class AnkoaApp(App):
 
         # Get picture infos
         if self.picture_screen.ids.check_sar.active is True:
-            o_o['resolution'].append(self.picture_screen.sar_val.value)
+            o_o['sar'] = self.picture_screen.ids.sar_val.value
         else:
-            o_o['resolution'].append(self.picture_screen.ids.video_W.text)
-            o_o['resolution'].append(self.picture_screen.ids.video_H.text)
+            o_o['resolution'] = '{0}x{1}'.format(
+                self.picture_screen.ids.video_W.text,
+                self.picture_screen.ids.video_H.text)
         if self.picture_screen.ids.custom_crop.active is True:
             o_o['crop_width'] = self.picture_screen.ids.crop_W.text
             o_o['crop_height'] = self.picture_screen.ids.crop_H.text
@@ -481,6 +482,15 @@ class AnkoaApp(App):
             return True
         else:
             return False
+
+    # Reset dictionary
+    def reset_dictionary(self):
+        self.queue_screen.ids.ffmpeg_cmd.text = ''
+        for key, value in o_o.items():
+            if isinstance(value, list):
+                o_o[key] = []
+            else:
+                o_o[key] = ''
 
     # Get content and call the Manager
     def send_encode_values(self):

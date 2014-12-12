@@ -7,7 +7,8 @@ Dictionary to manage all values
 o_o = {
     'rls_source': '',
     'rls_title': '',
-    'resolution': [],
+    'resolution': '',
+    'sar': '',
     'crop_width': '',
     'crop_height': '',
     'crop_right_left': '',

@@ -41,11 +41,11 @@ def encode_manager(o_o, team_name, dest_folder):
             o_o['denoise'], o_o['decimate'])
 
     # Video Resolution
-    if len(o_o['resolution']) == 2:
-        video_reso = '-s {0}x{1}'.format(
-            o_o['resolution'][0], o_o['resolution'][1])
-    elif len(o_o['resolution']) == 1:
-        video_reso = '-sar {}'.format(o_o['resolution'][0])
+    if o_o['resolution']:
+        video_reso = '-s {}'.format(o_o['resolution'])
+
+    elif o_o['sar']:
+        video_reso = '-sar {}'.format(o_o['sar'])
 
     # Preset
     if o_o['preset']:

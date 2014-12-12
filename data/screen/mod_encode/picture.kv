@@ -115,34 +115,35 @@
 
         BoxLayout:
             id: sar_val
+            value:
+                '64:45' if pal43.state == 'down' else\
+                '16:15' if pal169.state == 'down' else\
+                '32:27' if ntsc43.state == 'down' else\
+                '8:9' if ntsc169.state == 'down' else ''
 
             # --- Auto PAL 4:3 ---
             ToggleButton:
                 id: pal43
                 text: 'PAL 4:3'
                 group: 'auto_resize'
-                on_release: root.ids.sar_val = '64:45'
 
             # --- Auto PAL 16:9 ---
             ToggleButton:
                 id: pal169
                 text: 'PAL 16:9'
                 group: 'auto_resize'
-                on_release: root.ids.sar_val = '16:15'
 
             # --- Auto NTSC 4:3 ---
             ToggleButton:
                 id: ntsc43
                 text: 'NTSC 4:3'
                 group: 'auto_resize'
-                on_release: root.ids.sar_val = '32:27'
 
             # --- Auto NTSC 16:9 ---
             ToggleButton:
                 id: ntsc169
                 text: 'NTSC 16:9'
                 group: 'auto_resize'
-                on_release: root.ids.sar_val = '8:9'
 
     # ---------- RESOLUTION ----------
     BoxLayout:

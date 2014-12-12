@@ -404,7 +404,6 @@ class AnkoaApp(App):
             o_o['audio_channels'].append(audio[nb].ids.channels.value)
             o_o['audio_samplerate'].append(audio[nb].ids.sample_rate.text)
             o_o['audio_gain'].append(audio[nb].ids.gain.text)
-            nb = nb + 1
 
         # Get subtitles infos
         sub = self.subtitles_screen.ids.sub_track_layout.children
@@ -416,7 +415,6 @@ class AnkoaApp(App):
             o_o['subs_forced'].append(sub[nb].ids.sub_forced.value)
             o_o['subs_burned'].append(sub[nb].ids.sub_burned.value)
             o_o['subs_charset'].append(sub[nb].ids.sub_charset.text)
-            nb = nb + 1
 
         # Get advanced infos
         if self.advanced_screen.ids.threads_on.active is True:

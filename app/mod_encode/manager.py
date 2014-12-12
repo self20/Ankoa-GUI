@@ -167,7 +167,6 @@ def encode_manager(o_o, team_name, dest_folder):
                     o_o['audio_samplerate'][nb], o_o['audio_gain'][nb],
                     o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
 
-        nb = nb + 1
     audio_config = ''.join(audio_tracks_list)
 
     # ---------------------------------------------------------------
@@ -232,7 +231,7 @@ def encode_manager(o_o, team_name, dest_folder):
                     " -filter_complex 'overlay[0:s:{}]'"
                     " -map '[0:s:{}]'".format(
                         o_o['subs_source'][nb]))
-        nb = nb + 1
+
     subtitles_config = ''.join(subtitles_tracks_list)
 
     # ---------------------------------------------------------------

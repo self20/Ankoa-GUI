@@ -22,19 +22,6 @@
                 '' if app.scan_data is None else\
                 (app.scan_data).strip()
 
-    # ---------- FFMPEG CMD ----------
-    BoxLayout:
-        size_hint: 1, .4
-        TextInput:
-            id: ffmpeg_cmd
-            readonly: True
-            padding_x: '20sp'
-            cursor_color: 0, 0, 0, .5
-            background_color: 0, 0, 0, .5
-            foreground_color: 0, 255, 0, 1
-            hint_text: 'FFMPEG Command'
-            hint_text_color: 0, 255, 0, 1
-
     # ---------- MENU ----------
     GridLayout:
         cols: 3
@@ -60,3 +47,16 @@
         # --- Copy cmd to clipboard ---
         Button:
             text: 'Copy command to clipboard'
+
+    # ---------- FFMPEG CMD ----------
+    BoxLayout:
+        size_hint: 1, .4
+        TextInput:
+            id: ffmpeg_cmd
+            readonly: True
+            padding_x: '20sp'
+            cursor_color: 0, 0, 0, .5
+            background_color: 0, 0, 0, .5
+            foreground_color: 0, 255, 0, 1
+            hint_text: 'FFMPEG Command'
+            hint_text_color: 0, 255, 0, 1

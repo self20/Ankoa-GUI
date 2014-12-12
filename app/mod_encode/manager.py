@@ -9,16 +9,16 @@ Manage all content to return proper FFMPEG cmd
 def encode_manager(o_o, team_name, dest_folder):
 
     # Set empty values (will be included in cmd)
-    [video_filter, crop, threads_nb, threads_mod, ref_frames,
-     fast1pass, max_bf, mixed_ref, pyramid_mod, transform,
-     cabac, direct_mod, B_frames, weighted_pf, weighted_bf,
-     me_method, subpixel, me_range, partitions, trellis,
-     adapt_strenght, psy_optim, psy_rd, deblock_alpha,
-     key_interval, min_key, lookahead, scenecut, chroma,
-     fast_skip, grayscale, bluray_on] = ['', ] * 32
+    [video_filter, crop, preset, tune, profile, threads_nb,
+     threads_mod, ref_frames, fast1pass, max_bf, mixed_ref,
+     pyramid_mod, transform, cabac, direct_mod, B_frames,
+     weighted_pf, weighted_bf, me_method, subpixel, me_range,
+     partitions, trellis, adapt_strenght, psy_optim, psy_rd,
+     deblock_alpha, key_interval, min_key, lookahead, scenecut,
+     chroma, fast_skip, grayscale, bluray_on] = ['', ] * 35
 
     # ---------------------------------------------------------------
-    #  VIDEO TRACK ##################################################
+    #  VIDEO PARAMS #################################################
     # ---------------------------------------------------------------
 
     # Output
@@ -44,14 +44,27 @@ def encode_manager(o_o, team_name, dest_folder):
     if len(o_o['resolution']) == 2:
         video_reso = '-s {0}x{1}'.format(
             o_o['resolution'][0], o_o['resolution'][1])
-    else:
+    elif len(o_o['resolution']) == 1:
         video_reso = '-sar {}'.format(o_o['resolution'][0])
 
+    # Preset
+    if o_o['preset']:
+        preset = ' -preset {}'.format(o_o['preset'].lower())
+
+    # Tune
+    if o_o['tune']:
+        tune = ' -tune {}'.format(o_o['tune'].lower())
+
+    # Profile
+    if o_o['profile']:
+        profile = ' -profile:v {}'.format(o_o['profile'].lower())
+
     # ---------------------------------------------------------------
-    #  ADVANCED CODEC ###############################################
+    #  ADVANCED PARAMS ##############################################
     # ---------------------------------------------------------------
     '''Advanced video codec parameters'''
 
+    # Append cmd when used
     if o_o['threads_nb']:
         threads_nb = ' -threads {}'.format(o_o['threads_nb'])
     if o_o['threads_mod']:
@@ -115,7 +128,7 @@ def encode_manager(o_o, team_name, dest_folder):
     if o_o['bluray']:
         bluray_on = ' -bluray-compat {}'.format(o_o['bluray'])
 
-    # Return video_params cmd
+    # Advanced params cmd
     video_params =  \
         '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
         '{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}'\
@@ -210,7 +223,8 @@ def encode_manager(o_o, team_name, dest_folder):
                     o_o['subs_codec'][nb] == 'srt':
                 subtitles_tracks_list.append(
                     " subtitles={0}:si={1}".format(
-                        o_o['rls_source'][nb], o_o['subs_source'][nb]))
+                        o_o['rls_source'][nb],
+                        o_o['subs_source'][nb]))
 
             # Picture based
             else:
@@ -230,29 +244,32 @@ def encode_manager(o_o, team_name, dest_folder):
         ffmpeg = \
             "ffmpeg -i {0} -map_metadata -1 -metadata title='{1}' "\
             "-metadata proudly.presented.by='{2}' -map 0:{3} -r {4}"\
-            " -f {5} -c:v:0 {6} {7}{8} -crf {9} -level {10}{11}{12}"\
-            "{13} -passlogfile {1}.log {14}"\
+            " -f {5} -c:v:0 {6} {7}{8} -crf {9}{10}{11}{12} -level "\
+            "{13}{14}{15}{16} -passlogfile {1}.log {17}"\
             .format(
                 o_o['rls_source'], o_o['movie_name'], team_name,
                 o_o['video_ID'], o_o['framerate'], o_o['container'],
                 o_o['video_codec'], video_reso, video_filter,
-                o_o['crf_mode'], o_o['level'], video_params,
-                subtitles_config, audio_config, rls_output)
+                o_o['crf_mode'], preset, tune, profile,
+                o_o['level'], video_params, subtitles_config,
+                audio_config, rls_output)
 
     # 2PASS
     elif o_o['dual_pass']:
         ffmpeg = \
-            "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} c:v:0 {6} "\
-            "{7}{8} -b:v:0 {9}k -level {10}{11} -an -sn -passlogfile "\
-            "{1}.log {14} && ffmpeg -y -i {0} -pass 2 -map_metadata -1 "\
-            "-metadata title='{1}' -metadata proudly.presented.by='{2}'"\
-            " -map 0:{3} -r {4} -f {5} -c:v:0 {6} {7}{8} -b:v:0 {9}k "\
-            "-level {10}{11}{12}{13} -passlogfile {1}.log {14}"\
+            "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} c:v:0 {6}"\
+            " {7}{8} -b:v:0 {9}k{10}{11}{12} -level {13}{14} -an -sn "\
+            "-passlogfile {1}.log {14} && ffmpeg -y -i {0} -pass 2 -m"\
+            "ap_metadata -1 -metadata title='{1}' -metadata proudly.p"\
+            "resented.by='{2}' -map 0:{3} -r {4} -f {5} -c:v:0 {6} {7}"\
+            "{8} -b:v:0 {9}k{10}{11}{12} -level {13}{14}{15}{16} -pass"\
+            "logfile {1}.log {17}"\
             .format(
                 o_o['rls_source'], o_o['movie_name'], team_name,
                 o_o['video_ID'], o_o['framerate'], o_o['container'],
                 o_o['video_codec'], video_reso, video_filter,
-                o_o['dual_pass'], o_o['level'], video_params,
-                subtitles_config, audio_config, rls_output)
+                o_o['dual_pass'], preset, tune, profile,
+                o_o['level'], video_params, subtitles_config,
+                audio_config, rls_output)
 
     return ffmpeg

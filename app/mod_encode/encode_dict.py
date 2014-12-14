@@ -9,6 +9,7 @@ o_o = {
     'rls_title': '',
     'resolution': '',
     'sar': '',
+    'video_filter': '',
     'crop_width': '',
     'crop_height': '',
     'crop_right_left': '',
@@ -74,4 +75,5 @@ o_o = {
     'cabac': '',
     'direct_mod': '',
     'subpixel': '',
-    'psy_optim': ''}
+    'psy_optim': ''
+}

@@ -8,15 +8,6 @@ Manage all content to return proper FFMPEG cmd
 # Encode Management
 def encode_manager(o_o, team_name, dest_folder):
 
-    # Set empty values (will be included in cmd)
-    [video_filter, crop, preset, tune, profile, threads_nb,
-     threads_mod, ref_frames, fast1pass, max_bf, mixed_ref,
-     pyramid_mod, transform, cabac, direct_mod, B_frames,
-     weighted_pf, weighted_bf, me_method, subpixel, me_range,
-     partitions, trellis, adapt_strenght, psy_optim, psy_rd,
-     deblock_alpha, key_interval, min_key, lookahead, scenecut,
-     chroma, fast_skip, grayscale, bluray_on] = ['', ] * 35
-
     # ---------------------------------------------------------------
     #  VIDEO PARAMS #################################################
     # ---------------------------------------------------------------
@@ -36,28 +27,28 @@ def encode_manager(o_o, team_name, dest_folder):
                 o_o['crop_width'], o_o['crop_height'],
                 o_o['crop_right_left'], o_o['crop_top_bottom'])
 
-        video_filter = ' -vf{0}{1}{2}{3}{4}'.format(
+        o_o['video_filter'] = ' -vf{0}{1}{2}{3}{4}'.format(
             crop, o_o['deinterlace'], o_o['motion_deint'],
             o_o['denoise'], o_o['decimate'])
 
     # Video Resolution
     if o_o['resolution']:
-        video_reso = '-s {}'.format(o_o['resolution'])
+        o_o['resolution'] = '-s {}'.format(o_o['resolution'])
 
     elif o_o['sar']:
-        video_reso = '-sar {}'.format(o_o['sar'])
+        o_o['resolution'] = '-sar {}'.format(o_o['sar'])
 
     # Preset
     if o_o['preset']:
-        preset = ' -preset {}'.format(o_o['preset'].lower())
+        o_o['preset'] = ' -preset {}'.format(o_o['preset'].lower())
 
     # Tune
     if o_o['tune']:
-        tune = ' -tune {}'.format(o_o['tune'].lower())
+        o_o['tune'] = ' -tune {}'.format(o_o['tune'].lower())
 
     # Profile
     if o_o['profile']:
-        profile = ' -profile:v {}'.format(o_o['profile'].lower())
+        o_o['profile'] = ' -profile:v {}'.format(o_o['profile'].lower())
 
     # ---------------------------------------------------------------
     #  ADVANCED PARAMS ##############################################
@@ -66,79 +57,90 @@ def encode_manager(o_o, team_name, dest_folder):
 
     # Append cmd when used
     if o_o['threads_nb']:
-        threads_nb = ' -threads {}'.format(o_o['threads_nb'])
+        o_o['threads_nb'] = ' -threads {}'.format(o_o['threads_nb'])
     if o_o['threads_mod']:
-        threads_mod = ' -thread_type {}'.format(o_o['threads_mod'])
+        o_o['threads_mod'] = ' -thread_type {}'.format(o_o['threads_mod'])
     if o_o['fast1pass']:
-        fast1pass = ' -fastfirstpass {}'.format(o_o['fast1pass'])
+        o_o['fast1pass'] = ' -fastfirstpass {}'.format(o_o['fast1pass'])
     if o_o['ref_frames']:
-        ref_frames = ' -refs {}'.format(o_o['ref_frames'])
+        o_o['ref_frames'] = ' -refs {}'.format(o_o['ref_frames'])
     if o_o['max_Bframes']:
-        max_bf = ' -bf {}'.format(o_o['max_Bframes'])
+        o_o['max_Bframes'] = ' -bf {}'.format(o_o['max_Bframes'])
     if o_o['mixed_ref']:
-        mixed_ref = ' -mixed-refs {}'.format(o_o['mixed_ref'])
+        o_o['mixed_ref'] = ' -mixed-refs {}'.format(o_o['mixed_ref'])
     if o_o['pyramid_mod']:
-        pyramid_mod = ' -b-pyramid {}'.format(o_o['pyramid_mod'].lower())
+        o_o['pyramid_mod'] = ' -b-pyramid {}'.format(
+            o_o['pyramid_mod'].lower())
     if o_o['transform']:
-        transform = ' -8x8dct {}'.format(o_o['transform'])
+        o_o['transform'] = ' -8x8dct {}'.format(o_o['transform'])
     if o_o['cabac']:
-        cabac = ' -coder {}'.format(o_o['cabac'])
+        o_o['cabac'] = ' -coder {}'.format(o_o['cabac'])
     if o_o['direct_mod']:
-        direct_mod = ' -direct-pred {}'.format(o_o['direct_mod'].lower())
+        o_o['direct_mod'] = ' -direct-pred {}'.format(
+            o_o['direct_mod'].lower())
     if o_o['B_frames']:
-        B_frames = ' -b_strategy {}'.format(o_o['B_frames'].lower())
+        o_o['B_frames'] = ' -b_strategy {}'.format(
+            o_o['B_frames'].lower())
     if o_o['weighted_pf']:
-        weighted_pf = ' -weightp {}'.format(o_o['weighted_pf'].lower())
+        o_o['weighted_pf'] = ' -weightp {}'.format(
+            o_o['weighted_pf'].lower())
     if o_o['weighted_bf']:
-        weighted_bf = ' -weightb {}'.format(o_o['weighted_bf'])
+        o_o['weighted_bf'] = ' -weightb {}'.format(o_o['weighted_bf'])
     if o_o['me_method']:
-        me_method = ' -me_method {}'.format(o_o['me_method'].lower())
+        o_o['me_method'] = ' -me_method {}'.format(
+            o_o['me_method'].lower())
     if o_o['subpixel']:
-        subpixel = ' -subq {}'.format(o_o['subpixel'])
+        o_o['subpixel'] = ' -subq {}'.format(o_o['subpixel'])
     if o_o['me_range']:
-        me_range = ' -me_range {}'.format(o_o['me_range'])
+        o_o['me_range'] = ' -me_range {}'.format(o_o['me_range'])
     if o_o['partitions']:
-        partitions = ' -partitions {}'.format(o_o['partitions'].lower())
+        o_o['partitions'] = ' -partitions {}'.format(
+            o_o['partitions'].lower())
     if o_o['trellis']:
-        trellis = ' -trellis {}'.format(o_o['trellis'])
+        o_o['trellis'] = ' -trellis {}'.format(o_o['trellis'])
     if o_o['adapt_strenght']:
-        adapt_strenght = ' -aq-strength {}'.format(o_o['adapt_strenght'])
+        o_o['adapt_strenght'] = ' -aq-strength {}'.format(
+            o_o['adapt_strenght'])
     if o_o['psy_optim']:
-        psy_optim = ' -psy {}'.format(o_o['psy_optim'])
+        o_o['psy_optim'] = ' -psy {}'.format(o_o['psy_optim'])
     if o_o['distord_rate']:
-        psy_rd = ' -psy-rd {0}:{1}'.format(o_o['distord_rate'],
-                                           o_o['psy_trellis'])
+        o_o['distord_rate'] = ' -psy-rd {0}:{1}'.format(
+            o_o['distord_rate'], o_o['psy_trellis'])
     if o_o['deblock_alpha']:
-        deblock = ' -deblock {0}:{1}'.format(o_o['deblock_alpha'],
-                                             o_o['deblock_beta'])
+        o_o['deblock_alpha'] = ' -deblock {0}:{1}'.format(
+            o_o['deblock_alpha'], o_o['deblock_beta'])
     if o_o['key_interv']:
-        key_interval = ' -g {}'.format(o_o['key_interv'])
+        o_o['key_interv'] = ' -g {}'.format(o_o['key_interv'])
     if o_o['min_key']:
-        min_key = ' -keyint_min {}'.format(o_o['min_key'])
+        o_o['min_key'] = ' -keyint_min {}'.format(o_o['min_key'])
     if o_o['lookahead']:
-        lookahead = ' -rc-lookahead {}'.format(o_o['lookahead'])
+        o_o['lookahead'] = ' -rc-lookahead {}'.format(o_o['lookahead'])
     if o_o['scenecut']:
-        scenecut = ' -sc_threshold {}'.format(o_o['scenecut'])
+        o_o['scenecut'] = ' -sc_threshold {}'.format(o_o['scenecut'])
     if o_o['chroma']:
-        chroma = ' -cmp {}'.format(o_o['chroma'])
+        o_o['chroma'] = ' -cmp {}'.format(o_o['chroma'])
     if o_o['fast_skip']:
-        fast_skip = ' -fast-pskip {}'.format(o_o['fast_skip'])
+        o_o['fast_skip'] = ' -fast-pskip {}'.format(o_o['fast_skip'])
     if o_o['grayscale']:
-        grayscale = ' -pix_fmt {}'.format(o_o['grayscale'])
+        o_o['grayscale'] = ' -pix_fmt {}'.format(o_o['grayscale'])
     if o_o['bluray']:
-        bluray_on = ' -bluray-compat {}'.format(o_o['bluray'])
+        o_o['bluray'] = ' -bluray-compat {}'.format(o_o['bluray'])
 
     # Advanced params cmd
     video_params =  \
         '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
         '{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}'\
         .format(
-            threads_nb, threads_mod, ref_frames, fast1pass, max_bf,
-            mixed_ref, pyramid_mod, transform, cabac, direct_mod,
-            B_frames, weighted_pf, weighted_bf, me_method, subpixel,
-            me_range, partitions, trellis, adapt_strenght, psy_optim,
-            psy_rd, deblock_alpha, key_interval, min_key, lookahead,
-            scenecut, chroma, fast_skip, grayscale, bluray_on)
+            o_o['threads_nb'], o_o['threads_mod'], o_o['ref_frames'],
+            o_o['fast1pass'], o_o['max_Bframes'], o_o['mixed_ref'],
+            o_o['pyramid_mod'], o_o['transform'], o_o['cabac'],
+            o_o['direct_mod'], o_o['B_frames'], o_o['weighted_pf'],
+            o_o['weighted_bf'], o_o['me_method'], o_o['subpixel'],
+            o_o['me_range'], o_o['partitions'], o_o['trellis'],
+            o_o['adapt_strenght'], o_o['psy_optim'], o_o['distord_rate'],
+            o_o['deblock_alpha'], o_o['key_interv'], o_o['min_key'],
+            o_o['lookahead'], o_o['scenecut'], o_o['chroma'],
+            o_o['fast_skip'], o_o['grayscale'], o_o['bluray'])
 
     # ---------------------------------------------------------------
     #  AUDIO TRACKS #################################################
@@ -248,8 +250,8 @@ def encode_manager(o_o, team_name, dest_folder):
             .format(
                 o_o['rls_source'], o_o['movie_name'], team_name,
                 o_o['video_ID'], o_o['framerate'], o_o['container'],
-                o_o['video_codec'], video_reso, video_filter,
-                o_o['crf_mode'], preset, tune, profile,
+                o_o['video_codec'], o_o['resolution'], o_o['video_filter'],
+                o_o['crf_mode'], o_o['preset'], o_o['tune'], o_o['profile'],
                 o_o['level'], video_params, subtitles_config,
                 audio_config, rls_output)
 
@@ -266,8 +268,8 @@ def encode_manager(o_o, team_name, dest_folder):
             .format(
                 o_o['rls_source'], o_o['movie_name'], team_name,
                 o_o['video_ID'], o_o['framerate'], o_o['container'],
-                o_o['video_codec'], video_reso, video_filter,
-                o_o['dual_pass'], preset, tune, profile,
+                o_o['video_codec'], o_o['resolution'], o_o['video_filter'],
+                o_o['dual_pass'], o_o['preset'], o_o['tune'], o_o['profile'],
                 o_o['level'], video_params, subtitles_config,
                 audio_config, rls_output)
 

@@ -419,11 +419,11 @@ class AnkoaApp(App):
 
         # Get advanced infos
         if self.advanced_screen.ids.threads_on.active is True:
-            o_o['threads_nb'] = self.advanced_screen.ids.threads_nb.value
+            o_o['threads_nb'] = self.advanced_screen.ids.thread.text
             o_o['threads_mod'] = self.advanced_screen.ids.threads_mod.value
         if self.advanced_screen.ids.frames_on.active is True:
-            o_o['ref_frames'] = self.advanced_screen.ids.ref_frames.value
-            o_o['max_Bframes'] = self.advanced_screen.ids.max_Bframes.value
+            o_o['ref_frames'] = self.advanced_screen.ids.ref_frames.text
+            o_o['max_Bframes'] = self.advanced_screen.ids.max_Bframes.text
             o_o['mixed_ref'] = self.advanced_screen.ids.mixed_ref.value
         if self.advanced_screen.ids.encod_on.active is True:
             o_o['pyramid_mod'] = self.advanced_screen.ids.pyram.value
@@ -437,8 +437,8 @@ class AnkoaApp(App):
             o_o['weighted_bf'] = self.advanced_screen.ids.weight_bf.value
         if self.advanced_screen.ids.motion_on.active is True:
             o_o['me_method'] = self.advanced_screen.ids.me_mod.text
-            o_o['subpixel'] = self.advanced_screen.ids.subpixel.value
-            o_o['me_range'] = self.advanced_screen.ids.me_range.value
+            o_o['subpixel'] = self.advanced_screen.ids.subpixel.text
+            o_o['me_range'] = self.advanced_screen.ids.me_range.text
         if self.advanced_screen.ids.partitions_on.active is True:
             o_o['partitions'] = self.advanced_screen.ids.parts.text
             o_o['trellis'] = self.advanced_screen.ids.trellis.value

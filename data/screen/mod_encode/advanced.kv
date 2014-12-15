@@ -53,6 +53,7 @@
                 step: 1
                 value: 0
             Label:
+                id: thread
                 text: str(root.ids.threads_nb.value).split('.')[0]
                 bold: True
 
@@ -100,26 +101,28 @@
             Label:
                 text: 'Ref-frames'
             Slider:
-                id: ref_frames
+                id: reFrames
                 min: 0
                 max: 16
                 step: 1
                 value: 0
             Label:
-                text: str(root.ids.ref_frames.value).split('.')[0]
+                id: ref_frames
+                text: str(root.ids.reFrames.value).split('.')[0]
                 bold: True
 
             # --- Max BFrames ---
             Label:
                 text: 'Max B-Frames  '
             Slider:
-                id: max_Bframes
+                id: maxBframes
                 min: 0
                 max: 16
                 step: 1
                 value: 0
             Label:
-                text: str(root.ids.max_Bframes.value).split('.')[0]
+                id: max_Bframes
+                text: str(root.ids.maxBframes.value).split('.')[0]
                 bold: True
 
             # --- Mixed Frames ---
@@ -336,26 +339,28 @@
             Label:
                 text: 'Subpixel'
             Slider:
-                id: subpixel
+                id: sub_pixel
                 min: 0
                 max: 11
                 step: 1
                 value: 7
             Label:
-                text: str(subpixel.value).split('.')[0]
+                id: subpixel
+                text: str(sub_pixel.value).split('.')[0]
                 bold: True
 
             # --- ME Range ---
             Label:
                 text: 'ME-Range'
             Slider:
-                id: me_range
+                id: merange
                 min: 4
                 max: 64
                 step: 1
                 value: 16
             Label:
-                text: str(me_range.value).split('.')[0]
+                id: me_range
+                text: str(merange.value).split('.')[0]
                 bold: True
 
     # ---------- PARTITIONS ----------

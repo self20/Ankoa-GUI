@@ -14,11 +14,12 @@ o_o = {
     # Picture
     'resolution': '',
     'sar': '',
-    'video_filter': '',
+    'crop': '',
     'crop_width': '',
     'crop_height': '',
     'crop_right_left': '',
     'crop_top_bottom': '',
+    'video_filter': '',
     'deinterlace': '',
     'motion_deint': '',
     'denoise': '',

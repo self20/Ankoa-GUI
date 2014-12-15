@@ -25,12 +25,12 @@ def manage_video():
             o_o['crop_width']:
 
         if o_o['crop_width']:
-            crop = ' crop={0}:{1}:{2}:{3}'.format(
+            o_o['crop'] = ' crop={0}:{1}:{2}:{3}'.format(
                 o_o['crop_width'], o_o['crop_height'],
                 o_o['crop_right_left'], o_o['crop_top_bottom'])
 
         o_o['video_filter'] = ' -vf{0}{1}{2}{3}{4}'.format(
-            crop, o_o['deinterlace'], o_o['motion_deint'],
+            o_o['crop'], o_o['deinterlace'], o_o['motion_deint'],
             o_o['denoise'], o_o['decimate'])
 
     # Resolution

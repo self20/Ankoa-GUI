@@ -215,7 +215,7 @@ def encode_manager(o_o, team_name, dest_folder):
 
     # Advanced cmd
     video_params =  \
-        '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
+        ' {0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
         '{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}'\
         .format(
             o_o['threads_nb'], o_o['threads_mod'], o_o['ref_frames'],
@@ -242,7 +242,7 @@ def encode_manager(o_o, team_name, dest_folder):
             "{13}{14}{15}{16} -passlogfile {1}.log {17}"\
             .format(
                 o_o['rls_source'], o_o['movie_name'], team_name,
-                int(o_o['video_ID'])-1, o_o['framerate'], o_o['container'],
+                o_o['video_ID'], o_o['framerate'], o_o['container'],
                 o_o['video_codec'], o_o['resolution'], o_o['video_filter'],
                 o_o['crf_mode'], o_o['preset'], o_o['tune'], o_o['profile'],
                 o_o['level'], video_params, subtitles_config,
@@ -253,7 +253,7 @@ def encode_manager(o_o, team_name, dest_folder):
         ffmpeg = \
             "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} c:v:0 {6}"\
             " {7}{8} -b:v:0 {9}k{10}{11}{12} -level {13}{14} -an -sn "\
-            "-passlogfile {1}.log {14} && ffmpeg -y -i {0} -pass 2 -m"\
+            "-passlogfile {1}.log {17} && ffmpeg -y -i {0} -pass 2 -m"\
             "ap_metadata -1 -metadata title='{1}' -metadata proudly.p"\
             "resented.by='{2}' -map 0:{3} -r {4} -f {5} -c:v:0 {6} {7}"\
             "{8} -b:v:0 {9}k{10}{11}{12} -level {13}{14}{15}{16} -pass"\

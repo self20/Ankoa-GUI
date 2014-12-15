@@ -9,7 +9,7 @@ Manage all content to return proper FFMPEG cmd
 def encode_manager(o_o, team_name, dest_folder):
 
     # ---------------------------------------------------------------
-    #  VIDEO PARAMS #################################################
+    #  VIDEO SETTINGS ###############################################
     # ---------------------------------------------------------------
 
     # Output
@@ -17,7 +17,7 @@ def encode_manager(o_o, team_name, dest_folder):
         dest_folder, o_o['rls_title'],
         str(o_o['container'].replace('matroska', 'mkv')))
 
-    # Video Filters
+    # Filters
     if o_o['deinterlace'] or o_o['motion_deint'] or\
             o_o['denoise'] or o_o['decimate'] or\
             o_o['crop_width']:
@@ -31,7 +31,7 @@ def encode_manager(o_o, team_name, dest_folder):
             crop, o_o['deinterlace'], o_o['motion_deint'],
             o_o['denoise'], o_o['decimate'])
 
-    # Video Resolution
+    # Resolution
     if o_o['resolution']:
         o_o['resolution'] = '-s {}'.format(o_o['resolution'])
 
@@ -51,7 +51,94 @@ def encode_manager(o_o, team_name, dest_folder):
         o_o['profile'] = ' -profile:v {}'.format(o_o['profile'].lower())
 
     # ---------------------------------------------------------------
-    #  ADVANCED PARAMS ##############################################
+    #  AUDIO TRACKS #################################################
+    # ---------------------------------------------------------------
+    audio_tracks_list = []
+    for nb in range(0, len(o_o['audio_ID'])):
+
+        # DTS
+        if o_o['audio_bitrate'][nb] == 'dts_copy':
+            audio_tracks_list.append(
+                " -map 0:{0} -c:a:{4} copy -af:a:{4} 'volume={1}db'"
+                " -metadata:s:a:{4} title='{2}' -metadata:s:a:{4} "
+                "language='{3}'".format(
+                    o_o['audio_ID'][nb], o_o['audio_gain'][nb],
+                    o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
+
+        # MP3/AAC/AC3
+        else:
+            audio_tracks_list.append(
+                " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} "
+                "{3} -ar:a:{8} {4} -af:a:{8} 'volume={5}dB' -metad"
+                "ata:s:a:{8} title='{6}' -metadata:s:a:{8} languag"
+                "e='{7}'".format(
+                    o_o['audio_ID'][nb], o_o['audio_codec'][nb],
+                    o_o['audio_bitrate'][nb], o_o['audio_channels'][nb],
+                    o_o['audio_samplerate'][nb], o_o['audio_gain'][nb],
+                    o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
+
+    audio_config = ''.join(audio_tracks_list)
+
+    # ---------------------------------------------------------------
+    #  SUBTITLES TRACKS #############################################
+    # ---------------------------------------------------------------
+    subtitles_tracks_list = []
+    for nb in range(0, len(o_o['subs_type'])):
+
+        # Muxed
+        if not o_o['subs_burned'][nb]:
+
+            if o_o['subs_type'][nb] == 'subfile':
+                subtitles_tracks_list.append(
+                " -map 0:{0} -c:s:{5} {1} -sub_charenc {2} -forced_"
+                "subs_only {3} -metadata:s:s:{5} language={4}"
+                .format(
+                    o_o['subs_source'][nb], o_o['subs_codec'][nb],
+                    o_o['subs_charset'][nb], o_o['subs_forced'][nb],
+                    o_o['subs_lang'][nb], nb))
+
+            elif o_o['subs_type'][nb] == 'subtrack':
+                subtitles_tracks_list.append(
+                    " -c:s:{5} {1} -sub_charenc {2} -forced_"
+                    "subs_only {3} -metadata:s:s:{5} language={4} {0}"
+                    .format(
+                        o_o['subs_source'][nb], o_o['subs_codec'][nb],
+                        o_o['subs_charset'][nb], o_o['subs_forced'][nb],
+                        o_o['subs_lang'][nb], nb))
+
+        # Burned
+        elif o_o['subs_burned'][nb]:
+
+            # Text based
+            if o_o['subs_codec'][nb] == 'ass' or\
+                    o_o['subs_codec'][nb] == 'srt':
+
+                if o_o['subs_type'][nb] == 'subfile':
+                    subtitles_tracks_list.append(
+                        " subtitles={}".format(o_o['subs_source'][nb]))
+
+                elif o_o['subs_type'][nb] == 'subtrack':
+                    subtitles_tracks_list.append(
+                        " subtitles={0}:si={1}".format(
+                            o_o['rls_source'][nb], o_o['subs_source'][nb]))
+
+            # Picture based
+            else:
+                if o_o['subs_type'][nb] == 'subfile':
+                    subtitles_tracks_list.append(
+                        " -filter_complex 'overlay[{}]' -map '[{}]'"
+                        .format(o_o['subs_source'][nb]))
+
+                elif o_o['subs_type'][nb] == 'subtrack':
+                    subtitles_tracks_list.append(
+                        " -filter_complex 'overlay[0:s:{}]'"
+                        " -map '[0:s:{}]'".format(
+                            o_o['subs_source'][nb]))
+
+    subtitles_config = ''.join(subtitles_tracks_list)
+
+    # ---------------------------------------------------------------
+    #  ADVANCED SETTINGS ############################################
     # ---------------------------------------------------------------
     '''Advanced video codec parameters'''
 
@@ -126,7 +213,7 @@ def encode_manager(o_o, team_name, dest_folder):
     if o_o['bluray']:
         o_o['bluray'] = ' -bluray-compat {}'.format(o_o['bluray'])
 
-    # Advanced params cmd
+    # Advanced cmd
     video_params =  \
         '{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
         '{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}'\
@@ -143,100 +230,6 @@ def encode_manager(o_o, team_name, dest_folder):
             o_o['fast_skip'], o_o['grayscale'], o_o['bluray'])
 
     # ---------------------------------------------------------------
-    #  AUDIO TRACKS #################################################
-    # ---------------------------------------------------------------
-    audio_tracks_list = []
-    for nb in range(0, len(o_o['audio_ID'])):
-
-        # DTS Tracks
-        if o_o['audio_bitrate'][nb] == 'dts_copy':
-            audio_tracks_list.append(
-                " -map 0:{0} -c:a:{4} copy -af:a:{4} 'volume={1}db'"
-                " -metadata:s:a:{4} title='{2}' -metadata:s:a:{4} "
-                "language='{3}'".format(
-                    o_o['audio_ID'][nb], o_o['audio_gain'][nb],
-                    o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
-
-        # MP3/AAC/AC3 Tracks
-        else:
-            audio_tracks_list.append(
-                " -map 0:{0} -c:a:{8} {1} -b:a:{8} {2}k -ac:a:{8} "
-                "{3} -ar:a:{8} {4} -af:a:{8} 'volume={5}dB' -metad"
-                "ata:s:a:{8} title='{6}' -metadata:s:a:{8} languag"
-                "e='{7}'".format(
-                    o_o['audio_ID'][nb], o_o['audio_codec'][nb],
-                    o_o['audio_bitrate'][nb], o_o['audio_channels'][nb],
-                    o_o['audio_samplerate'][nb], o_o['audio_gain'][nb],
-                    o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
-
-    audio_config = ''.join(audio_tracks_list)
-
-    # ---------------------------------------------------------------
-    #  SUBTITLES TRACKS #############################################
-    # ---------------------------------------------------------------
-    subtitles_tracks_list = []
-    for nb in range(0, len(o_o['subs_type'])):
-
-        # MUXED - File Tracks
-        if o_o['subs_type'][nb] == 'subfile' and\
-                not o_o['subs_burned'][nb]:
-            subtitles_tracks_list.append(
-                " -map 0:{0} -c:s:{5} {1} -sub_charenc {2} -forced_"
-                "subs_only {3} -metadata:s:s:{5} language={4}"
-                .format(
-                    o_o['subs_source'][nb], o_o['subs_codec'][nb],
-                    o_o['subs_charset'][nb], o_o['subs_forced'][nb],
-                    o_o['subs_lang'][nb], nb))
-
-        # MUXED - Source Tracks
-        elif o_o['subs_type'][nb] == 'subtrack' and\
-                not o_o['subs_burned'][nb]:
-            subtitles_tracks_list.append(
-                " -c:s:{4} {0} -sub_charenc {1} -forced_"
-                "subs_only {2} -metadata:s:s:{4} language={3}"
-                .format(
-                    o_o['subs_source'][nb], o_o['subs_codec'][nb],
-                    o_o['subs_charset'][nb], o_o['subs_forced'][nb],
-                    o_o['subs_lang'][nb], nb))
-
-        # BURNED - File Tracks
-        elif o_o['subs_type'][nb] == 'subfile' and\
-                o_o['subs_burned'][nb]:
-
-            # Ass or srt
-            if o_o['subs_codec'][nb] == 'ass' or\
-                    o_o['subs_codec'][nb] == 'srt':
-                subtitles_tracks_list.append(
-                    " subtitles={}".format(o_o['subs_source'][nb]))
-
-            # Picture based
-            else:
-                subtitles_tracks_list.append(
-                    " -filter_complex 'overlay[{}]' -map '[{}]'"
-                    .format(o_o['subs_source'][nb]))
-
-        # BURNED - Source Tracks
-        elif o_o['subs_type'][nb] == 'subtrack' and\
-                o_o['subs_burned'][nb]:
-
-            # Ass or srt
-            if o_o['subs_codec'][nb] == 'ass' or\
-                    o_o['subs_codec'][nb] == 'srt':
-                subtitles_tracks_list.append(
-                    " subtitles={0}:si={1}".format(
-                        o_o['rls_source'][nb],
-                        o_o['subs_source'][nb]))
-
-            # Picture based
-            else:
-                subtitles_tracks_list.append(
-                    " -filter_complex 'overlay[0:s:{}]'"
-                    " -map '[0:s:{}]'".format(
-                        o_o['subs_source'][nb]))
-
-    subtitles_config = ''.join(subtitles_tracks_list)
-
-    # ---------------------------------------------------------------
     #  FFMPEG CMD ###################################################
     # ---------------------------------------------------------------
 
@@ -249,7 +242,7 @@ def encode_manager(o_o, team_name, dest_folder):
             "{13}{14}{15}{16} -passlogfile {1}.log {17}"\
             .format(
                 o_o['rls_source'], o_o['movie_name'], team_name,
-                o_o['video_ID'], o_o['framerate'], o_o['container'],
+                int(o_o['video_ID'])-1, o_o['framerate'], o_o['container'],
                 o_o['video_codec'], o_o['resolution'], o_o['video_filter'],
                 o_o['crf_mode'], o_o['preset'], o_o['tune'], o_o['profile'],
                 o_o['level'], video_params, subtitles_config,

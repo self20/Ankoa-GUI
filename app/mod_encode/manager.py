@@ -9,7 +9,7 @@ Manage all content to return proper FFMPEG cmd
 def encode_manager(o_o, team_name, dest_folder):
 
     # ---------------------------------------------------------------
-    #  VIDEO SETTINGS ###############################################
+    #  VIDEO TRACK ##################################################
     # ---------------------------------------------------------------
 
     # Output
@@ -88,7 +88,7 @@ def encode_manager(o_o, team_name, dest_folder):
         # Muxed
         if not o_o['subs_burned'][nb]:
 
-            if o_o['subs_type'][nb] == 'subfile':
+            if o_o['subs_type'][nb] == 'subtrack':
                 subtitles_tracks_list.append(
                 " -map 0:{0} -c:s:{5} {1} -sub_charenc {2} -forced_"
                 "subs_only {3} -metadata:s:s:{5} language={4}"
@@ -97,7 +97,7 @@ def encode_manager(o_o, team_name, dest_folder):
                     o_o['subs_charset'][nb], o_o['subs_forced'][nb],
                     o_o['subs_lang'][nb], nb))
 
-            elif o_o['subs_type'][nb] == 'subtrack':
+            elif o_o['subs_type'][nb] == 'subfile':
                 subtitles_tracks_list.append(
                     " -c:s:{5} {1} -sub_charenc {2} -forced_"
                     "subs_only {3} -metadata:s:s:{5} language={4} {0}"
@@ -138,7 +138,7 @@ def encode_manager(o_o, team_name, dest_folder):
     subtitles_config = ''.join(subtitles_tracks_list)
 
     # ---------------------------------------------------------------
-    #  ADVANCED SETTINGS ############################################
+    #  ADVANCED PARAM ###############################################
     # ---------------------------------------------------------------
     '''Advanced video codec parameters'''
 

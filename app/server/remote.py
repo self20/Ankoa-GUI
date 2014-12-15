@@ -2,33 +2,30 @@
 import os
 import sys
 import subprocess
+from app.settings.conf_dict import user
 
 
 # Remote session control
-def remote(request, ssh_passwd, ssh_username, ssh_host,
-           source_folder, remote_folder, ssh_port):
+def remote(request):
     '''
-    Mount & umount remote folder to local on demand,
-    using sshfs and fusermount
+    Mount & umount remote folder to local on demand
+    Usage of sshfs and fusermount
     '''
 
     # Mount source folder cmd
     if request == 'mount_source_folder':
         session = 'echo {0} | sshfs {1}@{2}:{3} {4} -C -p '\
                   '{5} -o workaround=rename -o password_stdin'\
-                  .format(ssh_passwd, ssh_username, ssh_host,
-                          remote_folder, source_folder, ssh_port)
+                  .format(user['ssh_passwd'], user['ssh_username'],
+                          user['ssh_host'], user['remote_folder'],
+                          user['source_folder'], user['ssh_port'])
 
     # Umount source folder cmd
     elif request == 'umount_source_folder':
-        session = 'fusermount -u {}'.format(source_folder)
-
-    # Pass if remote session unset
-    if ssh_passwd == '' or ssh_username == '' or remote_folder == '':
-        pass
+        session = 'fusermount -u {}'.format(user['source_folder'])
 
     # Run requested action & restart
-    else:
+    if user['ssh_passwd'] or user['ssh_username'] or user['remote_folder']:
         try:
             os.system(session)
             restart = sys.executable

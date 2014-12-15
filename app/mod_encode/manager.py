@@ -5,15 +5,13 @@ Manage all content to return proper FFMPEG cmd
 '''
 
 
-# Encode Management
-def encode_manager(o_o, team_name, dest_folder):
-
-    # ---------------------------------------------------------------
-    #  VIDEO TRACK ##################################################
-    # ---------------------------------------------------------------
+# ---------------------------------------------------------------
+#  VIDEO TRACK ##################################################
+# ---------------------------------------------------------------
+def manage_video(o_o):
 
     # Output
-    rls_output = '{0}{1}.{2}'.format(
+    o_o['rls_output'] = '{0}{1}.{2}'.format(
         dest_folder, o_o['rls_title'],
         str(o_o['container'].replace('matroska', 'mkv')))
 
@@ -50,9 +48,11 @@ def encode_manager(o_o, team_name, dest_folder):
     if o_o['profile']:
         o_o['profile'] = ' -profile:v {}'.format(o_o['profile'].lower())
 
-    # ---------------------------------------------------------------
-    #  AUDIO TRACKS #################################################
-    # ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+#  AUDIO TRACKS #################################################
+# ---------------------------------------------------------------
+def manage_audio(o_o):
     audio_tracks_list = []
     for nb in range(0, len(o_o['audio_ID'])):
 
@@ -77,11 +77,13 @@ def encode_manager(o_o, team_name, dest_folder):
                     o_o['audio_samplerate'][nb], o_o['audio_gain'][nb],
                     o_o['audio_title'][nb], o_o['audio_lang'][nb], nb))
 
-    audio_config = ''.join(audio_tracks_list)
+    o_o['audio_config'] = ''.join(audio_tracks_list)
 
-    # ---------------------------------------------------------------
-    #  SUBTITLES TRACKS #############################################
-    # ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+#  SUBTITLES TRACKS #############################################
+# ---------------------------------------------------------------
+def manage_subs(o_o):
     subtitles_tracks_list = []
     for nb in range(0, len(o_o['subs_type'])):
 
@@ -90,12 +92,12 @@ def encode_manager(o_o, team_name, dest_folder):
 
             if o_o['subs_type'][nb] == 'subtrack':
                 subtitles_tracks_list.append(
-                " -map 0:{0} -c:s:{5} {1} -sub_charenc {2} -forced_"
-                "subs_only {3} -metadata:s:s:{5} language={4}"
-                .format(
-                    o_o['subs_source'][nb], o_o['subs_codec'][nb],
-                    o_o['subs_charset'][nb], o_o['subs_forced'][nb],
-                    o_o['subs_lang'][nb], nb))
+                    " -map 0:{0} -c:s:{5} {1} -sub_charenc {2} -forced_"
+                    "subs_only {3} -metadata:s:s:{5} language={4}"
+                    .format(
+                        o_o['subs_source'][nb], o_o['subs_codec'][nb],
+                        o_o['subs_charset'][nb], o_o['subs_forced'][nb],
+                        o_o['subs_lang'][nb], nb))
 
             elif o_o['subs_type'][nb] == 'subfile':
                 subtitles_tracks_list.append(
@@ -126,21 +128,22 @@ def encode_manager(o_o, team_name, dest_folder):
             else:
                 if o_o['subs_type'][nb] == 'subfile':
                     subtitles_tracks_list.append(
-                        " -filter_complex 'overlay[{}]' -map '[{}]'"
+                        " -filter_complex 'overlay[{0}]' -map '[{0}]'"
                         .format(o_o['subs_source'][nb]))
 
                 elif o_o['subs_type'][nb] == 'subtrack':
                     subtitles_tracks_list.append(
-                        " -filter_complex 'overlay[0:s:{}]'"
-                        " -map '[0:s:{}]'".format(
+                        " -filter_complex 'overlay[0:s:{0}]'"
+                        " -map '[0:s:{0}]'".format(
                             o_o['subs_source'][nb]))
 
-    subtitles_config = ''.join(subtitles_tracks_list)
+    o_o['subs_config'] = ''.join(subtitles_tracks_list)
 
-    # ---------------------------------------------------------------
-    #  ADVANCED PARAM ###############################################
-    # ---------------------------------------------------------------
-    '''Advanced video codec parameters'''
+
+# ---------------------------------------------------------------
+#  ADVANCED PARAM ###############################################
+# ---------------------------------------------------------------
+def manage_advanced(o_o):
 
     # Append cmd when used
     if o_o['threads_nb']:
@@ -214,7 +217,7 @@ def encode_manager(o_o, team_name, dest_folder):
         o_o['bluray'] = ' -bluray-compat {}'.format(o_o['bluray'])
 
     # Advanced cmd
-    video_params =  \
+    o_o['advanced'] =  \
         ' {0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}'\
         '{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}{27}{28}{29}'\
         .format(
@@ -229,41 +232,41 @@ def encode_manager(o_o, team_name, dest_folder):
             o_o['lookahead'], o_o['scenecut'], o_o['chroma'],
             o_o['fast_skip'], o_o['grayscale'], o_o['bluray'])
 
-    # ---------------------------------------------------------------
-    #  FFMPEG CMD ###################################################
-    # ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+#  FFMPEG CMD ###################################################
+# ---------------------------------------------------------------
+def manage_ffmpeg(o_o):
 
     # CRF
     if o_o['crf_mode']:
-        ffmpeg = \
+        o_o['ffmpeg'] = \
             "ffmpeg -i {0} -map_metadata -1 -metadata title='{1}' "\
             "-metadata proudly.presented.by='{2}' -map 0:{3} -r {4}"\
             " -f {5} -c:v:0 {6} {7}{8} -crf {9}{10}{11}{12} -level "\
-            "{13}{14}{15}{16} -passlogfile {1}.log {17}"\
+            "{13}{14}{15}{16} -passlogfile {1}.log {17}{18}"\
             .format(
-                o_o['rls_source'], o_o['movie_name'], team_name,
+                o_o['rls_source'], o_o['movie_name'], user['team_name'],
                 o_o['video_ID'], o_o['framerate'], o_o['container'],
                 o_o['video_codec'], o_o['resolution'], o_o['video_filter'],
                 o_o['crf_mode'], o_o['preset'], o_o['tune'], o_o['profile'],
-                o_o['level'], video_params, subtitles_config,
-                audio_config, rls_output)
+                o_o['level'], o_o['advanced'], o_o['subs_config'],
+                o_o['audio_config'], user['dest_folder'], o_o['rls_output'])
 
     # 2PASS
     elif o_o['dual_pass']:
-        ffmpeg = \
+        o_o['ffmpeg'] = \
             "ffmpeg -i {0} -pass 1 -map 0:{3} -r {4} -f {5} c:v:0 {6}"\
             " {7}{8} -b:v:0 {9}k{10}{11}{12} -level {13}{14} -an -sn "\
-            "-passlogfile {1}.log {17} && ffmpeg -y -i {0} -pass 2 -m"\
-            "ap_metadata -1 -metadata title='{1}' -metadata proudly.p"\
-            "resented.by='{2}' -map 0:{3} -r {4} -f {5} -c:v:0 {6} {7}"\
-            "{8} -b:v:0 {9}k{10}{11}{12} -level {13}{14}{15}{16} -pass"\
-            "logfile {1}.log {17}"\
+            "-passlogfile {1}.log {17}{18} && ffmpeg -y -i {0} -pass "\
+            "2 -map_metadata -1 -metadata title='{1}' -metadata proud"\
+            "ly.presented.by='{2}' -map 0:{3} -r {4} -f {5} -c:v:0 {6}"\
+            " {7}{8} -b:v:0 {9}k{10}{11}{12} -level {13}{14}{15}{16} -"\
+            "passlogfile {1}.log {17}{18}"\
             .format(
-                o_o['rls_source'], o_o['movie_name'], team_name,
+                o_o['rls_source'], o_o['movie_name'], user['team_name'],
                 o_o['video_ID'], o_o['framerate'], o_o['container'],
                 o_o['video_codec'], o_o['resolution'], o_o['video_filter'],
                 o_o['dual_pass'], o_o['preset'], o_o['tune'], o_o['profile'],
-                o_o['level'], video_params, subtitles_config,
-                audio_config, rls_output)
-
-    return ffmpeg
+                o_o['level'],  o_o['advanced'], o_o['subs_config'],
+                o_o['audio_config'], user['dest_folder'], o_o['rls_output'])

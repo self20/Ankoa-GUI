@@ -1,4 +1,5 @@
 #:kivy 1.8.0
+#:import user app.settings.conf_dict.user
 
 # ---------- SETTINGS POPUP ----------
 <SettingsPopup>:
@@ -58,7 +59,7 @@
             # --- Source Input ---
             TextInput:
                 hint_text: 'ex: /home/user/SOURCES/'
-                text: app.source_folder
+                text: user['source_folder']
                 readonly:
                     False if root.ids.remote_usage.state == 'down' or\
                     root.ids.local_usage.state == 'down' else True
@@ -90,7 +91,7 @@
             # --- Destination Input ---
             TextInput:
                 hint_text: 'ex: /home/user/ENCODES/'
-                text: app.dest_folder
+                text: user['dest_folder']
                 readonly:
                     False if root.ids.remote_usage.state == 'down' or\
                     root.ids.local_usage.state == 'down' else True
@@ -122,7 +123,7 @@
             # --- Team Name Input ---
             TextInput:
                 hint_text: 'ex: KULTURA'
-                text: app.team_name
+                text: user['team_name']
                 readonly:
                     False if root.ids.remote_usage.state == 'down' or\
                     root.ids.local_usage.state == 'down' else True
@@ -156,7 +157,7 @@
                 hint_text:
                     'Create an account : \
                     https://www.themoviedb.org/account/signup'
-                text: app.tmdb_apikey
+                text: user['tmdb_apikey']
                 readonly:
                     False if root.ids.remote_usage.state == 'down' or\
                     root.ids.local_usage.state == 'down' else True
@@ -189,7 +190,7 @@
             TextInput:
                 hint_text:
                     'ex: https://www.tracker.com:34000/announce'
-                text: app.tk_announce
+                text: user['tk_announce']
                 readonly:
                     False if root.ids.remote_usage.state == 'down' or\
                     root.ids.local_usage.state == 'down' else True
@@ -226,7 +227,7 @@
                 # --- Hostname / IP ---
                 TextInput:
                     hint_text: 'Hostname / IP'
-                    text: app.ssh_host
+                    text: user['ssh_host']
                     readonly:
                         False if\
                         root.ids.remote_usage.state == 'down' else True
@@ -236,7 +237,7 @@
                 TextInput:
                     size_hint_x: .4
                     hint_text: 'Port'
-                    text: app.ssh_port
+                    text: user['ssh_port']
                     readonly:
                         False if\
                         root.ids.remote_usage.state == 'down' else True
@@ -245,7 +246,7 @@
                 # --- SSH Username ---
                 TextInput:
                     hint_text: 'Username'
-                    text: app.ssh_username
+                    text: user['ssh_username']
                     readonly:
                         False if\
                         root.ids.remote_usage.state == 'down' else True
@@ -254,7 +255,7 @@
                 # --- SSH Password ---
                 TextInput:
                     hint_text: 'Password'
-                    text: app.ssh_passwd
+                    text: user['ssh_passwd']
                     readonly:
                         False if\
                         root.ids.remote_usage.state == 'down' else True
@@ -286,7 +287,7 @@
             # --- Remote Input ---
             TextInput:
                 hint_text: 'ex: /home/user/torrents/'
-                text: app.remote_folder
+                text: user['remote_folder']
                 readonly:
                     False if\
                     root.ids.remote_usage.state == 'down' else True
@@ -302,18 +303,18 @@
                 on_press:
                     if root.ids.S_folder.active == True and\
                     root.ids.D_folder.active == True:\
-                    app.save_settings(
-                    root.ids.source_folder.text,
-                    root.ids.dest_folder.text,
-                    root.ids.team_name.text,
-                    root.ids.tmdb_apikey.text,
-                    root.ids.tk_announce.text,
-                    root.ids.ssh_host.text,
-                    root.ids.ssh_port.text,
-                    root.ids.ssh_username.text,
-                    root.ids.ssh_passwd.text,
-                    root.ids.remote_folder.text,
-                    self.request); app.restart_ankoa()
+                    user['source_folder'] = root.ids.source_folder.text
+                    user['dest_folder'] = root.ids.dest_folder.text
+                    user['team_name'] = root.ids.team_name.text
+                    user['tmdb_apikey'] = root.ids.tmdb_apikey.text
+                    user['tk_announce'] = root.ids.tk_announce.text
+                    user['ssh_host'] = root.ids.ssh_host.text
+                    user['ssh_port'] = root.ids.ssh_port.text
+                    user['ssh_username'] = root.ids.ssh_username.text
+                    user['ssh_passwd'] = root.ids.ssh_passwd.text
+                    user['remote_folder'] = root.ids.remote_folder.text
+                    app.save_settings()
+                    app.restart_ankoa()
 
             # --- Reset Settings ---
             Button:

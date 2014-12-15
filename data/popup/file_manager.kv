@@ -1,4 +1,5 @@
 #:kivy 1.8.0
+#:import user app.settings.conf_dict.user
 
 # ---------- FILEMANAGER ----------
 <File_managerPopup>:
@@ -21,7 +22,7 @@
                 id: list_view_tab
                 filters:
                     ['*.ass', '*.srt', '*.vobsub', '*.pgs']
-                rootpath: app.source_folder
+                rootpath: user['source_folder']
                 value:
                     self.selection and\
                     self.selection[0] or ''
@@ -33,7 +34,7 @@
                 id: icon_view_tab
                 filters:
                     ['*.ass', '*.srt', '*.vobsub', '*.pgs']
-                rootpath: app.source_folder
+                rootpath: user['source_folder']
                 value:
                     self.selection and\
                     self.selection[0] or ''

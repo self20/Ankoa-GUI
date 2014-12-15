@@ -16,12 +16,12 @@ from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 
 # Local libraries
-from app.mod_encode.manager import encode_manager
 from app.mod_encode.encode_dict import o_o
 from app.mod_encode.bitrate_cal import *
 from app.mod_encode.scan_source import *
 from app.popup.popup_classes import *
-from app.settings.settings import *
+from app.mod_encode.manager import *
+from app.settings.config import *
 from app.server.remote import *
 
 # Resolution
@@ -36,11 +36,13 @@ class AnkoaScreen(Screen):
 
 # Ankoa-GUI
 class AnkoaApp(App):
+    def restart_ankoa(self):
+        restart = sys.executable
+        os.execl(restart, restart, * sys.argv)
 
     # ---------------------------------------------------------------
-    #  PROPERTIES ###################################################
+    #  BIND EVENTS ##################################################
     # ---------------------------------------------------------------
-    '''kv files interaction'''
 
     index = NumericProperty(-1)
     screen_names = ListProperty([])
@@ -55,8 +57,6 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  ROOT #########################################################
     # ---------------------------------------------------------------
-    '''Application Root'''
-
     def build(self):
         self.title = __version__
 
@@ -92,51 +92,28 @@ class AnkoaApp(App):
             self.root.ids.header_screens.current_screen.ids.queue
 
     # ---------------------------------------------------------------
-    #  SETTINGS #####################################################
+    #  USER SETTINGS ################################################
     # ---------------------------------------------------------------
+    '''
+    Load settings on start
+    Manage save/clear From data.popup.settings To app.settings.config
+    Manage remote session From data.popup.remote To app.server.remote
+    '''
 
     # Load user settings on start
-    '''call app.popup.settings: load_settings()'''
-    (source_folder, dest_folder, team_name, tmdb_apikey,
-     tk_announce, ssh_host, ssh_port, ssh_username,
-     ssh_passwd, remote_folder) = load_settings()
-
-    # Restart app
-    def restart_ankoa(self):
-        restart = sys.executable
-        os.execl(restart, restart, * sys.argv)
+    load_settings()
 
     # Save user settings
-    def save_settings(self, source_folder, dest_folder, team_name,
-                      tmdb_apikey, tk_announce, ssh_host, ssh_port,
-                      ssh_username, ssh_passwd, remote_folder, request):
-        '''
-        Call app.popup.settings.py: save_settings()
-        From data.popup: settings.kv [validate settings button]
-        '''
-        modify_settings(source_folder, dest_folder, team_name,
-                        tmdb_apikey, tk_announce, ssh_host, ssh_port,
-                        ssh_username, ssh_passwd, remote_folder)
+    def save_settings(self):
+        modify_settings()
 
     # Clear user settings
     def reset_settings(self):
-        '''
-        Call app.popup.settings.py: clear_settings()
-        From data.popup: settings.kv [clear settings button]
-        '''
         clear_settings()
 
     # Remote session (mount remote folder to local via sshfs)
     def manage_remote(self, request):
-        '''
-        Call app.popup.remote.py: remote()
-        From data.popup: remote.kv with corresponding request
-        request: 'mount_source_track' will mount remote folder
-        request: 'umount_source_track' will umount remote folder
-        '''
-        remote(request, self.ssh_passwd, self.ssh_username,
-               self.ssh_host, self.source_folder,
-               self.remote_folder, self.ssh_port)
+        remote(request)
 
     # ---------------------------------------------------------------
     #  MANAGE POPUPS ################################################
@@ -150,8 +127,8 @@ class AnkoaApp(App):
     # Display popups
     def main_popup(self, popup_id):
         '''
-        Call app.popup.popup_classes.py: corresponding popup class
-        From anywhere with popup_id request (same name as classes)
+        Call corresponding class in app.popup.popup_classes
+        From anywhere with popup_id request
         '''
         popup = '{}'.format(popup_id)
         eval(popup).open()
@@ -215,7 +192,7 @@ class AnkoaApp(App):
     def scan_source_infos(self, source):
         '''
         Return complete mediainfo with autocrop values
-        Call app.mod_encode.scan_source.py: scan()
+        Call app.mod_encode.scan_source.scan
         From data.screen.mod_encode.source.kv [scan button]
         '''
         self.scan_data = scan(source)
@@ -225,7 +202,7 @@ class AnkoaApp(App):
         '''
         Display bitrate calculator section on clic
         Toggle bitrate row animation (row height on/off)
-        From data.screen.mod_encode.video.kv [Bitrate button]
+        From data.screen.mod_encode.video [Bitrate button]
         '''
         if state == 'down':
             height = 42
@@ -238,8 +215,8 @@ class AnkoaApp(App):
     def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
         '''
         Return video bitrate in kbps
-        Call app.mod_encode.bitrate_cal.py: calculator()
-        From data.screen.mod_encode.video.kv [RUN button]
+        Call app.mod_encode.bitrate_calcalculator
+        From data.screen.mod_encode.video [RUN button]
         '''
         current_bitrate = calculator(HH, MM, SS, audio_bit, desired_size)
         self.current_bitrate = str(current_bitrate)
@@ -258,7 +235,7 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     '''
     Manage audio Tracks (max 5 tracks)
-    From data.screen.mod_encode.audio.kv
+    From data.screen.mod_encode.audio
     '''
 
     # Load Audio Track (kv file)
@@ -293,7 +270,7 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     '''
     Manage subtitles Tracks (max 7 tracks)
-    From data.screen.mod_encode.subtitles.kv
+    From data.screen.mod_encode.subtitles
     '''
 
     # Load Subtitles Tracks (kv files)
@@ -354,7 +331,7 @@ class AnkoaApp(App):
     def get_encode_infos(self, o_o):
         '''
         Get all screens values from corresponding kv file
-        Fill in the dictionary o_o
+        Fill in encode dictionary o_o
         '''
 
         # Get source infos
@@ -419,7 +396,7 @@ class AnkoaApp(App):
 
         # Get advanced infos
         if self.advanced_screen.ids.threads_on.active is True:
-            o_o['threads_nb'] = self.advanced_screen.ids.thread.text
+            o_o['threads_nb'] = self.advanced_screen.ids.threads.text
             o_o['threads_mod'] = self.advanced_screen.ids.threads_mod.value
         if self.advanced_screen.ids.frames_on.active is True:
             o_o['ref_frames'] = self.advanced_screen.ids.ref_frames.text
@@ -466,12 +443,11 @@ class AnkoaApp(App):
     #  MANAGE ENCODE ################################################
     # ---------------------------------------------------------------
     '''
-    Check content and call the manager 'app/mod_encode/manager.py'
-    Manager will return proper FFMPEG cmd
+    Check content and call the manager app.mod_encode.manager
+    Manager will set proper FFMPEG cmd in dictionary o_o
     '''
 
-    # Check if user is not a n00b
-    '''Essential content verification'''
+    # Essential content verification
     def check_encode_values(self):
         if self.source_screen.ids.r_source.active is True and\
                 self.source_screen.ids.r_title.active is True and\
@@ -492,11 +468,11 @@ class AnkoaApp(App):
             else:
                 o_o[key] = ''
 
-    # Get content and call the Manager
+    # Get content
     def send_encode_values(self):
         self.get_encode_infos(o_o)
-        ffmpeg = encode_manager(o_o, self.team_name, self.dest_folder)
-        self.queue_screen.ids.ffmpeg_cmd.text = '{}'.format(ffmpeg)
+        encode_manager(o_o)
+        self.queue_screen.ids.ffmpeg_cmd.text = '{}'.format(o_o['ffmpeg'])
 
         '''debug'''
         print (str(o_o).replace(", ", "'\n")

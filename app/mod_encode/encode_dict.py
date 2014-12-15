@@ -5,8 +5,13 @@ Dictionary to manage all values
 '''
 
 o_o = {
+
+    # Source
+    'rls_output': '',
     'rls_source': '',
     'rls_title': '',
+
+    # Picture
     'resolution': '',
     'sar': '',
     'video_filter': '',
@@ -18,6 +23,8 @@ o_o = {
     'motion_deint': '',
     'denoise': '',
     'decimate': '',
+
+    # Video
     'video_ID': '',
     'movie_name': '',
     'container': '',
@@ -30,6 +37,8 @@ o_o = {
     'tune': '',
     'profile': '',
     'level': '',
+
+    # Audio
     'audio_ID': [],
     'audio_title': [],
     'audio_lang': [],
@@ -38,6 +47,9 @@ o_o = {
     'audio_channels': [],
     'audio_samplerate': [],
     'audio_gain': [],
+    'audio_config': '',
+
+    # Subtitles
     'subs_type': [],
     'subs_source': [],
     'subs_codec': [],
@@ -45,6 +57,9 @@ o_o = {
     'subs_forced': [],
     'subs_burned': [],
     'subs_charset': [],
+    'subs_config': '',
+
+    # Advanced
     'max_Bframes': '',
     'ref_frames': '',
     'threads_mod': '',
@@ -75,5 +90,9 @@ o_o = {
     'cabac': '',
     'direct_mod': '',
     'subpixel': '',
-    'psy_optim': ''
+    'psy_optim': '',
+    'advanced': '',
+
+    # FFMPEG
+    'ffmpeg': ''
 }

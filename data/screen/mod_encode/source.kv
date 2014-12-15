@@ -1,4 +1,5 @@
 #:kivy 1.8.0
+#:import user app.settings.conf_dict.user
 
 # ---------- SOURCE SCREEN ----------
 <source@Widget>:
@@ -29,7 +30,7 @@
                 filters:
                     ['*.mp4', '*.mkv', '*.h264',
                     '*.m2ts', '.iso', '*.img']
-                rootpath: app.source_folder
+                rootpath: user['source_folder']
                 on_selection:
                     app.scan_source_infos(
                     self.selection and self.selection[0])
@@ -40,7 +41,7 @@
                 filters:
                     ['*.mp4', '*.mkv', '*.h264',
                     '*.m2ts', '.iso', '*.img']
-                rootpath: app.source_folder
+                rootpath: user['source_folder']
                 on_selection:
                     app.scan_source_infos(
                     self.selection and self.selection[0])

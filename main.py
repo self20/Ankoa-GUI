@@ -328,7 +328,7 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
 
     # Get encode infos
-    def get_encode_infos(self, o_o):
+    def get_encode_infos(self):
         '''
         Get all screens values from corresponding kv file
         Fill in encode dictionary o_o
@@ -470,8 +470,12 @@ class AnkoaApp(App):
 
     # Get content
     def send_encode_values(self):
-        self.get_encode_infos(o_o)
-        encode_manager(o_o)
+        self.get_encode_infos()
+        manage_video()
+        manage_audio()
+        manage_subs()
+        manage_advanced()
+        manage_ffmpeg()
         self.queue_screen.ids.ffmpeg_cmd.text = '{}'.format(o_o['ffmpeg'])
 
         '''debug'''

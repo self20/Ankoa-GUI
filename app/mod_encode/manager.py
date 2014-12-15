@@ -1,4 +1,8 @@
 #!/usr/bin/kivy
+
+from app.mod_encode.encode_dict import o_o
+from app.settings.conf_dict import user
+
 '''
 [ MODE ENCODE ]
 Manage all content to return proper FFMPEG cmd
@@ -8,11 +12,11 @@ Manage all content to return proper FFMPEG cmd
 # ---------------------------------------------------------------
 #  VIDEO TRACK ##################################################
 # ---------------------------------------------------------------
-def manage_video(o_o):
+def manage_video():
 
     # Output
     o_o['rls_output'] = '{0}{1}.{2}'.format(
-        dest_folder, o_o['rls_title'],
+        user['dest_folder'], o_o['rls_title'],
         str(o_o['container'].replace('matroska', 'mkv')))
 
     # Filters
@@ -52,7 +56,7 @@ def manage_video(o_o):
 # ---------------------------------------------------------------
 #  AUDIO TRACKS #################################################
 # ---------------------------------------------------------------
-def manage_audio(o_o):
+def manage_audio():
     audio_tracks_list = []
     for nb in range(0, len(o_o['audio_ID'])):
 
@@ -83,7 +87,7 @@ def manage_audio(o_o):
 # ---------------------------------------------------------------
 #  SUBTITLES TRACKS #############################################
 # ---------------------------------------------------------------
-def manage_subs(o_o):
+def manage_subs():
     subtitles_tracks_list = []
     for nb in range(0, len(o_o['subs_type'])):
 
@@ -143,7 +147,7 @@ def manage_subs(o_o):
 # ---------------------------------------------------------------
 #  ADVANCED PARAM ###############################################
 # ---------------------------------------------------------------
-def manage_advanced(o_o):
+def manage_advanced():
 
     # Append cmd when used
     if o_o['threads_nb']:
@@ -236,7 +240,7 @@ def manage_advanced(o_o):
 # ---------------------------------------------------------------
 #  FFMPEG CMD ###################################################
 # ---------------------------------------------------------------
-def manage_ffmpeg(o_o):
+def manage_ffmpeg():
 
     # CRF
     if o_o['crf_mode']:

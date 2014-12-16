@@ -1,15 +1,5 @@
 #:kivy 1.8.0
-#:import pyramidal_method app.mod_encode.encode_var.pyramidal_method
-#:import direct_mode app.mod_encode.encode_var.direct_mode
-#:import adaptive_bframes app.mod_encode.encode_var.adaptive_bframes
-#:import weighted_pframes app.mod_encode.encode_var.weighted_pframes
-#:import motion_method app.mod_encode.encode_var.motion_method
-#:import partitions_type app.mod_encode.encode_var.partitions_type
-#:import trellis_val app.mod_encode.encode_var.trellis_val
-#:import quantization app.mod_encode.encode_var.quantization
-#:import rate_distortion app.mod_encode.encode_var.rate_distortion
-#:import psy_trellis app.mod_encode.encode_var.psy_trellis
-#:import deblocking app.mod_encode.encode_var.deblocking
+#:import v_v app.mod_encode.encode_dict.v_v
 
 # ---------- ADVANCED SCREEN ----------
 <advanced@Widget>:
@@ -169,8 +159,8 @@
                 id: pyram
                 value: '' if self.text == 'Off' else self.text
                 text:
-                    pyramidal_method[int('{}'.format(pyramid_mod.value)
-                    .split('.')[0])]
+                    v_v['pyramidal_method'][int('{}'.format(
+                    pyramid_mod.value).split('.')[0])]
                 bold: True
 
             # --- 8x8 Transform ---
@@ -224,8 +214,8 @@
                 id: direct
                 value: '' if self.text == 'Off' else self.text
                 text:
-                    direct_mode[int('{}'.format(direct_mod.value)
-                    .split('.')[0])]
+                    v_v['direct_mode'][int('{}'.format(
+                    direct_mod.value).split('.')[0])]
                 bold: True
 
             # --- Adaptive BFrames ---
@@ -241,8 +231,8 @@
                 id: Bframes
                 value: '' if self.text == 'Off' else self.text
                 text:
-                    adaptive_bframes[int('{}'.format(B_frames.value)
-                    .split('.')[0])]
+                    v_v['adaptive_bframes'][int('{}'.format(
+                    B_frames.value).split('.')[0])]
                 bold: True
 
     # ---------- WEIGHTED ----------
@@ -283,8 +273,8 @@
                 id: weight_pf
                 value: '' if self.text == 'Off' else self.text
                 text:
-                    weighted_pframes[int('{}'.format(weighted_pf.value)
-                    .split('.')[0])]
+                    v_v['weighted_pframes'][int('{}'.format(
+                    weighted_pf.value).split('.')[0])]
                 bold: True
 
             # --- Weighted BFrames ---
@@ -331,8 +321,8 @@
             Label:
                 id: me_mod
                 text:
-                    motion_method[int('{}'.format(me_method.value)
-                    .split('.')[0])]
+                    v_v['motion_method'][int('{}'.format(
+                    me_method.value).split('.')[0])]
                 bold: True
 
             # --- Subpixel ---
@@ -400,8 +390,8 @@
             Label:
                 id: parts
                 text:
-                    partitions_type[int('{}'.format(partitions.value)
-                    .split('.')[0])]
+                    v_v['partitions_type'][int('{}'.format(
+                    partitions.value).split('.')[0])]
                 bold: True
 
             # --- Trellis ---
@@ -415,8 +405,8 @@
                 value: 1
             Label:
                 text:
-                    trellis_val[int('{}'.format(trellis.value)
-                    .split('.')[0])]
+                    v_v['trellis_val'][int('{}'.format(
+                    trellis.value).split('.')[0])]
                 bold: True
 
     # ---------- QUANTIZATION ----------
@@ -456,8 +446,8 @@
             Label:
                 id: adapt_s
                 text:
-                    quantization[int('{}'.format(adapt_strenght.value)
-                    .split('.')[0])]
+                    v_v['quantization'][int('{}'.format(
+                    adapt_strenght.value).split('.')[0])]
                 bold: True
 
             # --- Psychovisual Optimization ---
@@ -503,8 +493,8 @@
             Label:
                 id: dist_rate
                 text:
-                    rate_distortion[int('{}'.format(distord_rate.value)
-                    .split('.')[0])]
+                    v_v['rate_distortion'][int('{}'.format(
+                    distord_rate.value).split('.')[0])]
                 bold: True
 
             # --- Psychovisual Trellis ---
@@ -519,8 +509,8 @@
             Label:
                 id: psy_trell
                 text:
-                    psy_trellis[int('{}'.format(psy_trelli.value)
-                    .split('.')[0])]
+                    v_v['psy_trellis'][int('{}'.format(
+                    psy_trelli.value).split('.')[0])]
                 bold: True
 
     # ---------- DEBLOCK ----------
@@ -560,8 +550,8 @@
             Label:
                 id: d_alpha
                 text:
-                    deblocking[int('{}'.format(deblock_alpha.value)
-                    .split('.')[0])]
+                    v_v['deblocking'][int('{}'.format(
+                    deblock_alpha.value).split('.')[0])]
                 bold: True
 
             # --- Deblock Beta ---
@@ -576,8 +566,8 @@
             Label:
                 id: d_beta
                 text:
-                    deblocking[int('{}'.format(deblock_beta.value)
-                    .split('.')[0])]
+                    v_v['deblocking'][int('{}'.format(
+                    deblock_beta.value).split('.')[0])]
                 bold: True
 
     # ---------- KEYFRAME ----------

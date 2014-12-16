@@ -1,11 +1,5 @@
 #:kivy 1.8.0
-#:import fixed_size app.mod_encode.encode_var.fixed_size
-#:import audio_bitrate app.mod_encode.encode_var.audio_bitrate
-#:import x264_preset app.mod_encode.encode_var.preset
-#:import x264_tune app.mod_encode.encode_var.tune
-#:import x264_profile app.mod_encode.encode_var.profile
-#:import x264_level app.mod_encode.encode_var.level
-#:import x264_framerate app.mod_encode.encode_var.framerate
+#:import v_v app.mod_encode.encode_dict.v_v
 
 # ---------- VIDEO SCREEN ----------
 <videox@Widget>:
@@ -235,8 +229,8 @@
                 value: 11
             Label:
                 text:
-                    audio_bitrate[int('{}'.format(audio_bit.value)
-                    .split('.')[0])]
+                    v_v['audio_bitrate'][int('{}'.format(
+                    audio_bit.value).split('.')[0])]
                 bold: True
             Label:
 
@@ -252,8 +246,8 @@
                 value: 3
             Label:
                 text:
-                    fixed_size[int('{}'.format(desired_size.value)
-                    .split('.')[0])]
+                    v_v['fixed_size'][int('{}'.format(
+                    desired_size.value).split('.')[0])]
                 bold: True
             Label:
 
@@ -342,8 +336,8 @@
             Label:
                 id: fram_rate
                 text:
-                    x264_framerate[int('{}'.format(framerate.value)
-                    .split('.')[0])]
+                    v_v['framerate'][int('{}'.format(
+                    framerate.value).split('.')[0])]
                 bold: True
 
     # ---------- PRESET ----------
@@ -383,8 +377,8 @@
                 id: pre_set
                 value: '' if self.text == 'Off' else self.text
                 text:
-                    x264_preset[int('{}'.format(preset.value)
-                    .split('.')[0])]
+                    v_v['preset'][int('{}'.format(
+                    preset.value).split('.')[0])]
                 bold: True
 
     # ---------- TUNE ----------
@@ -424,8 +418,8 @@
                 id: tu_ne
                 value: '' if self.text == 'Off' else self.text
                 text:
-                    x264_tune[int('{}'.format(tune.value)
-                    .split('.')[0])]
+                    v_v['tune'][int('{}'.format(
+                    tune.value).split('.')[0])]
                 bold: True
 
     # ---------- PROFILE ----------
@@ -464,8 +458,8 @@
             Label:
                 id: pro_file
                 text:
-                    x264_profile[int('{}'.format(profile.value)
-                    .split('.')[0])]
+                    v_v['profile'][int('{}'.format(
+                    profile.value).split('.')[0])]
                 bold: True
 
     # ---------- LEVEL ----------
@@ -503,6 +497,6 @@
             Label:
                 id: le_vel
                 text:
-                    x264_level[int('{}'.format(level.value)
-                    .split('.')[0])]
+                    v_v['level'][int('{}'.format(
+                    level.value).split('.')[0])]
                 bold: True

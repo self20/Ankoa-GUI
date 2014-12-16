@@ -1,16 +1,5 @@
 #:kivy 1.8.0
-#:import aspect_ratio app.mod_encode.encode_var.aspect_ratio
-#:import deinterlace app.mod_encode.encode_var.deinterlace
-#:import deint_cmd app.mod_encode.encode_var.deint_cmd
-#:import motion_deint app.mod_encode.encode_var.motion_deint
-#:import motion_cmd app.mod_encode.encode_var.motion_cmd
-#:import denoise app.mod_encode.encode_var.denoise
-#:import denoise_cmd app.mod_encode.encode_var.denoise_cmd
-#:import decimate app.mod_encode.encode_var.decimate
-#:import decimate_cmd app.mod_encode.encode_var.decimate_cmd
-#:import ar_sd app.mod_encode.encode_var.ar_sd
-#:import ar_720p app.mod_encode.encode_var.ar_720p
-#:import ar_1080p app.mod_encode.encode_var.ar_1080p
+#:import v_v app.mod_encode.encode_dict.v_v
 
 # ---------- PICTURE SCREEN ----------
 <picture@Widget>:
@@ -68,21 +57,18 @@
                 id: auto_sd
                 text: 'Auto SD'
                 group: 'auto_resize'
-                ar_var: 'ar_sd'
 
             # --- Auto 720p button ---
             ToggleButton:
                 id: auto_720p
                 text: 'Auto 720p'
                 group: 'auto_resize'
-                ar_var: 'ar_720p'
 
             # --- Auto 1080p button ---
             ToggleButton:
                 id: auto_1080p
                 text: 'Auto 1080p'
                 group: 'auto_resize'
-                ar_var: 'ar_1080p'
 
     # ---------- SAMPLE ASPECT RATIO ----------
     BoxLayout:
@@ -187,8 +173,8 @@
                 text:
                     'Custom' if root.ids.check_sar.active is True or\
                     root.ids.auto_resize.active is False else\
-                    aspect_ratio[int('{}'.format(aspect.value)
-                    .split('.')[0])]
+                    v_v['aspect_ratio'][int('{}'.format(
+                    aspect.value).split('.')[0])]
                 bold: True
 
             # --- Resolution WIDTH ---
@@ -203,13 +189,13 @@
                     root.ids.check_sar.active is True else False
                 text:
                     'auto' if root.ids.check_sar.active is True else\
-                    eval(auto_sd.ar_var)[int('{}'.format(aspect.value)
+                    v_v['ar_sd'][int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[0]\
                     if auto_sd.state == 'down' else\
-                    eval(auto_720p.ar_var)[int('{}'.format(aspect.value)
+                    v_v['ar_720p'][int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[0]\
                     if auto_720p.state == 'down' else\
-                    eval(auto_1080p.ar_var)[int('{}'.format(aspect.value)
+                    v_v['ar_1080p'][int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[0]\
                     if auto_1080p.state == 'down' else ''
 
@@ -225,13 +211,13 @@
                     root.ids.check_sar.active is True else False
                 text:
                     'auto' if root.ids.check_sar.active is True else\
-                    eval(auto_sd.ar_var)[int('{}'.format(aspect.value)
+                    v_v['ar_sd'][int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[1]\
                     if auto_sd.state == 'down' else\
-                    eval(auto_720p.ar_var)[int('{}'.format(aspect.value)
+                    v_v['ar_720p'][int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[1]\
                     if auto_720p.state == 'down' else\
-                    eval(auto_1080p.ar_var)[int('{}'.format(aspect.value)
+                    v_v['ar_1080p'][int('{}'.format(aspect.value)
                     .split('.')[0])].split('x')[1]\
                     if auto_1080p.state == 'down' else ''
 
@@ -331,8 +317,8 @@
                 value: 0
             Label:
                 text:
-                    deinterlace[int('{}'.format(dint.value)
-                    .split('.')[0])]
+                    v_v['deinterlace'][int('{}'.format(
+                    dint.value).split('.')[0])]
                 bold: True
 
             # --- Custom Deinterlace ---
@@ -348,8 +334,8 @@
                 readonly:
                     True if root.ids.dint.value != 5 else False
                 text:
-                    deint_cmd[int('{}'.format(root.ids.dint.value)
-                    .split('.')[0])]
+                    v_v['deint_cmd'][int('{}'.format(
+                    root.ids.dint.value).split('.')[0])]
 
     # ---------- MOTION DEINTERLACE ----------
     BoxLayout:
@@ -387,8 +373,8 @@
                 value: 0
             Label:
                 text:
-                    motion_deint[int('{}'.format(motion.value)
-                    .split('.')[0])]
+                    v_v['motion_deint'][int('{}'.format(
+                    motion.value).split('.')[0])]
                 bold: True
 
             # --- Custom Motion ---
@@ -404,8 +390,8 @@
                 readonly:
                     True if root.ids.motion.value != 4 else False
                 text:
-                    motion_cmd[int('{}'.format(motion.value)
-                    .split('.')[0])]
+                    v_v['motion_cmd'][int('{}'.format(
+                    motion.value).split('.')[0])]
 
     # ---------- DECIMATE ----------
     BoxLayout:
@@ -444,8 +430,8 @@
                 value: 0
             Label:
                 text:
-                    decimate[int('{}'.format(dcimate.value)
-                    .split('.')[0])]
+                    v_v['decimate'][int('{}'.format(
+                    dcimate.value).split('.')[0])]
                 bold: True
 
             # --- Custom Decimate ---
@@ -461,8 +447,8 @@
                 readonly:
                     True if root.ids.dcimate.value != 2 else False
                 text:
-                    decimate_cmd[int('{}'.format(dcimate.value)
-                    .split('.')[0])]
+                    v_v['decimate_cmd'][int('{}'.format(
+                    dcimate.value).split('.')[0])]
 
     # ---------- DENOISE ----------
     BoxLayout:
@@ -500,8 +486,8 @@
                 value: 0
             Label:
                 text:
-                    denoise[int('{}'.format(dnoise.value)
-                    .split('.')[0])]
+                    v_v['denoise'][int('{}'.format(
+                    dnoise.value).split('.')[0])]
                 bold: True
 
             # --- Custom Denoise ---
@@ -517,5 +503,5 @@
                 readonly:
                     True if root.ids.dnoise.value != 4 else False
                 text:
-                    denoise_cmd[int('{}'.format(root.ids.dnoise.value)
-                    .split('.')[0])]
+                    v_v['denoise_cmd'][int('{}'.format(
+                    root.ids.dnoise.value).split('.')[0])]

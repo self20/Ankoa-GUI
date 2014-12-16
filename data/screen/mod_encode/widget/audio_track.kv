@@ -1,10 +1,6 @@
 #:kivy 1.8.0
 #:import uuid uuid
-#:import mp3_bitrate app.mod_encode.encode_var.mp3_bitrate
-#:import aac_bitrate app.mod_encode.encode_var.aac_bitrate
-#:import ac3_bitrate app.mod_encode.encode_var.ac3_bitrate
-#:import sample_rate app.mod_encode.encode_var.sample_rate
-#:import audio_gain app.mod_encode.encode_var.audio_gain
+#:import v_v app.mod_encode.encode_dict.v_v
 
 # ---------- AUDIO TRACK WIDGET ----------
 GridLayout:
@@ -120,11 +116,11 @@ GridLayout:
                 'dts_copy' if self.text == 'Original' else\
                 (self.text).split('K')[0]
             text:
-                mp3_bitrate[int('{}'.format(audiobit.value)\
+                v_v['mp3_bitrate'][int('{}'.format(audiobit.value)\
                 .split('.')[0])] if root.ids.mp3.state == 'down' else\
-                aac_bitrate[int('{}'.format(audiobit.value)\
+                v_v['aac_bitrate'][int('{}'.format(audiobit.value)\
                 .split('.')[0])] if root.ids.aac.state == 'down' else\
-                ac3_bitrate[int('{}'.format(audiobit.value)\
+                v_v['ac3_bitrate'][int('{}'.format(audiobit.value)\
                 .split('.')[0])] if root.ids.ac3.state == 'down' else\
                 'Original'
             bold: True
@@ -167,8 +163,8 @@ GridLayout:
         Label:
             id: sample_rate
             text:
-                sample_rate[int('{}'.format(samplerate.value)
-                .split('.')[0])]
+                v_v['sample_rate'][int('{}'.format(
+                samplerate.value).split('.')[0])]
             bold: True
 
         # --- Audio Gain ---
@@ -184,6 +180,6 @@ GridLayout:
         Label:
             id: gain
             text:
-                audio_gain[int('{}'.format(audiogain.value)
-                .split('.')[0])]
+                v_v['audio_gain'][int('{}'.format(
+                audiogain.value).split('.')[0])]
             bold: True

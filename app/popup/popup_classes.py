@@ -1,4 +1,8 @@
 #!/usr/bin/kivy
+'''
+[ POPUPS ]
+Popups container classes
+'''
 from kivy.uix.popup import Popup
 
 

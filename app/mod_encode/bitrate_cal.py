@@ -1,12 +1,12 @@
 #!/usr/bin/kivy
+'''
+Calculate required video bitrate by specify
+Video duration, audio bitrate and desired size
+'''
 
 
 # Video bitrate calculator
 def calculator(HH, MM, SS, audio_bit, desired_size):
-    '''
-    Calculate required video bitrate by specify
-    Video duration, audio bitrate and desired size
-    '''
 
     # Target sizes
     bit_sizes = ['357.8', '562.9', '716.3', '1439.3',
@@ -19,7 +19,7 @@ def calculator(HH, MM, SS, audio_bit, desired_size):
                 '448', '640', '755', '1509']
     audiobit = audiobit[int(audio_bit)]
 
-    # Formula
+    # Formula!
     bitrate = \
         ((float(calsize)-((int(audiobit)/8)/1024*((int(HH)*3600)
           + (int(MM)*60)+int(SS))))/((int(HH)*3600)+(int(MM)*60)

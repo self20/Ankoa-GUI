@@ -1,15 +1,16 @@
 #!/usr/bin/kivy
+'''
+Scan video source to get required informations
+Return complete mediainfo and HandBrake autocrop
+'''
 import sys
 from subprocess import getoutput
 
 
 # Scan source infos
 def scan(source):
-    '''
-    Scan video source to get required informations
-    Return complete mediainfo and HandBrake autocrop
-    '''
     try:
+
         # Get HB & mediainfo outputs
         scan_MI = getoutput('mediainfo {}'.format(source))
         scan_HB = getoutput('HandBrakeCLI -t 0 --scan -i {}'
@@ -30,7 +31,7 @@ def scan(source):
             if 'duration' in line:
                 duration = line.split(',')[-1]
 
-        # Display HB & mediainfo parsed results
+        # Return HB & mediainfo parsed results
         scan_data = '{0}\n{3}\n{1}\n\n{2}\n\n{1}\n{3}\n{0}'\
                     .format(ar_infos.strip(), duration.strip(),
                             mediainfo.strip(), autocrop.strip())

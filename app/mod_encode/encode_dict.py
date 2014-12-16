@@ -1,7 +1,7 @@
 #!/usr/bin/kivy
 '''
 [ MODE ENCODE ]
-Dictionary to manage all values
+Dictionary to manage encode values
 '''
 
 o_o = {

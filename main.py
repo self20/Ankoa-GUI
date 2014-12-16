@@ -16,13 +16,16 @@ from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 
 # Local libraries
-from app.mod_encode.encode_dict import o_o
-from app.mod_encode.bitrate_cal import *
-from app.mod_encode.scan_source import *
+from app.server.remote import remote
 from app.popup.popup_classes import *
-from app.mod_encode.manager import *
-from app.settings.config import *
-from app.server.remote import *
+from app.mod_encode.encode_dict import o_o
+from app.mod_encode.scan_source import scan
+from app.mod_encode.bitrate_cal import calculator
+from app.mod_encode.manager import (manage_video, manage_audio,
+                                    manage_subs, manage_advanced,
+                                    manage_ffmpeg)
+from app.settings.config import (load_settings, modify_settings,
+                                 clear_settings)
 
 # Resolution
 Config.set('graphics', 'width', '1024')

@@ -306,30 +306,30 @@
 
             # --- Validate Settings ---
             Button:
+                id: _valid
                 text: 'Validate Settings'
                 on_press:
-                    if root.ids.S_folder.active == True and\
-                    root.ids.D_folder.active == True:\
-                    user['usage'] = root.ids.local_usage.value
-                    user['source_folder'] = root.ids.source_folder.text
-                    user['dest_folder'] = root.ids.dest_folder.text
-                    user['team_name'] = root.ids.team_name.text
-                    user['tmdb_apikey'] = root.ids.tmdb_apikey.text
-                    user['tk_announce'] = root.ids.tk_announce.text
-                    user['ssh_host'] = root.ids.ssh_host.text
-                    user['ssh_port'] = root.ids.ssh_port.text
-                    user['ssh_username'] = root.ids.ssh_username.text
-                    user['ssh_passwd'] = root.ids.ssh_passwd.text
-                    user['remote_folder'] = root.ids.remote_folder.text
-                    app.save_settings()
-                    app.restart_ankoa()
+                    if root.ids.S_folder.active is True and\
+                    root.ids.D_folder.active is True:\
+                    user['usage'] = root.ids.local_usage.value;\
+                    user['source_folder'] = root.ids.source_folder.text;\
+                    user['dest_folder'] = root.ids.dest_folder.text;\
+                    user['team_name'] = root.ids.team_name.text;\
+                    user['tmdb_apikey'] = root.ids.tmdb_apikey.text;\
+                    user['tk_announce'] = root.ids.tk_announce.text;\
+                    user['ssh_host'] = root.ids.ssh_host.text;\
+                    user['ssh_port'] = root.ids.ssh_port.text;\
+                    user['ssh_username'] = root.ids.ssh_username.text;\
+                    user['ssh_passwd'] = root.ids.ssh_passwd.text;\
+                    user['remote_folder'] = root.ids.remote_folder.text;\
+                    app.save_settings(); app.restart_ankoa()
 
             # --- Reset Settings ---
             Button:
                 text: 'Reset Settings'
                 on_press:
-                    if root.ids.S_folder.active == True and\
-                    root.ids.D_folder.active == True:\
+                    if root.ids.local_usage.state == 'down' or\
+                    root.ids.local_usage.state == 'down':\
                     app.reset_settings(); app.restart_ankoa()
             Label:
 

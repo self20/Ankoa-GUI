@@ -476,8 +476,8 @@ class AnkoaApp(App):
                 self.current_error = error['source']
             elif self.source_screen.ids.r_title.active is False:
                 self.current_error = error['title']
-            elif self.picture_screen.ids.reso.active is True or\
-                    self.picture_screen.ids.check_sar.active is True:
+            elif self.picture_screen.ids.reso.active is False or\
+                    self.picture_screen.ids.check_sar.active is False:
                 self.current_error = error['reso']
             elif self.video_screen.ids.check_vtrack.active is False:
                 self.current_error = error['video']

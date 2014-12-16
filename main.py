@@ -20,9 +20,10 @@ from app.mod_encode.manager import (manage_video, manage_audio,
                                     manage_ffmpeg)
 from app.settings.config import (load_settings, modify_settings,
                                  clear_settings)
+from app.mod_encode.encode_dict import o_o, v_v, error
 from app.mod_encode.bitrate_cal import calculator
 from app.mod_encode.scan_source import scan
-from app.mod_encode.encode_dict import o_o
+from app.settings.conf_dict import user
 from app.popup.popup_classes import *
 from app.server.remote import remote
 
@@ -55,6 +56,7 @@ class AnkoaApp(App):
     audio_count = NumericProperty(0)
     sub_count = NumericProperty(0)
     current_track = ObjectProperty()
+    current_error = StringProperty()
 
     # ---------------------------------------------------------------
     #  ROOT #########################################################
@@ -97,7 +99,7 @@ class AnkoaApp(App):
     #  USER SETTINGS ################################################
     # ---------------------------------------------------------------
     '''
-    Load settings on start
+    Load settings on start / verification
     Manage save/clear From data.popup.settings To app.settings.config
     Manage remote session From data.popup.remote To app.server.remote
     '''
@@ -112,6 +114,13 @@ class AnkoaApp(App):
     # Clear user settings
     def reset_settings(self):
         clear_settings()
+
+    # Check essential settings
+    def check_user_settings(self):
+        if user['source_folder'] and user['dest_folder']:
+            return True
+        else:
+            return False
 
     # Remote session (mount remote folder to local via sshfs)
     def manage_remote(self, request):
@@ -447,11 +456,13 @@ class AnkoaApp(App):
     '''
     Check content and call the manager app.mod_encode.manager
     Manager will set proper FFMPEG cmd in dictionary o_o
+    Display popup error on missing values
     '''
 
     # Essential content verification
     def check_encode_values(self):
-        if self.source_screen.ids.r_source.active is True and\
+        if self.check_user_settings() is True and\
+                self.source_screen.ids.r_source.active is True and\
                 self.source_screen.ids.r_title.active is True and\
                 (self.picture_screen.ids.reso.active is True or
                  self.picture_screen.ids.check_sar.active is True) and\
@@ -459,6 +470,19 @@ class AnkoaApp(App):
                 self.video_screen.ids.check_codec.active is True:
             return True
         else:
+            if self.check_user_settings() is False:
+                self.current_error = error['settings']
+            elif self.source_screen.ids.r_source.active is False:
+                self.current_error = error['source']
+            elif self.source_screen.ids.r_title.active is False:
+                self.current_error = error['title']
+            elif self.picture_screen.ids.reso.active is True or\
+                    self.picture_screen.ids.check_sar.active is True:
+                self.current_error = error['reso']
+            elif self.video_screen.ids.check_vtrack.active is False:
+                self.current_error = error['video']
+            elif self.video_screen.ids.check_codec.active is False:
+                self.current_error = error['codec']
             return False
 
     # Reset dictionary

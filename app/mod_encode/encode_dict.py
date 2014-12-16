@@ -2,6 +2,9 @@
 '''
 [ MODE ENCODE ]
 Dictionaries to manage encode
+o_o > encode parameters
+v_v > parameters options
+error > missing values messages
 '''
 
 o_o = {
@@ -211,4 +214,13 @@ v_v = {
 
     'deblocking': ['-6', '-5', '-4', '-3', '-2', '-1',
                    '0', '1', '2', '3', '4', '5', '6']
+}
+
+error = {
+    'settings': 'User settings are not defined !',
+    'source': 'No release source selected !',
+    'title': 'Please specify release title !',
+    'reso': 'Video resolution not specified !',
+    'video': 'Specify valid video track ID !',
+    'codec': 'Specify video codec output !'
 }

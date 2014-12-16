@@ -22,16 +22,23 @@
                 text: 'LOCAL USAGE'
                 group: 'usage'
                 bold: True
+                state:
+                    'down' if user['usage'] == 'local_usage' else\
+                    'normal'
+                value:
+                    'local_usage' if self.state == 'down' else\
+                    'remote_usage' if\
+                    root.ids.remote_usage == 'down' else ''
 
             # --- Remote button ---
             ToggleButton:
                 id: remote_usage
                 text: 'REMOTE USAGE'
-                state:
-                    'down' if root.ids.remote.active == True and\
-                    root.ids.M_folder.active == True else 'normal'
                 group: 'usage'
                 bold: True
+                state:
+                    'down' if user['usage'] == 'remote_usage' else\
+                    'normal'
 
         # ---------- SOURCE FOLDER ----------
         BoxLayout:
@@ -303,6 +310,7 @@
                 on_press:
                     if root.ids.S_folder.active == True and\
                     root.ids.D_folder.active == True:\
+                    user['usage'] = root.ids.local_usage.value
                     user['source_folder'] = root.ids.source_folder.text
                     user['dest_folder'] = root.ids.dest_folder.text
                     user['team_name'] = root.ids.team_name.text

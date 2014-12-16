@@ -1,10 +1,11 @@
 #!/usr/bin/kivy
 '''
 [ USER SETTINGS ]
-Dictionary to manage all settings
+Dictionary to manage user settings
 '''
 
 user = {
+    'usage': '',
     'source_folder': '',
     'dest_folder': '',
     'team_name': '',

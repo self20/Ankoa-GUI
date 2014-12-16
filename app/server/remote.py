@@ -1,16 +1,16 @@
 #!/usr/bin/kivy
+'''
+Mount & umount remote folder to local on demand
+Usage of sshfs with fusermount
+'''
 import os
 import sys
-import subprocess
+# import subprocess
 from app.settings.conf_dict import user
 
 
-# Remote session control
+# Session control
 def remote(request):
-    '''
-    Mount & umount remote folder to local on demand
-    Usage of sshfs and fusermount
-    '''
 
     # Mount source folder cmd
     if request == 'mount_source_folder':
@@ -25,7 +25,7 @@ def remote(request):
         session = 'fusermount -u {}'.format(user['source_folder'])
 
     # Run requested action & restart
-    if user['ssh_passwd'] or user['ssh_username'] or user['remote_folder']:
+    if user['usage'] == 'remote_usage':
         try:
             os.system(session)
             restart = sys.executable

@@ -1,4 +1,8 @@
 #!/usr/bin/kivy
+'''
+[ USER SETTINGS ]
+Settings Manager
+'''
 import os
 import configparser
 from app.settings.conf_dict import user
@@ -22,6 +26,7 @@ def load_settings():
         conf.read(conf_file)
 
         # Load defined options
+        user['usage'] = conf.get(section, 'usage')
         user['source_folder'] = conf.get(section, 'source_folder')
         user['dest_folder'] = conf.get(section, 'dest_folder')
         user['team_name'] = conf.get(section, 'team_name')
@@ -43,6 +48,7 @@ def modify_settings():
         conf.add_section(section)
 
     # Set defined options
+    conf.set(section, 'usage', user['usage'])
     conf.set(section, 'source_folder', user['source_folder'])
     conf.set(section, 'dest_folder', user['dest_folder'])
     conf.set(section, 'team_name', user['team_name'])

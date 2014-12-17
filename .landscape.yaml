@@ -1,6 +1,6 @@
 doc-warnings: no
 test-warnings: no
-strictness: low
+strictness: verylow
 max-line-length: 80
 uses:
     - kivy

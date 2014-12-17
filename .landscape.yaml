@@ -1,0 +1,7 @@
+test-warnings: no
+strictness: low
+max-line-length: 80
+uses:
+    - django
+    - celery
+autodetect: yes

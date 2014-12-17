@@ -18,7 +18,7 @@ from kivy.properties import (NumericProperty, StringProperty,
 # Local libraries
 from app.mod_encode.manager import (manage_video, manage_audio,
                                     manage_subs, manage_advanced,
-                                    manage_ffmpeg)
+                                    build_advanced, manage_ffmpeg)
 from app.settings.config import (load_settings, modify_settings,
                                  clear_settings)
 from app.mod_encode.encode_dict import (o_o, error)
@@ -505,6 +505,7 @@ class AnkoaApp(App):
         manage_audio()
         manage_subs()
         manage_advanced()
+        build_advanced()
         manage_ffmpeg()
         self.queue_screen.ids.ffmpeg_cmd.text = '{}'.format(o_o['ffmpeg'])
 

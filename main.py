@@ -21,7 +21,7 @@ from app.mod_encode.manager import (manage_video, manage_audio,
                                     manage_ffmpeg)
 from app.settings.config import (load_settings, modify_settings,
                                  clear_settings)
-from app.mod_encode.encode_dict import (o_o, v_v, error)
+from app.mod_encode.encode_dict import (o_o, error)
 from app.mod_encode.bitrate_cal import calculator
 from app.mod_encode.scan_source import scan
 from app.settings.conf_dict import user

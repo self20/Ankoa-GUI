@@ -4,7 +4,7 @@ Scan video source to get required informations
 Return complete mediainfo and HandBrake autocrop
 '''
 import sys
-from subprocess import getoutput
+import subprocess
 
 
 # Scan source infos
@@ -12,9 +12,9 @@ def scan(source):
     try:
 
         # Get HB & mediainfo outputs
-        scan_MI = getoutput('mediainfo {}'.format(source))
-        scan_HB = getoutput('HandBrakeCLI -t 0 --scan -i {}'
-                            .format(source))
+        scan_MI = subprocess.getoutput('mediainfo {}'.format(source))
+        scan_HB = subprocess.getoutput('HandBrakeCLI -t 0 --scan -i {}'
+                                       .format(source))
 
         # Join mediainfo output
         mediainfo = ''.join(scan_MI)

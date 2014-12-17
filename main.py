@@ -9,9 +9,10 @@ from kivy.app import App
 from kivy.compat import PY2
 from kivy.lang import Builder
 from kivy.config import Config
-from os.path import dirname, join
+from os.path import (dirname, join)
 from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
+from kivy.core.clipboard import Clipboard
 from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 # Local libraries
@@ -20,7 +21,7 @@ from app.mod_encode.manager import (manage_video, manage_audio,
                                     manage_ffmpeg)
 from app.settings.config import (load_settings, modify_settings,
                                  clear_settings)
-from app.mod_encode.encode_dict import o_o, v_v, error
+from app.mod_encode.encode_dict import (o_o, v_v, error)
 from app.mod_encode.bitrate_cal import calculator
 from app.mod_encode.scan_source import scan
 from app.settings.conf_dict import user
@@ -39,9 +40,6 @@ class AnkoaScreen(Screen):
 
 # Ankoa-GUI
 class AnkoaApp(App):
-    def restart_ankoa(self):
-        restart = sys.executable
-        os.execl(restart, restart, * sys.argv)
 
     # ---------------------------------------------------------------
     #  BIND EVENTS ##################################################
@@ -94,6 +92,20 @@ class AnkoaApp(App):
             self.root.ids.header_screens.current_screen.ids.advanced
         self.queue_screen = \
             self.root.ids.header_screens.current_screen.ids.queue
+
+    # ---------------------------------------------------------------
+    #  GLOBAL #######################################################
+    # ---------------------------------------------------------------
+
+    # Restart App
+    def restart_ankoa(self):
+        restart = sys.executable
+        os.execl(restart, restart, * sys.argv)
+
+    # Copy to clipboard
+    def copy_to_clipboard(self, text):
+        Clipboard.put(bytes(text, 'UTF-8'), 'UTF8_STRING')
+        Clipboard.get('UTF8_STRING')
 
     # ---------------------------------------------------------------
     #  USER SETTINGS ################################################

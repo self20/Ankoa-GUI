@@ -47,6 +47,7 @@
         # --- Copy cmd to clipboard ---
         Button:
             text: 'Copy command to clipboard'
+            on_press: app.copy_to_clipboard(root.ids.ffmpeg_cmd.text)
 
     # ---------- FFMPEG CMD ----------
     BoxLayout:

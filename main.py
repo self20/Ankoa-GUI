@@ -110,11 +110,9 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  USER SETTINGS ################################################
     # ---------------------------------------------------------------
-    '''
-    Load settings on start / verification
-    Manage save/clear From data.popup.settings To app.settings.config
-    Manage remote session From data.popup.remote To app.server.remote
-    '''
+    # Load settings on start / verification
+    # Manage save/clear From data.popup.settings To app.settings.config
+    # Manage remote session From data.popup.remote To app.server.remote
 
     # Load user settings on start
     load_settings()
@@ -256,10 +254,8 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  AUDIO SCREEN #################################################
     # ---------------------------------------------------------------
-    '''
-    Manage audio Tracks (max 5 tracks)
-    From data.screen.mod_encode.audio
-    '''
+    # Manage audio Tracks (max 5 tracks)
+    # From data.screen.mod_encode.audio
 
     # Load Audio Track (kv file)
     def load_audio_track(self):
@@ -291,10 +287,8 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  SUBTITLES SCREEN #############################################
     # ---------------------------------------------------------------
-    '''
-    Manage subtitles Tracks (max 7 tracks)
-    From data.screen.mod_encode.subtitles
-    '''
+    # Manage subtitles Tracks (max 7 tracks)
+    # From data.screen.mod_encode.subtitles
 
     # Load Subtitles Tracks (kv files)
     def load_subtitles_track(self):
@@ -465,11 +459,9 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  MANAGE ENCODE ################################################
     # ---------------------------------------------------------------
-    '''
-    Check content and call the manager app.mod_encode.manager
-    Manager will set proper FFMPEG cmd in dictionary o_o
-    Display popup error on missing values
-    '''
+    # Check content and call the manager app.mod_encode.manager
+    # Manager will set proper FFMPEG cmd in dictionary o_o
+    # Display popup error on missing values
 
     # Essential content verification
     def check_encode_values(self):

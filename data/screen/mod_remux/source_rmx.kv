@@ -1,10 +1,10 @@
 #:kivy 1.8.0
+#:import user app.settings.conf_dict.user
 
 # ---------- SOURCE SCREEN ----------
 <source_rmx@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
-    size_hint: .96, .96
-    spacing: 5
+    size_hint: .98, .94
     cols: 1
     canvas:
         Color:
@@ -12,3 +12,104 @@
         Rectangle:
             size: self.size
             pos: self.pos
+
+    # ---------- FILEMANAGER ----------
+    BoxLayout:
+        TabbedPanel:
+            tab_pos: "top_right"
+            default_tab_text: "Icon View"
+            default_tab_content: icon_view_tab
+
+            TabbedPanelHeader:
+                text: 'List View'
+                content: list_view_tab
+
+            # --- LIST VIEW ---
+            FileChooserListView:
+                id: list_view_tab
+                filters:
+                    ['*.mp4', '*.mkv', '*.h264',
+                    '*.m2ts', '.iso', '*.img']
+                rootpath: user['source_folder']
+                on_selection:
+                    app.scan_source_infos(
+                    self.selection and self.selection[0])
+
+            # --- ICON VIEW ---
+            FileChooserIconView:
+                id: icon_view_tab
+                filters:
+                    ['*.mp4', '*.mkv', '*.h264',
+                    '*.m2ts', '.iso', '*.img']
+                rootpath: user['source_folder']
+                on_selection:
+                    app.scan_source_infos(
+                    self.selection and self.selection[0])
+
+    # ---------- RELEASE SOURCE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .2, .3, .4, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        # --- Check Source ---
+        Switch:
+            id: r_source
+            size_hint_x: .14
+            touch_control: False
+            active:
+                True if root.ids.source.text else False
+
+        # --- Source Label ---
+        Label:
+            text: 'Video Source'
+            size_hint_x: .28
+            bold: True
+
+        # --- Source Location ---
+        TextInput:
+            id: source
+            multiline: False
+            readonly: True
+            text:
+                list_view_tab.selection and\
+                list_view_tab.selection[0] or\
+                icon_view_tab.selection and\
+                icon_view_tab.selection[0] or ''
+            on_text: app.load_video_source(self.text)
+
+    # ---------- RELEASE TITLE ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+
+        # --- Check Title ---
+        Switch:
+            id: r_title
+            size_hint_x: .14
+            touch_control: False
+            active:
+                True if root.ids.title.text else False
+
+        # --- Title Label ---
+        Label:
+            text: 'Release Title'
+            size_hint_x: .28
+            bold: True
+
+        # --- Title Input ---
+        TextInput:
+            id: title
+            multiline: False
+            text:
+                list_view_tab.selection and\
+                list_view_tab.selection[0].split('/')[-1][:-4] or\
+                icon_view_tab.selection and\
+                icon_view_tab.selection[0][:-4] or ''

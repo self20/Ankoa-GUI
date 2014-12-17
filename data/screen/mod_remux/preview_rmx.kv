@@ -3,12 +3,10 @@
 # ---------- PREVIEW SCREEN ----------
 <preview_rmx@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
-    size_hint: .96, .96
-    spacing: 5
+    size_hint: .97, .96
     cols: 1
-    canvas:
-        Color:
-            rgba: .2, .3, .4, .5
-        Rectangle:
-            size: self.size
-            pos: self.pos
+
+    # ---------- VIDEO PLAYER ----------
+    VideoPlayer:
+        source: app.video_source
+        thumbnail: 'data/img/logo_screen.png'

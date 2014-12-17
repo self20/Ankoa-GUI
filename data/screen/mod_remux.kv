@@ -6,36 +6,40 @@ AnkoaScreen:
     fullscreen: True
 
     Accordion:
-        min_space: '44px'
-        orientation: 'vertical'
-
-        # ---------- SOURCE ----------
-        AccordionItem:
-            title: 'SOURCE'
-            FloatLayout:
-    	        Layout_source_rmx:
-    	            id: source_rmx
-
-        # ---------- PREVIEW ----------
-        AccordionItem:
-            title: 'PREVIEW'
-            FloatLayout:
-		        Layout_preview_rmx:
-		            id: preview_rmx
-
-        # ---------- TRACKS ----------
-        AccordionItem:
-            title: 'TRACKS'
-            FloatLayout:
-		        Layout_tracks_rmx:
-		            id: tracks_rmx
+        min_space: '28px'
+        orientation: 'horizontal'
 
         # ---------- QUEUE ----------
         AccordionItem:
             title: 'QUEUE'
+            min_space: '28px'
             FloatLayout:
 		        Layout_queue_rmx:
 		            id: queue_rmx
+
+        # ---------- TRACKS ----------
+        AccordionItem:
+            title: 'TRACKS'
+            min_space: '28px'
+            FloatLayout:
+		        Layout_tracks_rmx:
+		            id: tracks_rmx
+
+        # ---------- PREVIEW ----------
+        AccordionItem:
+            title: 'PREVIEW'
+            min_space: '28px'
+            FloatLayout:
+		        Layout_preview_rmx:
+		            id: preview_rmx
+
+        # ---------- SOURCE ----------
+        AccordionItem:
+            title: 'SOURCE'
+            min_space: '28px'
+            FloatLayout:
+    	        Layout_source_rmx:
+    	            id: source_rmx
 
 # ---------- LAYOUTS SCREENS ----------
 <Layout_source_rmx@GridLayout+source_rmx>

@@ -62,7 +62,7 @@ class AnkoaApp(App):
     def build(self):
         self.title = __version__
 
-        # Set screens (MODES)
+        # Set screens
         self.screens = {}
         self.menu_screens = sorted([
             'Encode', 'Remux', 'Extract', 'NFOgen',
@@ -158,7 +158,7 @@ class AnkoaApp(App):
     #  MANAGE SCREENS ###############################################
     # ---------------------------------------------------------------
 
-    # Go previous screen (MODES)
+    # Go previous screen
     def go_previous_screen(self):
         self.index = (self.index - 1) % len(self.menu_screens)
         screen = self.load_screen(self.index)
@@ -166,7 +166,7 @@ class AnkoaApp(App):
         header_screens.switch_to(screen, direction='right')
         self.current_title = screen.name
 
-    # Go next screen (MODES)
+    # Go next screen
     def go_next_screen(self):
         self.index = (self.index + 1) % len(self.menu_screens)
         screen = self.load_screen(self.index)
@@ -174,7 +174,7 @@ class AnkoaApp(App):
         header_screens.switch_to(screen, direction='left')
         self.current_title = screen.name
 
-    # Go selected screen (MODES)
+    # Go selected screen
     def go_screen(self, current_screen):
         self.index = current_screen
         screen = self.load_screen(self.index)
@@ -182,7 +182,7 @@ class AnkoaApp(App):
             self.load_screen(current_screen), direction='left')
         self.current_title = screen.name
 
-    # Load screen on request (MODES)
+    # Load screen on request
     def load_screen(self, index):
         if index in self.screens:
             return self.screens[index]
@@ -190,11 +190,21 @@ class AnkoaApp(App):
         self.screens[index] = screen
         return screen
 
-    # Load ENCODE_MODE screens (kv files)
+    # ---------------------------------------------------------------
+    #  MANAGE LAYOUTS ###############################################
+    # ---------------------------------------------------------------
+
+    # Load ENCODE_MODE layouts (kv files)
     for mod_encod_kvs in os.listdir('data/screen/mod_encode/'):
         if mod_encod_kvs.endswith('.kv'):
             Builder.load_file(
                 'data/screen/mod_encode/{}'.format(mod_encod_kvs))
+
+    # Load REMUX_MODE layouts (kv files)
+    for mod_remux_kvs in os.listdir('data/screen/mod_remux/'):
+        if mod_remux_kvs.endswith('.kv'):
+            Builder.load_file(
+                'data/screen/mod_remux/{}'.format(mod_remux_kvs))
 
     # ---------------------------------------------------------------
     #  MANAGE TRACKS ################################################
@@ -206,7 +216,7 @@ class AnkoaApp(App):
         return self.current_track
 
     # ---------------------------------------------------------------
-    #  VIDEO SCREEN #################################################
+    #  VIDEO LAYOUT #################################################
     # ---------------------------------------------------------------
 
     # Scan video source
@@ -252,7 +262,7 @@ class AnkoaApp(App):
         self.video_source = text
 
     # ---------------------------------------------------------------
-    #  AUDIO SCREEN #################################################
+    #  AUDIO LAYOUT #################################################
     # ---------------------------------------------------------------
     # Manage audio Tracks (max 5 tracks)
     # From data.screen.mod_encode.audio
@@ -285,7 +295,7 @@ class AnkoaApp(App):
         self.audio_count = 0
 
     # ---------------------------------------------------------------
-    #  SUBTITLES SCREEN #############################################
+    #  SUBTITLES LAYOUT #############################################
     # ---------------------------------------------------------------
     # Manage subtitles Tracks (max 7 tracks)
     # From data.screen.mod_encode.subtitles

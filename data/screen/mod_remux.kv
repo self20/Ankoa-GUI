@@ -3,5 +3,42 @@
 # ---------- REMUX SCREEN ----------
 AnkoaScreen:
     name: 'Remux'
-    Label:
-        text: 'Remux Mode'
+    fullscreen: True
+
+    Accordion:
+        min_space: '44px'
+        orientation: 'vertical'
+
+        # ---------- SOURCE ----------
+        AccordionItem:
+            title: 'SOURCE'
+            FloatLayout:
+    	        Layout_source_rmx:
+    	            id: source_rmx
+
+        # ---------- PREVIEW ----------
+        AccordionItem:
+            title: 'PREVIEW'
+            FloatLayout:
+		        Layout_preview_rmx:
+		            id: preview_rmx
+
+        # ---------- TRACKS ----------
+        AccordionItem:
+            title: 'TRACKS'
+            FloatLayout:
+		        Layout_tracks_rmx:
+		            id: tracks_rmx
+
+        # ---------- QUEUE ----------
+        AccordionItem:
+            title: 'QUEUE'
+            FloatLayout:
+		        Layout_queue_rmx:
+		            id: queue_rmx
+
+# ---------- LAYOUTS SCREENS ----------
+<Layout_source_rmx@GridLayout+source_rmx>
+<Layout_preview_rmx@GridLayout+preview_rmx>
+<Layout_tracks_rmx@GridLayout+tracks_rmx>
+<Layout_queue_rmx@GridLayout+queue_rmx>

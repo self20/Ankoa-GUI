@@ -99,19 +99,13 @@ BoxLayout:
 
     # ---------- FOOTER ----------
     GridLayout:
-        size_hint: 1, .1
+        size_hint: 1, .05
         cols: 5
 
         # --- Queue button ---
         Button:
             text: 'Queue Process'
             popup_id: 'QueuePopup()'
-            on_press: app.main_popup(self.popup_id)
-
-        # --- File Manager button ---
-        Button:
-            text: 'File Manager'
-            popup_id: 'File_managerPopup()'
             on_press: app.main_popup(self.popup_id)
 
         # --- Help button ---

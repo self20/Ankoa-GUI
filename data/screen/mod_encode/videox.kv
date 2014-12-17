@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 #:import v_v app.mod_encode.encode_dict.v_v
+#:import u_u app.mod_encode.encode_dict.u_u
 
 # ---------- VIDEO SCREEN ----------
 <videox@Widget>:
@@ -255,12 +256,14 @@
             Button:
                 text: 'RUN'
                 on_press:
-                    app.bit_calculator(
-                    root.ids.HH.text, root.ids.MM.text,
-                    root.ids.SS.text, root.ids.audio_bit.value,
-                    root.ids.desired_size.value)\
-                    if root.ids.HH.text and root.ids.MM.text\
-                    and root.ids.SS.text else ''
+                    if root.ids.HH.text and\
+                    root.ids.MM.text and root.ids.SS.text:\
+                    u_u['HH'] = root.ids.HH.text;\
+                    u_u['MM'] = root.ids.MM.text;\
+                    u_u['SS'] = root.ids.SS.text;\
+                    u_u['audio_bit'] = root.ids.audio_bit.value;\
+                    u_u['desired_size'] = root.ids.desired_size.value;\
+                    app.bit_calculator()
 
     # ---------- CRF MODE ----------
     BoxLayout:

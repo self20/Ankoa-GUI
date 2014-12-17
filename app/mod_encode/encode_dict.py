@@ -1,10 +1,11 @@
 #!/usr/bin/kivy
 '''
 [ MODE ENCODE ]
-Dictionaries to manage encode
-o_o > encode parameters
-v_v > parameters options
-error > missing values messages
+Dictionaries to manage encode:
+    o_o > encode parameters
+    v_v > parameters options
+    u_u > bitrate calculator
+    error > missing values messages
 '''
 
 o_o = {
@@ -177,7 +178,7 @@ v_v = {
     'denoise': ['Off', 'Weak', 'Medium', 'Strong', 'Custom'],
 
     'denoise_cmd': ['', ' dctdnoiz=0', ' dctdnoiz=4.5',
-                   ' dctdnoiz=15:n=4', ''],
+                    ' dctdnoiz=15:n=4', ''],
 
     'decimate': ['Off', 'Default', 'Custom'],
 
@@ -214,6 +215,21 @@ v_v = {
 
     'deblocking': ['-6', '-5', '-4', '-3', '-2', '-1',
                    '0', '1', '2', '3', '4', '5', '6']
+}
+
+u_u = {
+    'HH': '',
+    'MM': '',
+    'SS': '',
+    'audio_bit': '',
+    'desired_size': '',
+
+    'bit_sizes': ['357.8', '562.9', '716.3', '1439.3',
+                  '2151', '2875.5', '4585.2', '6881.5'],
+
+    'audiobit': ['56', '64', '80', '96', '112', '128',
+                 '160', '192', '224', '256', '320',
+                 '448', '640', '755', '1509']
 }
 
 error = {

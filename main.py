@@ -235,13 +235,13 @@ class AnkoaApp(App):
             self.video_screen.ids.bitrate_view)
 
     # Video bitrate calculator function
-    def bit_calculator(self, HH, MM, SS, audio_bit, desired_size):
+    def bit_calculator(self):
         '''
         Return video bitrate in kbps
         Call app.mod_encode.bitrate_calcalculator
         From data.screen.mod_encode.video [RUN button]
         '''
-        current_bitrate = calculator(HH, MM, SS, audio_bit, desired_size)
+        current_bitrate = calculator()
         self.current_bitrate = str(current_bitrate)
         return self.current_bitrate
 

@@ -3,27 +3,24 @@
 Calculate required video bitrate by specify
 Video duration, audio bitrate and desired size
 '''
+from app.mod_encode.encode_dict import u_u
 
 
-# Video bitrate calculator
-def calculator(HH, MM, SS, audio_bit, desired_size):
+# Video bitrate
+def calculator():
 
     # Target sizes
-    bit_sizes = ['357.8', '562.9', '716.3', '1439.3',
-                 '2151', '2875.5', '4585.2', '6881.5']
-    calsize = bit_sizes[int(desired_size)]
+    calsize = u_u['bit_sizes'][int(u_u['desired_size'])]
 
     # Audio bitrates
-    audiobit = ['56', '64', '80', '96', '112', '128',
-                '160', '192', '224', '256', '320',
-                '448', '640', '755', '1509']
-    audiobit = audiobit[int(audio_bit)]
+    audiobit = u_u['audiobit'][int(u_u['audio_bit'])]
 
     # Formula!
     bitrate = \
-        ((float(calsize)-((int(audiobit)/8)/1024*((int(HH)*3600)
-          + (int(MM)*60)+int(SS))))/((int(HH)*3600)+(int(MM)*60)
-                                     + int(SS)))*8*1024
+        ((float(calsize)-((int(audiobit)/8)/1024*(
+            (int(u_u['HH'])*3600) + (int(u_u['MM'])*60)+int(
+                u_u['SS']))))/((int(u_u['HH'])*3600)+(
+                    int(u_u['MM'])*60)+int(u_u['SS'])))*8*1024
 
     # Round result to integer
     if int(str(round(bitrate, 2)).split('.')[1]) > 51:

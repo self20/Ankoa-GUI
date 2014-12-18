@@ -4,14 +4,7 @@
 <tracks_rmx@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .97, .96
-    spacing: 5
     cols: 1
-    canvas:
-        Color:
-            rgba: .2, .3, .4, .5
-        Rectangle:
-            size: self.size
-            pos: self.pos
 
     # ---------- SOURCE INFOS ----------
     BoxLayout:
@@ -28,4 +21,92 @@
                 '' if app.scan_remux is None else\
                 (app.scan_remux).strip()
 
+    # ---------- VIDEO TRACK ID & TITLE ----------
     BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .12
+        canvas:
+            Color:
+                rgba: .2, .3, .4, .5
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        # --- Check Track & Title ---
+        Switch:
+            id: check_vtrack
+            size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.video_track_ID.text and\
+                root.ids.movie_name.text else False
+
+        # --- Video Label ---
+        Label:
+            text: 'Video Track'
+            bold: True
+            size_hint_x: .40
+
+        BoxLayout:
+
+            # --- Video Track ID ---
+            TextInput:
+                id: video_track_ID
+                hint_text: 'Track ID'
+                multiline: False
+                size_hint_x: .2
+                input_filter: 'int'
+
+            # --- Movie Name ---
+            TextInput:
+                id: movie_name
+                hint_text: 'Metadata Title (mediainfo)'
+                multiline: False
+                text:
+                    (app.remux_source).split('/')[-1][:-4]
+
+    # ---------- TRACKS MENU ----------
+    BoxLayout:
+        padding: '8sp'
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .1, .1, .1, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        # --- Add audio Track button ---
+        Button:
+            text: 'Add Audio Track'
+            on_press:
+
+        # --- Add audio File button ---
+        Button:
+            text: 'Import Audio Track'
+            on_press:
+
+        # --- Add Subtitles Track Button ---
+        Button:
+            text: 'Add Subtitles Track'
+            on_press:
+
+        # --- Add Subtitles File Button ---
+        Button:
+            text: 'Import Subtitles File'
+            on_press:
+
+        # --- Clear Tracks button ---
+        Button:
+            text: 'CLear All Tracks'
+            on_press:
+
+    # ---------- TRACKS LAYOUT ----------
+    GridLayout:
+        cols: 1
+        spacing: 5
+        row_force_default: True
+        row_default_height: 76
+        id: remux_tracks_layout

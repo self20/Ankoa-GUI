@@ -20,8 +20,8 @@
             hint_text: 'Source Infos Area'
             hint_text_color: 0, 255, 0, 1
             text:
-                '' if app.scan_data is None else\
-                (app.scan_data).strip()
+                '' if app.scan_encode is None else\
+                (app.scan_encode).strip()
 
     # ---------- VIDEO TRACK ID & TITLE ----------
     BoxLayout:
@@ -66,7 +66,7 @@
                 hint_text: 'Metadata Title (mediainfo)'
                 multiline: False
                 text:
-                    (app.video_source).split('/')[-1][:-4]
+                    (app.encode_source).split('/')[-1][:-4]
 
     # ---------- VIDEO CODEC / CONTAINER ----------
     BoxLayout:

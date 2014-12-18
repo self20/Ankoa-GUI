@@ -49,8 +49,10 @@ class AnkoaApp(App):
     screen_names = ListProperty([])
     current_title = StringProperty()
     current_bitrate = StringProperty()
-    scan_data = ObjectProperty()
-    video_source = StringProperty()
+    scan_encode = ObjectProperty()
+    scan_remux = ObjectProperty()
+    encode_source = StringProperty()
+    remux_source = StringProperty()
     audio_count = NumericProperty(0)
     sub_count = NumericProperty(0)
     current_track = ObjectProperty()
@@ -207,8 +209,30 @@ class AnkoaApp(App):
                 'data/screen/mod_remux/{}'.format(mod_remux_kvs))
 
     # ---------------------------------------------------------------
-    #  MANAGE TRACKS ################################################
+    #  MANAGE SOURCE ################################################
     # ---------------------------------------------------------------
+
+    # Scan video source
+    def scan_source_infos(self, source, request):
+        '''
+        Return complete mediainfo with autocrop values
+        Call app.mod_encode.scan_source.scan
+        '''
+        if request == 'mod_encode':
+            self.scan_encode = scan(source)
+        elif request == 'mod_remux':
+            self.scan_remux = scan(source)
+
+    # Load Video Source
+    def load_video_source(self, text, request):
+        '''
+        Get source location on filemanager selection
+        Required by video player preview
+        '''
+        if request == 'mod_encode':
+            self.encode_source = text
+        elif request == 'mod_remux':
+            self.remux_source = text
 
     # Get current track
     def get_current_track(self, current_track):
@@ -216,22 +240,12 @@ class AnkoaApp(App):
         return self.current_track
 
     # ---------------------------------------------------------------
-    #  VIDEO LAYOUT #################################################
+    #  VIDEO LAYOUT ##################################### ENCODE ####
     # ---------------------------------------------------------------
 
-    # Scan video source
-    def scan_source_infos(self, source):
-        '''
-        Return complete mediainfo with autocrop values
-        Call app.mod_encode.scan_source.scan
-        From data.screen.mod_encode.source.kv [scan button]
-        '''
-        self.scan_data = scan(source)
-
-    # Video bitrate calculator layout
+    # Video bitrate layout
     def toggle_bitrate(self, state):
         '''
-        Display bitrate calculator section on clic
         Toggle bitrate row animation (row height on/off)
         From data.screen.mod_encode.video [Bitrate button]
         '''
@@ -242,27 +256,18 @@ class AnkoaApp(App):
         Animation(height=height, d=.3, t='out_quart').start(
             self.video_screen.ids.bitrate_view)
 
-    # Video bitrate calculator function
+    # Video bitrate calculator
     def bit_calculator(self):
         '''
-        Return video bitrate in kbps
-        Call app.mod_encode.bitrate_calcalculator
+        Call app.mod_encode.bitrate_calculator
         From data.screen.mod_encode.video [RUN button]
         '''
         current_bitrate = calculator()
         self.current_bitrate = str(current_bitrate)
         return self.current_bitrate
 
-    # Load Video Source
-    def load_video_source(self, text):
-        '''
-        Get source location on filemanager selection
-        Required by preview screen (video player)
-        '''
-        self.video_source = text
-
     # ---------------------------------------------------------------
-    #  AUDIO LAYOUT #################################################
+    #  AUDIO LAYOUT ##################################### ENCODE ####
     # ---------------------------------------------------------------
     # Manage audio Tracks (max 5 tracks)
     # From data.screen.mod_encode.audio
@@ -295,7 +300,7 @@ class AnkoaApp(App):
         self.audio_count = 0
 
     # ---------------------------------------------------------------
-    #  SUBTITLES LAYOUT #############################################
+    #  SUBTITLES LAYOUT ################################# ENCODE ####
     # ---------------------------------------------------------------
     # Manage subtitles Tracks (max 7 tracks)
     # From data.screen.mod_encode.subtitles

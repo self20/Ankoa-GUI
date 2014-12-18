@@ -15,6 +15,9 @@
 
     # ---------- FILEMANAGER ----------
     BoxLayout:
+        id: mode
+        value: 'mod_remux'
+
         TabbedPanel:
             tab_pos: "top_right"
             default_tab_text: "Icon View"
@@ -33,7 +36,8 @@
                 rootpath: user['source_folder']
                 on_selection:
                     app.scan_source_infos(
-                    self.selection and self.selection[0])
+                    self.selection and self.selection[0],
+                    root.ids.mode.value)
 
             # --- ICON VIEW ---
             FileChooserIconView:
@@ -44,7 +48,8 @@
                 rootpath: user['source_folder']
                 on_selection:
                     app.scan_source_infos(
-                    self.selection and self.selection[0])
+                    self.selection and self.selection[0],
+                    root.ids.mode.value)
 
     # ---------- RELEASE SOURCE ----------
     BoxLayout:
@@ -82,7 +87,9 @@
                 list_view_tab.selection[0] or\
                 icon_view_tab.selection and\
                 icon_view_tab.selection[0] or ''
-            on_text: app.load_video_source(self.text)
+            on_text:
+                app.load_video_source(self.text,
+                root.ids.mode.value)
 
     # ---------- RELEASE TITLE ----------
     BoxLayout:

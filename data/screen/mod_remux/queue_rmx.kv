@@ -6,9 +6,52 @@
     size_hint: .97, .96
     spacing: 5
     cols: 1
-    canvas:
-        Color:
-            rgba: .2, .3, .4, .5
-        Rectangle:
-            size: self.size
-            pos: self.pos
+
+    # ---------- SOURCE INFOS ----------
+    BoxLayout:
+        size_hint: 1, .4
+        TextInput:
+            readonly: True
+            padding_x: '20sp'
+            cursor_color: 0, 0, 0, .5
+            background_color: 0, 0, 0, .5
+            foreground_color: 0, 255, 0, 1
+            hint_text: 'Source Infos Area'
+            hint_text_color: 0, 255, 0, 1
+            text:
+                '' if app.scan_remux is None else\
+                (app.scan_remux).strip()
+
+    # ---------- MENU ----------
+    GridLayout:
+        cols: 3
+        spacing: 5
+        padding: '8sp'
+        orientation: 'vertical'
+        size_hint: 1, .1
+
+        # --- Add to queue ---
+        Button:
+            request: 'ErrorPopup()'
+            text: 'Add to queue'
+
+        # --- Reset ---
+        Button:
+            text: 'Reset'
+
+        # --- Copy cmd to clipboard ---
+        Button:
+            text: 'Copy command to clipboard'
+
+    # ---------- FFMPEG CMD ----------
+    BoxLayout:
+        size_hint: 1, .4
+        TextInput:
+            id: mkvmerge_cmd
+            readonly: True
+            padding_x: '20sp'
+            cursor_color: 0, 0, 0, .5
+            background_color: 0, 0, 0, .5
+            foreground_color: 0, 255, 0, 1
+            hint_text: 'MKVMERGE Command'
+            hint_text_color: 0, 255, 0, 1

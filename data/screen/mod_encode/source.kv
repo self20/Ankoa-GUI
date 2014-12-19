@@ -62,6 +62,7 @@
             id: source
             multiline: False
             readonly: True
+            padding: 8, 8, 0, 0
             text: app.encode_source
 
     # ---------- RELEASE TITLE ----------
@@ -100,4 +101,5 @@
         TextInput:
             id: title
             multiline: False
+            padding: 8, 8, 0, 0
             text: (app.encode_source).split('/')[-1][:-4]

@@ -5,60 +5,31 @@
 <source@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .97, .96
+    spacing: 5
     cols: 1
-    canvas:
-        Color:
-            rgba: .2, .3, .4, .5
-        Rectangle:
-            size: self.size
-            pos: self.pos
 
-    # ---------- FILEMANAGER ----------
+    # ---------- SOURCE INFOS ----------
     BoxLayout:
-        id: mode
-        value: 'mod_encode'
-
-        TabbedPanel:
-            tab_pos: "top_right"
-            default_tab_text: "List View"
-            default_tab_content: list_view_tab
-
-            TabbedPanelHeader:
-                text: 'Icon View'
-                content: icon_view_tab
-
-            # --- LIST VIEW ---
-            FileChooserListView:
-                id: list_view_tab
-                filters:
-                    ['*.mp4', '*.mkv', '*.h264',
-                    '*.m2ts', '.iso', '*.img']
-                rootpath: user['source_folder']
-                on_selection:
-                    app.scan_source_infos(
-                    self.selection and self.selection[0],
-                    root.ids.mode.value)
-
-            # --- ICON VIEW ---
-            FileChooserIconView:
-                id: icon_view_tab
-                filters:
-                    ['*.mp4', '*.mkv', '*.h264',
-                    '*.m2ts', '.iso', '*.img']
-                rootpath: user['source_folder']
-                on_selection:
-                    app.scan_source_infos(
-                    self.selection and self.selection[0],
-                    root.ids.mode.value)
+        TextInput:
+            readonly: True
+            padding: 20, 15, 0, 0
+            cursor_color: 0, 0, 0, .5
+            background_color: 0, 0, 0, .5
+            foreground_color: 0, 255, 0, 1
+            hint_text: 'Source Infos Area'
+            hint_text_color: 0, 255, 0, 1
+            text:
+                '' if app.scan_encode is None else\
+                (app.scan_encode).strip()
 
     # ---------- RELEASE SOURCE ----------
     BoxLayout:
-        padding: '8sp'
-        orientation: 'horizontal'
+        padding: 8
+        spacing: 5
         size_hint: 1, .1
         canvas:
             Color:
-                rgba: .2, .3, .4, 1
+                rgba: .1, .1, .1, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -77,25 +48,33 @@
             size_hint_x: .28
             bold: True
 
+        # --- Select Source ---
+        ActionButton:
+            size_hint_x: .05
+            icon: 'data/icon/add.png'
+            popup_id: 'File_managerPopup()'
+            on_press:
+                user['request'] = 'encode_source';\
+                app.main_popup(self.popup_id)
+
         # --- Source Location ---
         TextInput:
             id: source
             multiline: False
             readonly: True
-            text:
-                list_view_tab.selection and\
-                list_view_tab.selection[0] or\
-                icon_view_tab.selection and\
-                icon_view_tab.selection[0] or ''
-            on_text:
-                app.load_video_source(self.text,
-                root.ids.mode.value)
+            text: app.encode_source
 
     # ---------- RELEASE TITLE ----------
     BoxLayout:
-        padding: '8sp'
-        orientation: 'horizontal'
+        padding: 8
+        spacing: 5
         size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .1, .1, .1, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
 
         # --- Check Title ---
         Switch:
@@ -111,12 +90,14 @@
             size_hint_x: .28
             bold: True
 
+        # --- Clear Title ---
+        ActionButton:
+            icon: 'data/icon/refresh.png'
+            size_hint_x: .05
+            on_press: root.ids.title.text = ''
+
         # --- Title Input ---
         TextInput:
             id: title
             multiline: False
-            text:
-                list_view_tab.selection and\
-                list_view_tab.selection[0].split('/')[-1][:-4] or\
-                icon_view_tab.selection and\
-                icon_view_tab.selection[0][:-4] or ''
+            text: (app.encode_source).split('/')[-1][:-4]

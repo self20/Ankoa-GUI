@@ -6,6 +6,7 @@ Dictionary to manage user settings
 
 user = {
     'usage': '',
+    'request': '',
     'source_folder': '',
     'dest_folder': '',
     'team_name': '',

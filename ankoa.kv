@@ -42,13 +42,11 @@ BoxLayout:
 
             # --- Previous Mode button ---
             ActionButton:
-                text: 'Previous Mode'
                 icon: 'data/icon/prev.png'
                 on_release: app.go_previous_screen()
 
             # --- Next Mode button ---
             ActionButton:
-                text: 'Next Mode'
                 icon: 'data/icon/next.png'
                 on_release: app.go_next_screen()
                 important: True
@@ -68,7 +66,6 @@ BoxLayout:
 
             # --- Remote button ---
             ActionButton:
-                text: 'Remote'
                 icon: 'data/icon/remote.png'
                 popup_id: 'RemotePopup()'
                 on_release:
@@ -76,7 +73,6 @@ BoxLayout:
 
             # --- Settings button ---
             ActionButton:
-                text: 'Settings'
                 icon: 'data/icon/settings.png'
                 popup_id: 'SettingsPopup()'
                 on_release:
@@ -84,7 +80,6 @@ BoxLayout:
 
             # --- Exit button ---
             ActionButton:
-                text: 'Exit'
                 icon: 'data/icon/exit.png'
                 popup_id: 'ExitPopup()'
                 on_release:

@@ -6,6 +6,7 @@
 <videox@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .97, .96
+    spacing: 4
     cols: 1
 
     # ---------- SOURCE INFOS ----------
@@ -13,7 +14,7 @@
         size_hint: 1, .4
         TextInput:
             readonly: True
-            padding_x: '20sp'
+            padding: 20, 15, 0, 0
             cursor_color: 0, 0, 0, .5
             background_color: 0, 0, 0, .5
             foreground_color: 0, 255, 0, 1
@@ -25,12 +26,12 @@
 
     # ---------- VIDEO TRACK ID & TITLE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
             Color:
-                rgba: .2, .3, .4, .5
+                rgba: .1, .1, .1, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -70,12 +71,12 @@
 
     # ---------- VIDEO CODEC / CONTAINER ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
             Color:
-                rgba: .2, .3, .4, 1
+                rgba: .1, .1, .1, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -130,14 +131,54 @@
                 group: 'v_codec'
                 on_release: root.ids.vcontainer.valueB = 'libx265'
 
-    # ---------- 2PASS MODE ----------
+    # ---------- CRF MODE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
             Color:
-                rgba: .2, .3, .4, .5
+                rgba: .1, .1, .1, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        # --- Check CRF ---
+        Switch:
+            id: check_crf
+            size_hint_x: .20
+            touch_control: False
+            active:
+                True if root.ids.video_bitrate.text == '' else False
+
+        # --- CRF Label ---
+        Label:
+            text: 'CRF Level'
+            bold: True
+            size_hint_x: .40
+
+        # --- CRF Value ---
+        BoxLayout:
+            Slider:
+                id: crf
+                min: 0
+                max: 51
+                step: 1
+                value: 0
+            Label:
+                id: crf_val
+                text: '{}'.format(crf.value).split('.')[0]
+                bold: True
+
+
+    # ---------- 2PASS MODE ----------
+    BoxLayout:
+        padding: 8
+        orientation: 'horizontal'
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .1, .1, .1, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -185,7 +226,7 @@
         size_hint_y: None
         height: 0
         BoxLayout:
-            padding: '8sp'
+            padding: 8
             canvas:
                 Color:
                     rgba: 0, 0, 0, 1
@@ -265,48 +306,9 @@
                     u_u['desired_size'] = root.ids.desired_size.value;\
                     app.bit_calculator()
 
-    # ---------- CRF MODE ----------
-    BoxLayout:
-        padding: '8sp'
-        orientation: 'horizontal'
-        size_hint: 1, .1
-        canvas:
-            Color:
-                rgba: .2, .3, .4, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-
-        # --- Check CRF ---
-        Switch:
-            id: check_crf
-            size_hint_x: .20
-            touch_control: False
-            active:
-                True if root.ids.video_bitrate.text == '' else False
-
-        # --- CRF Label ---
-        Label:
-            text: 'CRF Level'
-            bold: True
-            size_hint_x: .40
-
-        # --- CRF Value ---
-        BoxLayout:
-            Slider:
-                id: crf
-                min: 0
-                max: 51
-                step: 1
-                value: 0
-            Label:
-                id: crf_val
-                text: '{}'.format(crf.value).split('.')[0]
-                bold: True
-
     # ---------- FRAMERATE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -345,7 +347,7 @@
 
     # ---------- PRESET ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -386,7 +388,7 @@
 
     # ---------- TUNE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -427,7 +429,7 @@
 
     # ---------- PROFILE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -467,7 +469,7 @@
 
     # ---------- LEVEL ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:

@@ -21,22 +21,46 @@
             FileChooserListView:
                 id: list_view_tab
                 filters:
-                    ['*.ass', '*.srt', '*.vobsub', '*.pgs']
+                    ['*.ass', '*.srt', '*.vobsub', '*.pgs'] if\
+                    user['request'] == 'sub_source' else\
+                    ['*.mp4', '*.mkv', '*.h264',
+                    '*.m2ts', '.iso', '*.img'] if\
+                    user['request'] == 'encode_source' or\
+                    user['request'] == 'remux_source'else ''
                 rootpath: user['source_folder']
                 value:
                     self.selection and\
                     self.selection[0] or ''
                 on_selection:
-                    app.load_sub_source(self.value)
+                    app.load_sub_source(self.value) if\
+                    user['request'] == 'sub_source' else\
+                    app.scan_source_infos(
+                    self.selection and self.selection[0]);\
+                    app.load_video_source(
+                    self.selection and self.selection[0]) if\
+                    user['request'] == 'encode_source' or\
+                    user['request'] == 'remux_source'else ''
 
             # --- ICON VIEW ---
             FileChooserIconView:
                 id: icon_view_tab
                 filters:
-                    ['*.ass', '*.srt', '*.vobsub', '*.pgs']
+                    ['*.ass', '*.srt', '*.vobsub', '*.pgs'] if\
+                    user['request'] == 'sub_source' else\
+                    ['*.mp4', '*.mkv', '*.h264',
+                    '*.m2ts', '.iso', '*.img'] if\
+                    user['request'] == 'encode_source' or\
+                    user['request'] == 'remux_source'else ''
                 rootpath: user['source_folder']
                 value:
                     self.selection and\
                     self.selection[0] or ''
                 on_selection:
-                    app.load_sub_source(self.value)
+                    app.load_sub_source(self.value) if\
+                    user['request'] == 'sub_source' else\
+                    app.scan_source_infos(
+                    self.selection and self.selection[0]);\
+                    app.load_video_source(
+                    self.selection and self.selection[0]) if\
+                    user['request'] == 'encode_source' or\
+                    user['request'] == 'remux_source'else ''

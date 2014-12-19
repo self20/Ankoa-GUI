@@ -23,8 +23,8 @@ from app.settings.config import (load_settings, modify_settings,
                                  clear_settings)
 from app.mod_encode.encode_dict import (o_o, error)
 from app.mod_encode.bitrate_cal import calculator
-from app.mod_encode.scan_source import scan
 from app.settings.conf_dict import user
+from app.scan.scan_source import scan
 from app.popup.popup_classes import *
 from app.server.remote import remote
 
@@ -213,26 +213,26 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
 
     # Scan video source
-    def scan_source_infos(self, source, request):
+    def scan_source_infos(self, source):
         '''
         Return complete mediainfo with autocrop values
         Call app.mod_encode.scan_source.scan
         '''
-        if request == 'mod_encode':
+        if user['request'] == 'encode_source':
             self.scan_encode = scan(source)
-        elif request == 'mod_remux':
+        elif user['request'] == 'remux_source':
             self.scan_remux = scan(source)
 
     # Load Video Source
-    def load_video_source(self, text, request):
+    def load_video_source(self, source):
         '''
         Get source location on filemanager selection
-        Required by video player preview
+        Also required by video player preview
         '''
-        if request == 'mod_encode':
-            self.encode_source = text
-        elif request == 'mod_remux':
-            self.remux_source = text
+        if user['request'] == 'encode_source':
+            self.encode_source = source
+        elif user['request'] == 'remux_source':
+            self.remux_source = source
 
     # Get current track
     def get_current_track(self, current_track):

@@ -5,6 +5,7 @@
 <picture@Widget>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     size_hint: .97, .96
+    spacing: 4
     cols: 1
 
     # ---------- SOURCE INFOS ----------
@@ -12,7 +13,7 @@
         size_hint: 1, .4
         TextInput:
             readonly: True
-            padding_x: '20sp'
+            padding: 20, 15, 0, 0
             cursor_color: 0, 0, 0, .5
             background_color: 0, 0, 0, .5
             foreground_color: 0, 255, 0, 1
@@ -24,7 +25,7 @@
 
     # ---------- AUTO RESIZE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -72,7 +73,7 @@
 
     # ---------- SAMPLE ASPECT RATIO ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -133,7 +134,7 @@
 
     # ---------- RESOLUTION ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -223,7 +224,7 @@
 
     # ---------- CUSTOM CROP ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -283,7 +284,7 @@
 
     # ---------- DEINTERLACE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -339,7 +340,7 @@
 
     # ---------- MOTION DEINTERLACE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -395,7 +396,7 @@
 
     # ---------- DECIMATE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:
@@ -452,7 +453,7 @@
 
     # ---------- DENOISE ----------
     BoxLayout:
-        padding: '8sp'
+        padding: 8
         orientation: 'horizontal'
         size_hint: 1, .1
         canvas:

@@ -45,20 +45,29 @@ class AnkoaApp(App):
     #  BIND EVENTS ##################################################
     # ---------------------------------------------------------------
 
+    # Global
+    current_track = ObjectProperty()
+    current_error = StringProperty()
+
+    # Screens
     index = NumericProperty(-1)
     screen_names = ListProperty([])
     current_title = StringProperty()
+
+    # Mode Encode
     current_bitrate = StringProperty()
     scan_encode = ObjectProperty()
-    scan_remux = ObjectProperty()
-    scan_extract = ObjectProperty()
     encode_source = StringProperty()
-    remux_source = StringProperty()
-    extract_source = StringProperty()
     audio_count = NumericProperty(0)
     sub_count = NumericProperty(0)
-    current_track = ObjectProperty()
-    current_error = StringProperty()
+
+    # Remux Mode
+    scan_remux = ObjectProperty()
+    remux_source = StringProperty()
+
+    # Extract Mode
+    scan_extract = ObjectProperty()
+    extract_source = StringProperty()
 
     # ---------------------------------------------------------------
     #  ROOT #########################################################
@@ -98,20 +107,6 @@ class AnkoaApp(App):
             self.root.ids.header_screens.current_screen.ids.queue_enc
 
     # ---------------------------------------------------------------
-    #  GLOBAL #######################################################
-    # ---------------------------------------------------------------
-
-    # Restart App
-    def restart_ankoa(self):
-        restart = sys.executable
-        os.execl(restart, restart, * sys.argv)
-
-    # Copy to clipboard
-    def copy_to_clipboard(self, text):
-        Clipboard.put(bytes(text, 'UTF-8'), 'UTF8_STRING')
-        Clipboard.get('UTF8_STRING')
-
-    # ---------------------------------------------------------------
     #  USER SETTINGS ################################################
     # ---------------------------------------------------------------
     # Load settings on start / verification
@@ -141,6 +136,25 @@ class AnkoaApp(App):
         remote(request)
 
     # ---------------------------------------------------------------
+    #  GLOBAL #######################################################
+    # ---------------------------------------------------------------
+
+    # Restart App
+    def restart_ankoa(self):
+        restart = sys.executable
+        os.execl(restart, restart, * sys.argv)
+
+    # Copy to clipboard
+    def copy_to_clipboard(self, text):
+        Clipboard.put(bytes(text, 'UTF-8'), 'UTF8_STRING')
+        Clipboard.get('UTF8_STRING')
+
+    # Get current track layout
+    def get_current_track(self, current_track):
+        self.current_track = current_track
+        return self.current_track
+
+    # ---------------------------------------------------------------
     #  MANAGE POPUPS ################################################
     # ---------------------------------------------------------------
 
@@ -152,7 +166,7 @@ class AnkoaApp(App):
     # Display popups
     def main_popup(self, popup_id):
         '''
-        Call corresponding class in app.popup.popup_classes
+        Call corresponding class app.popup.popup_classes
         From anywhere with popup_id request
         '''
         popup = '{}'.format(popup_id)
@@ -240,11 +254,6 @@ class AnkoaApp(App):
         elif user['request'] == 'extract_source':
             self.extract_source = source
 
-    # Get current track
-    def get_current_track(self, current_track):
-        self.current_track = current_track
-        return self.current_track
-
     # ---------------------------------------------------------------
     #  VIDEO LAYOUT ##################################### ENCODE ####
     # ---------------------------------------------------------------
@@ -281,7 +290,7 @@ class AnkoaApp(App):
     # Load Audio Track (kv file)
     def load_audio_track(self):
         audio_track = Builder.load_file(
-            'data/screen/mod_encode/widget/audio_track.kv')
+            'data/screen/mod_encode/widget/audioTrack_enc.kv')
         track_layout = self.audio_screen.ids.audio_track_layout
         return (audio_track, track_layout)
 
@@ -314,9 +323,9 @@ class AnkoaApp(App):
     # Load Subtitles Tracks (kv files)
     def load_subtitles_track(self):
         sub_track = Builder.load_file(
-            'data/screen/mod_encode/widget/sub_track.kv')
+            'data/screen/mod_encode/widget/subTrack_enc.kv')
         sub_file = Builder.load_file(
-            'data/screen/mod_encode/widget/sub_file.kv')
+            'data/screen/mod_encode/widget/subFile_enc.kv')
         track_layout = self.subtitles_screen.ids.sub_track_layout
         return (sub_track, sub_file, track_layout)
 

@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 #:import uuid uuid
+#:import user app.settings.conf_dict.user
 
 # ---------- SUBTITLES FILE WIDGET ----------
 GridLayout:
@@ -9,7 +10,7 @@ GridLayout:
     rows: 1
     canvas:
         Color:
-            rgba: 128, 128, 1, .5
+            rgba: 5, .4, .5, .5
         Rectangle:
             size: self.size
             pos: self.pos
@@ -40,6 +41,7 @@ GridLayout:
             size_hint_x: .2
             popup_id: 'File_managerPopup()'
             on_press:
+                user['request'] = 'sub_source';\
                 app.main_popup(self.popup_id);\
                 app.get_current_track(root)
 

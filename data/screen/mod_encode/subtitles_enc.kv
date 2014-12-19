@@ -37,12 +37,14 @@
         # --- Add Subtitles Track Button ---
         Button:
             text: 'Add Subtitles Track'
-            on_press: app.add_sub_source_track()
+            request: 'subTrack'
+            on_press: app.add_subtitles_track(self.request)
 
         # --- Add Subtitles File Button ---
         Button:
             text: 'Import Subtitles File'
-            on_press: app.add_sub_file_track()
+            request: 'subFile'
+            on_press: app.add_subtitles_track(self.request)
 
         # --- Clear Subtitles Tracks Button ---
         Button:

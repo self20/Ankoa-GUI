@@ -329,20 +329,15 @@ class AnkoaApp(App):
         track_layout = self.subtitles_screen.ids.sub_track_layout
         return (sub_track, sub_file, track_layout)
 
-    # Add Subtitles Track (from source)
-    def add_sub_source_track(self):
+    # Add Subtitles Track
+    def add_subtitles_track(self, request):
         (sub_track, sub_file,
          track_layout) = self.load_subtitles_track()
         if self.sub_count < 7:
-            track_layout.add_widget(sub_track)
-            self.sub_count += 1
-
-    # Add Subtitles Track (from file)
-    def add_sub_file_track(self):
-        (sub_track, sub_file,
-         track_layout) = self.load_subtitles_track()
-        if self.sub_count < 7:
-            track_layout.add_widget(sub_file)
+            if request == 'subTrack':
+                track_layout.add_widget(sub_track)
+            elif request == 'subFile':
+                track_layout.add_widget(sub_file)
             self.sub_count += 1
 
     # Delete current Subtitles Track
@@ -360,7 +355,7 @@ class AnkoaApp(App):
         track_layout.clear_widgets()
         self.sub_count = 0
 
-    # Load Subtitles Source
+    # Load Subtitles File Source
     def load_sub_source(self, value):
         '''
         Get subfile location from filemanager selection to

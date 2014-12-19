@@ -51,8 +51,10 @@ class AnkoaApp(App):
     current_bitrate = StringProperty()
     scan_encode = ObjectProperty()
     scan_remux = ObjectProperty()
+    scan_extract = ObjectProperty()
     encode_source = StringProperty()
     remux_source = StringProperty()
+    extract_source = StringProperty()
     audio_count = NumericProperty(0)
     sub_count = NumericProperty(0)
     current_track = ObjectProperty()
@@ -222,6 +224,8 @@ class AnkoaApp(App):
             self.scan_encode = scan(source)
         elif user['request'] == 'remux_source':
             self.scan_remux = scan(source)
+        elif user['request'] == 'extract_source':
+            self.scan_extract = scan(source)
 
     # Load Video Source
     def load_video_source(self, source):
@@ -233,6 +237,8 @@ class AnkoaApp(App):
             self.encode_source = source
         elif user['request'] == 'remux_source':
             self.remux_source = source
+        elif user['request'] == 'extract_source':
+            self.extract_source = source
 
     # Get current track
     def get_current_track(self, current_track):

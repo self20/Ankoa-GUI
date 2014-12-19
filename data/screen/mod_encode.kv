@@ -13,65 +13,64 @@ AnkoaScreen:
 		TabbedPanelItem:
 		    text: 'Source'
 		    FloatLayout:
-		        Layout_source:
-		            id: source
+		        Layout_source_enc:
+		            id: source_enc
 
 		# ---------- PREVIEW ----------
 		TabbedPanelItem:
 			text: 'Preview'
 			FloatLayout:
-				Layout_preview:
-					id: preview
+				Layout_preview_enc:
+					id: preview_enc
 
 		# ---------- PICTURE ----------
 		TabbedPanelItem:
 			text: 'Picture'
 			FloatLayout:
-				Layout_picture:
-					id: picture
+				Layout_picture_enc:
+					id: picture_enc
 
 		# ---------- VIDEO ----------
 		TabbedPanelItem:
 			text: 'Video'
 			FloatLayout:
-				Layout_videox:
-					id: videox
+				Layout_video_enc:
+					id: video_enc
 
 		# ---------- AUDIO ----------
 		TabbedPanelItem:
 			text: 'Audio'
 			FloatLayout:
-				Layout_audiox:
-					id: audiox
+				Layout_audio_enc:
+					id: audio_enc
 
 		# ---------- SUBTITLES ----------
 		TabbedPanelItem:
 			text: 'Subtitles'
 			FloatLayout:
-				Layout_subtitles:
-					id: subtitles
+				Layout_subtitles_enc:
+					id: subtitles_enc
 
 		# ---------- ADVANCED ----------
 		TabbedPanelItem:
 			text: 'Advanced'
 			FloatLayout:
-				Layout_advanced:
-					id: advanced
+				Layout_advanced_enc:
+					id: advanced_enc
 
-		# ---------- RUN ----------
+		# ---------- QUEUE ----------
 		TabbedPanelItem:
 			text: 'Queue'
 			FloatLayout:
-				Layout_queue:
-					id: queue
+				Layout_queue_enc:
+					id: queue_enc
 
-# ---------- LAYOUTS SCREENS ----------
-<Layout_source@GridLayout+source>
-<Layout_preview@GridLayout+preview>
-<Layout_picture@GridLayout+picture>
-<Layout_filters@GridLayout+filters>
-<Layout_videox@GridLayout+videox>
-<Layout_audiox@GridLayout+audiox>
-<Layout_subtitles@GridLayout+subtitles>
-<Layout_advanced@GridLayout+advanced>
-<Layout_queue@GridLayout+queue>
+# ---------- ENCODE LAYOUTS ----------
+<Layout_source_enc@GridLayout+source_enc>
+<Layout_preview_enc@GridLayout+preview_enc>
+<Layout_picture_enc@GridLayout+picture_enc>
+<Layout_video_enc@GridLayout+video_enc>
+<Layout_audio_enc@GridLayout+audio_enc>
+<Layout_subtitles_enc@GridLayout+subtitles_enc>
+<Layout_advanced_enc@GridLayout+advanced_enc>
+<Layout_queue_enc@GridLayout+queue_enc>

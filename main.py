@@ -16,13 +16,13 @@ from kivy.core.clipboard import Clipboard
 from kivy.properties import (NumericProperty, StringProperty,
                              ObjectProperty, ListProperty)
 # Local libraries
-from app.mod_encode.manager import (manage_video, manage_audio,
-                                    manage_subs, manage_advanced,
-                                    build_advanced, manage_ffmpeg)
+from app.mod_encode.encode_man import (manage_video, manage_audio,
+                                       manage_subs, manage_advanced,
+                                       build_advanced, manage_ffmpeg)
 from app.settings.config import (load_settings, modify_settings,
                                  clear_settings)
 from app.mod_encode.encode_dict import (o_o, error)
-from app.mod_encode.bitrate_cal import calculator
+from app.mod_encode.bitrate_calc import calculator
 from app.settings.conf_dict import user
 from app.scan.scan_source import scan
 from app.popup.popup_classes import *
@@ -83,19 +83,19 @@ class AnkoaApp(App):
 
         # Get ENCODE_MODE screens (layouts)
         self.source_screen = \
-            self.root.ids.header_screens.current_screen.ids.source
+            self.root.ids.header_screens.current_screen.ids.source_enc
         self.picture_screen = \
-            self.root.ids.header_screens.current_screen.ids.picture
+            self.root.ids.header_screens.current_screen.ids.picture_enc
         self.video_screen = \
-            self.root.ids.header_screens.current_screen.ids.videox
+            self.root.ids.header_screens.current_screen.ids.video_enc
         self.audio_screen = \
-            self.root.ids.header_screens.current_screen.ids.audiox
+            self.root.ids.header_screens.current_screen.ids.audio_enc
         self.subtitles_screen = \
-            self.root.ids.header_screens.current_screen.ids.subtitles
+            self.root.ids.header_screens.current_screen.ids.subtitles_enc
         self.advanced_screen = \
-            self.root.ids.header_screens.current_screen.ids.advanced
+            self.root.ids.header_screens.current_screen.ids.advanced_enc
         self.queue_screen = \
-            self.root.ids.header_screens.current_screen.ids.queue
+            self.root.ids.header_screens.current_screen.ids.queue_enc
 
     # ---------------------------------------------------------------
     #  GLOBAL #######################################################

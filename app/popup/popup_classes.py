@@ -14,7 +14,7 @@ class QueuePopup(Popup):
     pass
 
 
-class File_managerPopup(Popup):
+class ManagerPopup(Popup):
     pass
 
 

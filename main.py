@@ -253,7 +253,7 @@ class AnkoaApp(App):
             height = 42
         else:
             height = 0
-        Animation(height=height, d=.3, t='out_quart').start(
+        Animation(height=height, d=.1, t='out_quart').start(
             self.video_screen.ids.bitrate_view)
 
     # Video bitrate calculator

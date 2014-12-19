@@ -255,7 +255,6 @@ class AnkoaApp(App):
         elif user['request'] == 'extract_source':
             self.extract_source = source
 
-    # ***************************************************************
     # ------------------------ MODE ENCODE --------------------------
     # ***************************************************************
     # ---------------------------------------------------------------
@@ -291,14 +290,14 @@ class AnkoaApp(App):
     # Manage audio Tracks (max 5 tracks)
     # From data.screen.mod_encode.audio_enc
 
-    # Load Audio Track (kv file)
+    # Load Audio Track
     def load_audioTrack_enc(self):
         audio_track = Builder.load_file(
             'data/screen/mod_encode/widget/audioTrack_enc.kv')
         track_layout = self.audio_enc.ids.audio_track_layout
         return (audio_track, track_layout)
 
-    # Add Audio Track (from source)
+    # Add Audio Track
     def add_audioTrack_enc(self):
         (audio_track, track_layout) = self.load_audioTrack_enc()
         if self.audio_count < 5:
@@ -324,7 +323,7 @@ class AnkoaApp(App):
     # Manage subtitles Tracks (max 7 tracks)
     # From data.screen.mod_encode.subtitles_enc
 
-    # Load Subtitles Tracks (kv files)
+    # Load Subtitles Tracks
     def load_subTrack_enc(self):
         sub_track = Builder.load_file(
             'data/screen/mod_encode/widget/subTrack_enc.kv')
@@ -542,7 +541,6 @@ class AnkoaApp(App):
         print (str(o_o).replace(", ", "'\n")
                        .replace("],", "]\n"))
 
-    # ***************************************************************
     # ------------------------- MODE REMUX --------------------------
     # ***************************************************************
     # ---------------------------------------------------------------
@@ -564,12 +562,11 @@ class AnkoaApp(App):
         track_layout = \
             self.root.ids.header_screens.current_screen\
             .ids.tracks_rmx.ids.tracks_layout_rmx
-
         return (audio_track, audio_file, sub_track,
                 sub_file, track_layout)
 
-    # Add Audio Track
-    def add_audioTrack_rmx(self, request):
+    # Add Track
+    def add_Track_rmx(self, request):
         (audio_track, audio_file, sub_track, sub_file,
          track_layout) = self.load_Track_rmx()
         if self.track_count < 7:
@@ -577,29 +574,14 @@ class AnkoaApp(App):
                 track_layout.add_widget(audio_track)
             elif request == 'audioFile':
                 track_layout.add_widget(audio_file)
-            self.track_count += 1
-
-    # Delete current Audio Track
-    def del_audioTrack_rmx(self, current_track):
-        (audio_track, audio_file, sub_track, sub_file,
-         track_layout) = self.load_Track_rmx()
-        track_layout.remove_widget(current_track)
-        if self.track_count > 0:
-            self.track_count += -1
-
-    # Add Subtitles Track
-    def add_subTrack_rmx(self, request):
-        (audio_track, audio_file, sub_track, sub_file,
-         track_layout) = self.load_Track_rmx()
-        if self.track_count < 7:
-            if request == 'subTrack':
-                track_layout.add_widget(sub_track)
+            elif request == 'subTrack':
+                track_layout.add_widget(audio_track)
             elif request == 'subFile':
-                track_layout.add_widget(sub_file)
+                track_layout.add_widget(audio_file)
             self.track_count += 1
 
-    # Delete current Subtitles Track
-    def del_subTrack_rmx(self, current_track):
+    # Delete current Track
+    def del_Track_rmx(self, current_track):
         (audio_track, audio_file, sub_track, sub_file,
          track_layout) = self.load_Track_rmx()
         track_layout.remove_widget(current_track)

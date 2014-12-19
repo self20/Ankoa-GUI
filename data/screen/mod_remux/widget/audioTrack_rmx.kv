@@ -11,4 +11,98 @@ GridLayout:
         Rectangle:
             size: self.size
             pos: self.pos
+
     BoxLayout:
+        id: sub_infos
+        type: 'audioTrack'
+        group_codec: uuid.uuid4()
+        padding: '5sp'
+
+        # --- Check Audio Track ---
+        Switch:
+            size_hint_x: .2
+            touch_control: False
+            active:
+                True if root.ids.sub_source.text != '' and\
+                root.ids.sub_codec.value != '' else False
+
+        # --- DEL Audio Track ---
+        Button:
+            text: 'DEL'
+            size_hint_x: .1
+            on_press: app.del_Track_rmx(root)
+        Label:
+            size_hint_x: .05
+
+        # --- Subtitles Track ID ---
+        TextInput:
+            id: sub_source
+            hint_text: 'Track ID'
+            multiline: False
+            size_hint_x: .2
+            input_filter: 'int'
+            padding: 8, 8, 0, 0
+
+        # --- Subtitles Codec ---
+        ToggleButton:
+            id: sub_codec
+            text: 'SRT'
+            size_hint_x: .15
+            group: root.ids.sub_infos.group_codec
+            value:
+                'srt' if self.state == 'down' else\
+                'ass' if root.ids.ass.state == 'down' else\
+                'pgs' if root.ids.pgs.state == 'down' else\
+                'vobsub' if root.ids.vob.state == 'down' else ''
+
+        ToggleButton:
+            id: ass
+            text: 'ASS'
+            size_hint_x: .15
+            group: root.ids.sub_infos.group_codec
+
+        ToggleButton:
+            id: pgs
+            text: 'PGS'
+            size_hint_x: .15
+            group: root.ids.sub_infos.group_codec
+
+        ToggleButton:
+            id: vob
+            text: 'VOB'
+            size_hint_x: .15
+            group: root.ids.sub_infos.group_codec
+
+        # --- Subtitles Language ---
+        TextInput:
+            id: sub_track_lang
+            hint_text: 'Language'
+            multiline: False
+            size_hint_x: .3
+            padding: 8, 8, 0, 0
+
+        # --- Subforced ---
+        ToggleButton:
+            id: sub_forced
+            text: 'Forced'
+            size_hint_x: .2
+            group: 'subs'
+            value: '1' if self.state == 'down' else '0'
+
+        # --- SubBurned ---
+        ToggleButton:
+            id: sub_burned
+            text: 'Burned'
+            size_hint_x: .2
+            group: 'subs'
+            value: 'burned' if self.state == 'down' else ''
+
+        # --- Subcharset ---
+        TextInput:
+            id: sub_charset
+            hint_text: 'Charset'
+            multiline: False
+            size_hint_x: .2
+            padding: 8, 8, 0, 0
+            readonly:
+                True if root.ids.sub_burned.state == 'down' else False

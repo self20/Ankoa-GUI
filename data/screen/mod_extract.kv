@@ -71,9 +71,10 @@ AnkoaScreen:
                 padding: 8, 8, 0, 0
                 text: app.extract_source
 
-        # ---------- VIDEO TRACK ID & TITLE ----------
+        # ---------- TRACKS TO EXTRACT ----------
         BoxLayout:
             padding: 8
+            spacing: 5
             orientation: 'horizontal'
             size_hint: 1, .1
             canvas:
@@ -83,40 +84,32 @@ AnkoaScreen:
                     size: self.size
                     pos: self.pos
 
-            # --- Check Track & Title ---
+            # --- Check Tracks ---
             Switch:
                 id: check_vtrack
                 size_hint_x: .14
                 touch_control: False
                 active:
-                    True if root.ids.extract_track_ID.text and\
-                    root.ids.track_name.text else False
+                    True if root.ids.extract_track_ID.text else False
 
-            # --- Track Label ---
+            # --- Extract Tracks Label ---
             Label:
-                text: 'Track to extract'
+                text: 'Tracks to extract'
                 bold: True
                 size_hint_x: .28
 
-            BoxLayout:
+            # --- Clear Tracks ---
+            ActionButton:
+                icon: 'data/icon/refresh.png'
+                size_hint_x: .05
+                on_press: root.ids.extract_track_ID.text = ''
 
-                # --- Track ID ---
-                TextInput:
-                    id: extract_track_ID
-                    hint_text: 'Track ID'
-                    multiline: False
-                    size_hint_x: .2
-                    input_filter: 'int'
-                    padding: 8, 8, 0, 0
-
-                # --- Track Name ---
-                TextInput:
-                    id: track_name
-                    hint_text: 'Metadata Title (mediainfo)'
-                    multiline: False
-                    padding: 8, 8, 0, 0
-                    text:
-                        (app.extract_source).split('/')[-1][:-4]
+            # --- Tracks ID ---
+            TextInput:
+                id: extract_track_ID
+                hint_text: 'Tracks ID (separate with comma)'
+                multiline: False
+                padding: 8, 8, 0, 0
 
         # ---------- EXTRACT MENU ----------
         BoxLayout:
@@ -130,12 +123,12 @@ AnkoaScreen:
                     size: self.size
                     pos: self.pos
 
-            # --- Extract Button ---
+            # --- Add to queue ---
             Button:
                 text: 'Add to queue'
                 on_press:
 
-            # --- Add Subtitles File Button ---
+            # --- RUN ---
             Button:
                 text: 'Run extraction'
                 on_press:

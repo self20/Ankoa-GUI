@@ -64,6 +64,7 @@ class AnkoaApp(App):
     # Remux Mode
     scan_remux = ObjectProperty()
     remux_source = StringProperty()
+    track_count = NumericProperty(0)
 
     # Extract Mode
     scan_extract = ObjectProperty()
@@ -90,20 +91,20 @@ class AnkoaApp(App):
         # Display 1st screen on open
         self.go_next_screen()
 
-        # Get ENCODE_MODE screens (layouts)
-        self.source_screen = \
+        # Get ENCODE_MODE Layouts
+        self.source_enc = \
             self.root.ids.header_screens.current_screen.ids.source_enc
-        self.picture_screen = \
+        self.picture_enc = \
             self.root.ids.header_screens.current_screen.ids.picture_enc
-        self.video_screen = \
+        self.video_enc = \
             self.root.ids.header_screens.current_screen.ids.video_enc
-        self.audio_screen = \
+        self.audio_enc = \
             self.root.ids.header_screens.current_screen.ids.audio_enc
-        self.subtitles_screen = \
+        self.subtitles_enc = \
             self.root.ids.header_screens.current_screen.ids.subtitles_enc
-        self.advanced_screen = \
+        self.advanced_enc = \
             self.root.ids.header_screens.current_screen.ids.advanced_enc
-        self.queue_screen = \
+        self.queue_enc = \
             self.root.ids.header_screens.current_screen.ids.queue_enc
 
     # ---------------------------------------------------------------
@@ -232,7 +233,7 @@ class AnkoaApp(App):
     def scan_source_infos(self, source):
         '''
         Return complete mediainfo with autocrop values
-        Call app.mod_encode.scan_source.scan
+        Call app.scan.scan_source.scan
         '''
         if user['request'] == 'encode_source':
             self.scan_encode = scan(source)
@@ -254,6 +255,11 @@ class AnkoaApp(App):
         elif user['request'] == 'extract_source':
             self.extract_source = source
 
+    # ***************************************************************
+    # ------------------------ MODE ENCODE --------------------------
+    # ***************************************************************
+    # DATA/SCREEN/MOD_ENCODE
+
     # ---------------------------------------------------------------
     #  VIDEO LAYOUT ##################################### ENCODE ####
     # ---------------------------------------------------------------
@@ -269,7 +275,7 @@ class AnkoaApp(App):
         else:
             height = 0
         Animation(height=height, d=.1, t='out_quart').start(
-            self.video_screen.ids.bitrate_view)
+            self.video_enc.ids.bitrate_view)
 
     # Video bitrate calculator
     def bit_calculator(self):
@@ -285,32 +291,32 @@ class AnkoaApp(App):
     #  AUDIO LAYOUT ##################################### ENCODE ####
     # ---------------------------------------------------------------
     # Manage audio Tracks (max 5 tracks)
-    # From data.screen.mod_encode.audio
+    # From data.screen.mod_encode.audio_enc
 
     # Load Audio Track (kv file)
-    def load_audio_track(self):
+    def load_audioTrack_enc(self):
         audio_track = Builder.load_file(
             'data/screen/mod_encode/widget/audioTrack_enc.kv')
-        track_layout = self.audio_screen.ids.audio_track_layout
+        track_layout = self.audio_enc.ids.audio_track_layout
         return (audio_track, track_layout)
 
     # Add Audio Track (from source)
-    def add_audio_track(self):
-        (audio_track, track_layout) = self.load_audio_track()
+    def add_audioTrack_enc(self):
+        (audio_track, track_layout) = self.load_audioTrack_enc()
         if self.audio_count < 5:
             track_layout.add_widget(audio_track)
             self.audio_count += 1
 
     # Delete current Audio Track
-    def del_audio_track(self, current_track):
-        (audio_track, track_layout) = self.load_audio_track()
+    def del_audioTrack_enc(self, current_track):
+        (audio_track, track_layout) = self.load_audioTrack_enc()
         track_layout.remove_widget(current_track)
         if self.audio_count > 0:
             self.audio_count += -1
 
     # Clear all Audio Tracks
-    def clear_audio_tracks(self):
-        (audio_track, track_layout) = self.load_audio_track()
+    def clear_audioTracks_enc(self):
+        (audio_track, track_layout) = self.load_audioTrack_enc()
         track_layout.clear_widgets()
         self.audio_count = 0
 
@@ -318,21 +324,21 @@ class AnkoaApp(App):
     #  SUBTITLES LAYOUT ################################# ENCODE ####
     # ---------------------------------------------------------------
     # Manage subtitles Tracks (max 7 tracks)
-    # From data.screen.mod_encode.subtitles
+    # From data.screen.mod_encode.subtitles_enc
 
     # Load Subtitles Tracks (kv files)
-    def load_subtitles_track(self):
+    def load_subTrack_enc(self):
         sub_track = Builder.load_file(
             'data/screen/mod_encode/widget/subTrack_enc.kv')
         sub_file = Builder.load_file(
             'data/screen/mod_encode/widget/subFile_enc.kv')
-        track_layout = self.subtitles_screen.ids.sub_track_layout
+        track_layout = self.subtitles_enc.ids.sub_track_layout
         return (sub_track, sub_file, track_layout)
 
     # Add Subtitles Track
-    def add_subtitles_track(self, request):
+    def add_subTrack_enc(self, request):
         (sub_track, sub_file,
-         track_layout) = self.load_subtitles_track()
+         track_layout) = self.load_subTrack_enc()
         if self.sub_count < 7:
             if request == 'subTrack':
                 track_layout.add_widget(sub_track)
@@ -341,22 +347,22 @@ class AnkoaApp(App):
             self.sub_count += 1
 
     # Delete current Subtitles Track
-    def del_subtitles_track(self, current_track):
+    def del_subTrack_enc(self, current_track):
         (sub_track, sub_file,
-         track_layout) = self.load_subtitles_track()
+         track_layout) = self.load_subTrack_enc()
         track_layout.remove_widget(current_track)
         if self.sub_count > 0:
             self.sub_count += -1
 
     # Clear all Subtitles Tracks
-    def clear_subtitles_tracks(self):
+    def clear_subTracks_enc(self):
         (sub_track, sub_file,
-         track_layout) = self.load_subtitles_track()
+         track_layout) = self.load_subTrack_enc()
         track_layout.clear_widgets()
         self.sub_count = 0
 
     # Load Subtitles File Source
-    def load_sub_source(self, value):
+    def load_subSource_enc(self, value):
         '''
         Get subfile location from filemanager selection to
         display subfile title in corresponding track area
@@ -377,44 +383,44 @@ class AnkoaApp(App):
         '''
 
         # Get source infos
-        o_o['rls_source'] = self.source_screen.ids.source.text
-        o_o['rls_title'] = self.source_screen.ids.title.text
+        o_o['rls_source'] = self.source_enc.ids.source.text
+        o_o['rls_title'] = self.source_enc.ids.title.text
 
         # Get picture infos
-        if self.picture_screen.ids.check_sar.active is True:
-            o_o['sar'] = self.picture_screen.ids.sar_val.value
+        if self.picture_enc.ids.check_sar.active is True:
+            o_o['sar'] = self.picture_enc.ids.sar_val.value
         else:
             o_o['resolution'] = '{0}x{1}'.format(
-                self.picture_screen.ids.video_W.text,
-                self.picture_screen.ids.video_H.text)
-        if self.picture_screen.ids.custom_crop.active is True:
-            o_o['crop_width'] = self.picture_screen.ids.crop_W.text
-            o_o['crop_height'] = self.picture_screen.ids.crop_H.text
-            o_o['crop_right_left'] = self.picture_screen.ids.crop_R.text
-            o_o['crop_top_bottom'] = self.picture_screen.ids.crop_T.text
-        o_o['deinterlace'] = self.picture_screen.ids.deint.text
-        o_o['motion_deint'] = self.picture_screen.ids.motion_d.text
-        o_o['denoise'] = self.picture_screen.ids.denoise.text
-        o_o['decimate'] = self.picture_screen.ids.decimate.text
+                self.picture_enc.ids.video_W.text,
+                self.picture_enc.ids.video_H.text)
+        if self.picture_enc.ids.custom_crop.active is True:
+            o_o['crop_width'] = self.picture_enc.ids.crop_W.text
+            o_o['crop_height'] = self.picture_enc.ids.crop_H.text
+            o_o['crop_right_left'] = self.picture_enc.ids.crop_R.text
+            o_o['crop_top_bottom'] = self.picture_enc.ids.crop_T.text
+        o_o['deinterlace'] = self.picture_enc.ids.deint.text
+        o_o['motion_deint'] = self.picture_enc.ids.motion_d.text
+        o_o['denoise'] = self.picture_enc.ids.denoise.text
+        o_o['decimate'] = self.picture_enc.ids.decimate.text
 
         # Get video infos
-        o_o['video_ID'] = self.video_screen.ids.video_track_ID.text
-        o_o['movie_name'] = self.video_screen.ids.movie_name.text
-        o_o['container'] = self.video_screen.ids.vcontainer.valueA
-        o_o['video_codec'] = self.video_screen.ids.vcontainer.valueB
-        if self.video_screen.ids.check_crf.active is True:
-            o_o['crf_mode'] = self.video_screen.ids.crf_val.text
+        o_o['video_ID'] = self.video_enc.ids.video_track_ID.text
+        o_o['movie_name'] = self.video_enc.ids.movie_name.text
+        o_o['container'] = self.video_enc.ids.vcontainer.valueA
+        o_o['video_codec'] = self.video_enc.ids.vcontainer.valueB
+        if self.video_enc.ids.check_crf.active is True:
+            o_o['crf_mode'] = self.video_enc.ids.crf_val.text
         else:
-            o_o['dual_pass'] = self.video_screen.ids.video_bitrate.text
-            o_o['fast1pass'] = self.video_screen.ids.fast1pass.value
-        o_o['framerate'] = self.video_screen.ids.fram_rate.text
-        o_o['preset'] = self.video_screen.ids.pre_set.value
-        o_o['tune'] = self.video_screen.ids.tu_ne.value
-        o_o['profile'] = self.video_screen.ids.pro_file.text
-        o_o['level'] = self.video_screen.ids.le_vel.text
+            o_o['dual_pass'] = self.video_enc.ids.video_bitrate.text
+            o_o['fast1pass'] = self.video_enc.ids.fast1pass.value
+        o_o['framerate'] = self.video_enc.ids.fram_rate.text
+        o_o['preset'] = self.video_enc.ids.pre_set.value
+        o_o['tune'] = self.video_enc.ids.tu_ne.value
+        o_o['profile'] = self.video_enc.ids.pro_file.text
+        o_o['level'] = self.video_enc.ids.le_vel.text
 
         # Get audio infos
-        audio = self.audio_screen.ids.audio_track_layout.children
+        audio = self.audio_enc.ids.audio_track_layout.children
         for nb in range(0, len(audio)):
             o_o['audio_ID'].append(audio[nb].ids.audio_track_ID.text)
             o_o['audio_title'].append(audio[nb].ids.audio_track_title.text)
@@ -426,7 +432,7 @@ class AnkoaApp(App):
             o_o['audio_gain'].append(audio[nb].ids.gain.text)
 
         # Get subtitles infos
-        sub = self.subtitles_screen.ids.sub_track_layout.children
+        sub = self.subtitles_enc.ids.sub_track_layout.children
         for nb in range(0, len(sub)):
             o_o['subs_type'].append(sub[nb].ids.sub_infos.type)
             o_o['subs_source'].append(sub[nb].ids.sub_source.text)
@@ -437,86 +443,86 @@ class AnkoaApp(App):
             o_o['subs_charset'].append(sub[nb].ids.sub_charset.text)
 
         # Get advanced infos
-        if self.advanced_screen.ids.threads_on.active is True:
-            o_o['threads_nb'] = self.advanced_screen.ids.threads.text
-            o_o['threads_mod'] = self.advanced_screen.ids.threads_mod.value
-        if self.advanced_screen.ids.frames_on.active is True:
-            o_o['ref_frames'] = self.advanced_screen.ids.ref_frames.text
-            o_o['max_Bframes'] = self.advanced_screen.ids.max_Bframes.text
-            o_o['mixed_ref'] = self.advanced_screen.ids.mixed_ref.value
-        if self.advanced_screen.ids.encod_on.active is True:
-            o_o['pyramid_mod'] = self.advanced_screen.ids.pyram.value
-            o_o['transform'] = self.advanced_screen.ids.transform.value
-            o_o['cabac'] = self.advanced_screen.ids.cabac.value
-        if self.advanced_screen.ids.adapt_on.active is True:
-            o_o['direct_mod'] = self.advanced_screen.ids.direct.value
-            o_o['B_frames'] = self.advanced_screen.ids.Bframes.value
-        if self.advanced_screen.ids.weight_on.active is True:
-            o_o['weighted_pf'] = self.advanced_screen.ids.weight_pf.value
-            o_o['weighted_bf'] = self.advanced_screen.ids.weight_bf.value
-        if self.advanced_screen.ids.motion_on.active is True:
-            o_o['me_method'] = self.advanced_screen.ids.me_mod.text
-            o_o['subpixel'] = self.advanced_screen.ids.subpixel.text
-            o_o['me_range'] = self.advanced_screen.ids.me_range.text
-        if self.advanced_screen.ids.partitions_on.active is True:
-            o_o['partitions'] = self.advanced_screen.ids.parts.text
-            o_o['trellis'] = self.advanced_screen.ids.trellis.value
-        if self.advanced_screen.ids.quantiz_on.active is True:
-            o_o['adapt_strenght'] = self.advanced_screen.ids.adapt_s.text
-            o_o['psy_optim'] = self.advanced_screen.ids.psy_optim.value
-        if self.advanced_screen.ids.distortion_on.active is True:
-            o_o['distord_rate'] = self.advanced_screen.ids.dist_rate.text
-            o_o['psy_trellis'] = self.advanced_screen.ids.psy_trell.text
-        if self.advanced_screen.ids.deblock_on.active is True:
-            o_o['deblock_alpha'] = self.advanced_screen.ids.d_alpha.text
-            o_o['deblock_beta'] = self.advanced_screen.ids.d_beta.text
-        if self.advanced_screen.ids.keyframe_on.active is True:
-            o_o['key_interv'] = self.advanced_screen.ids.key_interval.text
-            o_o['min_key'] = self.advanced_screen.ids.min_key.text
-            o_o['lookahead'] = self.advanced_screen.ids.lookahead.text
-        if self.advanced_screen.ids.various_on.active is True:
-            o_o['scenecut'] = self.advanced_screen.ids.scenecut.text
-            o_o['chroma'] = self.advanced_screen.ids.chroma.value
-            o_o['fast_skip'] = self.advanced_screen.ids.fast_skip.value
-            o_o['grayscale'] = self.advanced_screen.ids.grayscale.value
-            o_o['bluray'] = self.advanced_screen.ids.bluray_compat.value
+        if self.advanced_enc.ids.threads_on.active is True:
+            o_o['threads_nb'] = self.advanced_enc.ids.threads.text
+            o_o['threads_mod'] = self.advanced_enc.ids.threads_mod.value
+        if self.advanced_enc.ids.frames_on.active is True:
+            o_o['ref_frames'] = self.advanced_enc.ids.ref_frames.text
+            o_o['max_Bframes'] = self.advanced_enc.ids.max_Bframes.text
+            o_o['mixed_ref'] = self.advanced_enc.ids.mixed_ref.value
+        if self.advanced_enc.ids.encod_on.active is True:
+            o_o['pyramid_mod'] = self.advanced_enc.ids.pyram.value
+            o_o['transform'] = self.advanced_enc.ids.transform.value
+            o_o['cabac'] = self.advanced_enc.ids.cabac.value
+        if self.advanced_enc.ids.adapt_on.active is True:
+            o_o['direct_mod'] = self.advanced_enc.ids.direct.value
+            o_o['B_frames'] = self.advanced_enc.ids.Bframes.value
+        if self.advanced_enc.ids.weight_on.active is True:
+            o_o['weighted_pf'] = self.advanced_enc.ids.weight_pf.value
+            o_o['weighted_bf'] = self.advanced_enc.ids.weight_bf.value
+        if self.advanced_enc.ids.motion_on.active is True:
+            o_o['me_method'] = self.advanced_enc.ids.me_mod.text
+            o_o['subpixel'] = self.advanced_enc.ids.subpixel.text
+            o_o['me_range'] = self.advanced_enc.ids.me_range.text
+        if self.advanced_enc.ids.partitions_on.active is True:
+            o_o['partitions'] = self.advanced_enc.ids.parts.text
+            o_o['trellis'] = self.advanced_enc.ids.trellis.value
+        if self.advanced_enc.ids.quantiz_on.active is True:
+            o_o['adapt_strenght'] = self.advanced_enc.ids.adapt_s.text
+            o_o['psy_optim'] = self.advanced_enc.ids.psy_optim.value
+        if self.advanced_enc.ids.distortion_on.active is True:
+            o_o['distord_rate'] = self.advanced_enc.ids.dist_rate.text
+            o_o['psy_trellis'] = self.advanced_enc.ids.psy_trell.text
+        if self.advanced_enc.ids.deblock_on.active is True:
+            o_o['deblock_alpha'] = self.advanced_enc.ids.d_alpha.text
+            o_o['deblock_beta'] = self.advanced_enc.ids.d_beta.text
+        if self.advanced_enc.ids.keyframe_on.active is True:
+            o_o['key_interv'] = self.advanced_enc.ids.key_interval.text
+            o_o['min_key'] = self.advanced_enc.ids.min_key.text
+            o_o['lookahead'] = self.advanced_enc.ids.lookahead.text
+        if self.advanced_enc.ids.various_on.active is True:
+            o_o['scenecut'] = self.advanced_enc.ids.scenecut.text
+            o_o['chroma'] = self.advanced_enc.ids.chroma.value
+            o_o['fast_skip'] = self.advanced_enc.ids.fast_skip.value
+            o_o['grayscale'] = self.advanced_enc.ids.grayscale.value
+            o_o['bluray'] = self.advanced_enc.ids.bluray_compat.value
 
     # ---------------------------------------------------------------
     #  MANAGE ENCODE ################################################
     # ---------------------------------------------------------------
-    # Check content and call the manager app.mod_encode.manager
+    # Check content and call the manager app.mod_encode.encode_man
     # Manager will set proper FFMPEG cmd in dictionary o_o
     # Display popup error on missing values
 
     # Essential content verification
     def check_encode_values(self):
         if self.check_user_settings() is True and\
-                self.source_screen.ids.r_source.active is True and\
-                self.source_screen.ids.r_title.active is True and\
-                (self.picture_screen.ids.reso.active is True or
-                 self.picture_screen.ids.check_sar.active is True) and\
-                self.video_screen.ids.check_vtrack.active is True and\
-                self.video_screen.ids.check_codec.active is True:
+                self.source_enc.ids.r_source.active is True and\
+                self.source_enc.ids.r_title.active is True and\
+                (self.picture_enc.ids.reso.active is True or
+                 self.picture_enc.ids.check_sar.active is True) and\
+                self.video_enc.ids.check_vtrack.active is True and\
+                self.video_enc.ids.check_codec.active is True:
             return True
         else:
             if self.check_user_settings() is False:
                 self.current_error = error['settings']
-            elif self.source_screen.ids.r_source.active is False:
+            elif self.source_enc.ids.r_source.active is False:
                 self.current_error = error['source']
-            elif self.source_screen.ids.r_title.active is False:
+            elif self.source_enc.ids.r_title.active is False:
                 self.current_error = error['title']
-            elif self.picture_screen.ids.reso.active is False or\
-                    self.picture_screen.ids.check_sar.active is False:
+            elif self.picture_enc.ids.reso.active is False or\
+                    self.picture_enc.ids.check_sar.active is False:
                 self.current_error = error['reso']
-            elif self.video_screen.ids.check_vtrack.active is False:
+            elif self.video_enc.ids.check_vtrack.active is False:
                 self.current_error = error['video']
-            elif self.video_screen.ids.check_codec.active is False:
+            elif self.video_enc.ids.check_codec.active is False:
                 self.current_error = error['codec']
             return False
 
     # Reset dictionary
     def reset_dictionary(self):
-        self.queue_screen.ids.ffmpeg_cmd.text = ''
+        self.queue_enc.ids.ffmpeg_cmd.text = ''
         for key, value in o_o.items():
             if isinstance(value, list):
                 o_o[key] = []
@@ -532,11 +538,92 @@ class AnkoaApp(App):
         manage_advanced()
         build_advanced()
         manage_ffmpeg()
-        self.queue_screen.ids.ffmpeg_cmd.text = '{}'.format(o_o['ffmpeg'])
+        self.queue_enc.ids.ffmpeg_cmd.text = '{}'.format(o_o['ffmpeg'])
 
         '''debug'''
         print (str(o_o).replace(", ", "'\n")
                        .replace("],", "]\n"))
+
+    # ***************************************************************
+    # ------------------------- MODE REMUX --------------------------
+    # ***************************************************************
+    # DATA/SCREEN/MOD_REMUX
+
+    # ---------------------------------------------------------------
+    #  TRACKS LAYOUT ##################################### REMUX ####
+    # ---------------------------------------------------------------
+    # Manage Tracks (max 7 tracks)
+    # From data.screen.mod_remux.tracks_rmx
+
+    # Load Track (kv file)
+    def load_Track_rmx(self):
+        audio_track = Builder.load_file(
+            'data/screen/mod_remux/widget/audioTrack_rmx.kv')
+        audio_file = Builder.load_file(
+            'data/screen/mod_remux/widget/audioFile_rmx.kv')
+        sub_track = Builder.load_file(
+            'data/screen/mod_remux/widget/subTrack_rmx.kv')
+        sub_file = Builder.load_file(
+            'data/screen/mod_remux/widget/subFile_rmx.kv')
+        track_layout = \
+            self.root.ids.header_screens.current_screen\
+            .ids.tracks_rmx.ids.tracks_layout_rmx
+
+        return (audio_track, audio_file, sub_track,
+                sub_file, track_layout)
+
+    # Add Audio Track
+    def add_audioTrack_rmx(self, request):
+        (audio_track, audio_file, sub_track, sub_file,
+         track_layout) = self.load_Track_rmx()
+        if self.track_count < 7:
+            if request == 'audioTrack':
+                track_layout.add_widget(audio_track)
+            elif request == 'audioFile':
+                track_layout.add_widget(audio_file)
+            self.track_count += 1
+
+    # Delete current Audio Track
+    def del_audioTrack_rmx(self, current_track):
+        (audio_track, audio_file, sub_track, sub_file,
+         track_layout) = self.load_Track_rmx()
+        track_layout.remove_widget(current_track)
+        if self.track_count > 0:
+            self.track_count += -1
+
+    # Add Subtitles Track
+    def add_subTrack_rmx(self, request):
+        (audio_track, audio_file, sub_track, sub_file,
+         track_layout) = self.load_Track_rmx()
+        if self.track_count < 7:
+            if request == 'subTrack':
+                track_layout.add_widget(sub_track)
+            elif request == 'subFile':
+                track_layout.add_widget(sub_file)
+            self.track_count += 1
+
+    # Delete current Subtitles Track
+    def del_subTrack_rmx(self, current_track):
+        (audio_track, audio_file, sub_track, sub_file,
+         track_layout) = self.load_Track_rmx()
+        track_layout.remove_widget(current_track)
+        if self.track_count > 0:
+            self.track_count += -1
+
+    # Clear all Tracks
+    def clear_Tracks_rmx(self):
+        (audio_track, audio_file, sub_track, sub_file,
+         track_layout) = self.load_Track_rmx()
+        track_layout.clear_widgets()
+        self.track_count = 0
+
+    # Load Track File Source
+    def load_trackSource_rmx(self, value):
+        '''
+        Get track location from filemanager selection to
+        display track title in corresponding area
+        '''
+        current_track = self.get_current_track(self.current_track)
 
 if __name__ == '__main__':
     AnkoaApp().run()

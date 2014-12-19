@@ -82,32 +82,36 @@
         # --- Add audio Track button ---
         Button:
             text: 'Add Audio Track'
-            on_press:
+            request: 'audioTrack'
+            on_press: app.add_audioTrack_rmx(self.request)
 
         # --- Add audio File button ---
         Button:
             text: 'Import Audio Track'
-            on_press:
+            request: 'audioFile'
+            on_press: app.add_audioTrack_rmx(self.request)
 
         # --- Add Subtitles Track Button ---
         Button:
             text: 'Add Subtitles Track'
-            on_press:
+            request: 'subTrack'
+            on_press: app.add_subTrack_rmx(self.request)
 
         # --- Add Subtitles File Button ---
         Button:
             text: 'Import Subtitles File'
-            on_press:
+            request: 'subFile'
+            on_press: app.add_subTrack_rmx(self.request)
 
         # --- Clear Tracks button ---
         Button:
             text: 'CLear All Tracks'
-            on_press:
+            on_press: app.clear_Tracks_rmx()
 
     # ---------- TRACKS LAYOUT ----------
     GridLayout:
         cols: 1
         spacing: 5
         row_force_default: True
-        row_default_height: 76
-        id: remux_tracks_layout
+        row_default_height: 52
+        id: tracks_layout_rmx

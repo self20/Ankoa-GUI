@@ -38,18 +38,18 @@
         Button:
             text: 'Add Subtitles Track'
             request: 'subTrack'
-            on_press: app.add_subtitles_track(self.request)
+            on_press: app.add_subTrack_enc(self.request)
 
         # --- Add Subtitles File Button ---
         Button:
             text: 'Import Subtitles File'
             request: 'subFile'
-            on_press: app.add_subtitles_track(self.request)
+            on_press: app.add_subTrack_enc(self.request)
 
         # --- Clear Subtitles Tracks Button ---
         Button:
             text: 'Clear All Tracks'
-            on_press: app.clear_subtitles_tracks()
+            on_press: app.clear_subTracks_enc()
 
     # ---------- SUBTITLES TRACK LAYOUT ----------
     GridLayout:

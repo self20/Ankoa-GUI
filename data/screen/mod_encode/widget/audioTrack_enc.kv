@@ -31,8 +31,8 @@ GridLayout:
                     root.ids.dts.state == 'down') else False
 
             # --- DEL Track button ----
-            Button:
-                text: 'DEL'
+            ActionButton:
+                icon: 'data/icon/del.png'
                 size_hint_x: .1
                 on_press: app.del_audioTrack_enc(root)
 

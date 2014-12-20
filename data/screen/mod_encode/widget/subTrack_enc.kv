@@ -27,13 +27,11 @@ GridLayout:
                 True if root.ids.sub_source.text != '' and\
                 root.ids.sub_codec.value != '' else False
 
-        # --- DEL Subtitles Track ---
-        Button:
-            text: 'DEL'
+        # --- DEL Track button ----
+        ActionButton:
+            icon: 'data/icon/del.png'
             size_hint_x: .1
             on_press: app.del_subTrack_enc(root)
-        Label:
-            size_hint_x: .05
 
         # --- Subtitles Track ID ---
         TextInput:

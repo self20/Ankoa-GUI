@@ -551,47 +551,39 @@ class AnkoaApp(App):
 
     # Load Track (kv file)
     def load_Track_rmx(self):
-        audio_track = Builder.load_file(
-            'data/screen/mod_remux/widget/audioTrack_rmx.kv')
-        audio_file = Builder.load_file(
-            'data/screen/mod_remux/widget/audioFile_rmx.kv')
-        sub_track = Builder.load_file(
-            'data/screen/mod_remux/widget/subTrack_rmx.kv')
-        sub_file = Builder.load_file(
-            'data/screen/mod_remux/widget/subFile_rmx.kv')
+        source_track = Builder.load_file(
+            'data/screen/mod_remux/widget/sourceTrack_rmx.kv')
+        file_track = Builder.load_file(
+            'data/screen/mod_remux/widget/fileTrack_rmx.kv')
         track_layout = \
             self.root.ids.header_screens.current_screen\
             .ids.tracks_rmx.ids.tracks_layout_rmx
-        return (audio_track, audio_file, sub_track,
-                sub_file, track_layout)
+        return (source_track, file_track, track_layout)
 
     # Add Track
     def add_Track_rmx(self, request):
-        (audio_track, audio_file, sub_track, sub_file,
-         track_layout) = self.load_Track_rmx()
+        source_track, file_track, track_layout = self.load_Track_rmx()
         if self.track_count < 7:
             if request == 'audioTrack':
-                track_layout.add_widget(audio_track)
+                track_layout.add_widget(source_track)
             elif request == 'audioFile':
-                track_layout.add_widget(audio_file)
+                track_layout.add_widget(file_track)
             elif request == 'subTrack':
-                track_layout.add_widget(audio_track)
+                track_layout.add_widget(source_track)
             elif request == 'subFile':
-                track_layout.add_widget(audio_file)
+                track_layout.add_widget(file_track)
             self.track_count += 1
 
     # Delete current Track
     def del_Track_rmx(self, current_track):
-        (audio_track, audio_file, sub_track, sub_file,
-         track_layout) = self.load_Track_rmx()
+        source_track, file_track, track_layout = self.load_Track_rmx()
         track_layout.remove_widget(current_track)
         if self.track_count > 0:
             self.track_count += -1
 
     # Clear all Tracks
     def clear_Tracks_rmx(self):
-        (audio_track, audio_file, sub_track, sub_file,
-         track_layout) = self.load_Track_rmx()
+        source_track, file_track, track_layout = self.load_Track_rmx()
         track_layout.clear_widgets()
         self.track_count = 0
 

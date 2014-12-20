@@ -375,7 +375,7 @@ class AnkoaApp(App):
     # Get encode infos
     def get_encode_infos(self):
         '''
-        Get all screens values from corresponding kv file
+        Get encode values from corresponding layout
         Fill in encode dictionary o_o
         '''
 

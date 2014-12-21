@@ -72,6 +72,8 @@
         Button:
             text: 'SETTINGS'
             size_hint_x: .1
+            popup_id: 'VideoSettingsPopup()'
+            on_press: app.main_popup(self.popup_id)
 
     # ---------- OTHERS TRACKS MENU ----------
     BoxLayout:

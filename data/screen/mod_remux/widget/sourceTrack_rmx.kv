@@ -12,6 +12,8 @@ GridLayout:
             pos: self.pos
 
     BoxLayout:
+        id: track_type
+        value: ''
         padding: 5
 
         # --- Check Track ---
@@ -51,3 +53,11 @@ GridLayout:
         Button:
             text: 'SETTINGS'
             size_hint_x: .1
+            popup_id:
+                'AudioSettingsPopup()' if\
+                root.ids.track_type.value == 'audioTrack' else\
+                'SubSettingsPopup()' if\
+                root.ids.track_type.value == 'subTrack' else 'error'
+            on_press:
+                app.main_popup(self.popup_id) if\
+                self.popup_id != 'error' else ''

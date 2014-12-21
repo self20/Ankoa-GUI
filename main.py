@@ -164,6 +164,10 @@ class AnkoaApp(App):
         if popup.endswith('.kv'):
             Builder.load_file('data/popup/{}'.format(popup))
 
+    for popup in os.listdir('data/popup/remux/'):
+        if popup.endswith('.kv'):
+            Builder.load_file('data/popup/remux/{}'.format(popup))
+
     # Display popups
     def main_popup(self, popup_id):
         '''
@@ -265,7 +269,7 @@ class AnkoaApp(App):
     def toggle_bitrate(self, state):
         '''
         Toggle bitrate row animation (row height on/off)
-        From data.screen.mod_encode.video [Bitrate button]
+        From data.screen.mod_encode.video_enc [Bitrate button]
         '''
         if state == 'down':
             height = 42
@@ -278,7 +282,7 @@ class AnkoaApp(App):
     def bit_calculator(self):
         '''
         Call app.mod_encode.bitrate_calculator
-        From data.screen.mod_encode.video [RUN button]
+        From data.screen.mod_encode.video_enc [RUN button]
         '''
         current_bitrate = calculator()
         self.current_bitrate = str(current_bitrate)
@@ -562,38 +566,28 @@ class AnkoaApp(App):
 
     # Add Track
     def add_Track_rmx(self, request):
-        source_track, file_track, track_layout = self.load_Track_rmx()
+        (source_track, file_track, track_layout) = self.load_Track_rmx()
         if self.track_count < 7:
-            if request == 'audioTrack':
+            if request == 'audioTrack' or request == 'subTrack':
                 track_layout.add_widget(source_track)
-            elif request == 'audioFile':
+                source_track.ids.track_type.value = request
+            elif request == 'audioFile'or request == 'subFile':
                 track_layout.add_widget(file_track)
-            elif request == 'subTrack':
-                track_layout.add_widget(source_track)
-            elif request == 'subFile':
-                track_layout.add_widget(file_track)
+                file_track.ids.track_type.value = request
             self.track_count += 1
 
     # Delete current Track
     def del_Track_rmx(self, current_track):
-        source_track, file_track, track_layout = self.load_Track_rmx()
+        (source_track, file_track, track_layout) = self.load_Track_rmx()
         track_layout.remove_widget(current_track)
         if self.track_count > 0:
             self.track_count += -1
 
     # Clear all Tracks
     def clear_Tracks_rmx(self):
-        source_track, file_track, track_layout = self.load_Track_rmx()
+        (source_track, file_track, track_layout) = self.load_Track_rmx()
         track_layout.clear_widgets()
         self.track_count = 0
-
-    # Load Track File Source
-    def load_trackSource_rmx(self, value):
-        '''
-        Get track location from filemanager selection to
-        display track title in corresponding area
-        '''
-        current_track = self.get_current_track(self.current_track)
 
 if __name__ == '__main__':
     AnkoaApp().run()

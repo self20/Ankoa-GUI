@@ -421,7 +421,7 @@ class AnkoaApp(App):
         o_o['level'] = self.video_enc.ids.le_vel.text
 
         # Get audio infos
-        audio = self.audio_enc.ids.audio_track_layout.children
+        audio = self.audio_enc.ids.audio_track_layout.children[::-1]
         for nb in range(0, len(audio)):
             o_o['audio_ID'].append(audio[nb].ids.audio_track_ID.text)
             o_o['audio_title'].append(audio[nb].ids.audio_track_title.text)
@@ -433,7 +433,7 @@ class AnkoaApp(App):
             o_o['audio_gain'].append(audio[nb].ids.gain.text)
 
         # Get subtitles infos
-        sub = self.subtitles_enc.ids.sub_track_layout.children
+        sub = self.subtitles_enc.ids.sub_track_layout.children[::-1]
         for nb in range(0, len(sub)):
             o_o['subs_type'].append(sub[nb].ids.sub_infos.type)
             o_o['subs_source'].append(sub[nb].ids.sub_source.text)

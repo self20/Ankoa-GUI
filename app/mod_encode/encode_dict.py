@@ -3,7 +3,7 @@
 [ MODE ENCODE ]
 Dictionaries to manage encode:
     o_o > encode parameters
-    v_v > parameters options
+    v_v > parameters values
     u_u > bitrate calculator
     error > missing values messages
 '''

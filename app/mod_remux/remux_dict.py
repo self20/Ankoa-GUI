@@ -2,8 +2,40 @@
 '''
 [ MODE REMUX ]
 Dictionaries to manage remux:
-    x_x > tracks parameters
+    c_o >
+    x_x > parameters values
 '''
+
+c_o = {
+
+    # Video track
+    'video_ID': '',
+    'video_title': '',
+    'video_flag': '',
+    'aspect_ratio': '',
+    'resolution': '',
+    'crop': '',
+    'framerate': '',
+    'video_delay': '',
+    'video_compression': '',
+
+    # Audio tracks
+    'audio_source': [],
+    'audio_title': [],
+    'audio_lang': [],
+    'audio_flag': [],
+    'audio_delay': [],
+    'audio_compression': [],
+
+    # Subtitles tracks
+    'sub_source': [],
+    'sub_title': [],
+    'sub_lang': [],
+    'sub_flag': [],
+    'sub_delay': [],
+    'sub_charset': [],
+    'sub_compression': []
+}
 
 x_x = {
     'aspect_ratio': ['', '4/3', '16/9', '1.33', '1.66',

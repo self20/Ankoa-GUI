@@ -4,7 +4,8 @@
 
 # ---------- AUDIO TRACK WIDGET ----------
 GridLayout:
-    padding: '4sp'
+    size_hint_y: None
+    padding: 4
     rows: 2
     canvas:
         Color:
@@ -16,7 +17,7 @@ GridLayout:
 
         # ---------- AUDIO TRACK ID & TITLE ----------
         BoxLayout:
-            padding: '2sp'
+            padding: 2
             size_hint: .7, 1
 
             # --- Check Audio Track ---
@@ -63,7 +64,7 @@ GridLayout:
             id: acodec
             value: ''
             group: uuid.uuid4()
-            padding: '2sp'
+            padding: 2
 
             # --- MP3 ---
             ToggleButton:
@@ -95,7 +96,7 @@ GridLayout:
 
     # ---------- AUDIO TRACK INFOS ----------
     BoxLayout:
-        padding: '2sp'
+        padding: 2
 
         # --- Audio Bitrate ---
         Label:

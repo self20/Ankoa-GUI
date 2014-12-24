@@ -291,7 +291,7 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  AUDIO LAYOUT ##################################### ENCODE ####
     # ---------------------------------------------------------------
-    # Manage audio Tracks (max 5 tracks)
+    # Manage audio Tracks (max 10 tracks)
     # From data.screen.mod_encode.audio_enc
 
     # Load Audio Track
@@ -304,7 +304,7 @@ class AnkoaApp(App):
     # Add Audio Track
     def add_audioTrack_enc(self):
         (audio_track, track_layout) = self.load_audioTrack_enc()
-        if self.audio_count < 5:
+        if self.audio_count < 10:
             track_layout.add_widget(audio_track)
             self.audio_count += 1
 
@@ -324,7 +324,7 @@ class AnkoaApp(App):
     # ---------------------------------------------------------------
     #  SUBTITLES LAYOUT ################################# ENCODE ####
     # ---------------------------------------------------------------
-    # Manage subtitles Tracks (max 7 tracks)
+    # Manage subtitles Tracks (max 10 tracks)
     # From data.screen.mod_encode.subtitles_enc
 
     # Load Subtitles Tracks
@@ -340,7 +340,7 @@ class AnkoaApp(App):
     def add_subTrack_enc(self, request):
         (sub_track, sub_file,
          track_layout) = self.load_subTrack_enc()
-        if self.sub_count < 7:
+        if self.sub_count < 10:
             if request == 'subTrack':
                 track_layout.add_widget(sub_track)
             elif request == 'subFile':

@@ -4,7 +4,8 @@
 # ---------- SUBTITLES TRACK WIDGET ----------
 GridLayout:
     id: subTrack
-    padding: '4sp'
+    size_hint_y: None
+    padding: 4
     rows: 1
     canvas:
         Color:
@@ -17,7 +18,7 @@ GridLayout:
         id: sub_infos
         type: 'subtrack'
         group_codec: uuid.uuid4()
-        padding: '5sp'
+        padding: 5
 
         # --- Check Subtitles Track ---
         Switch:
@@ -32,13 +33,15 @@ GridLayout:
             icon: 'data/icon/del.png'
             size_hint_x: .1
             on_press: app.del_subTrack_enc(root)
+        Label:
+            size_hint_x: .02
 
         # --- Subtitles Track ID ---
         TextInput:
             id: sub_source
             hint_text: 'Track ID'
             multiline: False
-            size_hint_x: .2
+            size_hint_x: .18
             input_filter: 'int'
             padding: 8, 8, 0, 0
 

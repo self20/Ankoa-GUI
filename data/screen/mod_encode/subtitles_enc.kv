@@ -52,9 +52,12 @@
             on_press: app.clear_subTracks_enc()
 
     # ---------- SUBTITLES TRACK LAYOUT ----------
-    GridLayout:
-        cols: 1
-        spacing: 5
-        row_force_default: True
-        row_default_height: 53
-        id: sub_track_layout
+    ScrollView:
+        do_scroll_x: False
+        GridLayout:
+            cols: 1
+            spacing: 5
+            size_hint_y: 1.5
+            row_force_default: True
+            row_default_height: 53
+            id: sub_track_layout

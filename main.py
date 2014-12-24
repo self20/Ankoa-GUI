@@ -290,30 +290,30 @@ class AnkoaApp(App):
     # Manage audio Tracks (max 10 tracks)
     # From data.screen.mod_encode.audio_enc
 
-    # Load Audio Track
-    def load_audioTrack_enc(self):
-        audio_track = Builder.load_file(
-            'data/screen/mod_encode/widget/audioTrack_enc.kv')
+    # Get Audio Track parent
+    def get_audioTrack_enc(self):
         track_layout = self.audio_enc.ids.audio_track_layout
-        return (audio_track, track_layout)
+        return track_layout
 
     # Add Audio Track
     def add_audioTrack_enc(self):
-        (audio_track, track_layout) = self.load_audioTrack_enc()
         if self.audio_count < 10:
-            track_layout.add_widget(audio_track)
+            track_layout = self.get_audioTrack_enc()
+            track = Builder.load_file(
+                'data/screen/mod_encode/widget/audioTrack_enc.kv')
+            track_layout.add_widget(track)
             self.audio_count += 1
 
     # Delete current Audio Track
     def del_audioTrack_enc(self, current_track):
-        (audio_track, track_layout) = self.load_audioTrack_enc()
+        track_layout = self.get_audioTrack_enc()
         track_layout.remove_widget(current_track)
         if self.audio_count > 0:
             self.audio_count += -1
 
     # Clear all Audio Tracks
     def clear_audioTracks_enc(self):
-        (audio_track, track_layout) = self.load_audioTrack_enc()
+        track_layout = self.get_audioTrack_enc()
         track_layout.clear_widgets()
         self.audio_count = 0
 
@@ -323,38 +323,31 @@ class AnkoaApp(App):
     # Manage subtitles Tracks (max 10 tracks)
     # From data.screen.mod_encode.subtitles_enc
 
-    # Load Subtitles Tracks
-    def load_subTrack_enc(self):
-        sub_track = Builder.load_file(
-            'data/screen/mod_encode/widget/subTrack_enc.kv')
-        sub_file = Builder.load_file(
-            'data/screen/mod_encode/widget/subFile_enc.kv')
+    # Get Subtitles Tracks parent
+    def get_subTrack_enc(self):
         track_layout = self.subtitles_enc.ids.sub_track_layout
-        return (sub_track, sub_file, track_layout)
+        return track_layout
 
     # Add Subtitles Track
     def add_subTrack_enc(self, request):
-        (sub_track, sub_file,
-         track_layout) = self.load_subTrack_enc()
         if self.sub_count < 10:
-            if request == 'subTrack':
-                track_layout.add_widget(sub_track)
-            elif request == 'subFile':
-                track_layout.add_widget(sub_file)
+            track_layout = self.get_subTrack_enc()
+            track = Builder.load_file(
+                'data/screen/mod_encode/widget/{}_enc.kv'
+                .format(request))
+            track_layout.add_widget(track)
             self.sub_count += 1
 
     # Delete current Subtitles Track
     def del_subTrack_enc(self, current_track):
-        (sub_track, sub_file,
-         track_layout) = self.load_subTrack_enc()
+        track_layout = self.get_subTrack_enc()
         track_layout.remove_widget(current_track)
         if self.sub_count > 0:
             self.sub_count += -1
 
     # Clear all Subtitles Tracks
     def clear_subTracks_enc(self):
-        (sub_track, sub_file,
-         track_layout) = self.load_subTrack_enc()
+        track_layout = self.get_subTrack_enc()
         track_layout.clear_widgets()
         self.sub_count = 0
 
@@ -549,49 +542,33 @@ class AnkoaApp(App):
     # Manage Tracks (max 10 tracks)
     # From data.screen.mod_remux.tracks_rmx
 
-    # Load Track (kv file)
-    def load_Track_rmx(self):
-        audio_track = Builder.load_file(
-            'data/screen/mod_remux/widget/audioTrack_rmx.kv')
-        audio_file = Builder.load_file(
-            'data/screen/mod_remux/widget/audioFile_rmx.kv')
-        sub_track = Builder.load_file(
-            'data/screen/mod_remux/widget/subTrack_rmx.kv')
-        sub_file = Builder.load_file(
-            'data/screen/mod_remux/widget/subFile_rmx.kv')
+    # Get Track parent
+    def get_Track_rmx(self):
         track_layout = \
             self.root.ids.header_screens.current_screen\
             .ids.tracks_rmx.ids.tracks_layout_rmx
-        return (audio_track, audio_file, sub_track,
-                sub_file, track_layout)
+        return track_layout
 
     # Add Track
     def add_Track_rmx(self, request):
-        (audio_track, audio_file, sub_track,
-         sub_file, track_layout) = self.load_Track_rmx()
         if self.track_count < 10:
-            if request == 'audioTrack':
-                track_layout.add_widget(audio_track)
-            elif request == 'audioFile':
-                track_layout.add_widget(audio_file)
-            elif request == 'subTrack':
-                track_layout.add_widget(sub_track)
-            elif request == 'subFile':
-                track_layout.add_widget(sub_file)
+            track_layout = self.get_Track_rmx()
+            track = Builder.load_file(
+                'data/screen/mod_remux/widget/{}_rmx.kv'
+                .format(request))
+            track_layout.add_widget(track)
             self.track_count += 1
 
     # Delete current Track
     def del_Track_rmx(self, current_track):
-        (audio_track, audio_file, sub_track,
-         sub_file, track_layout) = self.load_Track_rmx()
+        track_layout = self.get_Track_rmx()
         track_layout.remove_widget(current_track)
         if self.track_count > 0:
             self.track_count += -1
 
-    # Clear all Tracks
+    # Clear Tracks
     def clear_Tracks_rmx(self):
-        (audio_track, audio_file, sub_track,
-         sub_file, track_layout) = self.load_Track_rmx()
+        track_layout = self.get_Track_rmx()
         track_layout.clear_widgets()
         self.track_count = 0
 

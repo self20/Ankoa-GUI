@@ -21,6 +21,8 @@
             FileChooserListView:
                 id: list_view_tab
                 filters:
+                    user['audio_filter'] if\
+                    user['request'] == 'audio_source' else\
                     user['sub_filter'] if\
                     user['request'] == 'sub_source' else\
                     user['encode_filter'] if\
@@ -48,6 +50,8 @@
             FileChooserIconView:
                 id: icon_view_tab
                 filters:
+                    user['audio_filter'] if\
+                    user['request'] == 'audio_source' else\
                     user['sub_filter'] if\
                     user['request'] == 'sub_source' else\
                     user['encode_filter'] if\

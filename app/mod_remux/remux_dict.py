@@ -2,7 +2,7 @@
 '''
 [ MODE REMUX ]
 Dictionaries to manage remux:
-    c_o >
+    c_o > remux parameters
     x_x > parameters values
 '''
 
@@ -43,5 +43,7 @@ x_x = {
 
     'framerate': ['', '24p', '25p', '30p', '50p', '50i',
                   '60p', '60i', '24000/1001p', '30000/1001p',
-                  '60000/1001i', '60000/1001p']
+                  '60000/1001i', '60000/1001p'],
+
+    'compression': ['Default', 'None', 'Zlib']
 }

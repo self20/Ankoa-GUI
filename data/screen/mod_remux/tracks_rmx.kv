@@ -22,60 +22,7 @@
                 '' if app.scan_remux is None else\
                 (app.scan_remux).strip()
 
-    # ---------- VIDEO TRACK ----------
-    BoxLayout:
-        padding: 11
-        orientation: 'horizontal'
-        size_hint: 1, .14
-        canvas:
-            Color:
-                rgba: .1, .1, .1, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-
-        # --- Check Video Track ---
-        Switch:
-            id: check_vtrack
-            size_hint_x: .1
-            touch_control: False
-            active:
-                True if root.ids.video_track_ID.text and\
-                root.ids.movie_name.text else False
-
-        # --- Video Track Label ---
-        Label:
-            text: 'Video Track'
-            bold: True
-            size_hint_x: .2
-
-        # --- Video Track ID ---
-        TextInput:
-            id: video_track_ID
-            hint_text: 'Track ID'
-            multiline: False
-            size_hint_x: .1
-            input_filter: 'int'
-            padding: 8, 8, 0, 0
-
-        # --- Video Track Title ---
-        TextInput:
-            id: movie_name
-            size_hint_x: .5
-            hint_text: 'Track Title'
-            multiline: False
-            padding: 8, 8, 0, 0
-            text:
-                (app.remux_source).split('/')[-1][:-4]
-
-        # --- Video Track Settings ---
-        Button:
-            text: 'SETTINGS'
-            size_hint_x: .1
-            popup_id: 'VideoSettingsPopup()'
-            on_press: app.main_popup(self.popup_id)
-
-    # ---------- OTHERS TRACKS MENU ----------
+    # ---------- TRACKS MENU ----------
     BoxLayout:
         padding: 8
         orientation: 'horizontal'
@@ -117,9 +64,12 @@
             on_press: app.clear_Tracks_rmx()
 
     # ---------- OTHERS TRACKS LAYOUT ----------
-    GridLayout:
-        cols: 1
-        spacing: 5
-        row_force_default: True
-        row_default_height: 52
-        id: tracks_layout_rmx
+    ScrollView:
+        do_scroll_x: False
+        GridLayout:
+            cols: 1
+            spacing: 5
+            size_hint_y: 3
+            row_force_default: True
+            row_default_height: 76
+            id: tracks_layout_rmx

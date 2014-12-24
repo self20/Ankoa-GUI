@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 #:import user app.settings.conf_dict.user
+#:import x_x app.mod_remux.remux_dict.x_x
 
 # ---------- SOURCE LAYOUT ----------
 <source_rmx@Widget>:
@@ -10,6 +11,7 @@
 
     # ---------- SOURCE INFOS ----------
     BoxLayout:
+        size_hint: 1, .8
         TextInput:
             readonly: True
             padding: 20, 15, 0, 0
@@ -37,7 +39,7 @@
         # --- Check Source ---
         Switch:
             id: r_source
-            size_hint_x: .14
+            size_hint_x: .1
             touch_control: False
             active:
                 True if root.ids.source.text else False
@@ -45,7 +47,7 @@
         # --- Source Label ---
         Label:
             text: 'Video Source'
-            size_hint_x: .28
+            size_hint_x: .2
             bold: True
 
         # --- Select Source ---
@@ -60,6 +62,7 @@
         # --- Source Location ---
         TextInput:
             id: source
+            size_hint_x: .7
             multiline: False
             readonly: True
             padding: 8, 8, 0, 0
@@ -80,7 +83,7 @@
         # --- Check Title ---
         Switch:
             id: r_title
-            size_hint_x: .14
+            size_hint_x: .1
             touch_control: False
             active:
                 True if root.ids.title.text else False
@@ -88,7 +91,7 @@
         # --- Title Label ---
         Label:
             text: 'Release Title'
-            size_hint_x: .28
+            size_hint_x: .2
             bold: True
 
         # --- Clear Title ---
@@ -100,6 +103,231 @@
         # --- Title Input ---
         TextInput:
             id: title
+            size_hint_x: .7
             multiline: False
             padding: 8, 8, 0, 0
             text: (app.remux_source).split('/')[-1][:-4]
+
+    # ---------- VIDEO TRACK ----------
+    BoxLayout:
+        padding: 8
+        spacing: 5
+        size_hint: 1, .1
+        canvas:
+            Color:
+                rgba: .1, .1, .1, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        # --- Check Video Track ---
+        Switch:
+            id: check_vtrack
+            size_hint_x: .1
+            touch_control: False
+            active:
+                True if root.ids.video_track_ID.text and\
+                root.ids.movie_name.text else False
+
+        # --- Video Track Label ---
+        Label:
+            text: 'Video Track'
+            bold: True
+            size_hint_x: .2
+
+        # --- Clear Infos ---
+        ActionButton:
+            icon: 'data/icon/refresh.png'
+            size_hint_x: .05
+            on_press:
+                root.ids.video_track_ID.text = '';\
+                root.ids.video_track_title.text = '';\
+
+        # --- Video Track ID ---
+        TextInput:
+            id: video_track_ID
+            hint_text: 'Track ID'
+            multiline: False
+            size_hint_x: .1
+            input_filter: 'int'
+            padding: 8, 8, 0, 0
+
+        # --- Video Track Title ---
+        TextInput:
+            id: video_track_title
+            size_hint_x: .38
+            hint_text: 'Track Title'
+            multiline: False
+            padding: 8, 8, 0, 0
+            text:
+                (app.remux_source).split('/')[-1][:-4]
+
+        # --- Track Flag ---
+        ToggleButton:
+            id: default_track
+            size_hint_x: .1
+            text: 'DEFAULT'
+
+        ToggleButton:
+            id: forced_track
+            size_hint_x: .1
+            text: 'FORCED'
+
+    # ---------- VIDEO TRACK SETTINGS ----------
+    GridLayout:
+        padding: 8
+        spacing: 5
+        size_hint: 1, .2
+        rows: 2
+        canvas:
+            Color:
+                rgba: .1, .1, .1, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        BoxLayout:
+            padding: 2
+
+            # --- Framerate ---
+            Label:
+                text: 'Framerate'
+                size_hint_x: .3
+                bold: True
+
+            Slider:
+                size_hint_x: .3
+                id: _framerate
+                min: 0
+                max: 11
+                step: 1
+                value: 0
+            Label:
+                size_hint_x: .05
+
+            TextInput:
+                id: framerate
+                size_hint_x: .3
+                hint_text: 'Custom'
+                padding: 8, 8, 0, 0
+                text:
+                    x_x['framerate'][int('{}'.format(
+                    _framerate.value).split('.')[0])]
+            Label:
+                size_hint_x: .05
+
+            # --- Delay ---
+            TextInput:
+                id: video_delay
+                size_hint_x: .2
+                hint_text: 'Delay (ms)'
+                multiline: False
+                padding: 8, 8, 0, 0
+
+            # --- Strech ---
+            TextInput:
+                id: video_strech
+                size_hint_x: .2
+                hint_text: 'Strech by'
+                multiline: False
+                padding: 8, 8, 0, 0
+
+            # --- Compression ---
+            Label:
+                text: 'Compression'
+                size_hint_x: .3
+                bold: True
+
+            Slider:
+                size_hint_x: .2
+                id: compression
+                min: 0
+                max: 2
+                step: 1
+                value: 0
+            Label:
+                size_hint_x: .2
+                id: compress
+                text:
+                    x_x['compression'][int('{}'.format(
+                    compression.value).split('.')[0])]
+                bold: True
+
+        BoxLayout:
+            padding: 2
+
+            # --- Aspect ratio ---
+            Label:
+                text: 'Aspect ratio'
+                size_hint_x: .3
+                bold: True
+
+            Slider:
+                size_hint_x: .3
+                id: aspect
+                min: 0
+                max: 8
+                step: 1
+                value: 0
+            Label:
+                size_hint_x: .05
+
+            TextInput:
+                id: video_ar
+                size_hint_x: .2
+                padding: 8, 8, 0, 0
+                hint_text: 'Custom'
+                text:
+                    x_x['aspect_ratio'][int('{}'.format(
+                    aspect.value).split('.')[0])]
+            Label:
+                size_hint_x: .05
+
+            # --- Resolution ---
+            TextInput:
+                id: video_width
+                size_hint_x: .2
+                hint_text: 'Width'
+                input_filter: 'int'
+                padding: 8, 8, 0, 0
+
+            TextInput:
+                id: video_height
+                size_hint_x: .2
+                hint_text: 'Height'
+                input_filter: 'int'
+                padding: 8, 8, 0, 0
+
+            # --- Crop ---
+            Label:
+                text: 'Crop'
+                size_hint_x: .2
+                bold: True
+
+            TextInput:
+                id: crop_left
+                size_hint_x: .15
+                hint_text: 'Left'
+                input_filter: 'int'
+                padding: 6, 8, 0, 0
+
+            TextInput:
+                id: crop_top
+                size_hint_x: .15
+                hint_text: 'Top'
+                input_filter: 'int'
+                padding: 6, 8, 0, 0
+
+            TextInput:
+                id: crop_right
+                size_hint_x: .15
+                hint_text: 'Right'
+                input_filter: 'int'
+                padding: 6, 8, 0, 0
+
+            TextInput:
+                id: crop_bottom
+                size_hint_x: .15
+                hint_text: 'Bottom'
+                input_filter: 'int'
+                padding: 4, 8, 0, 0

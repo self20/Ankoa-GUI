@@ -1,0 +1,108 @@
+#:kivy 1.8.0
+#:import user app.settings.conf_dict.user
+#:import x_x app.mod_remux.remux_dict.x_x
+
+# ---------- AUDIO FILE WIDGET ----------
+GridLayout:
+    size_hint_y: None
+    padding: 4
+    rows: 2
+    canvas:
+        Color:
+            rgba: 5, .4, .5, .5
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        padding: 2
+
+        # --- Check Track ---
+        Switch:
+            size_hint_x: .1
+            touch_control: False
+
+        # --- DEL Track ----
+        ActionButton:
+            icon: 'data/icon/del.png'
+            size_hint_x: .05
+            on_press: app.del_Track_rmx(root)
+
+        # --- Track Source ---
+        ActionButton:
+            icon: 'data/icon/add.png'
+            size_hint_x: .05
+            popup_id: 'ManagerPopup()'
+            on_press:
+                user['request'] = 'audio_source';\
+                app.main_popup(self.popup_id)
+
+        TextInput:
+            hint_text: 'Track Source'
+            multiline: False
+            size_hint_x: .25
+
+        # --- Track Language ---
+        TextInput:
+            hint_text: 'Language'
+            multiline: False
+            size_hint_x: .1
+
+        # --- Track Title ---
+        TextInput:
+            hint_text: 'Track Title'
+            multiline: False
+            size_hint_x: .3
+
+        # --- Track Flag ---
+        ToggleButton:
+            id: default_track
+            size_hint_x: .1
+            text: 'DEFAULT'
+
+        ToggleButton:
+            id: forced_track
+            size_hint_x: .1
+            text: 'FORCED'
+
+    BoxLayout:
+        padding: 2
+        Label:
+            text: '[ AUDIO ]'
+            size_hint_x: .3
+            bold: True
+
+        # --- delay ---
+        TextInput:
+            id: audio_delay
+            size_hint_x: .3
+            hint_text: 'Delay (ms)'
+            multiline: False
+
+        # --- Strech ---
+        TextInput:
+            id: audio_strech
+            size_hint_x: .4
+            hint_text: 'Strech by'
+            multiline: False
+
+        # --- COMPRESSION ---
+        Label:
+            text: 'Compression'
+            size_hint_x: .4
+            bold: True
+
+        Slider:
+            size_hint_x: .4
+            id: compression
+            min: 0
+            max: 2
+            step: 1
+            value: 0
+        Label:
+            size_hint_x: .2
+            id: compress
+            text:
+                x_x['compression'][int('{}'.format(
+                compression.value).split('.')[0])]
+            bold: True

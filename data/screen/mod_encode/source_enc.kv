@@ -10,6 +10,7 @@
 
     # ---------- SOURCE INFOS ----------
     BoxLayout:
+        size_hint: 1, .95
         TextInput:
             readonly: True
             padding: 20, 15, 0, 0
@@ -37,7 +38,7 @@
         # --- Check Source ---
         Switch:
             id: r_source
-            size_hint_x: .14
+            size_hint_x: .1
             touch_control: False
             active:
                 True if root.ids.source.text else False
@@ -45,7 +46,7 @@
         # --- Source Label ---
         Label:
             text: 'Video Source'
-            size_hint_x: .28
+            size_hint_x: .2
             bold: True
 
         # --- Select Source ---
@@ -60,6 +61,7 @@
         # --- Source Location ---
         TextInput:
             id: source
+            size_hint_x: .7
             multiline: False
             readonly: True
             padding: 8, 8, 0, 0
@@ -80,7 +82,7 @@
         # --- Check Title ---
         Switch:
             id: r_title
-            size_hint_x: .14
+            size_hint_x: .1
             touch_control: False
             active:
                 True if root.ids.title.text else False
@@ -88,7 +90,7 @@
         # --- Title Label ---
         Label:
             text: 'Release Title'
-            size_hint_x: .28
+            size_hint_x: .2
             bold: True
 
         # --- Clear Title ---
@@ -100,6 +102,7 @@
         # --- Title Input ---
         TextInput:
             id: title
+            size_hint_x: .7
             multiline: False
             padding: 8, 8, 0, 0
             text: (app.encode_source).split('/')[-1][:-4]

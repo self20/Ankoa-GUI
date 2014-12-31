@@ -3,15 +3,18 @@ __version__ = 'Ankoa v0.1'
 __author__ = 'grm34@FRIPOUILLEJACK'
 __license__ = 'CeCILL-C FREE SOFTWARE'
 
+# Python libraries
 import os
 import sys
+from os.path import (dirname, join)
+
+# Kivy libraries
 import kivy
 kivy.require('1.8.0')
 from kivy.app import App
 from kivy.compat import PY2
 from kivy.lang import Builder
 from kivy.config import Config
-from os.path import (dirname, join)
 from kivy.animation import Animation
 from kivy.core.clipboard import Clipboard
 from kivy.properties import (

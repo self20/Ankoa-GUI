@@ -1,13 +1,11 @@
 #!/usr/bin/kivy
-'''
-Calculate required video bitrate by specify
-Video duration, audio bitrate and desired size
-'''
+''' [ MODE ENCODE ] '''
 from app.mod_encode.encode_dict import u_u
 
 
-# Video bitrate
 def calculator():
+    ''' Calculate required video bitrate by specify
+    video duration, audio bitrate and desired size '''
 
     # Target sizes
     calsize = u_u['bit_sizes'][int(u_u['desired_size'])]

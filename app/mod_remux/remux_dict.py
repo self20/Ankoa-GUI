@@ -1,6 +1,5 @@
 #!/usr/bin/kivy
-'''
-[ MODE REMUX ]
+''' [ MODE REMUX ]
 Dictionaries to manage remux:
     c_o > remux parameters
     x_x > parameters values

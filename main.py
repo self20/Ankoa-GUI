@@ -1,5 +1,7 @@
 #!/usr/bin/kivy
 __version__ = 'Ankoa v0.1'
+__author__ = 'grm34@FRIPOUILLEJACK'
+__license__ = 'CeCILL-C FREE SOFTWARE'
 
 import os
 import sys
@@ -11,41 +13,36 @@ from kivy.lang import Builder
 from kivy.config import Config
 from os.path import (dirname, join)
 from kivy.animation import Animation
-from kivy.uix.screenmanager import Screen
 from kivy.core.clipboard import Clipboard
-from kivy.properties import (NumericProperty, StringProperty,
-                             ObjectProperty, ListProperty)
+from kivy.properties import (
+    NumericProperty, StringProperty,
+    ObjectProperty, ListProperty)
+
 # Local libraries
-from app.mod_encode.encode_man import (manage_video, manage_audio,
-                                       manage_subs, manage_advanced,
-                                       build_advanced, manage_ffmpeg)
-from app.settings.config import (load_settings, modify_settings,
-                                 clear_settings)
+from app.mod_encode.encode_man import (
+    manage_video, manage_audio, manage_subs,
+    manage_advanced, build_advanced, manage_ffmpeg)
+from app.settings.config import (
+    load_settings, modify_settings, clear_settings)
 from app.mod_encode.encode_dict import (o_o, error)
 from app.mod_encode.bitrate_calc import calculator
+from app.screen.screens import AnkoaScreen
 from app.settings.conf_dict import user
 from app.scan.scan_source import scan
-from app.popup.popup_classes import *
 from app.server.remote import remote
-
-# Resolution
-Config.set('graphics', 'width', '1024')
-Config.set('graphics', 'height', '768')
+from app.popup.popups import *
 
 
-# Container
-class AnkoaScreen(Screen):
-    pass
-
-
-# Ankoa-GUI
 class AnkoaApp(App):
 
-    # --------------------------- GLOBAL ----------------------------
-    #  BIND EVENTS ##################################################
-    # ---------------------------------------------------------------
+    # MANAGE EVENTS
+    # ===============================================================
+    ''' Here we use kivy properties to define events and bind to
+    them. Properties produce events such that when an attribute of
+    one object changes, all properties that reference that attribute
+    are automatically updated. '''
 
-    # Global
+    # General
     current_track = ObjectProperty()
     current_error = StringProperty()
 
@@ -54,7 +51,7 @@ class AnkoaApp(App):
     screen_names = ListProperty([])
     current_title = StringProperty()
 
-    # Mode Encode
+    # Encode Mode
     current_bitrate = StringProperty()
     scan_encode = ObjectProperty()
     encode_source = StringProperty()
@@ -70,10 +67,21 @@ class AnkoaApp(App):
     scan_extract = ObjectProperty()
     extract_source = StringProperty()
 
-    # --------------------------- GLOBAL ----------------------------
-    #  ROOT #########################################################
-    # ---------------------------------------------------------------
+    # APPLICATION ROOT
+    # ===============================================================
+    ''' Here we use build method to define application configuration,
+    settings and to initialize our graphic environment. The root
+    application is created from the corresponding .kv (ankoa.kv) '''
+
+    def build_config(self, config):
+
+        # Set app resolution
+        Config.set('graphics', 'width', '1024')
+        Config.set('graphics', 'height', '768')
+
     def build(self):
+
+        # Set app title
         self.title = __version__
 
         # Set screens
@@ -88,7 +96,7 @@ class AnkoaApp(App):
             join(dirname(__file__), 'data', 'screen',
                  'mod_{}.kv'.format(fn)) for fn in self.menu_screens]
 
-        # Display 1st screen on open
+        # Display 1st screen on start
         self.go_next_screen()
 
         # Get ENCODE_MODE Layouts
@@ -107,12 +115,8 @@ class AnkoaApp(App):
         self.queue_enc = \
             self.root.ids.header_screens.current_screen.ids.queue_enc
 
-    # --------------------------- GLOBAL ----------------------------
-    #  USER SETTINGS ################################################
-    # ---------------------------------------------------------------
-    # Load settings on start / verification
-    # Manage save/clear From data.popup.settings To app.settings.config
-    # Manage remote session From data.popup.remote To app.server.remote
+    # USER SETTINGS
+    # ===============================================================
 
     # Load user settings on start
     load_settings()
@@ -136,9 +140,8 @@ class AnkoaApp(App):
     def manage_remote(self, request):
         remote(request)
 
-    # --------------------------- GLOBAL ----------------------------
-    #  UTILITIES ####################################################
-    # ---------------------------------------------------------------
+    # UTILITIES
+    # ===============================================================
 
     # Restart App
     def restart_ankoa(self):
@@ -155,9 +158,8 @@ class AnkoaApp(App):
         self.current_track = current_track
         return self.current_track
 
-    # --------------------------- GLOBAL ----------------------------
-    #  MANAGE POPUPS ################################################
-    # ---------------------------------------------------------------
+    # MANAGE POPUPS
+    # ===============================================================
 
     # Load all popups (kv files)
     for popup in os.listdir('data/popup/'):
@@ -166,16 +168,14 @@ class AnkoaApp(App):
 
     # Display popups
     def main_popup(self, popup_id):
-        '''
-        Call corresponding class app.popup.popup_classes
-        From anywhere with popup_id request
-        '''
+        ''' Function to display popups. It call corresponding class
+        in app.popup.popups from anywhere with current popup_id '''
+
         popup = '{}'.format(popup_id)
         eval(popup).open()
 
-    # --------------------------- GLOBAL ----------------------------
-    #  MANAGE SCREENS ###############################################
-    # ---------------------------------------------------------------
+    # MANAGE SCREENS
+    # ===============================================================
 
     # Go previous screen
     def go_previous_screen(self):
@@ -209,9 +209,8 @@ class AnkoaApp(App):
         self.screens[index] = screen
         return screen
 
-    # --------------------------- GLOBAL ----------------------------
-    #  MANAGE SCREENS LAYOUTS #######################################
-    # ---------------------------------------------------------------
+    # MANAGE SCREENS LAYOUTS
+    # ===============================================================
 
     # Load ENCODE_MODE layouts (kv files)
     for mod_encod_kvs in os.listdir('data/screen/mod_encode/'):
@@ -225,16 +224,14 @@ class AnkoaApp(App):
             Builder.load_file(
                 'data/screen/mod_remux/{}'.format(mod_remux_kvs))
 
-    # --------------------------- GLOBAL ----------------------------
-    #  MANAGE SOURCES ###############################################
-    # ---------------------------------------------------------------
+    # MANAGE SOURCES
+    # ===============================================================
 
     # Scan video source
     def scan_source_infos(self, source):
-        '''
-        Return complete mediainfo with autocrop values
-        Call app.scan.scan_source.scan
-        '''
+        ''' Function will return a complete mediainfo with
+        autocrop values. It call app.scan.scan_source.scan '''
+
         if user['request'] == 'encode_source':
             self.scan_encode = scan(source)
         elif user['request'] == 'remux_source':
@@ -244,10 +241,9 @@ class AnkoaApp(App):
 
     # Load Video Source
     def load_video_source(self, source):
-        '''
-        Get source location on filemanager selection
-        Also required by video player preview
-        '''
+        ''' Function to get source location on filemanager
+        selection. Also required by the video player preview '''
+
         if user['request'] == 'encode_source':
             self.encode_source = source
         elif user['request'] == 'remux_source':
@@ -255,16 +251,14 @@ class AnkoaApp(App):
         elif user['request'] == 'extract_source':
             self.extract_source = source
 
-    # ------------------------ MODE ENCODE --------------------------
-    #  VIDEO LAYOUT #################################################
-    # ---------------------------------------------------------------
+    # MODE ENCODE: VIDEO LAYOUT
+    # ===============================================================
 
     # Video bitrate layout
     def toggle_bitrate(self, state):
-        '''
-        Toggle bitrate row animation (row height on/off)
-        From data.screen.mod_encode.video_enc [Bitrate button]
-        '''
+        ''' Toggle bitrate row animation (row height on/off)
+        from data.screen.mod_encode.video_enc [Bitrate button] '''
+
         if state == 'down':
             height = 42
         else:
@@ -274,19 +268,16 @@ class AnkoaApp(App):
 
     # Video bitrate calculator
     def bit_calculator(self):
-        '''
-        Call app.mod_encode.bitrate_calculator
-        From data.screen.mod_encode.video_enc [RUN button]
-        '''
+        ''' Function will return video bitrate in Kbps.
+        It call app.mod_encode.bitrate_calculator from
+        data.screen.mod_encode.video_enc [RUN button] '''
+
         current_bitrate = calculator()
         self.current_bitrate = str(current_bitrate)
         return self.current_bitrate
 
-    # ------------------------ MODE ENCODE --------------------------
-    #  AUDIO LAYOUT #################################################
-    # ---------------------------------------------------------------
-    # Manage audio Tracks (max 10 tracks)
-    # From data.screen.mod_encode.audio_enc
+    # MODE ENCODE: AUDIO LAYOUT
+    # ===============================================================
 
     # Get Audio Track parent
     def get_audioTrack_enc(self):
@@ -315,11 +306,8 @@ class AnkoaApp(App):
         track_layout.clear_widgets()
         self.audio_count = 0
 
-    # ------------------------ MODE ENCODE --------------------------
-    #  SUBTITLES LAYOUT #############################################
-    # ---------------------------------------------------------------
-    # Manage subtitles Tracks (max 10 tracks)
-    # From data.screen.mod_encode.subtitles_enc
+    # MODE ENCODE: SUBTITLES LAYOUT
+    # ===============================================================
 
     # Get Subtitles Tracks parent
     def get_subTrack_enc(self):
@@ -351,24 +339,21 @@ class AnkoaApp(App):
 
     # Load Subtitles File Source
     def load_subSource_enc(self, value):
-        '''
-        Get subfile location from filemanager selection to
-        display subfile title in corresponding track area
-        '''
+        ''' Function to get subfile location on filemanager
+        selection to display subfile title in corresponding
+        track area '''
+
         current_track = self.get_current_track(self.current_track)
         current_track.ids.sub_source.text = value.split('/')[-1]
         current_track.ids.sub_codec.value = value.split('.')[-1]
 
-    # ------------------------ MODE ENCODE --------------------------
-    #  MAPPING VALUES ###############################################
-    # ---------------------------------------------------------------
+    # MODE ENCODE: MANAGEMENT
+    # ===============================================================
 
-    # Get encode infos
+    # Get user entries
     def get_encode_infos(self):
-        '''
-        Get encode values from corresponding layout
-        Fill in encode dictionary o_o
-        '''
+        ''' Function to get encode values from corresponding layout
+        and to bind them in encode dictionary o_o '''
 
         # Get source infos
         o_o['rls_source'] = self.source_enc.ids.source.text
@@ -475,13 +460,6 @@ class AnkoaApp(App):
             o_o['grayscale'] = self.advanced_enc.ids.grayscale.value
             o_o['bluray'] = self.advanced_enc.ids.bluray_compat.value
 
-    # ------------------------ MODE ENCODE --------------------------
-    #  MANAGE VALUES ################################################
-    # ---------------------------------------------------------------
-    # Check content and call the manager app.mod_encode.encode_man
-    # Manager will set proper FFMPEG cmd in dictionary o_o
-    # Display popup error on missing values
-
     # Essential content verification
     def check_encode_values(self):
         if self.check_user_settings() is True and\
@@ -508,7 +486,7 @@ class AnkoaApp(App):
                 self.current_error = error['codec']
             return False
 
-    # Reset dictionary
+    # Reset dictionary o_o
     def reset_dictionary(self):
         self.queue_enc.ids.ffmpeg_cmd.text = ''
         for key, value in o_o.items():
@@ -517,8 +495,11 @@ class AnkoaApp(App):
             else:
                 o_o[key] = ''
 
-    # Get content
+    # Send content
     def send_encode_values(self):
+        ''' Function to send content to the manager.
+        Manager will return ffmpeg command line '''
+
         self.get_encode_infos()
         manage_video()
         manage_audio()
@@ -532,11 +513,8 @@ class AnkoaApp(App):
         print (str(o_o).replace(", ", "'\n")
                        .replace("],", "]\n"))
 
-    # ------------------------- MODE REMUX --------------------------
-    #  TRACKS LAYOUT ################################################
-    # ---------------------------------------------------------------
-    # Manage Tracks (max 10 tracks)
-    # From data.screen.mod_remux.tracks_rmx
+    # MODE REMUX: TRACKS LAYOUT
+    # ===============================================================
 
     # Get Track parent
     def get_Track_rmx(self):

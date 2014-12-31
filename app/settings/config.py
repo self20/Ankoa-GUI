@@ -1,13 +1,9 @@
 #!/usr/bin/kivy
-'''
-[ USER SETTINGS ]
-Settings Manager
-'''
 import os
 import configparser
 from app.settings.conf_dict import user
 
-# Create config memory file
+# Create config object
 conf = configparser.ConfigParser()
 
 # Set .cfg filename and section

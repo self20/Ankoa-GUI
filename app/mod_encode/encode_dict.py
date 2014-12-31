@@ -1,6 +1,5 @@
 #!/usr/bin/kivy
-'''
-[ MODE ENCODE ]
+''' [ MODE ENCODE ]
 Dictionaries to manage encode:
     o_o > encode parameters
     v_v > parameters values

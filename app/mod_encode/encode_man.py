@@ -1,15 +1,12 @@
 #!/usr/bin/kivy
-'''
-[ MODE ENCODE ]
-Manage all content to return FFMPEG cmd
-'''
+''' [ MODE ENCODE ]
+Manage all content to return FFMPEG cmd '''
 from app.mod_encode.encode_dict import o_o
 from app.settings.conf_dict import user
 
 
-# ---------------------------------------------------------------
-#  VIDEO TRACK ##################################################
-# ---------------------------------------------------------------
+# VIDEO TRACK
+# ===============================================================
 def manage_video():
 
     # Output
@@ -51,9 +48,8 @@ def manage_video():
         o_o['profile'] = ' -profile:v {}'.format(o_o['profile'].lower())
 
 
-# ---------------------------------------------------------------
-#  AUDIO TRACKS #################################################
-# ---------------------------------------------------------------
+# AUDIO TRACKS
+# ===============================================================
 def manage_audio():
     audio_tracks_list = []
     for nb in range(0, len(o_o['audio_ID'])):
@@ -82,9 +78,8 @@ def manage_audio():
     o_o['audio_config'] = ''.join(audio_tracks_list)
 
 
-# ---------------------------------------------------------------
-#  SUBTITLES TRACKS #############################################
-# ---------------------------------------------------------------
+# SUBTITLES TRACKS
+# ===============================================================
 def manage_subs():
     subtitles_tracks_list = []
     for nb in range(0, len(o_o['subs_type'])):
@@ -142,9 +137,8 @@ def manage_subs():
     o_o['subs_config'] = ''.join(subtitles_tracks_list)
 
 
-# ---------------------------------------------------------------
-#  ADVANCED PARAM ###############################################
-# ---------------------------------------------------------------
+# ADVANCED PARAM
+# ===============================================================
 def manage_advanced():
 
     # Append cmd when used
@@ -236,9 +230,8 @@ def build_advanced():
             o_o['fast_skip'], o_o['grayscale'], o_o['bluray'])
 
 
-# ---------------------------------------------------------------
-#  FFMPEG CMD ###################################################
-# ---------------------------------------------------------------
+# FFMPEG COMMAND LINE
+# ===============================================================
 def manage_ffmpeg():
 
     # CRF

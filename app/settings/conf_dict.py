@@ -1,8 +1,6 @@
 #!/usr/bin/kivy
-'''
-[ USER SETTINGS ]
-Dictionary to manage user settings
-'''
+''' [ USER SETTINGS ]
+Dictionary to manage user settings '''
 
 user = {
 

@@ -1,16 +1,13 @@
 #!/usr/bin/kivy
-'''
-Mount & umount remote folder to local on demand
-Usage of sshfs with fusermount
-'''
 import os
 import sys
-# import subprocess
 from app.settings.conf_dict import user
 
 
 # Session control
 def remote(request):
+    ''' Mount & umount remote folder to local
+    on demand, using sshfs and fusermount '''
 
     # Mount source folder cmd
     if request == 'mount_source_folder':
@@ -34,7 +31,3 @@ def remote(request):
         except OSError as e:
             print (e)
             sys.exit()
-
-        # except subprocess.CalledProcessError as e:
-        #     print (e)
-        #     sys.exit()

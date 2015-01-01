@@ -124,6 +124,8 @@ class AnkoaApp(App):
 
     # USER SETTINGS
     # ===============================================================
+    ''' User settings management (check/save/clear) and remote
+    session management (mount remote folder to local via sshfs) '''
 
     # Save user settings
     def save_settings(self):
@@ -140,12 +142,14 @@ class AnkoaApp(App):
         else:
             return False
 
-    # Remote session (mount remote folder to local via sshfs)
+    # Remote session
     def manage_remote(self, request):
         remote(request)
 
     # UTILITIES
     # ===============================================================
+    ''' Some global utilities such as restart the application, copy
+    something to clipboard on demand, get current track layout, ... '''
 
     # Restart App
     def restart_ankoa(self):
@@ -164,8 +168,10 @@ class AnkoaApp(App):
 
     # MANAGE POPUPS
     # ===============================================================
+    ''' Here we load all popups on start (kv files) and we use a
+    function to easy display them on demand, with a simple request '''
 
-    # Load all popups (kv files)
+    # Load popups
     for popup in os.listdir('data/popup/'):
         if popup.endswith('.kv'):
             Builder.load_file('data/popup/{}'.format(popup))
@@ -180,6 +186,8 @@ class AnkoaApp(App):
 
     # MANAGE SCREENS
     # ===============================================================
+    ''' We previously created one screen per mode, those functions
+    will display them on demand (previous/next or selection) '''
 
     # Go previous screen
     def go_previous_screen(self):
@@ -215,6 +223,9 @@ class AnkoaApp(App):
 
     # MANAGE SCREENS LAYOUTS
     # ===============================================================
+    ''' Here we just load all layouts, layouts are the windows of
+    one screen. Each mode contains it own screen that contains
+    it's own layouts, so let's load them separatly '''
 
     # Load ENCODE_MODE layouts (kv files)
     for mod_encod_kvs in os.listdir('data/screen/mod_encode/'):
@@ -228,8 +239,10 @@ class AnkoaApp(App):
             Builder.load_file(
                 'data/screen/mod_remux/{}'.format(mod_remux_kvs))
 
-    # MANAGE SOURCES
+    # MANAGE VIDEO SOURCES
     # ===============================================================
+    ''' Functions to load or scan a video on filemanager selection.
+    We simply use requests to define the mode which asking for '''
 
     # Scan video source
     def scan_source_infos(self, source):
@@ -257,6 +270,8 @@ class AnkoaApp(App):
 
     # MODE ENCODE: VIDEO LAYOUT
     # ===============================================================
+    ''' Video bitrate calculator functions. Animation to display
+    bitrate calculator interface and one function for calculate. '''
 
     # Video bitrate layout
     def toggle_bitrate(self, state):
@@ -282,6 +297,8 @@ class AnkoaApp(App):
 
     # MODE ENCODE: AUDIO LAYOUT
     # ===============================================================
+    ''' Audio tracks management. Here we add/del tracks such as
+    widgets on demand. The limitation is to 10 tracks '''
 
     # Get Audio Track parent
     def get_audioTrack_enc(self):
@@ -312,6 +329,8 @@ class AnkoaApp(App):
 
     # MODE ENCODE: SUBTITLES LAYOUT
     # ===============================================================
+    ''' Subtitles tracks management. Here we add/del tracks such
+    as widgets on demand. The limitation is to 10 tracks '''
 
     # Get Subtitles Tracks parent
     def get_subTrack_enc(self):
@@ -353,11 +372,15 @@ class AnkoaApp(App):
 
     # MODE ENCODE: MANAGEMENT
     # ===============================================================
+    ''' Here is recovered current encode settings to send them to the
+    manager, it will return ffmpeg command line. In case of local
+    usage, this command will be executed localy, or sent to a
+    remote server. Queue mode is not already built '''
 
     # Get user entries
     def get_encode_infos(self):
         ''' Function to get encode values from corresponding layout
-        and to bind them in encode dictionary o_o '''
+        and to fill them in encode dictionary o_o '''
 
         # Get source infos
         o_o['rls_source'] = self.source_enc.ids.source.text
@@ -466,6 +489,9 @@ class AnkoaApp(App):
 
     # Essential content verification
     def check_encode_values(self):
+        ''' Here we check if nothing is missing. One error will
+        be displayed in a popup in case of missing values '''
+
         if self.check_user_settings() is True and\
                 self.source_enc.ids.r_source.active is True and\
                 self.source_enc.ids.r_title.active is True and\
@@ -502,7 +528,8 @@ class AnkoaApp(App):
     # Send content
     def send_encode_values(self):
         ''' Function to send content to the manager.
-        Manager will return ffmpeg command line '''
+        Manager will return ffmpeg command line. We also
+        print this command in corresponding area '''
 
         self.get_encode_infos()
         manage_video()
@@ -513,12 +540,14 @@ class AnkoaApp(App):
         manage_ffmpeg()
         self.queue_enc.ids.ffmpeg_cmd.text = '{}'.format(o_o['ffmpeg'])
 
-        '''debug'''
+        ''' debug '''
         print (str(o_o).replace(", ", "'\n")
                        .replace("],", "]\n"))
 
     # MODE REMUX: TRACKS LAYOUT
     # ===============================================================
+    ''' Audio & subtitles tracks management. Here we add/del tracks
+    such as widgets on demand. The limitation is to 10 tracks '''
 
     # Get Track parent
     def get_Track_rmx(self):

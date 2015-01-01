@@ -82,6 +82,10 @@ class AnkoaApp(App):
         Config.set('graphics', 'width', '1024')
         Config.set('graphics', 'height', '768')
 
+        # Load user settings
+        use_kivy_settings = False
+        load_settings()
+
     def build(self):
 
         # Set app title
@@ -120,9 +124,6 @@ class AnkoaApp(App):
 
     # USER SETTINGS
     # ===============================================================
-
-    # Load user settings on start
-    load_settings()
 
     # Save user settings
     def save_settings(self):

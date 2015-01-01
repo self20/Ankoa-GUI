@@ -1,7 +1,7 @@
 #!/usr/bin/kivy
 __version__ = 'Ankoa v0.1'
 __author__ = 'grm34@FRIPOUILLEJACK'
-__license__ = 'CeCILL-C FREE SOFTWARE'
+__license__ = 'CeCILL-C Free Software'
 
 # Python libraries
 import os

@@ -223,7 +223,7 @@ class AnkoaApp(App):
 
     # MANAGE SCREENS LAYOUTS
     # ===============================================================
-    ''' Here we just load all layouts, layouts are the windows of
+    ''' Here we just load all layouts, they are the windows of
     one screen. Each mode contains it own screen that contains
     it's own layouts, so let's load them separatly '''
 

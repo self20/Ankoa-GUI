@@ -1,30 +1,190 @@
 #:kivy 1.8.0
+#:import session app.settings.conf_dict.session
 
 # ---------- REMOTE POPUP ----------
 <RemotePopup>:
-    size_hint: .3, .3
+    size_hint: .7, .36
     auto_dismiss: False
-    title: 'Remote'
-
+    title: 'Remote session'
     GridLayout:
-        size_hint: 1, 1
-        orientation: 'vertical'
         cols: 1
+        spacing: 5
+        row_force_default: True
+        row_default_height: 50
 
-        # --- Mount button ---
-        Button:
-            text: 'Mount Remote Folder'
-            request: 'mount_source_folder'
-            on_press: app.manage_remote(self.request)
+        # ---------- SSH SETTINGS ----------
+        BoxLayout:
+            padding: 8
+            canvas:
+                Color:
+                    rgba: 47 / 255., 167 / 255., 212 / 255., .1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
 
-        # --- Umount button ---
-        Button:
-            text: 'Umount Remote Folder'
-            request: 'umount_source_folder'
-            on_press: app.manage_remote(self.request)
+            # --- Check SSH Settings ---
+            Switch:
+                id: remote
+                size_hint_x: .20
+                touch_control: False
+                active:
+                    True if root.ids.ssh_host.text and\
+                    root.ids.ssh_port.text and\
+                    root.ids.ssh_username.text and\
+                    root.ids.ssh_passwd.text else False
 
-        # --- Cancel button ---
-        Button:
-            text: 'Cancel'
-            on_press:
-                root.dismiss()
+            # --- SSH Settings Label ---
+            Label:
+                text: 'SSH Settings'
+                size_hint_x: .40
+
+            BoxLayout:
+
+                # --- Hostname / IP ---
+                TextInput:
+                    size_hint_x: .4
+                    hint_text: 'Hostname / IP'
+                    text: session['ssh_host']
+                    id: ssh_host
+                    padding: 8, 8, 0, 0
+                    multiline: False
+
+                # --- SSH Port ---
+                TextInput:
+                    size_hint_x: .2
+                    hint_text: 'Port'
+                    text: session['ssh_port']
+                    id: ssh_port
+                    padding: 8, 8, 0, 0
+                    multiline: False
+
+                # --- SSH Username ---
+                TextInput:
+                    size_hint_x: .3
+                    hint_text: 'Username'
+                    text: session['ssh_username']
+                    id: ssh_username
+                    padding: 8, 8, 0, 0
+                    multiline: False
+
+                # --- SSH Password ---
+                TextInput:
+                    size_hint_x: .3
+                    hint_text: 'Password'
+                    text: session['ssh_passwd']
+                    id: ssh_passwd
+                    padding: 8, 8, 0, 0
+                    multiline: False
+
+        # ---------- REMOTE FOLDER ----------
+        BoxLayout:
+            padding: 8
+            canvas:
+                Color:
+                    rgba: 47 / 255., 167 / 255., 212 / 255., .2
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            # --- Check Remote ---
+            Switch:
+                id: M_folder
+                size_hint_x: .20
+                touch_control: False
+                active:
+                    True if root.ids.remote_folder.text else False
+
+            # --- Remote Label ---
+            Label:
+                text: 'Remote Folder'
+                size_hint_x: .40
+
+            # --- Remote Input ---
+            TextInput:
+                hint_text: 'ex: /home/user/torrents/'
+                text: session['remote_folder']
+                id: remote_folder
+                padding: 8, 8, 0, 0
+                multiline: False
+
+        # ---------- LOCAL MOUNT POINT ----------
+        BoxLayout:
+            padding: 8
+            canvas:
+                Color:
+                    rgba: 47 / 255., 167 / 255., 212 / 255., .1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            # --- Check Local ---
+            Switch:
+                id: L_folder
+                size_hint_x: .20
+                touch_control: False
+                active:
+                    True if root.ids.local_folder.text else False
+
+            # --- Remote Label ---
+            Label:
+                text: 'Local Folder'
+                size_hint_x: .40
+
+            # --- Remote Input ---
+            TextInput:
+                hint_text: 'ex: /home/user/tmp/'
+                text: session['local_folder']
+                id: local_folder
+                padding: 8, 8, 0, 0
+                multiline: False
+
+        BoxLayout:
+            padding: 8
+
+            # --- Save button ---
+            Button:
+                text: 'Save'
+                on_press:
+                    session['ssh_host'] = root.ids.ssh_host.text;\
+                    session['ssh_port'] = root.ids.ssh_port.text;\
+                    session['ssh_username'] = root.ids.ssh_username.text;\
+                    session['ssh_passwd'] = root.ids.ssh_passwd.text;\
+                    session['local_folder'] = root.ids.local_folder.text;\
+                    session['remote_folder'] = root.ids.remote_folder.text;\
+                    app.save_session() if\
+                    root.ids.remote.active is True and\
+                    root.ids.M_folder.active is True and\
+                    root.ids.L_folder.active is True else ''
+
+            # --- Reset button ---
+            Button:
+                text: 'Reset'
+                on_press:
+                    if root.ids.M_folder.active is True and\
+                    root.ids.L_folder.active is True:\
+                    app.reset_session()
+
+            # --- Mount button ---
+            Button:
+                text: 'Mount'
+                request: 'mount_source_folder'
+                on_press:
+                    app.manage_remote(self.request) if\
+                    root.ids.remote.active is True and\
+                    root.ids.M_folder.active is True and\
+                    root.ids.L_folder.active is True else ''
+
+            # --- Umount button ---
+            Button:
+                text: 'Umount'
+                request: 'umount_source_folder'
+                on_press:
+                    app.manage_remote(self.request) if\
+                    root.ids.remote.active is True and\
+                    root.ids.M_folder.active is True and\
+                    root.ids.L_folder.active is True else ''
+
+            # --- Cancel button ---
+            Button:
+                text: 'Exit'
+                on_press: root.dismiss()

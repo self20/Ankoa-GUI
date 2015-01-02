@@ -3,46 +3,18 @@
 
 # ---------- SETTINGS POPUP ----------
 <SettingsPopup>:
-    size_hint: .8, .8
+    size_hint: .7, .5
     auto_dismiss: False
-    title: 'Settings'
+    title: 'User settings'
     GridLayout:
         cols: 1
-        rows: 10
         spacing: 5
         row_force_default: True
         row_default_height: 50
 
-        # ---------- USAGE ----------
-        BoxLayout:
-
-            # --- Local button ---
-            ToggleButton:
-                id: local_usage
-                text: 'LOCAL USAGE'
-                group: 'usage'
-                bold: True
-                state:
-                    'down' if user['usage'] == 'local_usage' else\
-                    'normal'
-                value:
-                    'local_usage' if self.state == 'down' else\
-                    'remote_usage' if\
-                    root.ids.remote_usage == 'down' else ''
-
-            # --- Remote button ---
-            ToggleButton:
-                id: remote_usage
-                text: 'REMOTE USAGE'
-                group: 'usage'
-                bold: True
-                state:
-                    'down' if user['usage'] == 'remote_usage' else\
-                    'normal'
-
         # ---------- SOURCE FOLDER ----------
         BoxLayout:
-            padding: '8sp'
+            padding: 8
             canvas:
                 Color:
                     rgba: 47 / 255., 167 / 255., 212 / 255., .1
@@ -67,14 +39,11 @@
             TextInput:
                 hint_text: 'ex: /home/user/SOURCES/'
                 text: user['source_folder']
-                readonly:
-                    False if root.ids.remote_usage.state == 'down' or\
-                    root.ids.local_usage.state == 'down' else True
                 id: source_folder
 
         # ---------- DESTINATION FOLDER ----------
         BoxLayout:
-            padding: '8sp'
+            padding: 8
             canvas:
                 Color:
                     rgba: 47 / 255., 167 / 255., 212 / 255., .2
@@ -99,14 +68,11 @@
             TextInput:
                 hint_text: 'ex: /home/user/ENCODES/'
                 text: user['dest_folder']
-                readonly:
-                    False if root.ids.remote_usage.state == 'down' or\
-                    root.ids.local_usage.state == 'down' else True
                 id: dest_folder
 
         # ---------- TEAM NAME ----------
         BoxLayout:
-            padding: '8sp'
+            padding: 8
             canvas:
                 Color:
                     rgba: 47 / 255., 167 / 255., 212 / 255., .1
@@ -131,14 +97,11 @@
             TextInput:
                 hint_text: 'ex: KULTURA'
                 text: user['team_name']
-                readonly:
-                    False if root.ids.remote_usage.state == 'down' or\
-                    root.ids.local_usage.state == 'down' else True
                 id: team_name
 
         # ---------- TMDB API KEY ----------
         BoxLayout:
-            padding: '8sp'
+            padding: 8
             canvas:
                 Color:
                     rgba: 47 / 255., 167 / 255., 212 / 255., .2
@@ -165,14 +128,11 @@
                     'Create an account : \
                     https://www.themoviedb.org/account/signup'
                 text: user['tmdb_apikey']
-                readonly:
-                    False if root.ids.remote_usage.state == 'down' or\
-                    root.ids.local_usage.state == 'down' else True
                 id: tmdb_apikey
 
         # ---------- TRACKER ANNOUNCE ----------
         BoxLayout:
-            padding: '8sp'
+            padding: 8
             canvas:
                 Color:
                     rgba: 47 / 255., 167 / 255., 212 / 255., .1
@@ -198,138 +158,32 @@
                 hint_text:
                     'ex: https://www.tracker.com:34000/announce'
                 text: user['tk_announce']
-                readonly:
-                    False if root.ids.remote_usage.state == 'down' or\
-                    root.ids.local_usage.state == 'down' else True
                 id: tk_announce
-
-        # ---------- SSH SETTINGS ----------
-        BoxLayout:
-            padding: '8sp'
-            canvas:
-                Color:
-                    rgba: 47 / 255., 167 / 255., 212 / 255., .2
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
-
-            # --- Check SSH Settings ---
-            Switch:
-                id: remote
-                size_hint_x: .20
-                touch_control: False
-                active:
-                    True if root.ids.ssh_host.text and\
-                    root.ids.ssh_port.text and\
-                    root.ids.ssh_username.text and\
-                    root.ids.ssh_passwd.text else False
-
-            # --- SSH Settings Label ---
-            Label:
-                text: 'SSH Settings'
-                size_hint_x: .40
-
-            BoxLayout:
-
-                # --- Hostname / IP ---
-                TextInput:
-                    hint_text: 'Hostname / IP'
-                    text: user['ssh_host']
-                    readonly:
-                        False if\
-                        root.ids.remote_usage.state == 'down' else True
-                    id: ssh_host
-
-                # --- SSH Port ---
-                TextInput:
-                    size_hint_x: .4
-                    hint_text: 'Port'
-                    text: user['ssh_port']
-                    readonly:
-                        False if\
-                        root.ids.remote_usage.state == 'down' else True
-                    id: ssh_port
-
-                # --- SSH Username ---
-                TextInput:
-                    hint_text: 'Username'
-                    text: user['ssh_username']
-                    readonly:
-                        False if\
-                        root.ids.remote_usage.state == 'down' else True
-                    id: ssh_username
-
-                # --- SSH Password ---
-                TextInput:
-                    hint_text: 'Password'
-                    text: user['ssh_passwd']
-                    readonly:
-                        False if\
-                        root.ids.remote_usage.state == 'down' else True
-                    id: ssh_passwd
-
-        # ---------- REMOTE FOLDER ----------
-        BoxLayout:
-            padding: '8sp'
-            canvas:
-                Color:
-                    rgba: 47 / 255., 167 / 255., 212 / 255., .1
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
-
-            # --- Check Remote ---
-            Switch:
-                id: M_folder
-                size_hint_x: .20
-                touch_control: False
-                active:
-                    True if root.ids.remote_folder.text else False
-
-            # --- Remote Label ---
-            Label:
-                text: 'Remote Folder'
-                size_hint_x: .40
-
-            # --- Remote Input ---
-            TextInput:
-                hint_text: 'ex: /home/user/torrents/'
-                text: user['remote_folder']
-                readonly:
-                    False if\
-                    root.ids.remote_usage.state == 'down' else True
-                id: remote_folder
 
         # ---------- CONTROL SETTINGS ----------
         BoxLayout:
-        BoxLayout:
+            padding: 8
 
             # --- Validate Settings ---
             Button:
                 id: _valid
-                text: 'Validate Settings'
+                text: 'Validate settings'
                 on_press:
                     if root.ids.S_folder.active is True and\
                     root.ids.D_folder.active is True:\
-                    user['usage'] = root.ids.local_usage.value;\
                     user['source_folder'] = root.ids.source_folder.text;\
                     user['dest_folder'] = root.ids.dest_folder.text;\
                     user['team_name'] = root.ids.team_name.text;\
                     user['tmdb_apikey'] = root.ids.tmdb_apikey.text;\
                     user['tk_announce'] = root.ids.tk_announce.text;\
-                    user['ssh_host'] = root.ids.ssh_host.text;\
-                    user['ssh_port'] = root.ids.ssh_port.text;\
-                    user['ssh_username'] = root.ids.ssh_username.text;\
-                    user['ssh_passwd'] = root.ids.ssh_passwd.text;\
-                    user['remote_folder'] = root.ids.remote_folder.text;\
                     app.save_settings(); app.restart_ankoa()
 
             # --- Reset Settings ---
             Button:
-                text: 'Reset Settings'
+                text: 'Reset settings'
                 on_press:
-                    if root.ids.local_usage.state == 'down' or\
-                    root.ids.local_usage.state == 'down':\
+                    if root.ids.S_folder.active is True and\
+                    root.ids.D_folder.active is True:\
                     app.reset_settings(); app.restart_ankoa()
             Label:
 

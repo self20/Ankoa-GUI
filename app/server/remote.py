@@ -22,12 +22,9 @@ def remote(request):
         session = 'fusermount -u {}'.format(user['source_folder'])
 
     # Run requested action & restart
-    if user['usage'] == 'remote_usage':
-        try:
-            os.system(session)
-            restart = sys.executable
-            os.execl(restart, restart, * sys.argv)
+    try:
+        os.system(session)
 
-        except OSError as e:
-            print (e)
-            sys.exit()
+    except OSError as e:
+        print (e)
+        sys.exit()

@@ -1,23 +1,31 @@
 #!/usr/bin/kivy
 ''' [ GLOBAL SETTINGS ]
-Dictionary to manage global settings '''
+Dictionaries to manage global settings
+    user > user settings
+    filter > filemanger filters
+'''
 
 user = {
 
-    # Settings
-    'usage': '',
     'source_folder': '',
     'dest_folder': '',
     'team_name': '',
     'tmdb_apikey': '',
-    'tk_announce': '',
+    'tk_announce': ''
+}
+
+session = {
+
     'ssh_host': '',
     'ssh_port': '',
     'ssh_username': '',
     'ssh_passwd': '',
-    'remote_folder': '',
+    'local_folder': '',
+    'remote_folder': ''
+}
 
-    # Filters
+filter = {
+
     'request': '',
 
     'encode_filter': ['*.mp4', '*.mkv', '*.h264',

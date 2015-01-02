@@ -22,11 +22,13 @@ from kivy.properties import (
     ObjectProperty, ListProperty)
 
 # Local libraries
+from app.settings.config import (
+    load_session, modify_session,
+    clear_session, load_settings,
+    modify_settings, clear_settings)
 from app.mod_encode.encode_man import (
     manage_video, manage_audio, manage_subs,
     manage_advanced, build_advanced, manage_ffmpeg)
-from app.settings.config import (
-    load_settings, modify_settings, clear_settings)
 from app.mod_encode.encode_dict import (o_o, error)
 from app.mod_encode.bitrate_calc import calculator
 from app.screen.screens import AnkoaScreen
@@ -82,9 +84,10 @@ class AnkoaApp(App):
         Config.set('graphics', 'width', '1024')
         Config.set('graphics', 'height', '768')
 
-        # Load user settings
+        # Load user settings & session
         use_kivy_settings = False
         load_settings()
+        load_session()
 
     def build(self):
 
@@ -122,7 +125,7 @@ class AnkoaApp(App):
         self.queue_enc = \
             self.root.ids.header_screens.current_screen.ids.queue_enc
 
-    # USER SETTINGS
+    # USER SETTINGS & SESSION
     # ===============================================================
     ''' User settings management (check/save/clear) and remote
     session management (mount remote folder to local via sshfs) '''
@@ -131,9 +134,17 @@ class AnkoaApp(App):
     def save_settings(self):
         modify_settings()
 
+    # Save user session
+    def save_session(self):
+        modify_session()
+
     # Clear user settings
     def reset_settings(self):
         clear_settings()
+
+    # Clear user session
+    def reset_session(self):
+        clear_session()
 
     # Check essential settings
     def check_user_settings(self):

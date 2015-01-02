@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 #:import user app.settings.conf_dict.user
+#:import filter app.settings.conf_dict.filter
 
 # ---------- FILEMANAGER ----------
 <ManagerPopup>:
@@ -21,56 +22,56 @@
             FileChooserListView:
                 id: list_view_tab
                 filters:
-                    user['audio_filter'] if\
-                    user['request'] == 'audio_source' else\
-                    user['sub_filter'] if\
-                    user['request'] == 'sub_source' else\
-                    user['encode_filter'] if\
-                    user['request'] == 'encode_source' else\
-                    user['remux_filter'] if\
-                    user['request'] == 'remux_source' else\
-                    user['extract_filter'] if\
-                    user['request'] == 'extract_source' else ''
+                    filter['audio_filter'] if\
+                    filter['request'] == 'audio_source' else\
+                    filter['sub_filter'] if\
+                    filter['request'] == 'sub_source' else\
+                    filter['encode_filter'] if\
+                    filter['request'] == 'encode_source' else\
+                    filter['remux_filter'] if\
+                    filter['request'] == 'remux_source' else\
+                    filter['extract_filter'] if\
+                    filter['request'] == 'extract_source' else ''
                 rootpath: user['source_folder']
                 value:
                     self.selection and\
                     self.selection[0] or ''
                 on_selection:
                     app.load_sub_source(self.value) if\
-                    user['request'] == 'sub_source' else\
+                    filter['request'] == 'sub_source' else\
                     app.scan_source_infos(
                     self.selection and self.selection[0]);\
                     app.load_video_source(
                     self.selection and self.selection[0]) if\
-                    user['request'] == 'encode_source' or\
-                    user['request'] == 'remux_source' or\
-                    user['request'] == 'extract_source' else ''
+                    filter['request'] == 'encode_source' or\
+                    filter['request'] == 'remux_source' or\
+                    filter['request'] == 'extract_source' else ''
 
             # --- ICON VIEW ---
             FileChooserIconView:
                 id: icon_view_tab
                 filters:
-                    user['audio_filter'] if\
-                    user['request'] == 'audio_source' else\
-                    user['sub_filter'] if\
-                    user['request'] == 'sub_source' else\
-                    user['encode_filter'] if\
-                    user['request'] == 'encode_source' else\
-                    user['remux_filter'] if\
-                    user['request'] == 'remux_source' else\
-                    user['extract_filter'] if\
-                    user['request'] == 'extract_source' else ''
-                rootpath: user['source_folder']
+                    filter['audio_filter'] if\
+                    filter['request'] == 'audio_source' else\
+                    filter['sub_filter'] if\
+                    filter['request'] == 'sub_source' else\
+                    filter['encode_filter'] if\
+                    filter['request'] == 'encode_source' else\
+                    filter['remux_filter'] if\
+                    filter['request'] == 'remux_source' else\
+                    filter['extract_filter'] if\
+                    filter['request'] == 'extract_source' else ''
+                rootpath: usfilterer['source_folder']
                 value:
                     self.selection and\
                     self.selection[0] or ''
                 on_selection:
                     app.load_sub_source(self.value) if\
-                    user['request'] == 'sub_source' else\
+                    filter['request'] == 'sub_source' else\
                     app.scan_source_infos(
                     self.selection and self.selection[0]);\
                     app.load_video_source(
                     self.selection and self.selection[0]) if\
-                    user['request'] == 'encode_source' or\
-                    user['request'] == 'remux_source' or\
-                    user['request'] == 'extract_source' else ''
+                    filter['request'] == 'encode_source' or\
+                    filter['request'] == 'remux_source' or\
+                    filter['request'] == 'extract_source' else ''

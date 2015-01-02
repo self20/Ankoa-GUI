@@ -1,69 +1,105 @@
 #!/usr/bin/kivy
 import os
 import configparser
-from app.settings.conf_dict import user
+from app.settings.conf_dict import (user, session)
 
 # Create config object
 conf = configparser.ConfigParser()
 
-# Set .cfg filename and section
-conf_file = 'user/settings.cfg'
-section = 'USER_SETTINGS'
+# Set .cfg filenames and sections
+conf_file = ['user/settings.cfg', 'user/session.cfg']
+section = ['USER_SETTINGS', 'USER_SESSION']
 
 
-# Load user settings
+# Load settings
 def load_settings():
 
-    # Check if conf file exists and not empty
-    if os.path.exists(conf_file) is True and\
-            os.path.getsize(conf_file) > 0:
+    # Check if settings file exists and not empty
+    if os.path.exists(conf_file[0]) is True and\
+            os.path.getsize(conf_file[0]) > 0:
 
-        # Load conf file
-        conf.read(conf_file)
+        # Read settings file
+        conf.read(conf_file[0])
 
-        # Load defined options
-        user['usage'] = conf.get(section, 'usage')
-        user['source_folder'] = conf.get(section, 'source_folder')
-        user['dest_folder'] = conf.get(section, 'dest_folder')
-        user['team_name'] = conf.get(section, 'team_name')
-        user['tmdb_apikey'] = conf.get(section, 'tmdb_apikey')
-        user['tk_announce'] = conf.get(section, 'tk_announce')
-        user['ssh_host'] = conf.get(section, 'ssh_host')
-        user['ssh_port'] = conf.get(section, 'ssh_port')
-        user['ssh_username'] = conf.get(section, 'ssh_username')
-        user['ssh_passwd'] = conf.get(section, 'ssh_passwd')
-        user['remote_folder'] = conf.get(section, 'remote_folder')
+        # Load defined settings
+        user['source_folder'] = conf.get(section[0], 'source_folder')
+        user['dest_folder'] = conf.get(section[0], 'dest_folder')
+        user['team_name'] = conf.get(section[0], 'team_name')
+        user['tmdb_apikey'] = conf.get(section[0], 'tmdb_apikey')
+        user['tk_announce'] = conf.get(section[0], 'tk_announce')
 
 
-# Save user settings
+# Load session
+def load_session():
+
+    # Check if session exists and not empty
+    if os.path.exists(conf_file[1]) is True and\
+            os.path.getsize(conf_file[1]) > 0:
+
+        # Load session file
+        conf.read(conf_file[1])
+
+        # Load defined session
+        session['ssh_host'] = conf.get(section[1], 'ssh_host')
+        session['ssh_port'] = conf.get(section[1], 'ssh_port')
+        session['ssh_username'] = conf.get(section[1], 'ssh_username')
+        session['ssh_passwd'] = conf.get(section[1], 'ssh_passwd')
+        session['local_folder'] = conf.get(section[1], 'local_folder')
+        session['remote_folder'] = conf.get(section[1], 'remote_folder')
+
+
+# Save settings
 def modify_settings():
 
-    # Set section if conf file exists and empty
-    if os.path.exists(conf_file) is False or\
-            os.path.getsize(conf_file) == 0:
-        conf.add_section(section)
+    # Set section if file doesn't exists or empty
+    if os.path.exists(conf_file[0]) is False or\
+            os.path.getsize(conf_file[0]) == 0:
+        conf.add_section(section[0])
 
-    # Set defined options
-    conf.set(section, 'usage', user['usage'])
-    conf.set(section, 'source_folder', user['source_folder'])
-    conf.set(section, 'dest_folder', user['dest_folder'])
-    conf.set(section, 'team_name', user['team_name'])
-    conf.set(section, 'tmdb_apikey', user['tmdb_apikey'])
-    conf.set(section, 'tk_announce', user['tk_announce'])
-    conf.set(section, 'ssh_host', user['ssh_host'])
-    conf.set(section, 'ssh_port', user['ssh_port'])
-    conf.set(section, 'ssh_username', user['ssh_username'])
-    conf.set(section, 'ssh_passwd', user['ssh_passwd'])
-    conf.set(section, 'remote_folder', user['remote_folder'])
+    # Set defined settings
+    conf.set(section[0], 'source_folder', user['source_folder'])
+    conf.set(section[0], 'dest_folder', user['dest_folder'])
+    conf.set(section[0], 'team_name', user['team_name'])
+    conf.set(section[0], 'tmdb_apikey', user['tmdb_apikey'])
+    conf.set(section[0], 'tk_announce', user['tk_announce'])
 
-    # Write conf file
-    conf.write(open(conf_file, 'w'))
+    # Write settings file
+    conf.write(open(conf_file[0], 'w'))
 
 
-# Clear user settings
+# Save session
+def modify_session():
+
+    # Set section if file doesn't exists or empty
+    if os.path.exists(conf_file[1]) is False or\
+            os.path.getsize(conf_file[1]) == 0:
+        conf.add_section(section[1])
+
+    # Set defined session
+    conf.set(section[1], 'ssh_host', session['ssh_host'])
+    conf.set(section[1], 'ssh_port', session['ssh_port'])
+    conf.set(section[1], 'ssh_username', session['ssh_username'])
+    conf.set(section[1], 'ssh_passwd', session['ssh_passwd'])
+    conf.set(section[1], 'remote_folder', session['remote_folder'])
+    conf.set(section[1], 'local_folder', session['local_folder'])
+
+    # Write session file
+    conf.write(open(conf_file[1], 'w'))
+
+
+# Clear settings
 def clear_settings():
 
-    # Remove options and write conf file if exists
-    if os.path.exists(conf_file) is True:
-        conf.remove_section(section)
-        conf.write(open(conf_file, 'w'))
+    # Remove settings and write conf file if exists
+    if os.path.exists(conf_file[0]) is True:
+        conf.remove_section(section[0])
+        conf.write(open(conf_file[0], 'w'))
+
+
+# Clear session
+def clear_session():
+
+    # Remove session and write conf file if exists
+    if os.path.exists(conf_file[1]) is True:
+        conf.remove_section(section[1])
+        conf.write(open(conf_file[1], 'w'))

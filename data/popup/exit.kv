@@ -2,26 +2,40 @@
 
 # ---------- EXIT POPUP ----------
 <ExitPopup>:
-    size_hint: .3, .3
+    size_hint: .3, .2
     auto_dismiss: False
     title: 'Exit'
 
     GridLayout:
-        size_hint: 1, 1
-        orientation: 'vertical'
         cols: 1
 
-        # --- Confirm ---
-        Button:
-            text: 'Confirm'
-            on_press: exit()
+        # --- Logo ---
+        BoxLayout:
+            size_hint: 1, .6
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, .5
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Image:
+                mipmap: True
+                source: 'data/img/logo_title.png'
 
-        # --- Restart ---
-        Button:
-            text: 'Restart'
-            on_press: app.restart_ankoa()
+        BoxLayout:
+            size_hint: 1, .4
 
-        # --- Cancel ---
-        Button:
-            text: 'Cancel'
-            on_press: root.dismiss()
+            # --- Confirm ---
+            Button:
+                text: 'Confirm'
+                on_press: exit()
+
+            # --- Restart ---
+            Button:
+                text: 'Restart'
+                on_press: app.restart_ankoa()
+
+            # --- Cancel ---
+            Button:
+                text: 'Cancel'
+                on_press: root.dismiss()

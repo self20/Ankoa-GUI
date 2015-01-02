@@ -1,5 +1,6 @@
 #:kivy 1.8.0
 #:import Factory kivy.factory.Factory
+#:import platform platform
 
 # ---------- SCREENS MENU ----------
 <ActionSpinnerOptions@SpinnerOption>
@@ -70,21 +71,22 @@ BoxLayout:
                 icon: 'data/icon/remote.png'
                 popup_id: 'RemotePopup()'
                 on_release:
-                    popup_id = app.main_popup(self.popup_id)
+                    '' if 'Windows' in platform.system() else\
+                    app.main_popup(self.popup_id)
 
             # --- Settings button ---
             ActionButton:
                 icon: 'data/icon/settings.png'
                 popup_id: 'SettingsPopup()'
                 on_release:
-                    popup_id = app.main_popup(self.popup_id)
+                    app.main_popup(self.popup_id)
 
             # --- Exit button ---
             ActionButton:
                 icon: 'data/icon/exit.png'
                 popup_id: 'ExitPopup()'
                 on_release:
-                    popup_id = app.main_popup(self.popup_id)
+                    app.main_popup(self.popup_id)
 
     # ---------- SCREEN MANAGER ----------
     ScreenManager:

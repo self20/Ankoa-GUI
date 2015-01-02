@@ -6,6 +6,7 @@ __license__ = 'CeCILL-C Free Software'
 # Python libraries
 import os
 import sys
+import platform
 import subprocess
 from os.path import (dirname, join)
 
@@ -88,7 +89,8 @@ class AnkoaApp(App):
         # Load user settings & session
         use_kivy_settings = False
         load_settings()
-        load_session()
+        if 'Linux' in platform.system():
+            load_session()
 
     def build(self):
 

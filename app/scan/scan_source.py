@@ -10,11 +10,8 @@ def scan(source):
     Return complete mediainfo and HandBrake autocrop '''
     try:
 
-        # Get user platform
-        user_os = platform.system()
-
         # Windows users
-        if 'Windows' in user_os:
+        if 'Windows' in platform.system():
             scan_MI = subprocess.check_output(
                 'contrib\mediainfo\MediaInfo.exe {}'.format(source))
             mediainfo = '{}'.format(
@@ -28,7 +25,7 @@ def scan(source):
             HB_data = handbrake.splitlines()
 
         # Unix users
-        elif 'Linux' in user_os:
+        elif 'Linux' in platform.system():
             scan_MI = subprocess.getoutput(
                 'contrib/mediainfo/MediaInfo_unix {}'.format(source))
             mediainfo = ''.join(scan_MI)

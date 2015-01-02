@@ -1,7 +1,7 @@
 #!/usr/bin/kivy
-import os
 import sys
-from app.settings.conf_dict import user
+import subprocess
+from app.settings.conf_dict import session
 
 
 # Session control
@@ -13,18 +13,21 @@ def remote(request):
     if request == 'mount_source_folder':
         session = 'echo {0} | sshfs {1}@{2}:{3} {4} -C -p '\
                   '{5} -o workaround=rename -o password_stdin'\
-                  .format(user['ssh_passwd'], user['ssh_username'],
-                          user['ssh_host'], user['remote_folder'],
-                          user['source_folder'], user['ssh_port'])
+                  .format(session['ssh_passwd'], session['ssh_username'],
+                          session['ssh_host'], session['remote_folder'],
+                          session['source_folder'], session['ssh_port'])
 
     # Umount source folder cmd
     elif request == 'umount_source_folder':
-        session = 'fusermount -u {}'.format(user['source_folder'])
+        session = 'fusermount -u {}'.format(session['source_folder'])
 
     # Run requested action & restart
     try:
-        os.system(session)
+        subprocess.call(session)
 
     except OSError as e:
+        print (e)
+        sys.exit()
+    except subprocess.CalledProcessError as e:
         print (e)
         sys.exit()

@@ -6,6 +6,7 @@ __license__ = 'CeCILL-C Free Software'
 # Python libraries
 import os
 import sys
+import subprocess
 from os.path import (dirname, join)
 
 # Kivy libraries
@@ -125,26 +126,18 @@ class AnkoaApp(App):
         self.queue_enc = \
             self.root.ids.header_screens.current_screen.ids.queue_enc
 
-    # USER SETTINGS & SESSION
+    # USER SETTINGS
     # ===============================================================
-    ''' User settings management (check/save/clear) and remote
-    session management (mount remote folder to local via sshfs) '''
+    ''' User settings management: function to check if settings are
+    defined, another to save them and another one to clear them. '''
 
     # Save user settings
     def save_settings(self):
         modify_settings()
 
-    # Save user session
-    def save_session(self):
-        modify_session()
-
     # Clear user settings
     def reset_settings(self):
         clear_settings()
-
-    # Clear user session
-    def reset_session(self):
-        clear_session()
 
     # Check essential settings
     def check_user_settings(self):
@@ -153,9 +146,28 @@ class AnkoaApp(App):
         else:
             return False
 
-    # Remote session
+    # USER SESSION
+    # ===============================================================
+    ''' User session management: function to check if settings are
+    defined, another to save them and another one to clear them.
+    Remote session management: function to launch proper sshfs
+    session for current user plateform.'''
+
+    # Save user session
+    def save_session(self):
+        modify_session()
+
+    # Clear user session
+    def reset_session(self):
+        clear_session()
+
+    # Unix session
     def manage_remote(self, request):
         remote(request)
+
+    # Windows session
+    def run_sshfs_win(self):
+        subprocess.call('contrib\sshfs\win\DokanSSHFS.exe')
 
     # UTILITIES
     # ===============================================================

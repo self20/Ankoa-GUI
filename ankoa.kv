@@ -71,7 +71,8 @@ BoxLayout:
                 icon: 'data/icon/remote.png'
                 popup_id: 'RemotePopup()'
                 on_release:
-                    '' if 'Windows' in platform.system() else\
+                    app.run_sshfs_win() if\
+                    'Windows' in platform.system() else\
                     app.main_popup(self.popup_id)
 
             # --- Settings button ---

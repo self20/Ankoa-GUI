@@ -1,6 +1,6 @@
 #!/usr/bin/kivy
-''' [ USER SETTINGS ]
-Dictionary to manage user settings '''
+''' [ GLOBAL SETTINGS ]
+Dictionary to manage global settings '''
 
 user = {
 

@@ -1,6 +1,7 @@
 #!/usr/bin/kivy
 ''' [ GLOBAL SETTINGS DICTIONARIES ]
     user > user settings
+    session > user session
     filter > filemanager filters
     error > errors messages
 '''

@@ -20,7 +20,7 @@ def unix_sshfs(request):
 
     # Umount source folder
     elif request == 'umount_source_folder':
-        session = 'fusermount -u {}'.format(session['source_folder'])
+        session = 'fusermount -u {}'.format(session['local_folder'])
 
     # Run requested action
     try:

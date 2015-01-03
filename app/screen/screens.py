@@ -1,6 +1,4 @@
 #!/usr/bin/kivy
-''' [ SCREENS ]
-Screens container classes '''
 from kivy.uix.screenmanager import Screen
 
 

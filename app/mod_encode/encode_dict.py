@@ -1,6 +1,5 @@
 #!/usr/bin/kivy
-''' [ MODE ENCODE ]
-Dictionaries to manage encode:
+''' [ MODE ENCODE DICTIONARIES ]
     o_o > encode parameters
     v_v > parameters values
     u_u > bitrate calculator

@@ -1,5 +1,4 @@
 #!/usr/bin/kivy
-''' [ MODE ENCODE ] '''
 from app.mod_encode.encode_dict import u_u
 
 

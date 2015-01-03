@@ -1,6 +1,5 @@
 #!/usr/bin/kivy
-''' [ GLOBAL SETTINGS ]
-Dictionaries to manage global settings
+''' [ GLOBAL SETTINGS DICTIONARIES ]
     user > user settings
     filter > filemanager filters
     error > errors messages

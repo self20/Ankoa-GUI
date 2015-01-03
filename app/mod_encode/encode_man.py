@@ -1,6 +1,4 @@
 #!/usr/bin/kivy
-''' [ MODE ENCODE ]
-Manage all content to return FFMPEG cmd '''
 from app.mod_encode.encode_dict import o_o
 from app.settings.conf_dict import user
 

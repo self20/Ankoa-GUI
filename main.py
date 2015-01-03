@@ -9,7 +9,6 @@ __copyright__ = 'https://github.com/Ankoa'
 import os
 import sys
 import platform
-import subprocess
 from os.path import (dirname, join)
 
 # Kivy libraries
@@ -33,12 +32,12 @@ from app.settings.config import (
 from app.mod_encode.encode_man import (
     manage_video, manage_audio, manage_subs,
     manage_advanced, build_advanced, manage_ffmpeg)
+from app.server.remote import (unix_sshfs, win_sshfs)
 from app.mod_encode.bitrate_calc import calculator
 from app.settings.conf_dict import (user, error)
 from app.screen.screens import AnkoaScreen
 from app.mod_encode.encode_dict import o_o
 from app.scan.scan_source import scan
-from app.server.remote import remote
 from app.popup.popups import *
 
 
@@ -155,7 +154,7 @@ class AnkoaApp(App):
     ''' User session management: function to check if session is
     defined, another to save them and another one to clear them.
     Remote session management: function to launch proper sshfs
-    session for current user plateform.'''
+    session for current user plateform. '''
 
     # Check user session
     def session_error(self, type):
@@ -180,7 +179,7 @@ class AnkoaApp(App):
 
     # Windows session
     def run_sshfs_win(self):
-        subprocess.call('contrib\sshfs\win\DokanSSHFS.exe')
+        win_sshfs()
 
     # UTILITIES
     # ===============================================================
@@ -213,11 +212,11 @@ class AnkoaApp(App):
             Builder.load_file('data/popup/{}'.format(popup))
 
     # Display popups
-    def main_popup(self, popup_id):
+    def main_popup(self, request):
         ''' Function to display popups. It call corresponding class
         in app.popup.popups from anywhere with current popup_id. '''
 
-        popup = '{}'.format(popup_id)
+        popup = '{}'.format(request)
         eval(popup).open()
 
     # MANAGE SCREENS

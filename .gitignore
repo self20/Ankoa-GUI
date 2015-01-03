@@ -1,2 +1,5 @@
+# Atom.io project
 /.project
+
+# Python cache
 *.pyc

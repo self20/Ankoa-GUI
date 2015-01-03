@@ -16,7 +16,7 @@ def unix_sshfs(request):
                   '{5} -o workaround=rename -o password_stdin'\
                   .format(session['ssh_passwd'], session['ssh_username'],
                           session['ssh_host'], session['remote_folder'],
-                          session['source_folder'], session['ssh_port'])
+                          session['local_folder'], session['ssh_port'])
 
     # Umount source folder
     elif request == 'umount_source_folder':

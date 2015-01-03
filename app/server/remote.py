@@ -12,19 +12,19 @@ def unix_sshfs(request):
 
     # Mount source folder
     if request == 'mount_source_folder':
-        session = 'echo {0} | sshfs {1}@{2}:{3} {4} -C -p '\
-                  '{5} -o workaround=rename -o password_stdin'\
-                  .format(session['ssh_passwd'], session['ssh_username'],
-                          session['ssh_host'], session['remote_folder'],
-                          session['local_folder'], session['ssh_port'])
+        cmd = 'echo {0} | sshfs {1}@{2}:{3} {4} -C -p '\
+              '{5} -o workaround=rename -o password_stdin'\
+              .format(session['ssh_passwd'], session['ssh_username'],
+                      session['ssh_host'], session['remote_folder'],
+                      session['local_folder'], session['ssh_port'])
 
     # Umount source folder
     elif request == 'umount_source_folder':
-        session = 'fusermount -u {}'.format(session['local_folder'])
+        cmd = 'fusermount -u {}'.format(session['local_folder'])
 
     # Run requested action
     try:
-        subprocess.call(session)
+        subprocess.call(cmd)
 
     except OSError as error:
         popup_error(error)

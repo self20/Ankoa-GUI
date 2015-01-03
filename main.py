@@ -175,7 +175,7 @@ class AnkoaApp(App):
 
     # Unix session
     def manage_remote(self, request):
-        remote(request)
+        unix_sshfs(request)
 
     # Windows session
     def run_sshfs_win(self):

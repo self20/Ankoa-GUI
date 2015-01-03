@@ -1,6 +1,7 @@
 #!/usr/bin/kivy
 import sys
 import subprocess
+from app.popup.popups import popup_error
 from app.settings.conf_dict import session
 
 
@@ -43,14 +44,3 @@ def win_sshfs():
         popup_error(error)
     except subprocess.CalledProcessError as error:
         popup_error(error)
-
-# Display errors
-def popup_error(error):
-    ''' Return current error in one popup '''
-
-    from kivy.uix.popup import Popup
-    from kivy.uix.rst import RstDocument
-    popup = Popup(
-        title='Warning', size_hint=(.3, .2),
-        content=RstDocument(text=str(error)))
-    popup.open()

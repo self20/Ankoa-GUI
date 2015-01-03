@@ -2,6 +2,7 @@
 import sys
 import platform
 import subprocess
+from app.popup.popups import popup_error
 
 
 # Scan source infos
@@ -50,9 +51,7 @@ def scan(source):
                             mediainfo.strip(), autocrop.strip())
         return scan_data
 
-    except OSError as e:
-        print (e)
-        sys.exit()
-    except subprocess.CalledProcessError as e:
-        print (e)
-        sys.exit()
+    except OSError as error:
+        popup_error(error)
+    except subprocess.CalledProcessError as error:
+        popup_error(error)

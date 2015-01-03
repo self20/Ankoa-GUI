@@ -33,10 +33,10 @@ from app.settings.config import (
 from app.mod_encode.encode_man import (
     manage_video, manage_audio, manage_subs,
     manage_advanced, build_advanced, manage_ffmpeg)
-from app.mod_encode.encode_dict import (o_o, error)
 from app.mod_encode.bitrate_calc import calculator
+from app.settings.conf_dict import (user, error)
 from app.screen.screens import AnkoaScreen
-from app.settings.conf_dict import user
+from app.mod_encode.encode_dict import o_o
 from app.scan.scan_source import scan
 from app.server.remote import remote
 from app.popup.popups import *
@@ -156,6 +156,15 @@ class AnkoaApp(App):
     defined, another to save them and another one to clear them.
     Remote session management: function to launch proper sshfs
     session for current user plateform.'''
+
+    # Check user session
+    def session_error(self, type):
+        if type == 'Save' or type == 'Mount':
+            self.current_error = error['missing']
+        elif type == 'Reset':
+            self.current_error = error['reset']
+        elif type == 'Umount':
+            self.current_error = error['umount']
 
     # Save user session
     def save_session(self):
@@ -404,6 +413,35 @@ class AnkoaApp(App):
     usage, this command will be executed localy, or sent to a
     remote server. Queue mode is not already built. '''
 
+    # Essential ENCODE_MODE verification
+    def check_encode_values(self):
+        ''' Here we check if nothing is missing. One error will
+        be displayed in a popup in case of missing values. '''
+
+        if self.check_user_settings() is True and\
+                self.source_enc.ids.r_source.active is True and\
+                self.source_enc.ids.r_title.active is True and\
+                (self.picture_enc.ids.reso.active is True or
+                 self.picture_enc.ids.check_sar.active is True) and\
+                self.video_enc.ids.check_vtrack.active is True and\
+                self.video_enc.ids.check_codec.active is True:
+            return True
+        else:
+            if self.check_user_settings() is False:
+                self.current_error = error['settings']
+            elif self.source_enc.ids.r_source.active is False:
+                self.current_error = error['source']
+            elif self.source_enc.ids.r_title.active is False:
+                self.current_error = error['title']
+            elif self.picture_enc.ids.reso.active is False or\
+                    self.picture_enc.ids.check_sar.active is False:
+                self.current_error = error['reso']
+            elif self.video_enc.ids.check_vtrack.active is False:
+                self.current_error = error['video']
+            elif self.video_enc.ids.check_codec.active is False:
+                self.current_error = error['codec']
+            return False
+
     # Get user entries
     def get_encode_infos(self):
         ''' Function to get encode values from corresponding layout
@@ -513,35 +551,6 @@ class AnkoaApp(App):
             o_o['fast_skip'] = self.advanced_enc.ids.fast_skip.value
             o_o['grayscale'] = self.advanced_enc.ids.grayscale.value
             o_o['bluray'] = self.advanced_enc.ids.bluray_compat.value
-
-    # Essential content verification
-    def check_encode_values(self):
-        ''' Here we check if nothing is missing. One error will
-        be displayed in a popup in case of missing values. '''
-
-        if self.check_user_settings() is True and\
-                self.source_enc.ids.r_source.active is True and\
-                self.source_enc.ids.r_title.active is True and\
-                (self.picture_enc.ids.reso.active is True or
-                 self.picture_enc.ids.check_sar.active is True) and\
-                self.video_enc.ids.check_vtrack.active is True and\
-                self.video_enc.ids.check_codec.active is True:
-            return True
-        else:
-            if self.check_user_settings() is False:
-                self.current_error = error['settings']
-            elif self.source_enc.ids.r_source.active is False:
-                self.current_error = error['source']
-            elif self.source_enc.ids.r_title.active is False:
-                self.current_error = error['title']
-            elif self.picture_enc.ids.reso.active is False or\
-                    self.picture_enc.ids.check_sar.active is False:
-                self.current_error = error['reso']
-            elif self.video_enc.ids.check_vtrack.active is False:
-                self.current_error = error['video']
-            elif self.video_enc.ids.check_codec.active is False:
-                self.current_error = error['codec']
-            return False
 
     # Reset dictionary o_o
     def reset_dictionary(self):

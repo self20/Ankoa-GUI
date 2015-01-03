@@ -2,7 +2,8 @@
 ''' [ GLOBAL SETTINGS ]
 Dictionaries to manage global settings
     user > user settings
-    filter > filemanger filters
+    filter > filemanager filters
+    error > errors messages
 '''
 
 user = {
@@ -39,4 +40,16 @@ filter = {
     'sub_filter': ['*.ass', '*.srt', '*.vobsub', '*.pgs'],
 
     'audio_filter': ['*.ac3', '*.acc', '*.mp3', '*.dts']
+}
+
+error = {
+    'missing': 'Some values are missing !',
+    'reset': 'Session settings are not defined !',
+    'umount': 'No drive mounted !',
+    'settings': 'User settings are not defined !',
+    'source': 'No release source selected !',
+    'title': 'Please specify release title !',
+    'reso': 'Video resolution not specified !',
+    'video': 'Specify valid video track ID !',
+    'codec': 'Specify video codec output !'
 }

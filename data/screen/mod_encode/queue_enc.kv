@@ -27,15 +27,13 @@
         cols: 3
         spacing: 5
         padding: 8
-        orientation: 'vertical'
         size_hint: 1, .1
 
         # --- Add to queue ---
         Button:
-            request: 'ErrorPopup()'
             text: 'Add to queue'
             on_press:
-                app.main_popup(self.request) if\
+                app.main_popup('ErrorPopup()') if\
                 app.check_encode_values() is False else\
                 app.send_encode_values()
 
@@ -47,7 +45,8 @@
         # --- Copy cmd to clipboard ---
         Button:
             text: 'Copy command to clipboard'
-            on_press: app.copy_to_clipboard(root.ids.ffmpeg_cmd.text)
+            on_press:
+                app.copy_to_clipboard(root.ids.ffmpeg_cmd.text)
 
     # ---------- FFMPEG CMD ----------
     BoxLayout:

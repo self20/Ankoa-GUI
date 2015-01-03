@@ -4,7 +4,6 @@ Dictionaries to manage encode:
     o_o > encode parameters
     v_v > parameters values
     u_u > bitrate calculator
-    error > missing values messages
 '''
 
 o_o = {
@@ -229,13 +228,4 @@ u_u = {
     'audiobit': ['56', '64', '80', '96', '112', '128',
                  '160', '192', '224', '256', '320',
                  '448', '640', '755', '1509']
-}
-
-error = {
-    'settings': 'User settings are not defined !',
-    'source': 'No release source selected !',
-    'title': 'Please specify release title !',
-    'reso': 'Video resolution not specified !',
-    'video': 'Specify valid video track ID !',
-    'codec': 'Specify video codec output !'
 }

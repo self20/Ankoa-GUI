@@ -2,22 +2,6 @@
 #:import Factory kivy.factory.Factory
 #:import platform platform
 
-# ---------- SCREENS MENU ----------
-<ActionSpinnerOptions@SpinnerOption>
-    background_color: .4, .4, .4, 1
-
-<ActionSpinner@Spinner+ActionItem>
-    canvas.before:
-        Color:
-            rgba: 0.128, 0.128, 0.128, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
-    border: 27, 20, 12, 12
-    background_normal:
-        'atlas://data/images/defaulttheme/action_group'
-    option_cls: Factory.ActionSpinnerOptions
-
 # ---------- ROOT CONTAINER ----------
 BoxLayout:
     orientation: 'vertical'
@@ -32,7 +16,7 @@ BoxLayout:
     ActionBar:
         ActionView:
 
-            # --- App & Current Mode Titles ---
+            # --- Logo ---
             ActionPrevious:
                 title:
                     'ANKOA  [' + (\
@@ -42,19 +26,19 @@ BoxLayout:
                 with_previous: False
             ActionSeparator:
 
-            # --- Previous Mode button ---
+            # --- Previous Mode ---
             ActionButton:
                 icon: 'data/icon/prev.png'
                 on_release: app.go_previous_screen()
 
-            # --- Next Mode button ---
+            # --- Next Mode ---
             ActionButton:
                 icon: 'data/icon/next.png'
                 on_release: app.go_next_screen()
                 important: True
             ActionSeparator:
 
-            # --- Screens Mode Selection ---
+            # --- Screens Selection ---
             ActionSpinner:
                 id: header_menu
                 important: True
@@ -69,25 +53,22 @@ BoxLayout:
             # --- Remote button ---
             ActionButton:
                 icon: 'data/icon/remote.png'
-                popup_id: 'RemotePopup()'
                 on_release:
                     app.run_sshfs_win() if\
                     'Windows' in platform.system() else\
-                    app.main_popup(self.popup_id)
+                    app.main_popup('RemotePopup()')
 
             # --- Settings button ---
             ActionButton:
                 icon: 'data/icon/settings.png'
-                popup_id: 'SettingsPopup()'
                 on_release:
-                    app.main_popup(self.popup_id)
+                    app.main_popup('SettingsPopup()')
 
             # --- Exit button ---
             ActionButton:
                 icon: 'data/icon/exit.png'
-                popup_id: 'ExitPopup()'
                 on_release:
-                    app.main_popup(self.popup_id)
+                    app.main_popup('ExitPopup()')
 
     # ---------- SCREEN MANAGER ----------
     ScreenManager:
@@ -104,23 +85,35 @@ BoxLayout:
         # --- Queue button ---
         Button:
             text: 'Queue Process'
-            popup_id: 'QueuePopup()'
-            on_press: app.main_popup(self.popup_id)
+            on_press: app.main_popup('QueuePopup()')
 
         # --- Help button ---
         Button:
             text: 'Help'
-            popup_id: 'HelpPopup()'
-            on_press: app.main_popup(self.popup_id)
+            on_press: app.main_popup('HelpPopup()')
 
         # --- Github button ---
         Button:
             text: 'GitHub'
-            popup_id: 'GithubPopup()'
-            on_press: app.main_popup(self.popup_id)
+            on_press: app.main_popup('GithubPopup()')
 
         # --- About button ---
         Button:
             text: 'About'
-            popup_id: 'AboutPopup()'
-            on_press: app.main_popup(self.popup_id)
+            on_press: app.main_popup('AboutPopup()')
+
+# ---------- SCREENS MENU ----------
+<ActionSpinnerOptions@SpinnerOption>
+    background_color: .4, .4, .4, 1
+
+<ActionSpinner@Spinner+ActionItem>
+    canvas.before:
+        Color:
+            rgba: 0.128, 0.128, 0.128, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    border: 27, 20, 12, 12
+    background_normal:
+        'atlas://data/images/defaulttheme/action_group'
+    option_cls: Factory.ActionSpinnerOptions

@@ -37,10 +37,9 @@ GridLayout:
         ActionButton:
             icon: 'data/icon/add.png'
             size_hint_x: .1
-            popup_id: 'ManagerPopup()'
             on_press:
                 user['request'] = 'sub_source';\
-                app.main_popup(self.popup_id);\
+                app.main_popup('ManagerPopup()');\
                 app.get_current_track(root)
 
         # --- Subtitles Track Source ---

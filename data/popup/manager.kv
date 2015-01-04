@@ -30,13 +30,19 @@
                     self.selection and\
                     self.selection[0] or ''
                 on_selection:
-                    app.load_sub_source(self.value) if\
-                    filter['request'] == 'sub_source' else\
-                    app.scan_source_infos(self.value);\
+                    app.scan_source_infos(self.value) if\
+                    filter['request'] == 'encode_source' or\
+                    filter['request'] == 'remux_source' or\
+                    filter['request'] == 'extract_source' else '';\
+
                     app.load_video_source(self.value) if\
                     filter['request'] == 'encode_source' or\
                     filter['request'] == 'remux_source' or\
-                    filter['request'] == 'extract_source' else\
+                    filter['request'] == 'extract_source' else '';\
+
+                    app.load_sub_source(self.value) if\
+                    filter['request'] == 'sub_source' else '';\
+
                     app.load_source_folder(self.value) if\
                     filter['request'] == 'folder' else ''
 
@@ -52,12 +58,18 @@
                     self.selection and\
                     self.selection[0] or ''
                 on_selection:
-                    app.load_sub_source(self.value) if\
-                    filter['request'] == 'sub_source' else\
-                    app.scan_source_infos(self.value);\
+                    app.scan_source_infos(self.value) if\
+                    filter['request'] == 'encode_source' or\
+                    filter['request'] == 'remux_source' or\
+                    filter['request'] == 'extract_source' else '';\
+
                     app.load_video_source(self.value) if\
                     filter['request'] == 'encode_source' or\
                     filter['request'] == 'remux_source' or\
-                    filter['request'] == 'extract_source' else\
+                    filter['request'] == 'extract_source' else '';\
+
+                    app.load_sub_source(self.value) if\
+                    filter['request'] == 'sub_source' else '';\
+
                     app.load_source_folder(self.value) if\
                     filter['request'] == 'folder' else ''

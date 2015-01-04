@@ -85,7 +85,7 @@
                 text: 'Destination'
                 size_hint_x: .25
 
-            # --- Select Source ---
+            # --- Select Destination ---
             ActionButton:
                 size_hint_x: .10
                 icon: 'data/icon/add.png'
@@ -102,7 +102,7 @@
                 padding: 8, 8, 8, 0
                 multiline: False
 
-        # ---------- TEAM NAME ----------
+        # ---------- TEAM ----------
         BoxLayout:
             padding: 8
             canvas:
@@ -112,7 +112,7 @@
                     size: self.size
                     pos: self.pos
 
-            # --- Check Team Name ---
+            # --- Check Team ---
             Switch:
                 id: team
                 size_hint_x: .20
@@ -122,7 +122,7 @@
             Label:
                 size_hint_x: .05
 
-            # --- Team Name Value ---
+            # --- Team Label ---
             Label:
                 text: 'Team'
                 size_hint_x: .25
@@ -133,7 +133,7 @@
                 size_hint_x: .10
                 on_press: root.ids.team_name.text = ''
 
-            # --- Team Name Input ---
+            # --- Team Input ---
             TextInput:
                 hint_text: 'ex: KULTURA'
                 text: user['team_name']
@@ -141,7 +141,7 @@
                 padding: 8, 8, 8, 0
                 multiline: False
 
-        # ---------- TMDB API KEY ----------
+        # ---------- TMDB APIKEY ----------
         BoxLayout:
             padding: 8
             canvas:

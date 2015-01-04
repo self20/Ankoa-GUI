@@ -24,7 +24,7 @@
                     size: self.size
                     pos: self.pos
 
-            # --- Check SSH Settings ---
+            # --- Check SSH ---
             Switch:
                 id: remote
                 size_hint_x: .20
@@ -37,7 +37,7 @@
             Label:
                 size_hint_x: .05
 
-            # --- SSH Settings Label ---
+            # --- SSH Label ---
             Label:
                 text: 'SSH Settings'
                 size_hint_x: .25
@@ -175,10 +175,11 @@
                 padding: 8, 8, 8, 0
                 multiline: False
 
+        # ---------- CONTROL SESSION ----------
         BoxLayout:
             padding: 8
 
-            # --- SAVE SETTINGS ---
+            # --- SAVE ---
             Button:
                 text: 'Save'
                 on_press:
@@ -188,7 +189,7 @@
                     root.ids.L_folder.active is True else\
                     app.main_popup('ErrorPopup()')
 
-            # --- RESET SETTINGS ---
+            # --- RESET ---
             Button:
                 text: 'Reset'
                 on_press:
@@ -197,7 +198,7 @@
                     root.ids.L_folder.active is True else\
                     app.main_popup('ErrorPopup()')
 
-            # --- MOUNT FOLDER ---
+            # --- MOUNT ---
             Button:
                 text: 'Mount'
                 on_press:
@@ -207,7 +208,7 @@
                     root.ids.L_folder.active is True else\
                     app.main_popup('ErrorPopup()')
 
-            # --- UMOUNT FOLDER ---
+            # --- UMOUNT ---
             Button:
                 text: 'Umount'
                 on_press:

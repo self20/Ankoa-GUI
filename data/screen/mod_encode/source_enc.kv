@@ -1,5 +1,5 @@
 #:kivy 1.8.0
-#:import user app.settings.conf_dict.user
+#:import filter app.settings.conf_dict.filter
 
 # ---------- SOURCE LAYOUT ----------
 <source_enc@Widget>:
@@ -54,7 +54,7 @@
             size_hint_x: .05
             icon: 'data/icon/add.png'
             on_press:
-                user['request'] = 'encode_source';\
+                filter['request'] = 'encode_source';\
                 app.main_popup('ManagerPopup()')
 
         # --- Source Location ---

@@ -34,7 +34,7 @@ from app.mod_encode.encode_man import (
     manage_advanced, build_advanced, manage_ffmpeg)
 from app.server.remote import (unix_sshfs, win_sshfs)
 from app.mod_encode.bitrate_calc import calculator
-from app.settings.conf_dict import (user, error)
+from app.settings.conf_dict import (filter, error)
 from app.screen.screens import AnkoaScreen
 from app.mod_encode.encode_dict import o_o
 from app.scan.scan_source import scan
@@ -270,11 +270,11 @@ class AnkoaApp(App):
         ''' Function will return a complete mediainfo with
         autocrop values. It call app.scan.scan_source.scan. '''
 
-        if user['request'] == 'encode_source':
+        if filter['request'] == 'encode_source':
             self.scan_encode = scan(source)
-        elif user['request'] == 'remux_source':
+        elif filter['request'] == 'remux_source':
             self.scan_remux = scan(source)
-        elif user['request'] == 'extract_source':
+        elif filter['request'] == 'extract_source':
             self.scan_extract = scan(source)
 
     # Load Video Source
@@ -282,11 +282,11 @@ class AnkoaApp(App):
         ''' Function to get source location on filemanager
         selection. Also required by the video player preview. '''
 
-        if user['request'] == 'encode_source':
+        if filter['request'] == 'encode_source':
             self.encode_source = source
-        elif user['request'] == 'remux_source':
+        elif filter['request'] == 'remux_source':
             self.remux_source = source
-        elif user['request'] == 'extract_source':
+        elif filter['request'] == 'extract_source':
             self.extract_source = source
 
     # MODE ENCODE: VIDEO LAYOUT

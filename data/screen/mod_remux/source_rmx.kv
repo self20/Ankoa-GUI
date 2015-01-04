@@ -1,5 +1,5 @@
 #:kivy 1.8.0
-#:import user app.settings.conf_dict.user
+#:import filter app.settings.conf_dict.filter
 #:import x_x app.mod_remux.remux_dict.x_x
 
 # ---------- SOURCE LAYOUT ----------
@@ -55,7 +55,7 @@
             size_hint_x: .05
             icon: 'data/icon/add.png'
             on_press:
-                user['request'] = 'remux_source';\
+                filter['request'] = 'remux_source';\
                 app.main_popup('ManagerPopup()')
 
         # --- Source Location ---

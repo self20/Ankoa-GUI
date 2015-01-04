@@ -1,5 +1,5 @@
 #:kivy 1.8.0
-#:import user app.settings.conf_dict.user
+#:import filter app.settings.conf_dict.filter
 
 # ---------- EXTRACT SCREEN ----------
 AnkoaScreen:
@@ -60,7 +60,7 @@ AnkoaScreen:
                 size_hint_x: .05
                 icon: 'data/icon/add.png'
                 on_press:
-                    user['request'] = 'extract_source';\
+                    filter['request'] = 'extract_source';\
                     app.main_popup('ManagerPopup()')
 
             # --- Source Location ---

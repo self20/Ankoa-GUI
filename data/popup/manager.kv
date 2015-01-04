@@ -61,7 +61,7 @@
                     filter['request'] == 'remux_source' else\
                     filter['extract_filter'] if\
                     filter['request'] == 'extract_source' else ''
-                rootpath: usfilterer['source_folder']
+                rootpath: user['source_folder']
                 value:
                     self.selection and\
                     self.selection[0] or ''

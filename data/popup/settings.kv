@@ -1,6 +1,7 @@
 #:kivy 1.8.0
 #:import os os
 #:import user app.settings.conf_dict.user
+#:import filter app.settings.conf_dict.filter
 
 # ---------- SETTINGS POPUP ----------
 <SettingsPopup>:
@@ -225,7 +226,7 @@
         BoxLayout:
             padding: 8
 
-            # --- Save ---
+            # --- SAVE ---
             Button:
                 id: _valid
                 text: 'Save settings'
@@ -235,7 +236,7 @@
                     root.ids.D_folder.active is True else\
                     app.main_popup('ErrorPopup()')
 
-            # --- Reset ---
+            # --- RESET ---
             Button:
                 text: 'Reset settings'
                 on_press:
@@ -245,7 +246,7 @@
                     app.main_popup('ErrorPopup()')
             Label:
 
-            # --- Close Settings ---
+            # --- EXIT ---
             Button:
                 text: 'Close'
                 on_press: root.dismiss()

@@ -47,6 +47,7 @@ error = {
     'reset': 'Session settings are not defined !',
     'umount': 'No drive mounted !',
     'settings': 'User settings are not defined !',
+
     'source': 'No release source selected !',
     'title': 'Please specify release title !',
     'reso': 'Video resolution not specified !',

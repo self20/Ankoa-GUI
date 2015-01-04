@@ -145,13 +145,6 @@ class AnkoaApp(App):
     def reset_settings(self, current):
         clear_settings(current)
 
-    # Check essential settings
-    def check_user_settings(self):
-        if user['source_folder'] and user['dest_folder']:
-            return True
-        else:
-            return False
-
     # USER SESSION
     # ===============================================================
     ''' User session management: functions to save and clear session
@@ -410,8 +403,7 @@ class AnkoaApp(App):
         ''' Here we check if nothing is missing. One error will
         be displayed in a popup in case of missing values. '''
 
-        if self.check_user_settings() is True and\
-                self.source_enc.ids.r_source.active is True and\
+        if self.source_enc.ids.r_source.active is True and\
                 self.source_enc.ids.r_title.active is True and\
                 (self.picture_enc.ids.reso.active is True or
                  self.picture_enc.ids.check_sar.active is True) and\
@@ -419,9 +411,7 @@ class AnkoaApp(App):
                 self.video_enc.ids.check_codec.active is True:
             return True
         else:
-            if self.check_user_settings() is False:
-                self.current_error = error['settings']
-            elif self.source_enc.ids.r_source.active is False:
+            if self.source_enc.ids.r_source.active is False:
                 self.current_error = error['source']
             elif self.source_enc.ids.r_title.active is False:
                 self.current_error = error['title']

@@ -29,6 +29,10 @@ filter = {
 
     'request': '',
 
+    'folder_type': '',
+
+    'folder': ['!*.*'],
+
     'encode_filter': ['*.mp4', '*.mkv', '*.h264',
                       '*.m2ts', '.iso', '*.img', '*.h265'],
 

@@ -59,6 +59,11 @@ class AnkoaApp(App):
     screen_names = ListProperty([])
     current_title = StringProperty()
 
+    # Folders
+    source_folder = StringProperty()
+    dest_folder = StringProperty()
+    local_folder = StringProperty()
+
     # Encode Mode
     current_bitrate = StringProperty()
     scan_encode = ObjectProperty()
@@ -259,22 +264,23 @@ class AnkoaApp(App):
             Builder.load_file(
                 'data/screen/mod_remux/{}'.format(mod_remux_kvs))
 
-    # MANAGE VIDEO SOURCES
+    # MANAGE SOURCES
     # ===============================================================
-    ''' Functions to load or scan a video on filemanager selection.
-    We simply use requests to define the mode which asking for. '''
+    ''' Functions to load sources and/or scan a video on filemanager
+    selection. We simply use requests to define the mode which
+    asking for or wich settings is defined. '''
 
-    # Scan video source
-    def scan_source_infos(self, source):
-        ''' Function will return a complete mediainfo with
-        autocrop values. It call app.scan.scan_source.scan. '''
+    # Load source folder
+    def load_source_folder(self, source):
+        ''' Function to get source folder on filemanager
+        selection. Required by user settings and session. '''
 
-        if filter['request'] == 'encode_source':
-            self.scan_encode = scan(source)
-        elif filter['request'] == 'remux_source':
-            self.scan_remux = scan(source)
-        elif filter['request'] == 'extract_source':
-            self.scan_extract = scan(source)
+        if filter['folder_type'] == 'source_folder':
+            self.source_folder = source
+        elif filter['folder_type'] == 'dest_folder':
+            self.dest_folder = source
+        elif filter['folder_type'] == 'local_folder':
+            self.local_folder = source
 
     # Load Video Source
     def load_video_source(self, source):
@@ -287,6 +293,18 @@ class AnkoaApp(App):
             self.remux_source = source
         elif filter['request'] == 'extract_source':
             self.extract_source = source
+
+    # Scan video source
+    def scan_source_infos(self, source):
+        ''' Function will return a complete mediainfo with
+        autocrop values. It call app.scan.scan_source.scan. '''
+
+        if filter['request'] == 'encode_source':
+            self.scan_encode = scan(source)
+        elif filter['request'] == 'remux_source':
+            self.scan_remux = scan(source)
+        elif filter['request'] == 'extract_source':
+            self.scan_extract = scan(source)
 
     # MODE ENCODE: VIDEO LAYOUT
     # ===============================================================

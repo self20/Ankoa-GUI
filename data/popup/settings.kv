@@ -169,7 +169,6 @@
                 id: _valid
                 text: 'Save settings'
                 on_press:
-                    app.current_error = error['missing'];\
                     app.save_settings(root) if\
                     root.ids.S_folder.active is True and\
                     root.ids.D_folder.active is True else\
@@ -179,7 +178,6 @@
             Button:
                 text: 'Reset settings'
                 on_press:
-                    app.current_error = error['settings'];\
                     app.reset_settings(root )if\
                     root.ids.S_folder.active is True and\
                     root.ids.D_folder.active is True else\

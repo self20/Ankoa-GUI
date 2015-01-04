@@ -1,5 +1,4 @@
 #!/usr/bin/kivy
-import os
 import configparser
 from app.settings.conf_dict import (user, session)
 
@@ -7,17 +6,13 @@ from app.settings.conf_dict import (user, session)
 conf = configparser.ConfigParser()
 conf_file = 'user/settings.cfg'
 section = ['USER_SETTINGS', 'USER_SESSION']
+conf.read(conf_file)
 
 
 # Load settings
 def load_settings():
 
-    # Check if file and section exists
-    if os.path.exists(conf_file) is True and\
-            conf.has_section(section[0]) is True:
-
-        # Load settings
-        conf.read(conf_file)
+    if conf.has_section(section[0]) is True:
         user['source_folder'] = conf.get(section[0], 'source_folder')
         user['dest_folder'] = conf.get(section[0], 'dest_folder')
         user['team_name'] = conf.get(section[0], 'team_name')
@@ -28,12 +23,7 @@ def load_settings():
 # Load session
 def load_session():
 
-    # Check if file and section exists
-    if  os.path.exists(conf_file) is True and\
-            conf.has_section(section[1]) is True:
-
-        # Load defined session
-        conf.read(conf_file)
+    if  conf.has_section(section[1]) is True:
         session['ssh_host'] = conf.get(section[1], 'ssh_host')
         session['ssh_port'] = conf.get(section[1], 'ssh_port')
         session['ssh_username'] = conf.get(section[1], 'ssh_username')
@@ -53,8 +43,7 @@ def modify_settings(current):
     user['tk_announce'] = current.ids.tk_announce.text
 
     # Set section
-    if os.path.exists(conf_file) is False or\
-            conf.has_section(section[0]) is False:
+    if conf.has_section(section[0]) is False:
         conf.add_section(section[0])
 
     # Set settings
@@ -80,8 +69,7 @@ def modify_session(current):
     session['local_folder'] = current.ids.local_folder.text
 
     # Set section
-    if os.path.exists(conf_file) is False or\
-            conf.has_section(section[1]) is False:
+    if conf.has_section(section[1]) is False:
         conf.add_section(section[1])
 
     # Set session
@@ -112,8 +100,7 @@ def clear_settings(current):
             user[key] = ''
 
     # Clear settings
-    if os.path.exists(conf_file) is True and\
-            conf.has_section(section[0]) is True:
+    if conf.has_section(section[0]) is True:
         conf.remove_section(section[0])
         conf.write(open(conf_file, 'w'))
 
@@ -135,7 +122,6 @@ def clear_session(current):
             session[key] = ''
 
     # Clear settings
-    if os.path.exists(conf_file) is True and\
-            conf.has_section(section[1]) is True:
+    if conf.has_section(section[1]) is True:
         conf.remove_section(section[1])
         conf.write(open(conf_file, 'w'))

@@ -1,5 +1,4 @@
 #:kivy 1.8.0
-#:import error app.settings.conf_dict.error
 #:import session app.settings.conf_dict.session
 
 # ---------- REMOTE POPUP ----------
@@ -146,52 +145,39 @@
             Button:
                 text: 'Save'
                 on_press:
-                    session['ssh_host'] = root.ids.ssh_host.text;\
-                    session['ssh_port'] = root.ids.ssh_port.text;\
-                    session['ssh_username'] = root.ids.ssh_username.text;\
-                    session['ssh_passwd'] = root.ids.ssh_passwd.text;\
-                    session['local_folder'] = root.ids.local_folder.text;\
-                    session['remote_folder'] = root.ids.remote_folder.text;\
-                    app.save_session() if\
+                    app.save_session(root) if\
                     root.ids.remote.active is True and\
                     root.ids.M_folder.active is True and\
                     root.ids.L_folder.active is True else\
-                    app.session_error(self.text);\
                     app.main_popup('ErrorPopup()')
 
             # --- Reset button ---
             Button:
                 text: 'Reset'
                 on_press:
-                    app.reset_session() if\
+                    app.reset_session(root) if\
                     root.ids.M_folder.active is True and\
                     root.ids.L_folder.active is True else\
-                    app.session_error(self.text);\
                     app.main_popup('ErrorPopup()')
-
 
             # --- Mount button ---
             Button:
                 text: 'Mount'
-                request: 'mount_source_folder'
                 on_press:
-                    app.manage_remote(self.request) if\
+                    app.manage_remote(self.text) if\
                     root.ids.remote.active is True and\
                     root.ids.M_folder.active is True and\
                     root.ids.L_folder.active is True else\
-                    app.session_error(self.text);\
                     app.main_popup('ErrorPopup()')
 
             # --- Umount button ---
             Button:
                 text: 'Umount'
-                request: 'umount_source_folder'
                 on_press:
-                    app.manage_remote(self.request) if\
+                    app.manage_remote(self.text) if\
                     root.ids.remote.active is True and\
                     root.ids.M_folder.active is True and\
                     root.ids.L_folder.active is True else\
-                    app.session_error(self.text);\
                     app.main_popup('ErrorPopup()')
 
             # --- Cancel button ---

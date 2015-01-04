@@ -164,27 +164,26 @@
         BoxLayout:
             padding: 8
 
-            # --- Validate Settings ---
+            # --- Save ---
             Button:
                 id: _valid
-                text: 'Validate settings'
+                text: 'Save settings'
                 on_press:
-                    if root.ids.S_folder.active is True and\
-                    root.ids.D_folder.active is True:\
-                    user['source_folder'] = root.ids.source_folder.text;\
-                    user['dest_folder'] = root.ids.dest_folder.text;\
-                    user['team_name'] = root.ids.team_name.text;\
-                    user['tmdb_apikey'] = root.ids.tmdb_apikey.text;\
-                    user['tk_announce'] = root.ids.tk_announce.text;\
-                    app.save_settings(); app.restart_ankoa()
+                    app.current_error = error['missing'];\
+                    app.save_settings(root) if\
+                    root.ids.S_folder.active is True and\
+                    root.ids.D_folder.active is True else\
+                    app.main_popup('ErrorPopup()')
 
-            # --- Reset Settings ---
+            # --- Reset ---
             Button:
                 text: 'Reset settings'
                 on_press:
-                    if root.ids.S_folder.active is True and\
-                    root.ids.D_folder.active is True:\
-                    app.reset_settings(); app.restart_ankoa()
+                    app.current_error = error['settings'];\
+                    app.reset_settings(root )if\
+                    root.ids.S_folder.active is True and\
+                    root.ids.D_folder.active is True else\
+                    app.main_popup('ErrorPopup()')
             Label:
 
             # --- Close Settings ---

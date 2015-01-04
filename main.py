@@ -83,12 +83,14 @@ class AnkoaApp(App):
 
     def build_config(self, config):
 
+        # Kivy settings
+        use_kivy_settings = False
+
         # Set app resolution
         Config.set('graphics', 'width', '1024')
         Config.set('graphics', 'height', '768')
 
-        # Load user settings & session
-        use_kivy_settings = False
+        # Load settings & session
         load_settings()
         if 'Linux' in platform.system():
             load_session()
@@ -135,12 +137,12 @@ class AnkoaApp(App):
     defined, another to save them and another one to clear them. '''
 
     # Save user settings
-    def save_settings(self):
-        modify_settings()
+    def save_settings(self, current):
+        modify_settings(current)
 
     # Clear user settings
-    def reset_settings(self):
-        clear_settings()
+    def reset_settings(self, current):
+        clear_settings(current)
 
     # Check essential settings
     def check_user_settings(self):
@@ -151,27 +153,18 @@ class AnkoaApp(App):
 
     # USER SESSION
     # ===============================================================
-    ''' User session management: function to check if session is
-    defined, another to save them and another one to clear them.
+    ''' User session management: function to check session settings,
+     another to save them and another to clear them.
     Remote session management: function to launch proper sshfs
     session for current user plateform. '''
 
-    # Check user session
-    def session_error(self, type):
-        if type == 'Save' or type == 'Mount':
-            self.current_error = error['missing']
-        elif type == 'Reset':
-            self.current_error = error['reset']
-        elif type == 'Umount':
-            self.current_error = error['umount']
-
     # Save user session
-    def save_session(self):
-        modify_session()
+    def save_session(self, current):
+        modify_session(current)
 
     # Clear user session
-    def reset_session(self):
-        clear_session()
+    def reset_session(self, current):
+        clear_session(current)
 
     # Unix session
     def manage_remote(self, request):

@@ -3,25 +3,21 @@ import os
 import configparser
 from app.settings.conf_dict import (user, session)
 
-# Create config object
+# Configparser object
 conf = configparser.ConfigParser()
-
-# Set .cfg filenames and sections
-conf_file = ['user/settings.cfg', 'user/session.cfg']
+conf_file = 'user/settings.cfg'
 section = ['USER_SETTINGS', 'USER_SESSION']
 
 
 # Load settings
 def load_settings():
 
-    # Check if settings file exists and not empty
-    if os.path.exists(conf_file[0]) is True and\
-            os.path.getsize(conf_file[0]) > 0:
+    # Check if file and section exists
+    if os.path.exists(conf_file) is True and\
+            conf.has_section(section[0]) is True:
 
-        # Read settings file
-        conf.read(conf_file[0])
-
-        # Load defined settings
+        # Load settings
+        conf.read(conf_file)
         user['source_folder'] = conf.get(section[0], 'source_folder')
         user['dest_folder'] = conf.get(section[0], 'dest_folder')
         user['team_name'] = conf.get(section[0], 'team_name')
@@ -32,14 +28,12 @@ def load_settings():
 # Load session
 def load_session():
 
-    # Check if session exists and not empty
-    if os.path.exists(conf_file[1]) is True and\
-            os.path.getsize(conf_file[1]) > 0:
-
-        # Load session file
-        conf.read(conf_file[1])
+    # Check if file and section exists
+    if  os.path.exists(conf_file) is True and\
+            conf.has_section(section[1]) is True:
 
         # Load defined session
+        conf.read(conf_file)
         session['ssh_host'] = conf.get(section[1], 'ssh_host')
         session['ssh_port'] = conf.get(section[1], 'ssh_port')
         session['ssh_username'] = conf.get(section[1], 'ssh_username')
@@ -49,33 +43,48 @@ def load_session():
 
 
 # Save settings
-def modify_settings():
+def modify_settings(current):
 
-    # Set section if file doesn't exists or empty
-    if os.path.exists(conf_file[0]) is False or\
-            os.path.getsize(conf_file[0]) == 0:
+    # Set dictionary
+    user['source_folder'] = current.ids.source_folder.text
+    user['dest_folder'] = current.ids.dest_folder.text
+    user['team_name'] = current.ids.team_name.text
+    user['tmdb_apikey'] = current.ids.tmdb_apikey.text
+    user['tk_announce'] = current.ids.tk_announce.text
+
+    # Set section
+    if os.path.exists(conf_file) is False or\
+            conf.has_section(section[0]) is False:
         conf.add_section(section[0])
 
-    # Set defined settings
+    # Set settings
     conf.set(section[0], 'source_folder', user['source_folder'])
     conf.set(section[0], 'dest_folder', user['dest_folder'])
     conf.set(section[0], 'team_name', user['team_name'])
     conf.set(section[0], 'tmdb_apikey', user['tmdb_apikey'])
     conf.set(section[0], 'tk_announce', user['tk_announce'])
 
-    # Write settings file
-    conf.write(open(conf_file[0], 'w'))
+    # Write settings
+    conf.write(open(conf_file, 'w'))
 
 
 # Save session
-def modify_session():
+def modify_session(current):
 
-    # Set section if file doesn't exists or empty
-    if os.path.exists(conf_file[1]) is False or\
-            os.path.getsize(conf_file[1]) == 0:
+    # Set dictionary
+    session['ssh_host'] = current.ids.ssh_host.text
+    session['ssh_port'] = current.ids.ssh_port.text
+    session['ssh_username'] = current.ids.ssh_username.text
+    session['ssh_passwd'] = current.ids.ssh_passwd.text
+    session['remote_folder'] = current.ids.remote_folder.text
+    session['local_folder'] = current.ids.local_folder.text
+
+    # Set section
+    if os.path.exists(conf_file) is False or\
+            conf.has_section(section[1]) is False:
         conf.add_section(section[1])
 
-    # Set defined session
+    # Set session
     conf.set(section[1], 'ssh_host', session['ssh_host'])
     conf.set(section[1], 'ssh_port', session['ssh_port'])
     conf.set(section[1], 'ssh_username', session['ssh_username'])
@@ -83,23 +92,50 @@ def modify_session():
     conf.set(section[1], 'remote_folder', session['remote_folder'])
     conf.set(section[1], 'local_folder', session['local_folder'])
 
-    # Write session file
-    conf.write(open(conf_file[1], 'w'))
+    # Write session
+    conf.write(open(conf_file, 'w'))
 
 
 # Clear settings
-def clear_settings():
+def clear_settings(current):
 
-    # Remove settings and write conf file if exists
-    if os.path.exists(conf_file[0]) is True:
+    # Clear popup
+    [current.ids.source_folder.text, current.ids.dest_folder.text,
+     current.ids.team_name.text, current.ids.tmdb_apikey.text,
+     current.ids.tk_announce.text] = ['', ] * 5
+
+    # Clear Dictionary
+    for key, value in user.items():
+        if isinstance(value, list):
+            user[key] = []
+        else:
+            user[key] = ''
+
+    # Clear settings
+    if os.path.exists(conf_file) is True and\
+            conf.has_section(section[0]) is True:
         conf.remove_section(section[0])
-        conf.write(open(conf_file[0], 'w'))
+        conf.write(open(conf_file, 'w'))
 
 
 # Clear session
-def clear_session():
+def clear_session(current):
 
-    # Remove session and write conf file if exists
-    if os.path.exists(conf_file[1]) is True:
+    # Clear popup
+    [current.ids.ssh_host.text, current.ids.ssh_port.text,
+     current.ids.ssh_username.text, current.ids.ssh_passwd.text,
+     current.ids.remote_folder.text,
+     current.ids.local_folder.text] = ['', ] * 6
+
+    # Clear Dictionary
+    for key, value in session.items():
+        if isinstance(value, list):
+            session[key] = []
+        else:
+            session[key] = ''
+
+    # Clear settings
+    if os.path.exists(conf_file) is True and\
+            conf.has_section(section[1]) is True:
         conf.remove_section(section[1])
-        conf.write(open(conf_file[1], 'w'))
+        conf.write(open(conf_file, 'w'))

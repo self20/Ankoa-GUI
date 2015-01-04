@@ -11,7 +11,7 @@ def unix_sshfs(request):
     on demand, using sshfs and fusermount. '''
 
     # Mount source folder
-    if request == 'mount_source_folder':
+    if request == 'Mount':
         cmd = 'echo {0} | sshfs {1}@{2}:{3} {4} -C -p '\
               '{5} -o workaround=rename -o password_stdin'\
               .format(session['ssh_passwd'], session['ssh_username'],
@@ -19,7 +19,7 @@ def unix_sshfs(request):
                       session['local_folder'], session['ssh_port'])
 
     # Umount source folder
-    elif request == 'umount_source_folder':
+    elif request == 'Umount':
         cmd = 'fusermount -u {}'.format(session['local_folder'])
 
     # Run requested action

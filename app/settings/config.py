@@ -25,7 +25,7 @@ def load_settings():
 def load_session():
 
     # Complete session dictionary
-    if  conf.has_section(section[1]) is True:
+    if conf.has_section(section[1]) is True:
         session['ssh_host'] = conf.get(section[1], 'ssh_host')
         session['ssh_port'] = conf.get(section[1], 'ssh_port')
         session['ssh_username'] = conf.get(section[1], 'ssh_username')

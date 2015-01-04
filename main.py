@@ -91,9 +91,10 @@ class AnkoaApp(App):
         Config.set('graphics', 'height', '768')
 
         # Load settings & session
-        load_settings()
-        if 'Linux' in platform.system():
-            load_session()
+        if os.path.exists('user/settings.cfg'):
+            load_settings()
+            if 'Linux' in platform.system():
+                load_session()
 
     def build(self):
 

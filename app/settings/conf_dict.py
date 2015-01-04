@@ -28,22 +28,21 @@ session = {
 filter = {
 
     'request': '',
-
     'folder_type': '',
 
     'folder': ['!*.*'],
 
-    'encode_filter': ['*.mp4', '*.mkv', '*.h264',
+    'encode_source': ['*.mp4', '*.mkv', '*.h264',
                       '*.m2ts', '.iso', '*.img', '*.h265'],
 
-    'remux_filter': ['*.mkv', '*.mp4'],
+    'remux_source': ['*.mkv', '*.mp4'],
 
-    'extract_filter': ['*.mp4', '*.mkv',
+    'extract_source': ['*.mp4', '*.mkv',
                        '*.m2ts', '.iso', '*.img'],
 
-    'sub_filter': ['*.ass', '*.srt', '*.vobsub', '*.pgs'],
+    'sub_source': ['*.ass', '*.srt', '*.vobsub', '*.pgs'],
 
-    'audio_filter': ['*.ac3', '*.acc', '*.mp3', '*.dts']
+    'audio_source': ['*.ac3', '*.acc', '*.mp3', '*.dts']
 }
 
 error = {

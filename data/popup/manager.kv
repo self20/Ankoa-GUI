@@ -24,19 +24,7 @@
                 dirselect:
                     True if\
                     filter['request'] == 'folder' else False
-                filters:
-                    filter['folder'] if\
-                    filter['request'] == 'folder' else\
-                    filter['audio_filter'] if\
-                    filter['request'] == 'audio_source' else\
-                    filter['sub_filter'] if\
-                    filter['request'] == 'sub_source' else\
-                    filter['encode_filter'] if\
-                    filter['request'] == 'encode_source' else\
-                    filter['remux_filter'] if\
-                    filter['request'] == 'remux_source' else\
-                    filter['extract_filter'] if\
-                    filter['request'] == 'extract_source' else ''
+                filters: filter[filter['request']]
                 rootpath: user['source_folder']
                 value:
                     self.selection and\
@@ -58,19 +46,7 @@
                 dirselect:
                     True if\
                     filter['request'] == 'folder' else False
-                filters:
-                    filter['folder'] if\
-                    filter['request'] == 'folder' else\
-                    filter['audio_filter'] if\
-                    filter['request'] == 'audio_source' else\
-                    filter['sub_filter'] if\
-                    filter['request'] == 'sub_source' else\
-                    filter['encode_filter'] if\
-                    filter['request'] == 'encode_source' else\
-                    filter['remux_filter'] if\
-                    filter['request'] == 'remux_source' else\
-                    filter['extract_filter'] if\
-                    filter['request'] == 'extract_source' else ''
+                filters: filter[filter['request']]
                 rootpath: user['source_folder']
                 value:
                     self.selection and\

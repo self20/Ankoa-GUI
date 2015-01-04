@@ -12,6 +12,7 @@ conf.read(conf_file)
 # Load settings
 def load_settings():
 
+    # Complete user dictionary
     if conf.has_section(section[0]) is True:
         user['source_folder'] = conf.get(section[0], 'source_folder')
         user['dest_folder'] = conf.get(section[0], 'dest_folder')
@@ -23,6 +24,7 @@ def load_settings():
 # Load session
 def load_session():
 
+    # Complete session dictionary
     if  conf.has_section(section[1]) is True:
         session['ssh_host'] = conf.get(section[1], 'ssh_host')
         session['ssh_port'] = conf.get(section[1], 'ssh_port')

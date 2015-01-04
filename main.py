@@ -133,8 +133,8 @@ class AnkoaApp(App):
 
     # USER SETTINGS
     # ===============================================================
-    ''' User settings management: function to check if settings are
-    defined, another to save them and another one to clear them. '''
+    ''' User settings management: function to check essential
+    settings, another to save them and another one to clear them. '''
 
     # Save user settings
     def save_settings(self, current):
@@ -153,10 +153,9 @@ class AnkoaApp(App):
 
     # USER SESSION
     # ===============================================================
-    ''' User session management: function to check session settings,
-     another to save them and another to clear them.
-    Remote session management: function to launch proper sshfs
-    session for current user plateform. '''
+    ''' User session management: functions to save and clear session
+    settings, and another one to launch proper sshfs action in
+    current user plateform. '''
 
     # Save user session
     def save_session(self, current):

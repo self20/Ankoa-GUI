@@ -220,4 +220,6 @@
             # --- EXIT ---
             Button:
                 text: 'Exit'
-                on_press: root.dismiss()
+                on_press:
+                    app.local_folder = '';\
+                    root.dismiss()

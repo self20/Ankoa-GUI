@@ -249,4 +249,7 @@
             # --- EXIT ---
             Button:
                 text: 'Close'
-                on_press: root.dismiss()
+                on_press:
+                    app.source_folder = '';\
+                    app.dest_folder = '';\
+                    root.dismiss()

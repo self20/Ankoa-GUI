@@ -139,8 +139,8 @@ class AnkoaApp(App):
 
     # USER SETTINGS
     # ===============================================================
-    ''' User settings management: save and clear settings on demand.
-    Requested from data.popup.settings. '''
+    ''' Here we save and clear settings on demand. We call corresponding
+    functions in settings config file (settings/config.py). '''
 
     # Save user settings
     def save_settings(self, current):
@@ -152,8 +152,9 @@ class AnkoaApp(App):
 
     # USER SESSION
     # ===============================================================
-    ''' User session management: save and clear session settings on
-    demand, and launch sshfs action depending user plateform. '''
+    ''' Here we manage remote session. Save and clear session settings,
+    mount and umount remote folder on demand. We call corresponding
+    functions in server config file (server/remote.py). '''
 
     # Save user session
     def save_session(self, current):
@@ -193,8 +194,8 @@ class AnkoaApp(App):
 
     # MANAGE POPUPS
     # ===============================================================
-    ''' Here we load all popups on start (kv files) and we use a
-    function to easy display them on demand, with a simple request. '''
+    ''' Here we load all popups on start (kv files) and we use eval
+    to easy display them on demand, with a simple name request. '''
 
     # Load popups
     for popup in os.listdir('data/popup/'):
@@ -203,9 +204,6 @@ class AnkoaApp(App):
 
     # Display popups
     def main_popup(self, request):
-        ''' Function to display popups. It call corresponding class
-        in app.popup.popups from anywhere with current popup_id. '''
-
         popup = '{}'.format(request)
         eval(popup).open()
 
@@ -268,12 +266,12 @@ class AnkoaApp(App):
     # ===============================================================
     ''' Functions to load sources and/or scan a video on filemanager
     selection. We simply use requests to define the mode which
-    asking for or wich settings is defined. '''
+    asking for or which settings is defined. '''
 
     # Load source folder
     def load_source_folder(self, source):
-        ''' Function to get source folder on filemanager
-        selection. Required by user settings and session. '''
+        ''' Get source folder on filemanager selection.
+        Required by user settings and session. '''
 
         if filter['folder_type'] == 'source_folder':
             self.source_folder = source
@@ -284,8 +282,8 @@ class AnkoaApp(App):
 
     # Load Video Source
     def load_video_source(self, source):
-        ''' Function to get source location on filemanager
-        selection. Also required by the video player preview. '''
+        ''' Get source location on filemanager selection.
+        Also required by the video player preview. '''
 
         if filter['request'] == 'encode_source':
             self.encode_source = source
@@ -296,8 +294,8 @@ class AnkoaApp(App):
 
     # Scan video source
     def scan_source_infos(self, source):
-        ''' Function will return a complete mediainfo with
-        autocrop values. It call app.scan.scan_source.scan. '''
+        ''' This will return a complete mediainfo with
+        autocrop values. We call app.scan.scan_source.py '''
 
         if filter['request'] == 'encode_source':
             self.scan_encode = scan(source)
@@ -308,14 +306,12 @@ class AnkoaApp(App):
 
     # MODE ENCODE: VIDEO LAYOUT
     # ===============================================================
-    ''' Video bitrate calculator functions. Animation to display
-    bitrate calculator interface and one function for calculate. '''
+    ''' Video bitrate calculator. Animation to display bitrate
+    calculator interface and one function for calculate.
+    This will return video bitrate in Kbps. '''
 
     # Video bitrate layout
     def toggle_bitrate(self, state):
-        ''' Toggle bitrate row animation (row height on/off)
-        from data.screen.mod_encode.video_enc [Bitrate button]. '''
-
         if state == 'down':
             height = 42
         else:
@@ -325,10 +321,6 @@ class AnkoaApp(App):
 
     # Video bitrate calculator
     def bit_calculator(self):
-        ''' Function will return video bitrate in Kbps.
-        It call app.mod_encode.bitrate_calculator from
-        data.screen.mod_encode.video_enc [RUN button].'''
-
         current_bitrate = calculator()
         self.current_bitrate = str(current_bitrate)
         return self.current_bitrate
@@ -400,9 +392,8 @@ class AnkoaApp(App):
 
     # Load Subtitles File Source
     def load_subSource_enc(self, value):
-        ''' Function to get subfile location on filemanager
-        selection to display subfile title in corresponding
-        track area. '''
+        ''' Get subfile location on filemanager selection
+        to display subfile title in corresponding track area. '''
 
         current_track = self.get_current_track(self.current_track)
         current_track.ids.sub_source.text = value.split('/')[-1]
@@ -443,7 +434,7 @@ class AnkoaApp(App):
 
     # Get user entries
     def get_encode_infos(self):
-        ''' Function to get encode values from corresponding layout
+        ''' Get encode values from corresponding layout
         and to fill them in encode dictionary o_o.'''
 
         # Get source infos
@@ -562,9 +553,9 @@ class AnkoaApp(App):
 
     # Send content
     def send_encode_values(self):
-        ''' Function to send content to the manager.
-        Manager will return ffmpeg command line. We also
-        print this command in corresponding area. '''
+        ''' Send content to the manager. Manager will
+        return ffmpeg command line. We also print this
+        command in corresponding area. '''
 
         self.get_encode_infos()
         manage_video()

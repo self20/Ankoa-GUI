@@ -3,3 +3,6 @@
 
 # Python cache
 *.pyc
+
+# Sublime project
+*.sublime-*

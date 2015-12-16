@@ -1,4 +1,4 @@
-![](http://i.imgur.com/Lx2SfgZ.png) Ankoa-GUI [![Code Health](https://landscape.io/github/Ankoa/Ankoa-GUI/master/landscape.svg)](https://landscape.io/github/Ankoa/Ankoa-GUI/master)
+![](http://i.imgur.com/Lx2SfgZ.png) Ankoa-GUI [![Code Health](https://landscape.io/github/Ankoa/Ankoa-GUI/master/landscape.svg?style=flat)](https://landscape.io/github/Ankoa/Ankoa-GUI/master)
 =========
 
 **Open Source Video Tools - Python GUI multi plateform**
